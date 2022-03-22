@@ -7,8 +7,7 @@ Authors@R:
            comment = c(ORCID = "0000-0001-9501-0954"))
 Description: In contrast to statistical significance, which answers the question 
     whether there exists a treatment effect or not, clinical significance 
-    answers the question whether individual patients became functional during an 
-    intervention or not.
+    answers the question whether individual changes are meaningful for patients.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

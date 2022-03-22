@@ -1,0 +1,14 @@
+Package: clinicalsignificance
+Type: Package
+Title: Determine the Clinical Significance in Clinical Trials
+Version: 0.0.1
+Authors@R: 
+    person("Benedikt", "Claus", , "b.claus@pedscience.de", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-9501-0954"))
+Description: In contrast to statistical significance, which answers the question 
+    whether there exists a treatment effect or not, clinical significance 
+    answers the question whether individual patients became functional during an 
+    intervention or not.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true

@@ -1,4 +1,45 @@
+#' Prepare Data for Clinical Significance Analyses
+#'
+#' Prepare a tidy dataset for analyses of clinical significance. This function
+#' will select only the relevant variables and spread the measurement column out
+#' to make the data wide which is more optimal for such analyses. Additionally,
+#' `prep_data()` calculates the raw change.
+#'
+#' Be careful to have your measurement column structured correctly or give
+#' additional information to return correct pre and post columns. If your `time`
+#' column contains more than two values, you must choose the two values for
+#' which you would like to calculate the clinical significance (i.e., the pre
+#' and post measurement).
+#'
+#' If the `time` column is numeric, the values will be sorted numerically. If
+#' the `time` column is of type character, you must provide a string for
+#' `baseline` (i.e., the pre measurement) because characters cannot be sorted in
+#' a meansingful way.
+#'
+#' @param data A tidy dataframe
+#' @param id Participant ID
+#' @param time Time variable
+#' @param outcome Outcome variable
+#' @param measurements If `time` contains more than two values, you can specify
+#'   your two measurements of interest as a vector
+#' @param baseline If your `time` is of type character, you can specify the pre
+#'   measurement
+#'
+#' @importFrom stats na.omit
+#' @importFrom dplyr select filter mutate group_by ungroup arrange rename pull
+#'   distinct last_col
+#' @importFrom tidyr pivot_wider
+#' @importFrom forcats fct_relevel
+#'
+#' @return A wide dataframe containing the ID, pre and post scores, and the
+#'   change score
+#'
+#' @examples
+#' prep_data(jacobson_1989, subject, time, das, baseline = "pre")
+#' @export
 prep_data <- function(data, id, time, outcome, measurements = NULL, baseline = NULL) {
+  data <- data
+  pre <- post <- NULL
   # Check if arguments are set correctly
   if (missing(id)) stop("You must specify an ID column.")
   if (missing(time)) stop("You must specify a column indicating the different measurements.")
@@ -12,8 +53,14 @@ prep_data <- function(data, id, time, outcome, measurements = NULL, baseline = N
 
   # Select relevant variables and filter relevant levels (if defined)
   selected_data <- data %>%
-    select(id = {{ id }}, time = {{ time }}, outcome = {{ outcome }}) %>%
-    filter(time %in% measurements)
+    select(id = {{ id }}, time = {{ time }}, outcome = {{ outcome }})
+
+
+  # If measurements are defined, filter data accordingly
+  if (!missing(measurements)) {
+    selected_data %>%
+      filter(time %in% measurements)
+  }
 
 
   # If the time column contains multiple measurements, throw an error and
@@ -37,11 +84,11 @@ prep_data <- function(data, id, time, outcome, measurements = NULL, baseline = N
       mutate(time = fct_relevel(time, baseline)) %>%
       group_by(id) %>%
       arrange(id, time) %>%
-      ungroup() %>%
-      select(id, time, outcome)
+      ungroup()
+      # select(id, time, outcome)
 
     if (is.null(baseline)) {
-      sorted_levels <- pull(sorted_data, time) %>% levels()
+      sorted_levels <- levels(pull(sorted_data, time))
 
       warning_message <- paste0("Your pre measurement is \"", sorted_levels[1], "\" and your post measurement is \"", sorted_levels[2], "\".\n If that is not correct, please specify the baseline.")
 

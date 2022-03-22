@@ -25,3 +25,14 @@ claus_2020 <- claus_import %>%
   as_tibble()
 
 use_data(claus_2020, overwrite = TRUE)
+
+
+
+# Marital Therapy ---------------------------------------------------------
+# Dataset from Jacobson et al., 1989
+jacobson_import <- read_excel("data-raw/jacobson-1989.xlsx")
+
+jacobson_1989 <- jacobson_import %>%
+  arrange(subject)
+
+use_data(jacobson_1989, overwrite = TRUE)

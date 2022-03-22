@@ -16,7 +16,8 @@
 #'   score} \item{who}{WHO-Five Well-Being Index score} \item{hamd}{Hamilton
 #'   Rating Scale for Depression score} }
 #'
-#' @references - Claus, B. B., Scherbaum, N., & Bonnet, U. (2020). Effectiveness
+#' @references
+#' - Claus, B. B., Scherbaum, N., & Bonnet, U. (2020). Effectiveness
 #'   of an Adjunctive Psychotherapeutic Intervention Developed for Enhancing the
 #'   Placebo Effect of Antidepressants Used within an Inpatient-Treatment
 #'   Program of Major Depression: A Pragmatic Parallel-Group, Randomized
@@ -25,3 +26,28 @@
 #'
 #' @source \url{https://osf.io/rc754/}
 "claus_2020"
+
+
+#' Marital Therapy Data
+#'
+#' A dataset containing the data from Jacobson et al. (1989). The purpose of the
+#' study was to examine two forms of behavioral marital therapy,
+#'
+#' @format An object of class `tbl_df` with 60 rows and 4 columns.
+#'
+#'   \describe{ \item{subject}{Subject ID} \item{time}{Measurement}
+#'   \item{das}{Dyadic Adjustment Scale score} \item{gds}{Global Distress Scale
+#'   score} }
+#'
+#' @references
+#' - Jacobson, N. S., Schmaling, K. B., Holtzworth-Munroe, A., Katt,
+#' J. L., Wood, L. F., & Follette, V. M. (1989). Research-structured vs
+#' clinically flexible versions of social learning-based marital therapy.
+#' Behaviour Research and Therapy, 27(2), 173-180.
+#' https://doi.org/10.1016/0005-7967(89)90076-4
+#'
+#' - Jacobson, N. S., & Truax, P.
+#' (1991). Clinical significance: A statistical approach to defining meaningful
+#' change in psychotherapy research. Journal of Consulting and Clinical
+#' Psychology, 59(1), 12-19. https://doi.org/10.1037//0022-006X.59.1.12
+"jacobson_1989"

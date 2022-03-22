@@ -12,3 +12,7 @@ Description: In contrast to statistical significance, which answers the question
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends: 
+    R (>= 2.10)
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2

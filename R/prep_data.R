@@ -58,7 +58,7 @@ prep_data <- function(data, id, time, outcome, measurements = NULL, baseline = N
 
   # If measurements are defined, filter data accordingly
   if (!missing(measurements)) {
-    selected_data %>%
+    selected_data <- selected_data %>%
       filter(time %in% measurements)
   }
 

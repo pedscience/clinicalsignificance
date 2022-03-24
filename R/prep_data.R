@@ -71,7 +71,7 @@ prep_data <- function(data, id, time, outcome, measurements, baseline = NULL) {
       ungroup()
   } else if (is.character(pull(selected_data, time))) {
     sorted_data <- selected_data %>%
-      mutate(time = fct_relevel(time, baseline)) %>%
+      mutate(time = relevel(as.factor(time), baseline)) %>%
       group_by(id) %>%
       arrange(id, time) %>%
       ungroup()

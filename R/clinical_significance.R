@@ -19,12 +19,12 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
   # If type = "a", discard information of the functional population and give a warning
   if (type == "a" & (!is.na(m_functional) | !is.na(sd_functional))) {
     m_functional <- sd_functional <- NA_real_
-    warning("You selected cutoff type \"a\" and provided summary statistics for the functional population. This information will be dicarded.\nIf you wand to incorporate data from the functional population, choose type = \"b\" or \"c\"", call. = FALSE)
+    warning("You selected cutoff type \"a\" and provided summary statistics for the functional population. This information will be dicarded.\nIf you wand to incorporate data from the functional population for the cutoff, choose type = \"b\" or \"c\"", call. = FALSE)
   }
 
 
   # Prepare data
-  tidy_data <- prep_data(
+  datasets <- prep_data(
     data = data,
     id = {{ id }},
     time = {{ time }},
@@ -36,7 +36,7 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
 
   # Prepare cutoff
   cutoff <- prep_cutoff(
-    data = tidy_data[["data"]],
+    data = datasets[["data"]],
     m_functional = m_functional,
     sd_functional = sd_functional,
     type = type,
@@ -46,14 +46,36 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
 
   # Prepare RCI
   rci <- prep_rci(
-    data = tidy_data[["data"]],
+    data = datasets[["data"]],
     reliability = reliability
   )
 
+  direction <- match.arg(better_is)
+  dir_factor <- 1
+  if (direction == "higher") dir_factor <- -1
 
-  list(
-    data = tidy_data,
+  # Check clinical significance criteria
+  criteria <- bind_cols(datasets[["data"]], rci = rci) %>%
+    mutate(
+      clinical_pre = ifelse(dir_factor * pre > dir_factor * cutoff$cutoff, TRUE, FALSE),
+      functional_post = ifelse(dir_factor * post < dir_factor * cutoff$cutoff, TRUE, FALSE),
+      improved = ifelse(rci < -1.96, TRUE, FALSE),
+      detoriorated = ifelse(rci > 1.96, TRUE, FALSE),
+      recovered = clinical_pre & functional_post & improved,
+      unchanged = !improved & !detoriorated
+    ) %>%
+    relocate(recovered, improved, unchanged, detoriorated, .after = functional_post) %>%
+    select(id, clinical_pre:detoriorated)
+
+  all_datasets <- c(datasets, criteria = list(criteria))
+
+  clinicsig <- list(
+    datasets = all_datasets,
     cutoff = cutoff,
     rci = rci
   )
+
+  class(clinicsig) <- "clinicsig"
+
+  return(clinicsig)
 }

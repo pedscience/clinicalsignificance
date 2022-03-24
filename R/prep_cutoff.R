@@ -1,3 +1,12 @@
+#' Calculate the Cutoff Criterion
+#'
+#' @param data A preprocessed wide dataframe
+#' @param m_functional Mean of functional population
+#' @param sd_functional SD of functional population
+#' @param type Cutoff type
+#' @param better_is Direction of beneficial results
+#'
+#' @importFrom stats sd relevel
 prep_cutoff <- function(data, m_functional = NA, sd_functional = NA, type = "a", better_is) {
 
   # If type = "a" or "c", calculate mean and standard deviation based on the
@@ -23,6 +32,14 @@ prep_cutoff <- function(data, m_functional = NA, sd_functional = NA, type = "a",
 }
 
 
+#' Calculate Cutoff Criterion Using Summary Values
+#'
+#' @param m_clinical Mean of clinical population.
+#' @param sd_clinical SD of clinical population.
+#' @param m_functional Mean of functional population.
+#' @param sd_functional SD of functional population.
+#' @param type Cutoff type
+#' @param better_is Direction of beneficial results
 .calc_cutoff <- function(m_clinical, sd_clinical, m_functional, sd_functional, type, better_is = c("lower", "higher")) {
   # Determine which direction constitutes better values
   direction <- match.arg(better_is)

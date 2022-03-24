@@ -29,14 +29,9 @@
 #' @importFrom dplyr select filter mutate group_by ungroup arrange rename pull
 #'   distinct last_col
 #' @importFrom tidyr pivot_wider
-#' @importFrom forcats fct_relevel
 #'
 #' @return A wide dataframe containing the ID, pre and post scores, and the
 #'   change score
-#'
-#' @examples
-#' prep_data(jacobson_1989, subject, time, das, baseline = "pre")
-#' @export
 prep_data <- function(data, id, time, outcome, measurements = NULL, baseline = NULL) {
   # browser()
   pre <- post <- NULL

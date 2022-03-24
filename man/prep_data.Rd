@@ -43,6 +43,3 @@ the \code{time} column is of type character, you must provide a string for
 \code{baseline} (i.e., the pre measurement) because characters cannot be sorted in
 a meansingful way.
 }
-\examples{
-prep_data(jacobson_1989, subject, time, das, baseline = "pre")
-}

@@ -1,4 +1,27 @@
+#' Clinical Significance
+#'
+#' @param data A tidy dataframe
+#' @param id Participant ID
+#' @param time Time variable
+#' @param outcome Outcome variable
+#' @param measurements If `time` contains more than two values, you can specify
+#'   your two measurements of interest as a vector
+#' @param baseline If your `time` is of type character, you can specify the pre
+#'   measurement
+#' @param m_functional Mean of the functional population
+#' @param sd_functional Standard deviation of the functional population
+#' @param type Cutoff type. Available are `"a"`, `"b"`, and `"c"`. Defaults to
+#'   `"a"` (dee details for further information in which cutoff to choose).
+#' @param reliability The instrument's reliability estimate.
+#' @param better_is Which direction means a better outcome? Available are
+#'   `"lower"` and `"higher"`. Defaults to `"higher"`.
+#'
+#' @importFrom dplyr relocate bind_cols
+#'
+#' @return An object of class `clinicsig`
+#' @export
 clinical_significance <- function(data, id, time, outcome, measurements = NULL, baseline = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, better_is = c("lower", "higher")) {
+  pre <- post <- clinical_pre <- functional_post <- improved <- detoriorated <- recovered <- unchanged <- NULL
   # Check if arguments are set correctly
   if (missing(id)) stop("You must specify an ID column.")
   if (missing(time)) stop("You must specify a column indicating the different measurements.")
@@ -59,8 +82,8 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
     mutate(
       clinical_pre = ifelse(dir_factor * pre > dir_factor * cutoff$cutoff, TRUE, FALSE),
       functional_post = ifelse(dir_factor * post < dir_factor * cutoff$cutoff, TRUE, FALSE),
-      improved = ifelse(rci < -1.96, TRUE, FALSE),
-      detoriorated = ifelse(rci > 1.96, TRUE, FALSE),
+      improved = ifelse(dir_factor * rci < -1.96, TRUE, FALSE),
+      detoriorated = ifelse(dir_factor * rci > 1.96, TRUE, FALSE),
       recovered = clinical_pre & functional_post & improved,
       unchanged = !improved & !detoriorated
     ) %>%
@@ -69,13 +92,9 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
 
   all_datasets <- c(datasets, criteria = list(criteria))
 
-  clinicsig <- list(
+  list(
     datasets = all_datasets,
     cutoff = cutoff,
     rci = rci
   )
-
-  class(clinicsig) <- "clinicsig"
-
-  return(clinicsig)
 }

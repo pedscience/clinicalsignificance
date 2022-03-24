@@ -37,27 +37,17 @@
 #' @examples
 #' prep_data(jacobson_1989, subject, time, das, baseline = "pre")
 #' @export
-prep_data <- function(data, id, time, outcome, measurements = NULL, baseline = NULL) {
-  data <- data
+prep_data <- function(data, id, time, outcome, measurements, baseline = NULL) {
+  # browser()
   pre <- post <- NULL
-  # Check if arguments are set correctly
-  if (missing(id)) stop("You must specify an ID column.")
-  if (missing(time)) stop("You must specify a column indicating the different measurements.")
-  if (missing(outcome)) stop("You must specify an outcome.")
 
-
-  # Sanity checks
-  if (!missing(measurements) & length(measurements) != 2) stop("If you specify time levels, you must specify only two.")
-  if (!missing(baseline) & length(baseline) != 1) stop("If you specify a baseline measurement, you must specify only one.")
-
-
-  # Select relevant variables and filter relevant levels (if defined)
+  # Select relevant variables
   selected_data <- data %>%
     select(id = {{ id }}, time = {{ time }}, outcome = {{ outcome }})
 
 
   # If measurements are defined, filter data accordingly
-  if (!missing(measurements)) {
+  if (!is.null(measurements)) {
     selected_data <- selected_data %>%
       filter(time %in% measurements)
   }
@@ -89,12 +79,11 @@ prep_data <- function(data, id, time, outcome, measurements = NULL, baseline = N
 
     if (is.null(baseline)) {
       sorted_levels <- levels(pull(sorted_data, time))
-
       warning_message <- paste0("Your pre measurement is \"", sorted_levels[1], "\" and your post measurement is \"", sorted_levels[2], "\".\n If that is not correct, please specify the baseline.")
-
       warning(warning_message, call. = FALSE)
     }
   }
+
 
   # Make the data wide
   wide_data <- sorted_data %>%
@@ -104,9 +93,17 @@ prep_data <- function(data, id, time, outcome, measurements = NULL, baseline = N
     ) %>%
     rename(pre = last_col() - 1, post = last_col())
 
-  wide_data %>%
+
+  # Omit cases with missing values. They can not be used. Calculate raw change
+  # score
+  used_data <- wide_data %>%
     na.omit() %>%
     mutate(
       change = post - pre
     )
+
+  list(
+    original = wide_data,
+    data = used_data
+  )
 }

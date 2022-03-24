@@ -37,7 +37,7 @@
 #' @examples
 #' prep_data(jacobson_1989, subject, time, das, baseline = "pre")
 #' @export
-prep_data <- function(data, id, time, outcome, measurements, baseline = NULL) {
+prep_data <- function(data, id, time, outcome, measurements = NULL, baseline = NULL) {
   # browser()
   pre <- post <- NULL
 

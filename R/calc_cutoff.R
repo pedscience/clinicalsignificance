@@ -8,6 +8,8 @@
 #' @inheritParams .calc_cutoff
 #'
 #' @importFrom stats sd relevel
+#'
+#' @noRd
 .calc_cutoff_data <- function(data, m_functional = NA, sd_functional = NA, type = "a", direction = 1) {
   # If type = "a" or "c", calculate mean and standard deviation based on the
   # data. Otherwise, these will be NA

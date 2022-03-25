@@ -11,6 +11,8 @@
 #' @importFrom rlang .data
 #'
 #' @return The full data frame with categories
+#'
+#' @noRd
 .calc_categories_jacobson <- function(data, cutoff, rci, rci_cutoff = 1.96, direction = 1) {
   clinical_cutoff <- cutoff$cutoff
 

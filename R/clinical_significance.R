@@ -21,7 +21,6 @@
 #' @return An object of class `clinicsig`
 #' @export
 clinical_significance <- function(data, id, time, outcome, measurements = NULL, baseline = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, better_is = c("lower", "higher")) {
-  pre <- post <- clinical_pre <- functional_post <- improved <- detoriorated <- recovered <- unchanged <- NULL
   # Check if arguments are set correctly
   if (missing(id)) stop("You must specify an ID column.")
   if (missing(time)) stop("You must specify a column indicating the different measurements.")
@@ -87,10 +86,51 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
 
 
   # Results
-  list(
+  out <- list(
     datasets = datasets,
     cutoff = cutoff,
     rci = rci,
     categories = categories
   )
+
+  class(out) <- "clinicsig"
+  return(out)
+}
+
+
+#' Create Clinical Significance Summary Table
+#'
+#' @param x A clinigsig object
+#' @param ... Additional arguments
+#'
+#' @importFrom tidyr pivot_longer everything
+#' @importFrom dplyr summarise mutate across
+.create_summary_table <- function(x, ...) {
+  improved <- unchanged <- n <-  NULL
+
+  x$categories %>%
+    summarise(
+      across(improved:unchanged, sum)
+    ) %>%
+    pivot_longer(
+      cols = everything(),
+      names_to = "category",
+      values_to = "n"
+    ) %>%
+    mutate(
+      percent = n / sum(n)
+    )
+}
+
+
+#' Print Clinical Significance Results
+#'
+#' @param x A clinicsig object
+#' @param ... Additional arguments
+#'
+#' @importFrom insight export_table
+#'
+#' @export
+print.clinicsig <- function(x, ...) {
+  cat(export_table(.create_summary_table(x)))
 }

@@ -7,7 +7,7 @@
 #' @param better_is Direction of beneficial results
 #'
 #' @importFrom stats sd relevel
-prep_cutoff <- function(data, m_functional = NA, sd_functional = NA, type = "a", better_is) {
+.calc_cutoff_data <- function(data, m_functional = NA, sd_functional = NA, type = "a", better_is) {
 
   # If type = "a" or "c", calculate mean and standard deviation based on the
   # data. Otherwise, these will be NA

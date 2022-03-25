@@ -1,19 +1,19 @@
-#' Calculate RCI scores
+#' #' Calculate RCI scores
+#' #'
+#' #' @importFrom stats sd
+#' #'
+#' #' @param data A preprocessed wide dataframe
+#' #' @param reliability The instrument's reliability
+#' prep_rci <- function(data, reliability) {
+#'   sd_pre <- sd(data$pre)
+#'   s_diff <- .calc_s_diff(sd_pre = sd_pre, reliability = reliability)
 #'
-#' @importFrom stats sd
-#'
-#' @param data A preprocessed wide dataframe
-#' @param reliability The instrument's reliability
-prep_rci <- function(data, reliability) {
-  sd_pre <- sd(data$pre)
-  s_diff <- .calc_s_diff(sd_pre = sd_pre, reliability = reliability)
-
-  data$change / s_diff
-}
+#'   data$change / s_diff
+#' }
 
 
 # RCI for the Jacobson method
-prep_rci_jacobson <- function(data, reliability) {
+.calc_rci_jacobson <- function(data, reliability) {
   sd_pre <- sd(data$pre)
   s_diff <- .calc_s_diff(sd_pre = sd_pre, reliability = reliability)
 

@@ -19,7 +19,7 @@ clinical_significance(
 )
 }
 \arguments{
-\item{data}{A tidy dataframe}
+\item{data}{A tidy data frame}
 
 \item{id}{Participant ID}
 

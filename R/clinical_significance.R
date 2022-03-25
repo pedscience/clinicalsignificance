@@ -1,6 +1,6 @@
 #' Clinical Significance
 #'
-#' @param data A tidy dataframe
+#' @param data A tidy data frame
 #' @param id Participant ID
 #' @param time Time variable
 #' @param outcome Outcome variable
@@ -21,7 +21,6 @@
 #' @return An object of class `clinicsig`
 #' @export
 clinical_significance <- function(data, id, time, outcome, measurements = NULL, baseline = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, better_is = c("lower", "higher")) {
-  pre <- post <- clinical_pre <- functional_post <- improved <- detoriorated <- recovered <- unchanged <- NULL
   # Check if arguments are set correctly
   if (missing(id)) stop("You must specify an ID column.")
   if (missing(time)) stop("You must specify a column indicating the different measurements.")
@@ -57,15 +56,81 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
   )
 
 
-  # Prepare cutoff
-  cutoff <- prep_cutoff(
+  # Calculate cutoff
+  direction <- 1
+  if (match.arg(better_is) == "lower") direction <- -1
+
+  cutoff <- .calc_cutoff_data(
     data = datasets[["data"]],
     m_functional = m_functional,
     sd_functional = sd_functional,
     type = type,
-    better_is = better_is
+    direction = direction
   )
 
 
-  # Prepare RCI
+  # Calculate RCI
+  rci <- .calc_rci_jacobson(
+    data = datasets[["data"]],
+    reliability = reliability
+  )
+
+
+  # Calculate categories
+  categories <- .calc_categories_jacobson(
+    data = datasets[["data"]],
+    cutoff = cutoff,
+    rci = rci,
+    direction = direction
+  )
+
+
+  # Results
+  out <- list(
+    datasets = datasets,
+    cutoff = cutoff,
+    rci = rci,
+    categories = categories
+  )
+
+  class(out) <- "clinicsig"
+  return(out)
+}
+
+
+#' Create Clinical Significance Summary Table
+#'
+#' @param x A clinigsig object
+#' @param ... Additional arguments
+#'
+#' @importFrom tidyr pivot_longer everything
+#' @importFrom dplyr summarise mutate across
+.create_summary_table <- function(x, ...) {
+  improved <- unchanged <- n <-  NULL
+
+  x$categories %>%
+    summarise(
+      across(improved:unchanged, sum)
+    ) %>%
+    pivot_longer(
+      cols = everything(),
+      names_to = "category",
+      values_to = "n"
+    ) %>%
+    mutate(
+      percent = n / sum(n)
+    )
+}
+
+
+#' Print Clinical Significance Results
+#'
+#' @param x A clinicsig object
+#' @param ... Additional arguments
+#'
+#' @importFrom insight export_table
+#'
+#' @export
+print.clinicsig <- function(x, ...) {
+  cat(export_table(.create_summary_table(x)))
 }

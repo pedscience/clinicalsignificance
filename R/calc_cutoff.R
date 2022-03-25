@@ -4,14 +4,16 @@
 #' @param m_functional Mean of functional population
 #' @param sd_functional SD of functional population
 #' @param type Cutoff type
-#' @param better_is Direction of beneficial results
+#'
+#' @inheritParams .calc_cutoff
 #'
 #' @importFrom stats sd relevel
-prep_cutoff <- function(data, m_functional = NA, sd_functional = NA, type = "a", better_is) {
-
+#'
+#' @noRd
+.calc_cutoff_data <- function(data, m_functional = NA, sd_functional = NA, type = "a", direction = 1) {
   # If type = "a" or "c", calculate mean and standard deviation based on the
   # data. Otherwise, these will be NA
-  m_clinical <- sd_clinical <- NA_real_
+  m_clinical <- sd_clinical <- NA
   if (type != "b") {
     m_clinical <- mean(data$pre)
     sd_clinical <- sd(data$pre)
@@ -25,7 +27,7 @@ prep_cutoff <- function(data, m_functional = NA, sd_functional = NA, type = "a",
     m_functional = m_functional,
     sd_functional = sd_functional,
     type = type,
-    better_is = better_is
+    direction = direction
   )
 
 
@@ -38,20 +40,15 @@ prep_cutoff <- function(data, m_functional = NA, sd_functional = NA, type = "a",
 #' @param sd_clinical SD of clinical population.
 #' @param m_functional Mean of functional population.
 #' @param sd_functional SD of functional population.
+#' @param direction Which direction is beneficial? `1` = higher values are
+#'   better, `-1` = lower values are better
 #' @param type Cutoff type
-#' @param better_is Direction of beneficial results
-.calc_cutoff <- function(m_clinical, sd_clinical, m_functional, sd_functional, type, better_is = c("lower", "higher")) {
-  # Determine which direction constitutes better values
-  direction <- match.arg(better_is)
-  direction_factor <- 1
-  if (direction == "lower") direction_factor <- -1
-
-
-  # Calculate cutoffs
+.calc_cutoff <- function(m_clinical, sd_clinical, m_functional, sd_functional, type = "a", direction = 1) {
+  # Calculate cutoffs based on type and direction
   if (type == "a") {
-    cutoff <- m_clinical + (direction_factor * 2 * sd_clinical)
+    cutoff <- m_clinical + (direction * 2 * sd_clinical)
   } else if (type == "b") {
-    cutoff <- m_functional - (direction_factor * 2 * sd_functional)
+    cutoff <- m_functional - (direction * 2 * sd_functional)
   } else if (type == "c") {
     cutoff <- (sd_clinical * m_functional + sd_functional * m_clinical) / (sd_clinical + sd_functional)
   }

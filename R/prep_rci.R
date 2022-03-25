@@ -12,6 +12,15 @@ prep_rci <- function(data, reliability) {
 }
 
 
+# RCI for the Jacobson method
+prep_rci_jacobson <- function(data, reliability) {
+  sd_pre <- sd(data$pre)
+  s_diff <- .calc_s_diff(sd_pre = sd_pre, reliability = reliability)
+
+  data$change / s_diff
+}
+
+
 #' Calculate standard error of the instrument
 #'
 #' @param sd_pre Pre standard deviation

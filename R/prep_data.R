@@ -32,7 +32,7 @@
 #'
 #' @return A wide dataframe containing the ID, pre and post scores, and the
 #'   change score
-prep_data <- function(data, id, time, outcome, measurements = NULL, baseline = NULL) {
+.prep_data <- function(data, id, time, outcome, measurements = NULL, baseline = NULL) {
   # browser()
   pre <- post <- NULL
 

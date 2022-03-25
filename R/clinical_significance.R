@@ -47,7 +47,7 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
 
 
   # Prepare data
-  datasets <- prep_data(
+  datasets <- .prep_data(
     data = data,
     id = {{ id }},
     time = {{ time }},
@@ -68,33 +68,4 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
 
 
   # Prepare RCI
-  rci <- prep_rci(
-    data = datasets[["data"]],
-    reliability = reliability
-  )
-
-  direction <- match.arg(better_is)
-  dir_factor <- 1
-  if (direction == "higher") dir_factor <- -1
-
-  # Check clinical significance criteria
-  criteria <- bind_cols(datasets[["data"]], rci = rci) %>%
-    mutate(
-      clinical_pre = ifelse(dir_factor * pre > dir_factor * cutoff$cutoff, TRUE, FALSE),
-      functional_post = ifelse(dir_factor * post < dir_factor * cutoff$cutoff, TRUE, FALSE),
-      improved = ifelse(dir_factor * rci < -1.96, TRUE, FALSE),
-      detoriorated = ifelse(dir_factor * rci > 1.96, TRUE, FALSE),
-      recovered = clinical_pre & functional_post & improved,
-      unchanged = !improved & !detoriorated
-    ) %>%
-    relocate(recovered, improved, unchanged, detoriorated, .after = functional_post) %>%
-    select(id, clinical_pre:detoriorated)
-
-  all_datasets <- c(datasets, criteria = list(criteria))
-
-  list(
-    datasets = all_datasets,
-    cutoff = cutoff,
-    rci = rci
-  )
 }

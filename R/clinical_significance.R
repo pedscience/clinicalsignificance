@@ -1,6 +1,6 @@
 #' Clinical Significance
 #'
-#' @param data A tidy dataframe
+#' @param data A tidy data frame
 #' @param id Participant ID
 #' @param time Time variable
 #' @param outcome Outcome variable
@@ -57,15 +57,40 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
   )
 
 
-  # Prepare cutoff
-  cutoff <- prep_cutoff(
+  # Calculate cutoff
+  direction <- 1
+  if (match.arg(better_is) == "lower") direction <- -1
+
+  cutoff <- .calc_cutoff_data(
     data = datasets[["data"]],
     m_functional = m_functional,
     sd_functional = sd_functional,
     type = type,
-    better_is = better_is
+    direction = direction
   )
 
 
-  # Prepare RCI
+  # Calculate RCI
+  rci <- .calc_rci_jacobson(
+    data = datasets[["data"]],
+    reliability = reliability
+  )
+
+
+  # Calculate categories
+  categories <- .calc_categories_jacobson(
+    data = datasets[["data"]],
+    cutoff = cutoff,
+    rci = rci,
+    direction = direction
+  )
+
+
+  # Results
+  list(
+    datasets = datasets,
+    cutoff = cutoff,
+    rci = rci,
+    categories = categories
+  )
 }

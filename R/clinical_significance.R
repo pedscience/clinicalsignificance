@@ -107,6 +107,7 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
     datasets = datasets,
     n_obs = n_obs,
     cutoff = cutoff,
+    reliability = reliability,
     rci = rci,
     categories = categories,
     summary = summary_table

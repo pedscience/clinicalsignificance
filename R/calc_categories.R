@@ -9,6 +9,7 @@
 #' @inheritParams .calc_cutoff
 #'
 #' @importFrom rlang .data
+#' @importFrom dplyr relocate
 #'
 #' @return The full data frame with categories
 #'
@@ -25,5 +26,6 @@
       deteriorated    = ifelse(direction * rci < -rci_cutoff, TRUE, FALSE),
       recovered       = .data$clinical_pre & .data$functional_post & .data$improved,
       unchanged       = !.data$improved & !.data$deteriorated
-    )
+    ) %>%
+    relocate(recovered, improved, unchanged, deteriorated, .after = functional_post)
 }

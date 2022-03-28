@@ -55,6 +55,8 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
     baseline = baseline
   )
 
+  n_obs <- nrow(datasets[["data"]])
+
 
   # Calculate cutoff
   direction <- 1
@@ -84,42 +86,24 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
     direction = direction
   )
 
+  summary_table <- .create_summary_table(
+    data = categories,
+    n_participants = n_obs
+  )
+
 
   # Results
   out <- list(
     datasets = datasets,
+    n_obs = n_obs,
     cutoff = cutoff,
     rci = rci,
-    categories = categories
+    categories = categories,
+    summary = summary_table
   )
 
-  class(out) <- "clinicsig"
+  class(out) <- "clinisig"
   return(out)
-}
-
-
-#' Create Clinical Significance Summary Table
-#'
-#' @param x A clinigsig object
-#' @param ... Additional arguments
-#'
-#' @importFrom tidyr pivot_longer everything
-#' @importFrom dplyr summarise mutate across
-.create_summary_table <- function(x, ...) {
-  improved <- unchanged <- n <-  NULL
-
-  x$categories %>%
-    summarise(
-      across(improved:unchanged, sum)
-    ) %>%
-    pivot_longer(
-      cols = everything(),
-      names_to = "category",
-      values_to = "n"
-    ) %>%
-    mutate(
-      percent = n / sum(n)
-    )
 }
 
 
@@ -131,6 +115,18 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
 #' @importFrom insight export_table
 #'
 #' @export
-print.clinicsig <- function(x, ...) {
-  cat(export_table(.create_summary_table(x)))
+print.clinisig <- function(x, ...) {
+  cat(export_table(x$summary, width = c(n = 5), digits = 3, ...))
+}
+
+
+
+#' Summary Method for a clinisig object
+#'
+#' @param object A clinisig object
+#' @param ... Additional arguments
+#'
+#' @export
+summary.clinisig <- function(object, ...) {
+  object[["summary"]]
 }

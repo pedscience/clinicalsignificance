@@ -20,7 +20,7 @@
 #'
 #' @return An object of class `clinicsig`
 #' @export
-clinical_significance <- function(data, id, time, outcome, measurements = NULL, baseline = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, better_is = c("lower", "higher")) {
+clinical_significance <- function(data, id, time, outcome, measurements = NULL, baseline = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, better_is = c("lower", "higher"), method = c("JT", "GLN")) {
   # Check if arguments are set correctly
   if (missing(id)) stop("You must specify an ID column.")
   if (missing(time)) stop("You must specify a column indicating the different measurements.")
@@ -70,12 +70,20 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
     direction = direction
   )
 
+  clinisig_method <- match.arg(method)
 
   # Calculate RCI
-  rci <- .calc_rci_jacobson(
-    data = datasets[["data"]],
-    reliability = reliability
-  )
+  if (clinisig_method == "JT") {
+    rci <- .calc_rci_jacobson(
+      data = datasets[["data"]],
+      reliability = reliability
+    )
+  } else if (clinisig_method == "GLN") {
+    rci <- .calc_rci_gulliksen(
+      data = datasets[["data"]],
+      reliability = reliability
+    )
+  }
 
 
   # Calculate categories

@@ -1,14 +1,14 @@
 #' Create Clinical Significance Summary Table
 #'
 #' @param data "categories" element from a clinisig object
-#' @param n_participants "n_obs" element from a clinisig object, used for
+#' @param n_obs "n_obs" element from a clinisig object, used for
 #'   calculating percentages
 #'
 #' @importFrom tidyr pivot_longer everything
 #' @importFrom dplyr summarise mutate across
 #'
 #' @noRd
-.create_summary_table <- function(data, n_participants = n_obs) {
+.create_summary_table <- function(data, n_obs) {
   recovered <- deteriorated <- n <-  NULL
 
   data %>%
@@ -21,6 +21,6 @@
       values_to = "n"
     ) %>%
     mutate(
-      percent = n / n_participants
+      percent = n / n_obs
     )
 }

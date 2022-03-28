@@ -27,5 +27,5 @@
       recovered       = .data$clinical_pre & .data$functional_post & .data$improved,
       unchanged       = !.data$improved & !.data$deteriorated
     ) %>%
-    relocate(recovered, improved, unchanged, deteriorated, .after = functional_post)
+    relocate(.data$recovered, .data$improved, .data$unchanged, .data$deteriorated, .after = .data$functional_post)
 }

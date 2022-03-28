@@ -15,6 +15,8 @@
 #' @param reliability The instrument's reliability estimate.
 #' @param better_is Which direction means a better outcome? Available are
 #'   `"lower"` and `"higher"`. Defaults to `"higher"`.
+#' @param method Clinical significance method. Available are `\"JT\"` (Jacobson
+#'   & Truax) and `\"GLN\"` (Gulliksen, Lord, and Novick)
 #'
 #' @importFrom dplyr relocate bind_cols
 #'
@@ -96,7 +98,7 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
 
   summary_table <- .create_summary_table(
     data = categories,
-    n_participants = n_obs
+    n_obs = n_obs
   )
 
 

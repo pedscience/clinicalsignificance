@@ -15,7 +15,8 @@ clinical_significance(
   sd_functional = NA,
   type = "a",
   reliability,
-  better_is = c("lower", "higher")
+  better_is = c("lower", "higher"),
+  method = c("JT", "GLN")
 )
 }
 \arguments{
@@ -44,6 +45,9 @@ measurement}
 
 \item{better_is}{Which direction means a better outcome? Available are
 \code{"lower"} and \code{"higher"}. Defaults to \code{"higher"}.}
+
+\item{method}{Clinical significance method. Available are \verb{\\"JT\\"} (Jacobson
+& Truax) and \verb{\\"GLN\\"} (Gulliksen, Lord, and Novick)}
 }
 \value{
 An object of class \code{clinicsig}

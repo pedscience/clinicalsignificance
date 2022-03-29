@@ -79,6 +79,7 @@
   )
 
   list(
+    se_prediction = se_prediction,
     data = rci_results
   )
 }

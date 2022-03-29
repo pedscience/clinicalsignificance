@@ -132,6 +132,7 @@
     select(.data$id, .data$pre_true, .data$lower, .data$upper, .data$improved:.data$unchanged)
 
   list(
+    se_measurement = se_measurement,
     data = rci_data
   )
 }

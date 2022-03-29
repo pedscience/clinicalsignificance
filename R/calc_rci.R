@@ -29,18 +29,6 @@
 }
 
 
-.calc_improvement <- function(data, rci_cutoff = 1.96, direction = 1) {
-  data %>%
-    mutate(
-      improved        = ifelse(direction * rci > rci_cutoff, TRUE, FALSE),
-      deteriorated    = ifelse(direction * rci < -rci_cutoff, TRUE, FALSE),
-      unchanged       = !.data$improved & !.data$deteriorated
-    ) %>%
-    select(id, rci, improved:unchanged)
-}
-
-
-
 #' RCI for the Gulliksen method
 #'
 #' This function expects a data frame with at least columns `pre` and `post`.
@@ -48,26 +36,30 @@
 #'
 #' @param data A preprocessed data frame
 #' @param reliability Instrument's reliability
+#' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
 #' @importFrom stats sd
 #'
 #' @return A vector with RCIs
 #'
 #' @noRd
-.calc_rci_gulliksen <- function(data, reliability) {
+.calc_rci_gulliksen <- function(data, reliability, direction = 1) {
   m_pre <- mean(data$pre)
   sd_pre <- sd(data$pre)
   se_prediction <- .calc_se_prediction(sd_pre = sd_pre, reliability = reliability)
 
-
-  # Adjustments of scores
-  pre_adj <-  reliability * (data$pre - m_pre)
-  post_adj <- data$post - m_pre
-  change_adj <- post_adj - pre_adj
-
-
-  # RCI
-  change_adj / se_prediction
+  data %>%
+    mutate(
+      pre_adj = reliability * (data$pre - m_pre),
+      post_adj = data$post - m_pre,
+      change_adj = post_adj - pre_adj,
+      rci = change_adj / se_prediction
+    ) %>%
+    .calc_improvement(
+      data = .,
+      rci_cutoff = 1.96,
+      direction = direction
+    )
 }
 
 
@@ -80,7 +72,8 @@
 #' @param reliability The instrument's reliability
 #' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
-#' @return A data frame
+#' @return A data frame with columns `id`, `pre_true` (adjusted true score of
+#'   `pre`), `lower`, `upper`, `improved`, `deteriorated`, and `unchanged`
 #'
 #' @noRd
 .calc_rci_edwards <- function(data, reliability, direction = 1) {
@@ -112,7 +105,32 @@
   }
 
   rci_results %>%
-    select(id, pre_true, improved:unchanged)
+    select(id, pre_true, lower, upper, improved:unchanged)
+}
+
+
+#' Calculate improvement or deterioration based on RCI scores
+#'
+#' This functions expects at least a preprocessed data frame with the column
+#' `rci`
+#'
+#' @param data A preprocessed data frame
+#' @param rci_cutoff A multiplier for the RCI that is used to calculate the
+#'   cutoff
+#' @param direction Which direction is better? 1 = higher, -1 = lower
+#'
+#' @return A tibble with columns `id`, `rci`, `improved`, `deteriorated`, and
+#'   `unchanged`
+#'
+#' @noRd
+.calc_improvement <- function(data, rci_cutoff = 1.96, direction = 1) {
+  data %>%
+    mutate(
+      improved        = ifelse(direction * rci > rci_cutoff, TRUE, FALSE),
+      deteriorated    = ifelse(direction * rci < -rci_cutoff, TRUE, FALSE),
+      unchanged       = !.data$improved & !.data$deteriorated
+    ) %>%
+    select(id, rci, improved:unchanged)
 }
 
 

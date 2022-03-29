@@ -4,10 +4,12 @@
 #' @param m_functional Mean of functional population
 #' @param sd_functional SD of functional population
 #' @param type Cutoff type
-#'
-#' @inheritParams .calc_cutoff
+#' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
 #' @importFrom stats sd relevel
+#'
+#' @return A list with cutoff info and participant wise info on cutoff
+#'   categorization
 #'
 #' @noRd
 .calc_cutoff_data <- function(data, m_functional = NA, sd_functional = NA, type = "a", direction = 1) {
@@ -21,7 +23,7 @@
 
 
   # Calculate cutoff
-  .calc_cutoff(
+  cutoff_info <- .calc_cutoff(
     m_clinical = m_clinical,
     sd_clinical = sd_clinical,
     m_functional = m_functional,
@@ -30,7 +32,18 @@
     direction = direction
   )
 
+  cutoff_criteria <- data %>%
+    mutate(
+      clinical_pre    = ifelse(direction * .data$pre < direction * cutoff_info[["value"]], TRUE, FALSE),
+      functional_post = ifelse(direction * .data$post > direction * cutoff_info[["value"]], TRUE, FALSE),
+    ) %>%
+    select(id, clinical_pre, functional_post)
 
+  # Bind cutoff info and cutoff criteria together for further calculations
+  list(
+    info = cutoff_info,
+    criteria = cutoff_criteria
+  )
 }
 
 
@@ -40,9 +53,13 @@
 #' @param sd_clinical SD of clinical population.
 #' @param m_functional Mean of functional population.
 #' @param sd_functional SD of functional population.
-#' @param direction Which direction is beneficial? `1` = higher values are
-#'   better, `-1` = lower values are better
 #' @param type Cutoff type
+#' @param direction Which direction is better? 1 = higher, -1 = lower
+#'
+#' @return A list with elements `m_clinical`, `sd_clinical`, `m_function`,
+#'   `sd_functional`, `type`, and `value`
+#'
+#' @noRd
 .calc_cutoff <- function(m_clinical, sd_clinical, m_functional, sd_functional, type = "a", direction = 1) {
   # Calculate cutoffs based on type and direction
   if (type == "a") {
@@ -59,6 +76,6 @@
     m_functional = m_functional,
     sd_functional = sd_functional,
     type = type,
-    cutoff = cutoff
+    value = cutoff
   )
 }

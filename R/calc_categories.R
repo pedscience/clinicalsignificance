@@ -15,18 +15,13 @@
 #' @return The full data frame with categories
 #'
 #' @noRd
-.calc_categories_jacobson <- function(data, cutoff, rci, rci_cutoff = 1.96, direction = 1) {
-  clinical_cutoff <- cutoff$cutoff
-
-  data  %>%
-    bind_cols(rci = rci) %>%
+.calc_categories <- function(cutoff_data, rci_data) {
+  cutoff_data %>%
+    left_join(rci_data, by = "id") %>%
+    relocate(rci, .after = id) %>%
     mutate(
-      clinical_pre    = ifelse(direction * .data$pre < direction * clinical_cutoff, TRUE, FALSE),
-      functional_post = ifelse(direction * .data$post > direction * clinical_cutoff, TRUE, FALSE),
-      improved        = ifelse(direction * rci > rci_cutoff, TRUE, FALSE),
-      deteriorated    = ifelse(direction * rci < -rci_cutoff, TRUE, FALSE),
-      recovered       = .data$clinical_pre & .data$functional_post & .data$improved,
-      unchanged       = !.data$improved & !.data$deteriorated
+      recovered = clinical_pre & functional_post & improved
     ) %>%
-    relocate(.data$recovered, .data$improved, .data$unchanged, .data$deteriorated, .after = .data$functional_post)
+    relocate(recovered, .after = functional_post) %>%
+    relocate(unchanged, .after = improved)
 }

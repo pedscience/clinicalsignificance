@@ -11,7 +11,7 @@
 #' @param m_functional Mean of the functional population
 #' @param sd_functional Standard deviation of the functional population
 #' @param type Cutoff type. Available are `"a"`, `"b"`, and `"c"`. Defaults to
-#'   `"a"` (dee details for further information in which cutoff to choose).
+#'   `"a"` (see details for further information in which cutoff to choose).
 #' @param reliability The instrument's reliability estimate.
 #' @param better_is Which direction means a better outcome? Available are
 #'   `"lower"` and `"higher"`. Defaults to `"higher"`.
@@ -22,7 +22,7 @@
 #'
 #' @return An object of class `clinicsig`
 #' @export
-clinical_significance <- function(data, id, time, outcome, measurements = NULL, baseline = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, better_is = c("lower", "higher"), method = c("JT", "GLN")) {
+clinical_significance <- function(data, id, time, outcome, measurements = NULL, baseline = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, better_is = c("lower", "higher"), method = c("JT", "GLN", "EN")) {
   # Check if arguments are set correctly
   if (missing(id)) stop("You must specify an ID column.")
   if (missing(time)) stop("You must specify a column indicating the different measurements.")
@@ -84,47 +84,43 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
   } else if (clinisig_method == "GLN") {
     rci <- .calc_rci_gulliksen(
       data = datasets[["data"]],
-      reliability = reliability
+      reliability = reliability,
+      direction = direction
+    )
+  } else if (clinisig_method == "EN") {
+    rci <- .calc_rci_edwards(
+      data = datasets[["data"]],
+      reliability = reliability,
+      direction = direction
     )
   }
 
-#
-#   # Calculate categories
-#   categories <- .calc_categories_jacobson(
-#     data = datasets[["data"]],
-#     cutoff = cutoff,
-#     rci = rci,
-#     direction = direction
-#   )
-#
-#   summary_table <- .create_summary_table(
-#     data = categories,
-#     n_obs = n_obs
-#   )
-#
-#
-  # # Results
-  # out <- list(
-  #   datasets = datasets,
-  #   n_obs = n_obs,
-  #   cutoff = cutoff,
-  #   reliability = reliability,
-  #   rci = rci,
-  #   categories = categories,
-  #   summary = summary_table
-  # )
-  #
+
+  # Calculate categories
+  categories <- .calc_categories(
+    cutoff_data = cutoff[["criteria"]],
+    rci_data = rci
+  )
+
+  summary_table <- .create_summary_table(
+    data = categories,
+    n_obs = n_obs
+  )
+
+
   # Results
-  list(
+  out <- list(
     datasets = datasets,
     n_obs = n_obs,
     cutoff = cutoff,
     reliability = reliability,
-    rci = rci
+    rci = rci,
+    categories = categories,
+    summary = summary_table
   )
-#
-#   class(out) <- "clinisig"
-#   return(out)
+
+  class(out) <- "clinisig"
+  return(out)
 }
 
 

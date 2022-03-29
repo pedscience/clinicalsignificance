@@ -78,7 +78,8 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
   if (clinisig_method == "JT") {
     rci <- .calc_rci_jacobson(
       data = datasets[["data"]],
-      reliability = reliability
+      reliability = reliability,
+      direction = direction
     )
   } else if (clinisig_method == "GLN") {
     rci <- .calc_rci_gulliksen(
@@ -87,34 +88,43 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
     )
   }
 
-
-  # Calculate categories
-  categories <- .calc_categories_jacobson(
-    data = datasets[["data"]],
-    cutoff = cutoff,
-    rci = rci,
-    direction = direction
-  )
-
-  summary_table <- .create_summary_table(
-    data = categories,
-    n_obs = n_obs
-  )
-
-
+#
+#   # Calculate categories
+#   categories <- .calc_categories_jacobson(
+#     data = datasets[["data"]],
+#     cutoff = cutoff,
+#     rci = rci,
+#     direction = direction
+#   )
+#
+#   summary_table <- .create_summary_table(
+#     data = categories,
+#     n_obs = n_obs
+#   )
+#
+#
+  # # Results
+  # out <- list(
+  #   datasets = datasets,
+  #   n_obs = n_obs,
+  #   cutoff = cutoff,
+  #   reliability = reliability,
+  #   rci = rci,
+  #   categories = categories,
+  #   summary = summary_table
+  # )
+  #
   # Results
-  out <- list(
+  list(
     datasets = datasets,
     n_obs = n_obs,
     cutoff = cutoff,
     reliability = reliability,
-    rci = rci,
-    categories = categories,
-    summary = summary_table
+    rci = rci
   )
-
-  class(out) <- "clinisig"
-  return(out)
+#
+#   class(out) <- "clinisig"
+#   return(out)
 }
 
 

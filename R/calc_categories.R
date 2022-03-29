@@ -5,6 +5,7 @@
 #' @param rci A vector containing RCIs
 #' @param rci_cutoff A numveric value, the multiplier according to which a
 #'   patient is considered reliably changed
+#' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
 #' @inheritParams .calc_cutoff
 #'

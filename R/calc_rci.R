@@ -17,7 +17,7 @@
   se_measurement <- .calc_se_measurement(sd_pre = sd_pre, reliability = reliability)
   s_diff <- .calc_s_diff(se_measurement)
 
-  data %>%
+  rci_data <- data %>%
     mutate(
       rci = change / s_diff
     ) %>%
@@ -26,6 +26,11 @@
       rci_cutoff = 1.96,
       direction = direction
     )
+
+  list(
+    s_diff = s_diff,
+    data = rci_data
+  )
 }
 
 
@@ -48,7 +53,7 @@
   sd_pre <- sd(data$pre)
   se_prediction <- .calc_se_prediction(sd_pre = sd_pre, reliability = reliability)
 
-  data %>%
+  rci_data <- data %>%
     mutate(
       pre_adj = reliability * (data$pre - m_pre),
       post_adj = data$post - m_pre,
@@ -60,6 +65,10 @@
       rci_cutoff = 1.96,
       direction = direction
     )
+
+  list(
+    data = rci_data
+  )
 }
 
 
@@ -104,8 +113,12 @@
       )
   }
 
-  rci_results %>%
+  rci_data <- rci_results %>%
     select(id, pre_true, lower, upper, improved:unchanged)
+
+  list(
+    data = rci_data
+  )
 }
 
 

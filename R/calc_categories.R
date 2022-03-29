@@ -16,12 +16,11 @@
 #'
 #' @noRd
 .calc_categories <- function(cutoff_data, rci_data) {
-  cutoff_data %>%
-    left_join(rci_data, by = "id") %>%
-    relocate(rci, .after = id) %>%
+  rci_data %>%
+    left_join(cutoff_data, by = "id") %>%
     mutate(
       recovered = clinical_pre & functional_post & improved
     ) %>%
-    relocate(recovered, .after = functional_post) %>%
+    relocate(clinical_pre, functional_post, recovered, .before = improved) %>%
     relocate(unchanged, .after = improved)
 }

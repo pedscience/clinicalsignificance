@@ -98,8 +98,8 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
 
   # Calculate categories
   categories <- .calc_categories(
-    cutoff_data = cutoff[["criteria"]],
-    rci_data = rci
+    cutoff_data = cutoff[["data"]],
+    rci_data = rci[["data"]]
   )
 
   summary_table <- .create_summary_table(
@@ -112,8 +112,8 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
   out <- list(
     datasets = datasets,
     n_obs = n_obs,
-    cutoff = cutoff,
     reliability = reliability,
+    cutoff = cutoff,
     rci = rci,
     categories = categories,
     summary = summary_table

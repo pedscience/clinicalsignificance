@@ -42,7 +42,7 @@
   # Bind cutoff info and cutoff criteria together for further calculations
   list(
     info = cutoff_info,
-    criteria = cutoff_criteria
+    data = cutoff_criteria
   )
 }
 

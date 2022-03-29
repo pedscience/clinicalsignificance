@@ -10,7 +10,7 @@
 #' @inheritParams .calc_cutoff
 #'
 #' @importFrom rlang .data
-#' @importFrom dplyr relocate
+#' @importFrom dplyr relocate left_join
 #'
 #' @return The full data frame with categories
 #'
@@ -19,8 +19,8 @@
   rci_data %>%
     left_join(cutoff_data, by = "id") %>%
     mutate(
-      recovered = clinical_pre & functional_post & improved
+      recovered = .data$clinical_pre & .data$functional_post & .data$improved
     ) %>%
-    relocate(clinical_pre, functional_post, recovered, .before = improved) %>%
-    relocate(unchanged, .after = improved)
+    relocate(.data$clinical_pre, .data$functional_post, .data$recovered, .before = .data$improved) %>%
+    relocate(.data$unchanged, .after = .data$improved)
 }

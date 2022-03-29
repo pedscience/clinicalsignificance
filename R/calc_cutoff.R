@@ -1,12 +1,14 @@
-#' Calculate the Cutoff Criterion
+#' Calculate the cutoff criterion from a data frame
 #'
-#' @param data A preprocessed wide dataframe
+#' @param data A preprocessed wide dataframe with at least column `pre` and
+#'   `post`
 #' @param m_functional Mean of functional population
 #' @param sd_functional SD of functional population
 #' @param type Cutoff type
 #' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
 #' @importFrom stats sd relevel
+#' @importFrom rlang .data
 #'
 #' @return A list with cutoff info and participant wise info on cutoff
 #'   categorization
@@ -37,7 +39,7 @@
       clinical_pre    = ifelse(direction * .data$pre < direction * cutoff_info[["value"]], TRUE, FALSE),
       functional_post = ifelse(direction * .data$post > direction * cutoff_info[["value"]], TRUE, FALSE),
     ) %>%
-    select(id, clinical_pre, functional_post)
+    select(.data$id, .data$clinical_pre, .data$functional_post)
 
   # Bind cutoff info and cutoff criteria together for further calculations
   list(

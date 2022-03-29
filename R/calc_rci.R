@@ -8,6 +8,7 @@
 #' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
 #' @importFrom stats sd
+#' @importFrom rlang .data
 #'
 #' @return A vector with RCIs
 #'
@@ -17,19 +18,24 @@
   se_measurement <- .calc_se_measurement(sd_pre = sd_pre, reliability = reliability)
   s_diff <- .calc_s_diff(se_measurement)
 
+
+  # Calculate RCI
   rci_data <- data %>%
     mutate(
-      rci = change / s_diff
-    ) %>%
-    .calc_improvement(
-      data = .,
-      rci_cutoff = 1.96,
-      direction = direction
+      rci = .data$change / s_diff
     )
+
+
+  # Caluclate categories
+  rci_results <- .calc_improvement(
+    data = rci_data,
+    rci_cutoff = 1.96,
+    direction = direction
+  )
 
   list(
     s_diff = s_diff,
-    data = rci_data
+    data = rci_results
   )
 }
 
@@ -44,6 +50,7 @@
 #' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
 #' @importFrom stats sd
+#' @importFrom rlang .data
 #'
 #' @return A vector with RCIs
 #'
@@ -53,21 +60,26 @@
   sd_pre <- sd(data$pre)
   se_prediction <- .calc_se_prediction(sd_pre = sd_pre, reliability = reliability)
 
+
+  # Calculate RCI
   rci_data <- data %>%
     mutate(
-      pre_adj = reliability * (data$pre - m_pre),
-      post_adj = data$post - m_pre,
-      change_adj = post_adj - pre_adj,
-      rci = change_adj / se_prediction
-    ) %>%
-    .calc_improvement(
-      data = .,
-      rci_cutoff = 1.96,
-      direction = direction
+      pre_adj = reliability * (.data$pre - m_pre),
+      post_adj = .data$post - m_pre,
+      change_adj = .data$post_adj - .data$pre_adj,
+      rci = .data$change_adj / se_prediction
     )
 
+
+  # Calculate categories
+  rci_results <- .calc_improvement(
+    data = rci_data,
+    rci_cutoff = 1.96,
+    direction = direction
+  )
+
   list(
-    data = rci_data
+    data = rci_results
   )
 }
 
@@ -81,6 +93,8 @@
 #' @param reliability The instrument's reliability
 #' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
+#' @importFrom rlang .data
+#'
 #' @return A data frame with columns `id`, `pre_true` (adjusted true score of
 #'   `pre`), `lower`, `upper`, `improved`, `deteriorated`, and `unchanged`
 #'
@@ -92,29 +106,29 @@
 
   confidence_borders <- data %>%
     mutate(
-      pre_true = reliability * (pre - m_pre) + m_pre,
-      lower = pre_true - 2 * se_measurement,
-      upper = pre_true + 2 * se_measurement
+      pre_true = reliability * (.data$pre - m_pre) + m_pre,
+      lower = .data$pre_true - 2 * se_measurement,
+      upper = .data$pre_true + 2 * se_measurement
     )
 
   if (direction == 1) {
     rci_results <- confidence_borders %>%
       mutate(
-        improved = ifelse(post > upper, TRUE, FALSE),
-        deteriorated = ifelse(post < lower, TRUE, FALSE),
-        unchanged = !improved & !deteriorated
+        improved = ifelse(.data$post > .data$upper, TRUE, FALSE),
+        deteriorated = ifelse(.data$post < .data$lower, TRUE, FALSE),
+        unchanged = !.data$improved & !.data$deteriorated
       )
   } else if (direction == -1) {
     rci_results <- confidence_borders %>%
       mutate(
-        improved = ifelse(post < lower, TRUE, FALSE),
-        deteriorated = ifelse(post > upper, TRUE, FALSE),
-        unchanged = !improved & !deteriorated
+        improved = ifelse(.data$post < .data$lower, TRUE, FALSE),
+        deteriorated = ifelse(.data$post > .data$upper, TRUE, FALSE),
+        unchanged = !.data$improved & !.data$deteriorated
       )
   }
 
   rci_data <- rci_results %>%
-    select(id, pre_true, lower, upper, improved:unchanged)
+    select(.data$id, .data$pre_true, .data$lower, .data$upper, .data$improved:.data$unchanged)
 
   list(
     data = rci_data
@@ -132,6 +146,8 @@
 #'   cutoff
 #' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
+#' @importFrom rlang .data
+#'
 #' @return A tibble with columns `id`, `rci`, `improved`, `deteriorated`, and
 #'   `unchanged`
 #'
@@ -139,11 +155,11 @@
 .calc_improvement <- function(data, rci_cutoff = 1.96, direction = 1) {
   data %>%
     mutate(
-      improved        = ifelse(direction * rci > rci_cutoff, TRUE, FALSE),
-      deteriorated    = ifelse(direction * rci < -rci_cutoff, TRUE, FALSE),
+      improved        = ifelse(direction * .data$rci > rci_cutoff, TRUE, FALSE),
+      deteriorated    = ifelse(direction * .data$rci < -rci_cutoff, TRUE, FALSE),
       unchanged       = !.data$improved & !.data$deteriorated
     ) %>%
-    select(id, rci, improved:unchanged)
+    select(.data$id, .data$rci, .data$improved:.data$unchanged)
 }
 
 

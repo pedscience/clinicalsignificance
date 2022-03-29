@@ -16,7 +16,7 @@ clinical_significance(
   type = "a",
   reliability,
   better_is = c("lower", "higher"),
-  method = c("JT", "GLN")
+  method = c("JT", "GLN", "EN")
 )
 }
 \arguments{
@@ -39,7 +39,7 @@ measurement}
 \item{sd_functional}{Standard deviation of the functional population}
 
 \item{type}{Cutoff type. Available are \code{"a"}, \code{"b"}, and \code{"c"}. Defaults to
-\code{"a"} (dee details for further information in which cutoff to choose).}
+\code{"a"} (see details for further information in which cutoff to choose).}
 
 \item{reliability}{The instrument's reliability estimate.}
 

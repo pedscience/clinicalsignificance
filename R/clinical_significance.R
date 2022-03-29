@@ -138,9 +138,18 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
 #'
 #' @export
 print.clinisig <- function(x, ...) {
-  formatted_title <- paste0("Clinical Significance Results (", x[["method"]], ")")
+  title_text <- paste0("Clinical Significance Results (", x[["method"]], ")")
+  summary_table <- x[["summary"]]
 
-  cat(export_table(x[["summary"]], width = c(n = 5), digits = 3, title = formatted_title, ...))
+  cat(
+    export_table(
+      summary_table,
+      width = c(n = 5),
+      digits = 3,
+      caption = c(title_text, "blue"),
+      ...
+    )
+  )
 }
 
 

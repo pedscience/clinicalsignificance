@@ -50,7 +50,7 @@ measurement}
 & Truax) and \verb{\\"GLN\\"} (Gulliksen, Lord, and Novick)}
 }
 \value{
-An object of class \code{clinicsig}
+A S3 object of class \code{clinisig}
 }
 \description{
 Clinical Significance

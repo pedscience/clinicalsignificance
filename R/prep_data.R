@@ -99,7 +99,8 @@
     )
 
   list(
-    original = wide_data,
+    original = data,
+    wide = wide_data,
     data = used_data
   )
 }

@@ -20,7 +20,7 @@
 #'
 #' @importFrom dplyr relocate bind_cols
 #'
-#' @return An object of class `clinicsig`
+#' @return A S3 object of class `clinisig`
 #' @export
 clinical_significance <- function(data, id, time, outcome, measurements = NULL, baseline = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, better_is = c("lower", "higher"), method = c("JT", "GLN", "EN")) {
   # Check if arguments are set correctly
@@ -57,7 +57,11 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
     baseline = baseline
   )
 
-  n_obs <- nrow(datasets[["data"]])
+  n_obs <- list(
+    n_original = nrow(datasets[["wide"]]),
+    n_used = nrow(datasets[["data"]])
+  )
+
 
 
   # Calculate cutoff
@@ -104,7 +108,7 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
 
   summary_table <- .create_summary_table(
     data = categories,
-    n_obs = n_obs
+    n_obs = n_obs[["n_used"]]
   )
 
 
@@ -112,6 +116,7 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
   out <- list(
     datasets = datasets,
     n_obs = n_obs,
+    method = method,
     reliability = reliability,
     cutoff = cutoff,
     rci = rci,
@@ -133,7 +138,9 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
 #'
 #' @export
 print.clinisig <- function(x, ...) {
-  cat(export_table(x$summary, width = c(n = 5), digits = 3, ...))
+  formatted_title <- paste0("Clinical Significance Results (", x[["method"]], ")")
+
+  cat(export_table(x[["summary"]], width = c(n = 5), digits = 3, title = formatted_title, ...))
 }
 
 

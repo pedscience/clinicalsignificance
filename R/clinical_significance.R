@@ -76,19 +76,19 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
 
   # Calculate RCI
   if (clinisig_method == "JT") {
-    rci <- .calc_rci_jacobson(
+    rci <- .calc_rci_jt(
       data = datasets[["data"]],
       reliability = reliability,
       direction = direction
     )
   } else if (clinisig_method == "GLN") {
-    rci <- .calc_rci_gulliksen(
+    rci <- .calc_rci_gln(
       data = datasets[["data"]],
       reliability = reliability,
       direction = direction
     )
   } else if (clinisig_method == "EN") {
-    rci <- .calc_rci_edwards(
+    rci <- .calc_rci_en(
       data = datasets[["data"]],
       reliability = reliability,
       direction = direction

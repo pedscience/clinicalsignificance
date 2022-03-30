@@ -19,6 +19,7 @@
 #'   & Truax) and `\"GLN\"` (Gulliksen, Lord, and Novick)
 #'
 #' @importFrom dplyr relocate bind_cols
+#' @importFrom rlang arg_match
 #'
 #' @return A S3 object of class `clinisig`
 #' @export
@@ -57,55 +58,71 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
     baseline = baseline
   )
 
+  # If type = "a" or "c", calculate mean and standard deviation based on the
+  # data. Otherwise, these will be NA
+  m_clinical <- sd_clinical <- NA
+  if (type != "b") {
+    m_pre <- mean(datasets[["data"]][["pre"]])
+    sd_pre <- sd(datasets[["data"]][["pre"]])
+  }
+
   n_obs <- list(
     n_original = nrow(datasets[["wide"]]),
     n_used = nrow(datasets[["data"]])
   )
 
 
-
   # Calculate cutoff
   direction <- 1
-  if (match.arg(better_is) == "lower") direction <- -1
+  if (arg_match(better_is) == "lower") direction <- -1
 
   cutoff <- .calc_cutoff_data(
     data = datasets[["data"]],
+    m_clinical = m_pre,
+    sd_clinical = sd_pre,
     m_functional = m_functional,
     sd_functional = sd_functional,
     type = type,
     direction = direction
   )
 
-  clinisig_method <- match.arg(method)
 
   # Calculate RCI
+  clinisig_method <- arg_match(method)
   if (clinisig_method == "JT") {
     rci <- .calc_rci_jt(
       data = datasets[["data"]],
+      sd_pre = sd_pre,
       reliability = reliability,
       direction = direction
     )
   } else if (clinisig_method == "GLN") {
     rci <- .calc_rci_gln(
       data = datasets[["data"]],
+      m_pre = m_pre,
+      sd_pre = sd_pre,
       reliability = reliability,
       direction = direction
     )
   } else if (clinisig_method == "EN") {
     rci <- .calc_rci_en(
       data = datasets[["data"]],
+      m_pre = m_pre,
+      sd_pre = sd_pre,
       reliability = reliability,
       direction = direction
     )
   }
 
 
-  # Calculate categories
-  categories <- .calc_categories(
+  # Calculate recovered
+  categories <- .calc_recovered(
     cutoff_data = cutoff[["data"]],
     rci_data = rci[["data"]]
   )
 
+
+  # Create a summary table for printing
   summary_table <- .create_summary_table(
     data = categories,
     n_obs = n_obs[["n_used"]]
@@ -138,7 +155,14 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
 #'
 #' @export
 print.clinisig <- function(x, ...) {
-  title_text <- paste0("Clinical Significance Results (", x[["method"]], ")")
+  clinisig_method <- x[["method"]]
+  if (length(x[["method"]]) > 1) {
+    clinisig_method <- x[["method"]][[1]]
+  } else {
+    clinisig_method <- x[["method"]]
+  }
+
+  title_text <- paste0("Clinical Significance Results (", clinisig_method, ")")
   summary_table <- x[["summary"]]
 
   cat(

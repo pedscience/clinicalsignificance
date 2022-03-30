@@ -13,11 +13,12 @@
 #'   `pre`), `lower`, `upper`, `improved`, `deteriorated`, and `unchanged`
 #'
 #' @noRd
-.calc_rci_en <- function(data, reliability, direction = 1) {
-  m_pre <- mean(data$pre)
-  sd_pre <- sd(data$pre)
+.calc_rci_en <- function(data, m_pre, sd_pre, reliability, direction = 1) {
   se_measurement <- .calc_se_measurement(sd_pre = sd_pre, reliability = reliability)
 
+
+  # Calculate confidence interval around the true pre score (adjusted for
+  # regression to the mean)
   confidence_borders <- data %>%
     mutate(
       pre_true = reliability * (.data$pre - m_pre) + m_pre,
@@ -25,6 +26,8 @@
       upper = .data$pre_true + 2 * se_measurement
     )
 
+
+  # Does post fall outside this interval?
   if (direction == 1) {
     rci_results <- confidence_borders %>%
       mutate(
@@ -41,11 +44,12 @@
       )
   }
 
-  rci_data <- rci_results %>%
+
+  data_rci_categories <- rci_results %>%
     select(.data$id, .data$pre_true, .data$lower, .data$upper, .data$improved:.data$unchanged)
 
   list(
     se_measurement = se_measurement,
-    data = rci_data
+    data = data_rci_categories
   )
 }

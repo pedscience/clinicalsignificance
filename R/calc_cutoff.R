@@ -14,7 +14,7 @@
 #'   categorization
 #'
 #' @noRd
-.calc_cutoff_data <- function(data, m_clinical = NA, sd_clinical = NA, m_functional = NA, sd_functional = NA, type = "a", direction = 1) {
+.calc_cutoff_data <- function(data, m_clinical, sd_clinical, m_functional, sd_functional, type = "a", direction = 1) {
   # Calculate cutoff
   cutoff_info <- .calc_cutoff(
     m_clinical = m_clinical,

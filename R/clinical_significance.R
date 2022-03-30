@@ -62,8 +62,8 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
   # data. Otherwise, these will be NA
   m_clinical <- sd_clinical <- NA
   if (type != "b") {
-    m_clinical <- mean(datasets[["data"]][["pre"]])
-    sd_clinical <- sd(datasets[["data"]][["pre"]])
+    m_pre <- mean(datasets[["data"]][["pre"]])
+    sd_pre <- sd(datasets[["data"]][["pre"]])
   }
 
   n_obs <- list(
@@ -72,39 +72,43 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
   )
 
 
-
   # Calculate cutoff
   direction <- 1
   if (arg_match(better_is) == "lower") direction <- -1
 
   cutoff <- .calc_cutoff_data(
     data = datasets[["data"]],
-    m_clinical = m_clinical,
-    sd_clinical = sd_clinical,
+    m_clinical = m_pre,
+    sd_clinical = sd_pre,
     m_functional = m_functional,
     sd_functional = sd_functional,
     type = type,
     direction = direction
   )
 
-  clinisig_method <- arg_match(method)
 
   # Calculate RCI
+  clinisig_method <- arg_match(method)
   if (clinisig_method == "JT") {
     rci <- .calc_rci_jt(
       data = datasets[["data"]],
+      sd_pre = sd_pre,
       reliability = reliability,
       direction = direction
     )
   } else if (clinisig_method == "GLN") {
     rci <- .calc_rci_gln(
       data = datasets[["data"]],
+      m_pre = m_pre,
+      sd_pre = sd_pre,
       reliability = reliability,
       direction = direction
     )
   } else if (clinisig_method == "EN") {
     rci <- .calc_rci_en(
       data = datasets[["data"]],
+      m_pre = m_pre,
+      sd_pre = sd_pre,
       reliability = reliability,
       direction = direction
     )

@@ -13,9 +13,7 @@
 #' @return A vector with RCIs
 #'
 #' @noRd
-.calc_rci_gln <- function(data, reliability, direction = 1) {
-  m_pre <- mean(data$pre)
-  sd_pre <- sd(data$pre)
+.calc_rci_gln <- function(data, m_pre, sd_pre, reliability, direction = 1) {
   se_prediction <- .calc_se_prediction(sd_pre = sd_pre, reliability = reliability)
 
 
@@ -30,7 +28,7 @@
 
 
   # Calculate categories
-  rci_results <- .calc_improvement(
+  data_rci_categories <- .calc_improvement(
     data = rci_data,
     rci_cutoff = 1.96,
     direction = direction
@@ -38,6 +36,6 @@
 
   list(
     se_prediction = se_prediction,
-    data = rci_results
+    data = data_rci_categories
   )
 }

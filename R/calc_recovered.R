@@ -15,7 +15,7 @@
 #' @return The full data frame with categories
 #'
 #' @noRd
-.calc_categories <- function(cutoff_data, rci_data) {
+.calc_recovered <- function(cutoff_data, rci_data) {
   rci_data %>%
     left_join(cutoff_data, by = "id") %>%
     mutate(

@@ -14,16 +14,7 @@
 #'   categorization
 #'
 #' @noRd
-.calc_cutoff_data <- function(data, m_functional = NA, sd_functional = NA, type = "a", direction = 1) {
-  # If type = "a" or "c", calculate mean and standard deviation based on the
-  # data. Otherwise, these will be NA
-  m_clinical <- sd_clinical <- NA
-  if (type != "b") {
-    m_clinical <- mean(data$pre)
-    sd_clinical <- sd(data$pre)
-  }
-
-
+.calc_cutoff_data <- function(data, m_clinical = NA, sd_clinical = NA, m_functional = NA, sd_functional = NA, type = "a", direction = 1) {
   # Calculate cutoff
   cutoff_info <- .calc_cutoff(
     m_clinical = m_clinical,
@@ -34,17 +25,18 @@
     direction = direction
   )
 
-  cutoff_criteria <- data %>%
+  data_cutoff_criteria <- data %>%
     mutate(
       clinical_pre    = ifelse(direction * .data$pre < direction * cutoff_info[["value"]], TRUE, FALSE),
       functional_post = ifelse(direction * .data$post > direction * cutoff_info[["value"]], TRUE, FALSE),
     ) %>%
     select(.data$id, .data$clinical_pre, .data$functional_post)
 
-  # Bind cutoff info and cutoff criteria together for further calculations
+  # Bind cutoff info and data with cutoff criteria together for further
+  # calculations
   list(
     info = cutoff_info,
-    data = cutoff_criteria
+    data = data_cutoff_criteria
   )
 }
 

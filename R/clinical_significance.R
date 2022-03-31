@@ -54,13 +54,9 @@ clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NU
   )
 
 
-  # If type = "a" or "c", calculate mean and standard deviation based on the
-  # data. Otherwise, these will be NA. Calculate descriptives for all methods.
-  m_clinical <- sd_clinical <- NA
-  if (type != "b") {
-    m_pre <- mean(datasets[["data"]][["pre"]])
-    sd_pre <- sd(datasets[["data"]][["pre"]])
-  }
+  # Calculate descriptives for all methods.
+  m_pre <- mean(datasets[["data"]][["pre"]])
+  sd_pre <- sd(datasets[["data"]][["pre"]])
   m_post <- mean(datasets[["data"]][["post"]])
   sd_post <- sd(datasets[["data"]][["post"]])
 
@@ -74,7 +70,7 @@ clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NU
   direction <- 1
   if (arg_match(better_is) == "lower") direction <- -1
 
-  cutoff <- .calc_cutoff_data(
+  cutoff <- .calc_cutoff_jt(
     data = datasets[["data"]],
     m_clinical = m_pre,
     sd_clinical = sd_pre,

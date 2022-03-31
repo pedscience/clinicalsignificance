@@ -14,7 +14,7 @@
 #'   categorization
 #'
 #' @noRd
-.calc_cutoff_data <- function(data, m_clinical, sd_clinical, m_functional, sd_functional, type = "a", direction = 1) {
+.calc_cutoff_jt <- function(data, m_clinical, sd_clinical, m_functional, sd_functional, type = "a", direction = 1) {
   # Calculate cutoff
   cutoff_info <- .calc_cutoff(
     m_clinical = m_clinical,
@@ -59,7 +59,28 @@
   if (type == "a") {
     cutoff <- m_clinical + (direction * 2 * sd_clinical)
   } else if (type == "b") {
-    cutoff <- m_functional - (direction * 2 * sd_functional)
+    cutoff <- m_functional - (direction * 2 * sd_clinical)
+  } else if (type == "c") {
+    cutoff <- (sd_clinical * m_functional + sd_functional * m_clinical) / (sd_clinical + sd_functional)
+  }
+
+  list(
+    m_clinical = m_clinical,
+    sd_clinical = sd_clinical,
+    m_functional = m_functional,
+    sd_functional = sd_functional,
+    type = type,
+    value = cutoff
+  )
+}
+
+
+.calc_cutoff_ha <- function(m_clinical, sd_clinical, reliability_clinical, m_functional, sd_functional, type = "a", direction = 1) {
+  # Calculate cutoffs based on type and direction
+  if (type == "a") {
+    cutoff <- m_clinical + (direction * 2 * sd_clinical)
+  } else if (type == "b") {
+    cutoff <- m_functional - (direction * 2 * sd_clinical)
   } else if (type == "c") {
     cutoff <- (sd_clinical * m_functional + sd_functional * m_clinical) / (sd_clinical + sd_functional)
   }

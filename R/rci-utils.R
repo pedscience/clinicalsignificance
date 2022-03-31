@@ -61,3 +61,16 @@
 .calc_se_prediction <- function(sd_pre, reliability) {
   sd_pre * sqrt(1 - reliability^2)
 }
+
+
+#' Calculate reliabilities like Hagemann & Arrindell
+#'
+#' @param sd A standard deviation. This may depend on the formula
+#' @param se_measurment Standard error of measurement for a given instrument
+#'
+#' @return A number
+#'
+#' @noRd
+.calc_reliability_ha <- function(sd, se_measurment) {
+  (sd^2 - se_measurment^2) / sd^2
+}

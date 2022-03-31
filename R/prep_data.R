@@ -12,40 +12,36 @@
 #' and post measurement).
 #'
 #' If the `time` column is numeric, the values will be sorted numerically. If
-#' the `time` column is of type character, you must provide a string for
-#' `baseline` (i.e., the pre measurement) because characters cannot be sorted in
-#' a meansingful way.
+#' the `time` column is of type character or factor, you must provide a string
+#' for `pre` because characters cannot be sorted in a meaningful way.
 #'
 #' @param data A tidy dataframe
 #' @param id Participant ID
 #' @param time Time variable
+#' @param pre Pre measurement
+#' @param post Post measurement
 #' @param outcome Outcome variable
-#' @param measurements If `time` contains more than two values, you can specify
-#'   your two measurements of interest as a vector
-#' @param baseline If your `time` is of type character, you can specify the pre
-#'   measurement
 #'
 #' @importFrom stats na.omit
 #' @importFrom dplyr select filter mutate group_by ungroup arrange rename pull
 #'   distinct last_col
 #' @importFrom tidyr pivot_wider
+#' @importFrom rlang abort inform .data
 #'
 #' @return A list containing the original data frame in wide format and the
 #'   useable data frame without missing values
 #'
 #' @noRd
-.prep_data <- function(data, id, time, outcome, measurements = NULL, baseline = NULL) {
-  pre <- post <- NULL
-
+.prep_data <- function(data, id, time, outcome, pre = NULL, post = NULL) {
   # Select relevant variables
   selected_data <- data %>%
     select(id = {{ id }}, time = {{ time }}, outcome = {{ outcome }})
 
 
   # If measurements are defined, filter data accordingly
-  if (!is.null(measurements)) {
+  if (!is.null(pre) & !is.null(post)) {
     selected_data <- selected_data %>%
-      filter(time %in% measurements)
+      filter(time %in% c(pre, post))
   }
 
 
@@ -55,29 +51,46 @@
     distinct(time) %>%
     nrow()
 
-  if (distinct_measurements != 2) stop("Your measurement column contains more than two measurements. Please specify which two measurements should be used.")
+  if (distinct_measurements > 2) abort("Your measurement column contains more than two measurements. \nPlease specify which two measurements should be used with arguments \"pre\" and \"post\".")
 
 
-  # Make sure that the data is sorted correctly (the baseline measurement should
+  # Make sure that the data is sorted correctly (the pre measurement should
   # always be sorted before any subsequent measurement)
-  if (is.numeric(pull(selected_data, time))) {
+  if (is.numeric(selected_data[["time"]])) {
     sorted_data <- selected_data %>%
       group_by(id) %>%
       arrange(id, time) %>%
       ungroup()
-  } else if (is.character(pull(selected_data, time))) {
-    sorted_data <- selected_data %>%
-      mutate(time = relevel(as.factor(time), baseline)) %>%
-      group_by(id) %>%
-      arrange(id, time) %>%
-      ungroup()
-      # select(id, time, outcome)
+  } else if (is.character(selected_data[["time"]])) {
+    if (is.null(pre)) {
+      sorted_levels <- levels(as.factor(selected_data[["time"]]))
+      information <- paste0("Your \"", sorted_levels[1], "\" was set as pre measurement and and your \"", sorted_levels[2], "\" as post.")
+      inform(information, use_cli_format = TRUE, footer = "If that is not correct, please specify the pre measurement with the argument \"pre\".")
 
-    if (is.null(baseline)) {
-      sorted_levels <- levels(pull(sorted_data, time))
-      warning_message <- paste0("Your pre measurement is \"", sorted_levels[1], "\" and your post measurement is \"", sorted_levels[2], "\".\n If that is not correct, please specify the baseline.")
-      warning(warning_message, call. = FALSE)
+      # If pre is not defined, use first level as baseline
+      pre <- sorted_levels[[1]]
     }
+
+    # Sort strings
+    sorted_data <- selected_data %>%
+      mutate(time = relevel(as.factor(time), pre)) %>%
+      group_by(id) %>%
+      arrange(id, time) %>%
+      ungroup()
+  } else if (is.factor(selected_data[["time"]])) {
+    if (is.null(pre)) {
+      sorted_levels <- levels(selected_data[["time"]])
+      information <- paste0("Your \"", sorted_levels[1], "\" was set as pre measurement and and your \"", sorted_levels[2], "\" as post.")
+      inform(information, use_cli_format = TRUE, footer = "If that is not correct, please specify the pre measurement with the argument \"pre\".")
+      pre <- sorted_levels[[1]]
+    }
+
+    # Sort factors
+    sorted_data <- selected_data %>%
+      mutate(time = relevel(as.factor(time), pre)) %>%
+      group_by(id) %>%
+      arrange(id, time) %>%
+      ungroup()
   }
 
 
@@ -95,7 +108,7 @@
   used_data <- wide_data %>%
     na.omit() %>%
     mutate(
-      change = post - pre
+      change = .data$post - .data$pre
     )
 
   list(

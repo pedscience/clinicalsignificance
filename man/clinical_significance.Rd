@@ -9,8 +9,8 @@ clinical_significance(
   id,
   time,
   outcome,
-  measurements = NULL,
-  baseline = NULL,
+  pre = NULL,
+  post = NULL,
   m_functional = NA,
   sd_functional = NA,
   type = "a",
@@ -28,11 +28,9 @@ clinical_significance(
 
 \item{outcome}{Outcome variable}
 
-\item{measurements}{If \code{time} contains more than two values, you can specify
-your two measurements of interest as a vector}
+\item{pre}{Pre measurement}
 
-\item{baseline}{If your \code{time} is of type character, you can specify the pre
-measurement}
+\item{post}{Post measurement}
 
 \item{m_functional}{Mean of the functional population}
 

@@ -4,10 +4,8 @@
 #' @param id Participant ID
 #' @param time Time variable
 #' @param outcome Outcome variable
-#' @param measurements If `time` contains more than two values, you can specify
-#'   your two measurements of interest as a vector
-#' @param baseline If your `time` is of type character, you can specify the pre
-#'   measurement
+#' @param pre Pre measurement
+#' @param post Post measurement
 #' @param m_functional Mean of the functional population
 #' @param sd_functional Standard deviation of the functional population
 #' @param type Cutoff type. Available are `"a"`, `"b"`, and `"c"`. Defaults to
@@ -19,32 +17,29 @@
 #'   & Truax) and `\"GLN\"` (Gulliksen, Lord, and Novick)
 #'
 #' @importFrom dplyr relocate bind_cols
-#' @importFrom rlang arg_match
+#' @importFrom rlang arg_match abort warn
+#' @importFrom checkmate assert_number
 #'
 #' @return A S3 object of class `clinisig`
 #' @export
-clinical_significance <- function(data, id, time, outcome, measurements = NULL, baseline = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, better_is = c("lower", "higher"), method = c("JT", "GLN", "EN")) {
+clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, better_is = c("lower", "higher"), method = c("JT", "GLN", "EN")) {
   # Check if arguments are set correctly
   if (missing(id)) stop("You must specify an ID column.")
   if (missing(time)) stop("You must specify a column indicating the different measurements.")
   if (missing(outcome)) stop("You must specify an outcome.")
-
-
-  # Sanity checks
-  if (!missing(measurements) & length(measurements) != 2) stop("If you specify time levels, you must specify only two.")
-  if (!missing(baseline) & length(baseline) != 1) stop("If you specify a baseline measurement, you must specify only one.")
+  assert_number(reliability, lower = 0, upper = 1)
 
 
   # Check if all necessary information is provided
   if (type != "a" & (missing(m_functional) | missing(sd_functional))) {
-    stop(paste0("To calculate cutoff \"", type, "\", summary statistics for the functional population must be defined."))
+    abort(paste0("To calculate cutoff \"", type, "\", summary statistics for the functional population must be defined."))
   }
 
 
   # If type = "a", discard information of the functional population and give a warning
   if (type == "a" & (!is.na(m_functional) | !is.na(sd_functional))) {
     m_functional <- sd_functional <- NA_real_
-    warning("You selected cutoff type \"a\" and provided summary statistics for the functional population. This information will be dicarded.\nIf you wand to incorporate data from the functional population for the cutoff, choose type = \"b\" or \"c\"", call. = FALSE)
+    warn("You selected cutoff type \"a\" and provided summary statistics for the functional population. This information will be dicarded.\nIf you wand to incorporate data from the functional population for the cutoff, choose type = \"b\" or \"c\"", call. = FALSE)
   }
 
 
@@ -54,9 +49,10 @@ clinical_significance <- function(data, id, time, outcome, measurements = NULL, 
     id = {{ id }},
     time = {{ time }},
     outcome = {{ outcome }},
-    measurements = measurements,
-    baseline = baseline
+    pre = pre,
+    post = post
   )
+
 
   # If type = "a" or "c", calculate mean and standard deviation based on the
   # data. Otherwise, these will be NA

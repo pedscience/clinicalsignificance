@@ -16,7 +16,7 @@ clinical_significance(
   type = "a",
   reliability,
   better_is = c("lower", "higher"),
-  method = c("JT", "GLN", "EN")
+  method = c("JT", "GLN", "EN", "HA")
 )
 }
 \arguments{
@@ -42,7 +42,7 @@ clinical_significance(
 \item{reliability}{The instrument's reliability estimate.}
 
 \item{better_is}{Which direction means a better outcome? Available are
-\code{"lower"} and \code{"higher"}. Defaults to \code{"higher"}.}
+\code{"lower"} and \code{"higher"}. Defaults to \code{"lower"}.}
 
 \item{method}{Clinical significance method. Available are \verb{\\"JT\\"} (Jacobson
 & Truax) and \verb{\\"GLN\\"} (Gulliksen, Lord, and Novick)}

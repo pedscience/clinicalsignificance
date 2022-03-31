@@ -12,7 +12,7 @@
 #'   `"a"` (see details for further information in which cutoff to choose).
 #' @param reliability The instrument's reliability estimate.
 #' @param better_is Which direction means a better outcome? Available are
-#'   `"lower"` and `"higher"`. Defaults to `"higher"`.
+#'   `"lower"` and `"higher"`. Defaults to `"lower"`.
 #' @param method Clinical significance method. Available are `\"JT\"` (Jacobson
 #'   & Truax) and `\"GLN\"` (Gulliksen, Lord, and Novick)
 #'
@@ -55,7 +55,7 @@ clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NU
 
 
   # If type = "a" or "c", calculate mean and standard deviation based on the
-  # data. Otherwise, these will be NA
+  # data. Otherwise, these will be NA. Calculate descriptives for all methods.
   m_clinical <- sd_clinical <- NA
   if (type != "b") {
     m_pre <- mean(datasets[["data"]][["pre"]])

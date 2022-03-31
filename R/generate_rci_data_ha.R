@@ -18,7 +18,7 @@
 
   tibble(
     pre = lower_limit:upper_limit,
-    ymin = (-1.65 * sqrt(r_dd) * sqrt(2 * se_measurement^2) - (m_post - m_pre) * (1 - r_dd) + pre * r_dd) / r_dd,
-    ymax = (1.65 * sqrt(r_dd) * sqrt(2 * se_measurement^2) - (m_post - m_pre) * (1 - r_dd) + pre * r_dd) / r_dd
+    ymin = (-1.65 * sqrt(r_dd) * sqrt(2 * se_measurement^2) - (m_post - m_pre) * (1 - r_dd) + .data$pre * r_dd) / r_dd,
+    ymax = (1.65 * sqrt(r_dd) * sqrt(2 * se_measurement^2) - (m_post - m_pre) * (1 - r_dd) + .data$pre * r_dd) / r_dd
   )
 }

@@ -29,7 +29,7 @@ plot.clinisig <- function(x, lower_limit = 0, upper_limit = 100, limit_tolerance
   data <- get_augmented_data(x)
   cutoff <- get_cutoff(x)[["value"]]
 
-  if (!(clinisig_method %in% c("JT", "EN", "GLN"))) abort(paste0("Currently, there is no print method implemented for clinical significance method ", clinisig_method))
+  if (!(clinisig_method %in% c("JT", "EN", "GLN", "HA"))) abort(paste0("Currently, there is no print method implemented for clinical significance method ", clinisig_method))
 
   # Determine x and y limits for plotting. Overplotting is needed because we
   # want the ribbon to be at the edge of the plot, requiring expand = FALSE in
@@ -54,6 +54,12 @@ plot.clinisig <- function(x, lower_limit = 0, upper_limit = 100, limit_tolerance
     )
   } else if (clinisig_method == "EN") {
     rci_data <- .generate_rci_data_en(
+      x = x,
+      lower_limit = lower_limit,
+      upper_limit = upper_limit
+    )
+  } else if (clinisig_method == "HA") {
+    rci_data <- .generate_rci_data_ha(
       x = x,
       lower_limit = lower_limit,
       upper_limit = upper_limit

@@ -90,6 +90,9 @@
 
   list(
     info = cutoff_info,
+    reliability_post = reliability_post,
+    m_post = m_post,
+    sd_post = sd_post,
     data = data_cutoff_criteria
   )
 }

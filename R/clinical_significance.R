@@ -206,7 +206,7 @@ print.clinisig <- function(x, ...) {
 
   if (clinisig_method == "HA") {
     caption <- list(
-      c("Clinical Significance Results (HA Individual)", "blue"),
+      c("Clinical Significance Results (HA Individual Level)", "blue"),
       c("Clinical Significance Results (HA Group Level)", "blue")
     )
   }

@@ -24,9 +24,9 @@
 #' @export
 clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, better_is = c("lower", "higher"), method = c("JT", "GLN", "EN", "HA")) {
   # Check if arguments are set correctly
-  if (missing(id)) stop("You must specify an ID column.")
-  if (missing(time)) stop("You must specify a column indicating the different measurements.")
-  if (missing(outcome)) stop("You must specify an outcome.")
+  if (missing(id)) abort("You must specify an ID column.")
+  if (missing(time)) abort("You must specify a column indicating the different measurements.")
+  if (missing(outcome)) abort("You must specify an outcome.")
   assert_number(reliability, lower = 0, upper = 1)
 
 
@@ -54,35 +54,55 @@ clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NU
   )
 
 
-  # Calculate descriptives for all methods.
-  m_pre <- mean(datasets[["data"]][["pre"]])
-  sd_pre <- sd(datasets[["data"]][["pre"]])
-  m_post <- mean(datasets[["data"]][["post"]])
-  sd_post <- sd(datasets[["data"]][["post"]])
-
+  # Count participants
   n_obs <- list(
     n_original = nrow(datasets[["wide"]]),
     n_used = nrow(datasets[["data"]])
   )
 
 
+  # Calculate relevant descriptives for the method of choice
+  clinisig_method <- arg_match(method)
+  m_pre <- mean(datasets[["data"]][["pre"]])
+  sd_pre <- sd(datasets[["data"]][["pre"]])
+  if (clinisig_method == "HA") {
+    m_post <- mean(datasets[["data"]][["post"]])
+    sd_post <- sd(datasets[["data"]][["post"]])
+  }
+
+
+
   # Calculate cutoff
   direction <- 1
   if (arg_match(better_is) == "lower") direction <- -1
 
-  cutoff <- .calc_cutoff_jt(
-    data = datasets[["data"]],
-    m_clinical = m_pre,
-    sd_clinical = sd_pre,
-    m_functional = m_functional,
-    sd_functional = sd_functional,
-    type = type,
-    direction = direction
-  )
+  if (clinisig_method != "HA") {
+    cutoff <- .calc_cutoff_jt_data(
+      data = datasets[["data"]],
+      m_clinical = m_pre,
+      sd_clinical = sd_pre,
+      m_functional = m_functional,
+      sd_functional = sd_functional,
+      type = type,
+      direction = direction
+    )
+  } else if (clinisig_method == "HA") {
+    cutoff <- .calc_cutoff_ha_data(
+      data = datasets[["data"]],
+      m_clinical = m_pre,
+      sd_clinical = sd_pre,
+      m_functional = m_functional,
+      sd_functional = sd_functional,
+      m_post = m_post,
+      sd_post = sd_post,
+      reliability = reliability,
+      type = type,
+      direction = direction
+    )
+  }
 
 
   # Calculate RCI
-  clinisig_method <- arg_match(method)
   if (clinisig_method == "JT") {
     rci <- .calc_rci_jt(
       data = datasets[["data"]],
@@ -120,10 +140,17 @@ clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NU
 
 
   # Calculate recovered
-  categories <- .calc_recovered(
-    cutoff_data = cutoff[["data"]],
-    rci_data = rci[["data"]]
-  )
+  if (clinisig_method != "HA") {
+    categories <- .calc_recovered(
+      cutoff_data = cutoff[["data"]],
+      rci_data = rci[["data"]]
+    )
+  } else if (clinisig_method == "HA") {
+    categories <- .calc_recovered_ha(
+      cutoff_data = cutoff[["data"]],
+      rci_data = rci[["data"]]
+    )
+  }
 
 
   # Create a summary table for printing

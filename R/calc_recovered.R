@@ -22,23 +22,25 @@
 
 
 
-#' Title
+#' Calculate Categories based on an RCI
 #'
-#' @param cutoff_data
-#' @param rci_data
+#' @param cutoff_data A data frame containing categorizations based on the
+#'   cutoff
+#' @param rci_data A data frame containing categorizations based on the RCI
 #'
-#' @return
-#' @export
+#' @importFrom rlang .data
 #'
-#' @examples
+#' @return The full data frame with categories
+#'
+#' @noRd
 .calc_recovered_ha <- function(cutoff_data, rci_data) {
   cutoff_data %>%
     left_join(rci_data, by = "id") %>%
     mutate(
-      recovered = functional_post & improved,
-      improved = ifelse(recovered, FALSE, improved)
+      recovered = .data$functional_post & .data$improved,
+      improved = ifelse(.data$recovered, FALSE, .data$improved)
     ) %>%
-    relocate(rci, .after = cs_indiv) %>%
-    relocate(recovered, .after = functional_post) %>%
-    relocate(unchanged, .after = improved)
+    relocate(.data$rci, .after = .data$cs_indiv) %>%
+    relocate(.data$recovered, .after = .data$functional_post) %>%
+    relocate(.data$unchanged, .after = .data$improved)
 }

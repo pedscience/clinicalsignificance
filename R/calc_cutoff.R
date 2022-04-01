@@ -56,6 +56,8 @@
 #' @param type Cutoff type, available are `"a"`, `"b"`, and `"c"`
 #' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
+#' @importFrom rlang .data
+#'
 #' @return A list with cutoff info and participant wise info on cutoff
 #'   categorization
 #'
@@ -81,10 +83,10 @@
 
   data_cutoff_criteria <- data %>%
     mutate(
-      cs_indiv = (m_post + (post - m_post) * reliability_post - cutoff) / (sqrt(reliability_post) * se_measurement),
-      functional_post = ifelse(direction * cs_indiv > 1.65, TRUE, FALSE)
+      cs_indiv = (m_post + (.data$post - m_post) * reliability_post - cutoff) / (sqrt(reliability_post) * se_measurement),
+      functional_post = ifelse(direction * .data$cs_indiv > 1.65, TRUE, FALSE)
     ) %>%
-    select(id, cs_indiv, functional_post)
+    select(.data$id, .data$cs_indiv, .data$functional_post)
 
   list(
     info = cutoff_info,

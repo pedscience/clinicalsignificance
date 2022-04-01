@@ -83,7 +83,8 @@
     mutate(
       cs_indiv = (m_post + (post - m_post) * reliability_post - cutoff) / (sqrt(reliability_post) * se_measurement),
       functional_post = ifelse(direction * cs_indiv > 1.65, TRUE, FALSE)
-    )
+    ) %>%
+    select(id, cs_indiv, functional_post)
 
   list(
     info = cutoff_info,

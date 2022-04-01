@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{A clinicsig object}
 
-\item{...}{Additional arguments}
+\item{...}{Additional arguments passed to \code{export_table()}}
 }
 \description{
 Print Clinical Significance Results

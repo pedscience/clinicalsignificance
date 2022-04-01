@@ -159,6 +159,19 @@ clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NU
     n_obs = n_obs[["n_used"]]
   )
 
+  if (clinisig_method == "HA") {
+    group_level_summary <- .create_summary_table_ha(
+      data = datasets[["data"]],
+      r_dd = rci[["r_dd"]],
+      se_measurement = rci[["se_measurement"]],
+      cutoff = cutoff[["info"]][["value"]],
+      mean_post = m_post,
+      sd_post = sd_post
+    )
+
+    summary_table <- list(summary_table, group_level_summary)
+  }
+
 
   # Results
   out <- list(
@@ -180,28 +193,30 @@ clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NU
 #' Print Clinical Significance Results
 #'
 #' @param x A clinicsig object
-#' @param ... Additional arguments
+#' @param ... Additional arguments passed to `export_table()`
 #'
 #' @importFrom insight export_table
 #'
 #' @export
 print.clinisig <- function(x, ...) {
-  clinisig_method <- x[["method"]]
-  if (length(x[["method"]]) > 1) {
-    clinisig_method <- x[["method"]][[1]]
-  } else {
-    clinisig_method <- x[["method"]]
-  }
+  clinisig_method <- get_clinical_significance_method(x)
 
-  title_text <- paste0("Clinical Significance Results (", clinisig_method, ")")
+  caption <- c(paste0("Clinical Significance Results (", clinisig_method, ")"), "blue")
   summary_table <- x[["summary"]]
+
+  if (clinisig_method == "HA") {
+    caption <- list(
+      c("Clinical Significance Results (HA Individual)", "blue"),
+      c("Clinical Significance Results (HA Group Level)", "blue")
+    )
+  }
 
   cat(
     export_table(
       summary_table,
       width = c(n = 5),
       digits = 3,
-      caption = c(title_text, "blue"),
+      caption = caption,
       ...
     )
   )

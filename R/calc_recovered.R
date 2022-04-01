@@ -14,7 +14,8 @@
   rci_data %>%
     left_join(cutoff_data, by = "id") %>%
     mutate(
-      recovered = .data$clinical_pre & .data$functional_post & .data$improved
+      recovered = .data$clinical_pre & .data$functional_post & .data$improved,
+      improved = ifelse(.data$recovered, FALSE, .data$improved)
     ) %>%
     relocate(.data$clinical_pre, .data$functional_post, .data$recovered, .before = .data$improved) %>%
     relocate(.data$unchanged, .after = .data$improved)

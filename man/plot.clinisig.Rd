@@ -14,6 +14,7 @@
   ab_line_color = "black",
   show = NULL,
   include_cutoff = TRUE,
+  include_cutoff_band = FALSE,
   x_lab = "Pre",
   y_lab = "Post",
   ...
@@ -43,6 +44,9 @@ Available are \code{"recovered"}, \code{"improved"}, \code{"deteriorated"}, or
 
 \item{include_cutoff}{Logical, should the clinical cutoff be plotted as well?
 Defaults to \code{TRUE}.}
+
+\item{include_cutoff_band}{If method was HA, a region of uncertainty around
+the cutoff can be plotted}
 
 \item{x_lab}{String, x axis label. Default is \code{"Pre"}.}
 

@@ -23,7 +23,7 @@
 
 
 
-#' Calculate Categories based on an RCI
+#' Calculate Categories based on an RCI for Hagemann and Arrindell
 #'
 #' @param cutoff_data A data frame containing categorizations based on the
 #'   cutoff

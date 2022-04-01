@@ -15,6 +15,8 @@
 #'   `"unchanged"`.
 #' @param include_cutoff Logical, should the clinical cutoff be plotted as well?
 #'   Defaults to `TRUE`.
+#' @param include_cutoff_band If method was HA, a region of uncertainty around
+#'   the cutoff can be plotted
 #' @param x_lab String, x axis label. Default is `"Pre"`.
 #' @param y_lab String, y axis label. Default is `"Post"`.
 #' @param ... Additional arguments
@@ -80,7 +82,7 @@ plot.clinisig <- function(x, lower_limit = 0, upper_limit = 100, limit_tolerance
     geom_abline(color = ab_line_color),
     if (include_cutoff) geom_hline(yintercept = cutoff, lty = 2),
     if (include_cutoff) geom_vline(xintercept = cutoff, lty = 2),
-    if (include_cutoff_band) geom_ribbon(data = cs_data, aes(y = NULL, ymin = ymin, ymax = ymax), alpha = rci_alpha),
+    if (include_cutoff_band) geom_ribbon(data = cs_data, aes(y = NULL, ymin = .data$ymin, ymax = .data$ymax), alpha = rci_alpha),
     if (is.null(show)) geom_point() else geom_point(aes_(color = as.name(show)))
   )
 

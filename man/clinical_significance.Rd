@@ -15,8 +15,9 @@ clinical_significance(
   sd_functional = NA,
   type = "a",
   reliability,
+  reliability_post,
   better_is = c("lower", "higher"),
-  method = c("JT", "GLN", "HLL", "EN", "HA", "HLM")
+  method = c("JT", "GLN", "HLL", "EN", "NK", "HA", "HLM")
 )
 }
 \arguments{

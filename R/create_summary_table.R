@@ -6,6 +6,7 @@
 #'
 #' @importFrom tidyr pivot_longer everything
 #' @importFrom dplyr summarise mutate across
+#' @importFrom tools toTitleCase
 #'
 #' @noRd
 .create_summary_table <- function(data, n_obs) {
@@ -13,7 +14,7 @@
 
   data %>%
     summarise(
-      across(recovered:deteriorated, sum)
+      across(recovered:harmed, sum)
     ) %>%
     pivot_longer(
       cols = everything(),
@@ -21,7 +22,8 @@
       values_to = "n"
     ) %>%
     mutate(
-      percent = n / n_obs
+      percent = n / n_obs,
+      category = toTitleCase(category)
     )
 }
 

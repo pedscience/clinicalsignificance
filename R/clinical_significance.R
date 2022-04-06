@@ -22,14 +22,15 @@
 #'
 #' @return A S3 object of class `clinisig`
 #' @export
-clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, better_is = c("lower", "higher"), method = c("JT", "GLN", "HLL", "EN", "HA", "HLM")) {
+clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, reliability_post, better_is = c("lower", "higher"), method = c("JT", "GLN", "HLL", "EN", "NK", "HA", "HLM")) {
   # Check if arguments are set correctly
   clinisig_method <- arg_match(method)
   if (missing(id)) abort("You must specify an ID column.")
   if (missing(time)) abort("You must specify a column indicating the different measurements.")
   if (missing(outcome)) abort("You must specify an outcome.")
-  if (clinisig_method == "HLM") abort("This method is not currently implemented.")
   assert_number(reliability, lower = 0, upper = 1)
+  if (clinisig_method == "NK" & !missing(reliability_post)) assert_number(reliability_post, lower = 0, upper = 1)
+  if (clinisig_method != "NK" & !missing(reliability_post)) inform(c("i" = "You specified a reliability estimate for the post measurement but did not choose the NK method."), footer = c("*" = "Your post measurement reliability estimate will be ignored."), use_cli_format = TRUE)
 
 
   # Check if all necessary information is provided
@@ -133,6 +134,21 @@ clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NU
       m_pre = m_pre,
       sd_pre = sd_pre,
       reliability = reliability,
+      direction = direction
+    )
+  } else if (clinisig_method == "NK") {
+    if (missing(reliability_post)) {
+      reliability_post <- reliability
+      inform(c("i" = "The NK method requires reliability estimates for pre and post measurements."), footer = c("*" = "You can specify the post reliability with the \"reliabilit_post\" argument. For now, reliability post was set to reliability pre."), use_cli_format = TRUE)
+    }
+
+
+    rci <- .calc_rci_nk(
+      data = datasets[["data"]],
+      m_pre = m_pre,
+      sd_pre = sd_pre,
+      reliability_pre = reliability,
+      reliability_post = reliability_post,
       direction = direction
     )
   } else if (clinisig_method == "HA") {

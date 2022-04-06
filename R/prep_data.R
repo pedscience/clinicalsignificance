@@ -81,7 +81,7 @@
     if (is.null(pre)) {
       sorted_levels <- levels(selected_data[["time"]])
       information <- paste0("Your \"", sorted_levels[1], "\" was set as pre measurement and and your \"", sorted_levels[2], "\" as post.")
-      inform(information, use_cli_format = TRUE, footer = "If that is not correct, please specify the pre measurement with the argument \"pre\".")
+      inform(c("i" = information), footer = c("*" = "If that is not correct, please specify the pre measurement with the argument \"pre\"."), use_cli_format = TRUE)
       pre <- sorted_levels[[1]]
     }
 

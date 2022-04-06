@@ -16,7 +16,7 @@ clinical_significance(
   type = "a",
   reliability,
   better_is = c("lower", "higher"),
-  method = c("JT", "GLN", "EN", "HA")
+  method = c("JT", "GLN", "HLL", "EN", "HA", "HLM")
 )
 }
 \arguments{

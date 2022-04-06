@@ -117,3 +117,31 @@
     data = used_data
   )
 }
+
+
+#' Prepare data for HLM method
+#'
+#' @param data A tidy data frame with at least columns indicating id, time and
+#'   an outcome
+#' @param id Participant ID
+#' @param time Measurement
+#' @param outcome Outcome
+#'
+#' @return A list with original and prepped data
+#'
+#' @noRd
+.prep_data_hlm <- function(data, id, time, outcome) {
+  used_data <- data %>%
+    select(id = {{ id }}, time = {{ time }}, outcome = {{ outcome }}) %>%
+    mutate(id = as.character(id))
+
+  min_time <- min(used_data[["time"]])
+  max_time <- max(used_data[["time"]])
+
+  list(
+    original = data,
+    data = used_data,
+    min_time = min_time,
+    max_time = max_time
+  )
+}

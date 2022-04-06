@@ -22,11 +22,13 @@
 #'
 #' @return A S3 object of class `clinisig`
 #' @export
-clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, better_is = c("lower", "higher"), method = c("JT", "GLN", "EN", "HA")) {
+clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, better_is = c("lower", "higher"), method = c("JT", "GLN", "HLL", "EN", "HA", "HLM")) {
   # Check if arguments are set correctly
+  clinisig_method <- arg_match(method)
   if (missing(id)) abort("You must specify an ID column.")
   if (missing(time)) abort("You must specify a column indicating the different measurements.")
   if (missing(outcome)) abort("You must specify an outcome.")
+  if (clinisig_method == "HLM") abort("This method is not currently implemented.")
   assert_number(reliability, lower = 0, upper = 1)
 
 
@@ -62,14 +64,12 @@ clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NU
 
 
   # Calculate relevant descriptives for the method of choice
-  clinisig_method <- arg_match(method)
   m_pre <- mean(datasets[["data"]][["pre"]])
   sd_pre <- sd(datasets[["data"]][["pre"]])
-  if (clinisig_method == "HA") {
+  if (clinisig_method %in% c("HLL", "HA")) {
     m_post <- mean(datasets[["data"]][["post"]])
     sd_post <- sd(datasets[["data"]][["post"]])
   }
-
 
 
   # Calculate cutoff
@@ -115,6 +115,15 @@ clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NU
       data = datasets[["data"]],
       m_pre = m_pre,
       sd_pre = sd_pre,
+      reliability = reliability,
+      direction = direction
+    )
+  } else if (clinisig_method == "HLL") {
+    rci <- .calc_rci_hll(
+      data = datasets[["data"]],
+      m_pre = m_pre,
+      sd_pre = sd_pre,
+      m_post = m_post,
       reliability = reliability,
       direction = direction
     )

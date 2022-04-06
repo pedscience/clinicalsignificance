@@ -41,7 +41,8 @@
     left_join(rci_data, by = "id") %>%
     mutate(
       recovered = .data$functional_post & .data$improved,
-      improved = ifelse(.data$recovered, FALSE, .data$improved)
+      improved = ifelse(.data$recovered, FALSE, .data$improved),
+      harmed = FALSE
     ) %>%
     relocate(.data$rci, .after = .data$cs_indiv) %>%
     relocate(.data$recovered, .after = .data$functional_post) %>%

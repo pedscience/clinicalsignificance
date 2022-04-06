@@ -14,10 +14,10 @@
   rci_data %>%
     left_join(cutoff_data, by = "id") %>%
     mutate(
-      recovered = clinical_pre & functional_post & improved,
-      improved = ifelse(recovered, FALSE, improved),
-      harmed = !clinical_pre & !functional_post & deteriorated,
-      deteriorated = ifelse(harmed, FALSE, deteriorated)
+      recovered = .data$clinical_pre & .data$functional_post & .data$improved,
+      improved = ifelse(.data$recovered, FALSE, .data$improved),
+      harmed = !.data$clinical_pre & !.data$functional_post & .data$deteriorated,
+      deteriorated = ifelse(.data$harmed, FALSE, .data$deteriorated)
     ) %>%
     relocate(.data$clinical_pre, .data$functional_post, .data$recovered, .before = .data$improved) %>%
     relocate(.data$unchanged, .after = .data$improved)

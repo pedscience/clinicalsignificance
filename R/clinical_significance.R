@@ -10,7 +10,11 @@
 #' @param sd_functional Standard deviation of the functional population
 #' @param type Cutoff type. Available are `"a"`, `"b"`, and `"c"`. Defaults to
 #'   `"a"` (see details for further information in which cutoff to choose).
-#' @param reliability The instrument's reliability estimate.
+#' @param reliability The instrument's reliability estimate. If you selected the
+#'   NK method, the here specified reliability will be the instrument's pre
+#'   measurement reliability.
+#' @param reliability_post The instrument's reliability at post measurement.
+#'   This is only relevant for the NK method.
 #' @param better_is Which direction means a better outcome? Available are
 #'   `"lower"` and `"higher"`. Defaults to `"lower"`.
 #' @param method Clinical significance method. Available are `\"JT\"` (Jacobson

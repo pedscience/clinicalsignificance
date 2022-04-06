@@ -40,7 +40,12 @@ clinical_significance(
 \item{type}{Cutoff type. Available are \code{"a"}, \code{"b"}, and \code{"c"}. Defaults to
 \code{"a"} (see details for further information in which cutoff to choose).}
 
-\item{reliability}{The instrument's reliability estimate.}
+\item{reliability}{The instrument's reliability estimate. If you selected the
+NK method, the here specified reliability will be the instrument's pre
+measurement reliability.}
+
+\item{reliability_post}{The instrument's reliability at post measurement.
+This is only relevant for the NK method.}
 
 \item{better_is}{Which direction means a better outcome? Available are
 \code{"lower"} and \code{"higher"}. Defaults to \code{"lower"}.}

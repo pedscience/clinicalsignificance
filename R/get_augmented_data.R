@@ -3,6 +3,7 @@
 #' @inheritParams get_data
 #'
 #' @importFrom dplyr left_join case_when
+#' @importFrom rlang .data
 #'
 #' @return A tibble with used data and clinical significance categories
 #' @export
@@ -19,6 +20,6 @@ get_augmented_data <- function(x) {
         deteriorated ~ "Deteriorated",
         harmed ~ "Harmed"
       ),
-      category = factor(category, levels = c("Recovered", "Improved", "Unchanged", "Deteriorated", "Harmed"))
+      category = factor(.data$category, levels = c("Recovered", "Improved", "Unchanged", "Deteriorated", "Harmed"))
     )
 }

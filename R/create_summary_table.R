@@ -4,17 +4,16 @@
 #' @param n_obs "n_obs" element from a clinisig object, used for
 #'   calculating percentages
 #'
+#' @importFrom rlang .data
 #' @importFrom tidyr pivot_longer everything
 #' @importFrom dplyr summarise mutate across
 #' @importFrom tools toTitleCase
 #'
 #' @noRd
 .create_summary_table <- function(data, n_obs) {
-  recovered <- deteriorated <- n <-  NULL
-
   data %>%
     summarise(
-      across(recovered:harmed, sum)
+      across(.data$recovered:.data$harmed, sum)
     ) %>%
     pivot_longer(
       cols = everything(),
@@ -22,8 +21,8 @@
       values_to = "n"
     ) %>%
     mutate(
-      percent = n / n_obs,
-      category = toTitleCase(category)
+      percent = .data$n / n_obs,
+      category = toTitleCase(.data$category)
     )
 }
 

@@ -8,10 +8,9 @@
 #' @return A tibble with used data and clinical significance categories
 #' @export
 get_augmented_data <- function(x) {
-  used_data <- x[["datasets"]][["data"]]
   categories <- x[["categories"]]
 
-  left_join(used_data, categories, by = "id") %>%
+  categories %>%
     mutate(
       category = case_when(
         recovered ~ "Recovered",

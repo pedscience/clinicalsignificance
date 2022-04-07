@@ -32,10 +32,10 @@
 #'   useable data frame without missing values
 #'
 #' @noRd
-.prep_data <- function(data, id, time, outcome, pre = NULL, post = NULL) {
+.prep_data <- function(data, id, time, outcome, group = NULL, pre = NULL, post = NULL) {
   # Select relevant variables
   selected_data <- data %>%
-    select(id = {{ id }}, time = {{ time }}, outcome = {{ outcome }})
+    select(id = {{ id }}, group = {{ group }}, time = {{ time }}, outcome = {{ outcome }}, )
 
 
   # If measurements are defined, filter data accordingly

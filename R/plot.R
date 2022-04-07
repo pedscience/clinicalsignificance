@@ -26,10 +26,23 @@
 #'
 #' @return A ggplot2 plot
 #' @export
-plot.clinisig <- function(x, lower_limit = 0, upper_limit = 100, limit_tolerance = 0.02, rci_fill = "grey10", rci_alpha = 0.1, ab_line_color = "black", show = NULL, include_cutoff = TRUE, include_cutoff_band = FALSE, x_lab = "Pre", y_lab = "Post", ...) {
+plot.clinisig <- function(x,
+                          lower_limit = 0,
+                          upper_limit = 100,
+                          rci_fill = "grey10",
+                          rci_alpha = 0.1,
+                          ab_line_color = "black",
+                          show = NULL,
+                          include_cutoff = TRUE,
+                          include_cutoff_band = FALSE,
+                          x_lab = "Pre",
+                          y_lab = "Post",
+                          limit_tolerance = 0.02, ...
+                          ) {
   clinisig_method <- get_clinical_significance_method(x)
   data <- get_augmented_data(x)
   cutoff <- get_cutoff(x)[["value"]]
+  if (is.null(show) & .has_group(data)) show <- "group"
 
   if (clinisig_method != "HA" & include_cutoff_band) abort("A cutoff band can only be shown for method HA.")
   if (!(clinisig_method %in% c("JT", "EN", "GLN", "HA", "HLL", "NK"))) abort(paste0("Currently, there is no print method implemented for clinical significance method ", clinisig_method))

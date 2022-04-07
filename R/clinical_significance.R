@@ -26,7 +26,7 @@
 #'
 #' @return A S3 object of class `clinisig`
 #' @export
-clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, reliability_post, better_is = c("lower", "higher"), method = c("JT", "GLN", "HLL", "EN", "NK", "HA", "HLM")) {
+clinical_significance <- function(data, id, time, outcome, group = NULL, pre = NULL, post = NULL, m_functional = NA, sd_functional = NA, type = "a", reliability, reliability_post, better_is = c("lower", "higher"), method = c("JT", "GLN", "HLL", "EN", "NK", "HA", "HLM")) {
   # Check if arguments are set correctly
   clinisig_method <- arg_match(method)
   if (missing(id)) abort("You must specify an ID column.")
@@ -56,6 +56,7 @@ clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NU
     id = {{ id }},
     time = {{ time }},
     outcome = {{ outcome }},
+    group = {{ group }},
     pre = pre,
     post = post
   )
@@ -141,6 +142,8 @@ clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NU
       direction = direction
     )
   } else if (clinisig_method == "NK") {
+    # Check if post measurement reliability is given. If not, inform and take
+    # pre measurement reliability
     if (missing(reliability_post)) {
       reliability_post <- reliability
       inform(c("i" = "The NK method requires reliability estimates for pre and post measurements."), footer = c("*" = "You can specify the post reliability with the \"reliabilit_post\" argument. For now, reliability post was set to reliability pre."), use_cli_format = TRUE)
@@ -171,11 +174,13 @@ clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NU
   # Calculate recovered
   if (clinisig_method != "HA") {
     categories <- .calc_recovered(
+      data = datasets[["data"]],
       cutoff_data = cutoff[["data"]],
       rci_data = rci[["data"]]
     )
   } else if (clinisig_method == "HA") {
     categories <- .calc_recovered_ha(
+      data = datasets[["data"]],
       cutoff_data = cutoff[["data"]],
       rci_data = rci[["data"]]
     )
@@ -188,13 +193,14 @@ clinical_significance <- function(data, id, time, outcome, pre = NULL, post = NU
     n_obs = n_obs[["n_used"]]
   )
 
+
+  # If method is HA, include group level summary table
   if (clinisig_method == "HA") {
     group_level_summary <- .create_summary_table_ha(
       data = datasets[["data"]],
       r_dd = rci[["r_dd"]],
       se_measurement = rci[["se_measurement"]],
       cutoff = cutoff[["info"]][["value"]],
-      mean_post = m_post,
       sd_post = sd_post
     )
 
@@ -240,12 +246,15 @@ print.clinisig <- function(x, ...) {
     )
   }
 
+  if (.has_group(get_data(x))) alignment <- "llrr" else alignment <- "lrr"
+
   cat(
     export_table(
       summary_table,
       width = c(n = 5),
       digits = 3,
       caption = caption,
+      align = alignment,
       ...
     )
   )

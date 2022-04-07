@@ -11,12 +11,20 @@
 #'
 #' @noRd
 .create_summary_table <- function(data, n_obs) {
+  # Check if a grouping variables was specified and group results if so
+  if (.has_group(data)) {
+    group_var <- as.symbol("group")
+  } else {
+    group_var <- NULL
+  }
+
   data %>%
+    group_by({{ group_var }}) %>%
     summarise(
       across(.data$recovered:.data$harmed, sum)
     ) %>%
     pivot_longer(
-      cols = everything(),
+      cols = .data$recovered:.data$harmed,
       names_to = "category",
       values_to = "n"
     ) %>%
@@ -37,29 +45,41 @@
 #'
 #' @importFrom stats pnorm sd
 #' @importFrom dplyr tibble
+#' @importFrom tools toTitleCase
 #'
 #' @return A tibble with columns `category` and `percent`
 #'
 #' @noRd
-.create_summary_table_ha <- function(data, r_dd, se_measurement, cutoff, mean_post, sd_post) {
-  # Proportion that changed
-  mean_change <- mean(data$change)
-  sd_change <- sd(data$change)
-
-  z_changed <- (0 - mean_change) / (sd_change * sqrt(r_dd))
-  prop_changed <- pnorm(z_changed)
-
-
-  # Proportion that is below cutoff (i.e., functional)
+.create_summary_table_ha <- function(data, r_dd, se_measurement, cutoff, sd_post) {
   reliability_post <- .calc_reliability_ha(sd_post, se_measurement)
 
-  z_functional <- (cutoff - mean_post) / (sd_post * sqrt(reliability_post))
-  prop_functional <- pnorm(z_functional)
+  if (.has_group(data)) {
+    group_var <- as.symbol("group")
+  } else {
+    group_var <- NULL
+  }
 
-
-  # Join both values in a data frame
-  tibble(
-    category = c("changed", "functional"),
-    percent = c(prop_changed, prop_functional)
-  )
+  test_data %>%
+    group_by({{ group_var }}) %>%
+    summarise(
+      mean_change = mean(change),
+      sd_change = sd(change),
+      m_post = mean(post),
+      sd_post = sd(post)
+    ) %>%
+    mutate(
+      z_changed = (0 - mean_change) / (sd_change * sqrt(r_dd)),
+      changed = pnorm(z_changed),
+      z_functional = (cutoff - m_post) / (sd_post * sqrt(reliability_post)),
+      functional = pnorm(z_functional)
+    ) %>%
+    select(-matches(".*_.*")) %>%
+    pivot_longer(
+      cols = c(changed, functional),
+      names_to = "category",
+      values_to = "percent"
+    ) %>%
+    mutate(
+      category = toTitleCase(category)
+    )
 }

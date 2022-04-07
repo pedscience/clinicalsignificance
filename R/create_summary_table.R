@@ -44,8 +44,9 @@
 #' @param sd_post SD of post measurement
 #'
 #' @importFrom stats pnorm sd
-#' @importFrom dplyr tibble
+#' @importFrom dplyr tibble matches
 #' @importFrom tools toTitleCase
+#' @importFrom rlang .data
 #'
 #' @return A tibble with columns `category` and `percent`
 #'
@@ -59,27 +60,27 @@
     group_var <- NULL
   }
 
-  test_data %>%
+  data %>%
     group_by({{ group_var }}) %>%
     summarise(
-      mean_change = mean(change),
-      sd_change = sd(change),
-      m_post = mean(post),
-      sd_post = sd(post)
+      mean_change = mean(.data$change),
+      sd_change = sd(.data$change),
+      m_post = mean(.data$post),
+      sd_post = sd(.data$post)
     ) %>%
     mutate(
-      z_changed = (0 - mean_change) / (sd_change * sqrt(r_dd)),
-      changed = pnorm(z_changed),
-      z_functional = (cutoff - m_post) / (sd_post * sqrt(reliability_post)),
-      functional = pnorm(z_functional)
+      z_changed = (0 - .data$mean_change) / (.data$sd_change * sqrt(r_dd)),
+      changed = pnorm(.data$z_changed),
+      z_functional = (cutoff - .data$m_post) / (.data$sd_post * sqrt(reliability_post)),
+      functional = pnorm(.data$z_functional)
     ) %>%
     select(-matches(".*_.*")) %>%
     pivot_longer(
-      cols = c(changed, functional),
+      cols = c(.data$changed, .data$functional),
       names_to = "category",
       values_to = "percent"
     ) %>%
     mutate(
-      category = toTitleCase(category)
+      category = toTitleCase(.data$category)
     )
 }

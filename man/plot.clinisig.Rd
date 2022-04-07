@@ -8,7 +8,6 @@
   x,
   lower_limit = 0,
   upper_limit = 100,
-  limit_tolerance = 0.02,
   rci_fill = "grey10",
   rci_alpha = 0.1,
   ab_line_color = "black",
@@ -17,6 +16,7 @@
   include_cutoff_band = FALSE,
   x_lab = "Pre",
   y_lab = "Post",
+  limit_tolerance = 0.02,
   ...
 )
 }
@@ -26,9 +26,6 @@
 \item{lower_limit}{Numeric, lower plotting limit. Defaults to 0}
 
 \item{upper_limit}{Numeric, upper plotting limit. Defaults to 100}
-
-\item{limit_tolerance}{Numeric, control amount of overplotting. Defaults to
-0.02 (i.e., 2\% of range between lower and upper limit).}
 
 \item{rci_fill}{String, a color (name or HEX code) for RCI filling}
 
@@ -51,6 +48,9 @@ the cutoff can be plotted}
 \item{x_lab}{String, x axis label. Default is \code{"Pre"}.}
 
 \item{y_lab}{String, y axis label. Default is \code{"Post"}.}
+
+\item{limit_tolerance}{Numeric, control amount of overplotting. Defaults to
+0.02 (i.e., 2\% of range between lower and upper limit).}
 
 \item{...}{Additional arguments}
 }

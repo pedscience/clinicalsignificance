@@ -9,6 +9,7 @@ clinical_significance(
   id,
   time,
   outcome,
+  group = NULL,
   pre = NULL,
   post = NULL,
   m_functional = NA,
@@ -28,6 +29,8 @@ clinical_significance(
 \item{time}{Time variable}
 
 \item{outcome}{Outcome variable}
+
+\item{group}{Grouping variable}
 
 \item{pre}{Pre measurement}
 
@@ -50,11 +53,14 @@ This is only relevant for the NK method.}
 \item{better_is}{Which direction means a better outcome? Available are
 \code{"lower"} and \code{"higher"}. Defaults to \code{"lower"}.}
 
-\item{method}{Clinical significance method. Available are \verb{\\"JT\\"} (Jacobson
-& Truax) and \verb{\\"GLN\\"} (Gulliksen, Lord, and Novick)}
+\item{method}{Clinical significance method. Available are
+\itemize{
+\item \code{"JT"} (Jacobson & Truax)
+\item \code{"GLN"} (Gulliksen, Lord, and Novick)
+}}
 }
 \value{
-A S3 object of class \code{clinisig}
+An S3 object of class \code{clinisig}
 }
 \description{
 Clinical Significance

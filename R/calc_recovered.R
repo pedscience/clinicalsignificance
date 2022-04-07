@@ -10,8 +10,9 @@
 #' @return The full data frame with categories
 #'
 #' @noRd
-.calc_recovered <- function(cutoff_data, rci_data) {
-  rci_data %>%
+.calc_recovered <- function(data, cutoff_data, rci_data) {
+  data %>%
+    left_join(rci_data, by = "id") %>%
     left_join(cutoff_data, by = "id") %>%
     mutate(
       recovered = .data$clinical_pre & .data$functional_post & .data$improved,
@@ -36,8 +37,9 @@
 #' @return The full data frame with categories
 #'
 #' @noRd
-.calc_recovered_ha <- function(cutoff_data, rci_data) {
-  cutoff_data %>%
+.calc_recovered_ha <- function(data, cutoff_data, rci_data) {
+  data %>%
+    left_join(cutoff_data, by = "id") %>%
     left_join(rci_data, by = "id") %>%
     mutate(
       recovered = .data$functional_post & .data$improved,

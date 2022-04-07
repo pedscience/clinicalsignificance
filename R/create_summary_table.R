@@ -11,12 +11,20 @@
 #'
 #' @noRd
 .create_summary_table <- function(data, n_obs) {
+  # Check if a grouping variables was specified and group results if so
+  if (.has_group(data)) {
+    group_var <- as.symbol("group")
+  } else {
+    group_var <- NULL
+  }
+
   data %>%
+    group_by({{ group_var }}) %>%
     summarise(
       across(.data$recovered:.data$harmed, sum)
     ) %>%
     pivot_longer(
-      cols = everything(),
+      cols = .data$recovered:.data$harmed,
       names_to = "category",
       values_to = "n"
     ) %>%
@@ -36,30 +44,43 @@
 #' @param sd_post SD of post measurement
 #'
 #' @importFrom stats pnorm sd
-#' @importFrom dplyr tibble
+#' @importFrom dplyr tibble matches
+#' @importFrom tools toTitleCase
+#' @importFrom rlang .data
 #'
 #' @return A tibble with columns `category` and `percent`
 #'
 #' @noRd
-.create_summary_table_ha <- function(data, r_dd, se_measurement, cutoff, mean_post, sd_post) {
-  # Proportion that changed
-  mean_change <- mean(data$change)
-  sd_change <- sd(data$change)
-
-  z_changed <- (0 - mean_change) / (sd_change * sqrt(r_dd))
-  prop_changed <- pnorm(z_changed)
-
-
-  # Proportion that is below cutoff (i.e., functional)
+.create_summary_table_ha <- function(data, r_dd, se_measurement, cutoff, sd_post) {
   reliability_post <- .calc_reliability_ha(sd_post, se_measurement)
 
-  z_functional <- (cutoff - mean_post) / (sd_post * sqrt(reliability_post))
-  prop_functional <- pnorm(z_functional)
+  if (.has_group(data)) {
+    group_var <- as.symbol("group")
+  } else {
+    group_var <- NULL
+  }
 
-
-  # Join both values in a data frame
-  tibble(
-    category = c("changed", "functional"),
-    percent = c(prop_changed, prop_functional)
-  )
+  data %>%
+    group_by({{ group_var }}) %>%
+    summarise(
+      mean_change = mean(.data$change),
+      sd_change = sd(.data$change),
+      m_post = mean(.data$post),
+      sd_post = sd(.data$post)
+    ) %>%
+    mutate(
+      z_changed = (0 - .data$mean_change) / (.data$sd_change * sqrt(r_dd)),
+      changed = pnorm(.data$z_changed),
+      z_functional = (cutoff - .data$m_post) / (.data$sd_post * sqrt(reliability_post)),
+      functional = pnorm(.data$z_functional)
+    ) %>%
+    select(-matches(".*_.*")) %>%
+    pivot_longer(
+      cols = c(.data$changed, .data$functional),
+      names_to = "category",
+      values_to = "percent"
+    ) %>%
+    mutate(
+      category = toTitleCase(.data$category)
+    )
 }

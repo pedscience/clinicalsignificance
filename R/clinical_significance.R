@@ -283,6 +283,7 @@ print.clinisig <- function(x, ...) {
 #' @param ... Additional arguments
 #'
 #' @importFrom dplyr rename
+#' @importFrom rlang .data
 #'
 #' @export
 summary.clinisig <- function(object, ...) {
@@ -298,22 +299,22 @@ summary.clinisig <- function(object, ...) {
   # Cutoff table
   cutoff_descriptives <- get_cutoff_descriptives(object) %>%
     rename(
-      "M CLinical" = m_clinical,
-      "SD Clinical" = sd_clinical,
-      "M Functional" = m_functional,
-      "SD Functional" = sd_functional
+      "M Clinical" = .data$m_clinical,
+      "SD Clinical" = .data$sd_clinical,
+      "M Functional" = .data$m_functional,
+      "SD Functional" = .data$sd_functional
     ) %>%
     export_table(digits = 2, missing = "---", align = "llll")
 
   if (clinisig_method == "HA") {
     cutoff_descriptives <- get_cutoff_descriptives(object) %>%
       rename(
-        "M CLinical" = m_clinical,
-        "SD Clinical" = sd_clinical,
-        "M Functional" = m_functional,
-        "SD Functional" = sd_functional,
-        "Reliability Clinical" = reliability_clinical,
-        "Reliability Functional" = reliability_functional
+        "M Clinical" = .data$m_clinical,
+        "SD Clinical" = .data$sd_clinical,
+        "M Functional" = .data$m_functional,
+        "SD Functional" = .data$sd_functional,
+        "Reliability Clinical" = .data$reliability_clinical,
+        "Reliability Functional" = .data$reliability_functional
       ) %>%
       export_table(digits = 2, missing = "---", align = "llllll")
   }
@@ -322,28 +323,28 @@ summary.clinisig <- function(object, ...) {
   # Summary table
   if (clinisig_method != "HA") {
     summary_table_values <- get_summary_table(object) %>%
-      rename("Category" = category, "Percent" = percent)
+      rename("Category" = .data$category, "Percent" = .data$percent)
 
     if (.has_group(get_data(object))) {
       summary_table_values <- summary_table_values %>%
-        rename("Group" = group)
+        rename("Group" = .data$group)
     }
 
     summary_table <- summary_table_values %>%
       export_table(caption = "Individual Level Results", align = col_alignment)
   } else  {
     summary_table_individual_values <- get_summary_table(object, "individual") %>%
-      rename("Category" = category, "Percent" = percent)
+      rename("Category" = .data$category, "Percent" = .data$percent)
 
     summary_table_group_values <- get_summary_table(object, "group") %>%
-      rename("Category" = category, "Percent" = percent)
+      rename("Category" = .data$category, "Percent" = .data$percent)
 
     if (.has_group(get_data(object))) {
       summary_table_individual_values <- summary_table_individual_values %>%
-        rename("Group" = group)
+        rename("Group" = .data$group)
 
       summary_table_group_values <- summary_table_group_values %>%
-        rename("Group" = group)
+        rename("Group" = .data$group)
     }
 
     summary_table <- export_table(

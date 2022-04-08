@@ -13,7 +13,7 @@
   s_prediction <- x[["rci"]][[1]]
   m_post <- x[["rci"]][["m_post"]]
   reliability <- get_reliability(x)[[1]]
-  m_pre <- get_descriptives(x)[["m_clinical"]]
+  m_pre <- get_cutoff_descriptives(x)[["m_clinical"]]
 
   tibble(
     pre = c(lower_limit:upper_limit),

@@ -10,8 +10,8 @@
 #'
 #' @noRd
 .generate_rci_data_nk <- function(x, lower_limit = 0, upper_limit = 100) {
-  m_pre <- get_descriptives(x)[["m_clinical"]]
-  sd_pre <- get_descriptives(x)[["sd_clinical"]]
+  m_pre <- get_cutoff_descriptives(x)[["m_clinical"]]
+  sd_pre <- get_cutoff_descriptives(x)[["sd_clinical"]]
   reliability_pre <- get_reliability(x)[[1]]
   reliability_post <- get_reliability(x)[[2]]
 

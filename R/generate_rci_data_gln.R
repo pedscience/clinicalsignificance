@@ -12,7 +12,7 @@
 .generate_rci_data_gln <- function(x, lower_limit = 0, upper_limit = 100) {
   s_prediction <- x[["rci"]][[1]]
   reliability <- get_reliability(x)[[1]]
-  m_pre <- get_descriptives(x)[["m_clinical"]]
+  m_pre <- get_cutoff_descriptives(x)[["m_clinical"]]
 
   tibble(
     pre = lower_limit:upper_limit,

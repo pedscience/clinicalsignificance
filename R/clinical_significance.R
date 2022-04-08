@@ -297,6 +297,7 @@ print.clinisig <- function(x, ...) {
 #'
 #' @importFrom dplyr rename
 #' @importFrom rlang .data
+#' @importFrom crayon bold blue
 #'
 #' @export
 summary.clinisig <- function(object, ...) {
@@ -317,7 +318,11 @@ summary.clinisig <- function(object, ...) {
       "M Functional" = .data$m_functional,
       "SD Functional" = .data$sd_functional
     ) %>%
-    export_table(digits = 2, missing = "---", align = "llll")
+    export_table(
+      caption = c("Population Characteristics", "blue"),
+      digits = 2,
+      missing = "---",
+      align = "llll")
 
   if (clinisig_method == "HA") {
     cutoff_descriptives <- get_cutoff_descriptives(object) %>%
@@ -329,7 +334,12 @@ summary.clinisig <- function(object, ...) {
         "Reliability Clinical" = .data$reliability_clinical,
         "Reliability Functional" = .data$reliability_functional
       ) %>%
-      export_table(digits = 2, missing = "---", align = "llllll")
+      export_table(
+        caption = c("Population Characteristics", "blue"),
+        digits = 2,
+        missing = "---",
+        align = "llllll"
+      )
   }
 
 
@@ -337,7 +347,11 @@ summary.clinisig <- function(object, ...) {
   if (clinisig_method != "HA") {
     summary_table <- get_summary_table(object) %>%
       rename_with(toTitleCase, .cols = -.data$n) %>%
-      export_table(caption = "Individual Level Results", align = col_alignment)
+      export_table(
+        caption = c("Individual Level Results", "blue"),
+        align = col_alignment,
+        digits = 3
+      )
   } else  {
     summary_table_individual <- get_summary_table(object, "individual") %>%
       rename_with(toTitleCase, .cols = -.data$n)
@@ -347,19 +361,20 @@ summary.clinisig <- function(object, ...) {
 
     summary_table <- export_table(
       list(summary_table_individual, summary_table_group),
-      caption = list("Individual Level Results", "Group Level Results"),
-      align = col_alignment
+      caption = list(c("Individual Level Results", "blue"), c("Group Level Results", "blue")),
+      align = col_alignment,
+      digits = 3
     )
   }
 
 
   # Cat the summary
-  cat("\nClinical Significance Results\n")
-  cat("-----------------------------\n")
-  cat("There were ", nobs[["n_original"]], " participants in the whole dataset of which ", nobs[["n_used"]], " (", round(nobs[["percent_used"]], digits = 3) * 100, "%) could be included in the analysis.\n\n", sep = "")
-  cat("The ", clinisig_method, " method for calculating cutoffs and reliable change was chosen and the outcome variable was \"", outcome,"\".\n\n", sep = "")
-  cat("The cutoff type was \"", cutoff[["type"]], "\" with a value of ", round(cutoff[["value"]], digits = 2), " based on the following population characteristics:\n", sep = "")
-  cat("(with ", direction, " values representing a beneficial outcome)\n", sep = "")
+  cat(blue("\nClinical Significance Results\n\n"))
+  # cat("-----------------------------\n")
+  cat("There were ", nobs[["n_original"]], " participants in the whole dataset of which ", bold(nobs[["n_used"]]), bold(paste0(" (", round(nobs[["percent_used"]], digits = 3) * 100, "%)")), " could be included in the analysis.\n\n", sep = "")
+  cat("The ", bold(clinisig_method), " method for calculating cutoffs and reliable change was chosen and the outcome variable was \"", outcome,"\".\n\n", sep = "")
+  cat("The cutoff type was ", bold(paste0("\"", cutoff[["type"]], "\"")), " with a value of ", bold(round(cutoff[["value"]], digits = 2)), " based on the following population characteristics:\n", sep = "")
+  cat("(with ", bold(direction), " values representing a beneficial outcome)\n", sep = "")
   cat("\n", cutoff_descriptives, "\n\n", sep = "")
   cat(summary_table)
 }

@@ -12,6 +12,8 @@
 #' @return A tibble with number of participants
 #' @export
 get_n <- function(x, which = "all") {
+  assert_class(x, "clinisig")
+
   if (which == "all") {
     x[["n_obs"]] %>%
       as_tibble() %>%

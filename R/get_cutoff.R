@@ -11,6 +11,8 @@
 #' @return A tibble with cutoff information
 #' @export
 get_cutoff <- function(x, with_descriptives = FALSE) {
+  assert_class(x, "clinisig")
+
   cutoff_info <- x[["cutoff"]][["info"]] %>%
     as_tibble()
 

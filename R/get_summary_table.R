@@ -9,6 +9,8 @@
 #' @return A tibble with clinical significance categories
 #' @export
 get_summary_table <- function(x, which = c("individual", "group")) {
+  assert_class(x, "clinisig")
+
   which_table <- arg_match(which)
   clinisig_method <- get_clinical_significance_method(x)
   if (clinisig_method != "HA" & which_table == "group") abort("Group level results can only be exported for method HA.")

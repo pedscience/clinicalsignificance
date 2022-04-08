@@ -4,10 +4,13 @@
 #'
 #' @importFrom dplyr left_join case_when
 #' @importFrom rlang .data
+#' @importFrom checkmate
 #'
 #' @return A tibble with used data and clinical significance categories
 #' @export
 get_augmented_data <- function(x) {
+  assert_class(x, "clinisig")
+
   categories <- x[["categories"]]
 
   categories %>%

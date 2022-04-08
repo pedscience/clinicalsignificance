@@ -8,6 +8,8 @@
 #'   functional population
 #' @export
 get_cutoff_descriptives <- function(x) {
+  assert_class(x, "clinisig")
+
   x[["cutoff"]][["info"]] %>%
     as_tibble() %>%
     select(-.data$type, -.data$value)

@@ -7,6 +7,8 @@
 #' @return A tibble conatining the reliability
 #' @export
 get_reliability <- function(x) {
+  assert_class(x, "clinisig")
+
   clinisig_method <- get_clinical_significance_method(x)
 
   reliability <- tibble(

@@ -9,5 +9,7 @@
 #' @return A tibble
 #' @export
 get_data <- function(x, dataset = "data") {
+  assert_class(x, "clinisig")
+
   x[["datasets"]][[dataset]]
 }

@@ -4,7 +4,6 @@
 #'
 #' @importFrom dplyr left_join case_when
 #' @importFrom rlang .data
-#' @importFrom checkmate
 #'
 #' @return A tibble with used data and clinical significance categories
 #' @export

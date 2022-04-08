@@ -38,6 +38,7 @@
   # calculations
   list(
     info = cutoff_info,
+    direction = direction,
     data = data_cutoff_criteria
   )
 }
@@ -93,6 +94,7 @@
     reliability_post = reliability_post,
     m_post = m_post,
     sd_post = sd_post,
+    direction = direction,
     data = data_cutoff_criteria
   )
 }
@@ -159,9 +161,9 @@
   list(
     m_clinical = m_clinical,
     sd_clinical = sd_clinical,
-    reliability_clinical = reliability_clinical,
     m_functional = m_functional,
     sd_functional = sd_functional,
+    reliability_clinical = reliability_clinical,
     reliability_functional = reliability_functional,
     type = paste0(type, "_true"),
     value = cutoff

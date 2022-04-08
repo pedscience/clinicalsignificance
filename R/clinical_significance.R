@@ -225,6 +225,7 @@ clinical_significance <- function(data,
   # Results
   out <- list(
     datasets = datasets,
+    outcome = deparse(substitute(outcome)),
     n_obs = n_obs,
     method = method,
     reliability = reliability,
@@ -281,7 +282,85 @@ print.clinisig <- function(x, ...) {
 #' @param object A clinisig object
 #' @param ... Additional arguments
 #'
+#' @importFrom dplyr rename
+#'
 #' @export
 summary.clinisig <- function(object, ...) {
-  object[["summary"]]
+  # Get all bits and pieces to show
+  nobs <- get_n(object)
+  outcome <- object[["outcome"]]
+  clinisig_method <- get_clinical_significance_method(object)
+  cutoff <- get_cutoff(object)
+  direction <- get_beneficial_direction(object)
+  if (.has_group(get_data(object))) col_alignment <- "llrr" else col_alignment <- "lrr"
+
+
+  # Cutoff table
+  cutoff_descriptives <- get_cutoff_descriptives(object) %>%
+    rename(
+      "M CLinical" = m_clinical,
+      "SD Clinical" = sd_clinical,
+      "M Functional" = m_functional,
+      "SD Functional" = sd_functional
+    ) %>%
+    export_table(digits = 2, missing = "---", align = "llll")
+
+  if (clinisig_method == "HA") {
+    cutoff_descriptives <- get_cutoff_descriptives(object) %>%
+      rename(
+        "M CLinical" = m_clinical,
+        "SD Clinical" = sd_clinical,
+        "M Functional" = m_functional,
+        "SD Functional" = sd_functional,
+        "Reliability Clinical" = reliability_clinical,
+        "Reliability Functional" = reliability_functional
+      ) %>%
+      export_table(digits = 2, missing = "---", align = "llllll")
+  }
+
+
+  # Summary table
+  if (clinisig_method != "HA") {
+    summary_table_values <- get_summary_table(object) %>%
+      rename("Category" = category, "Percent" = percent)
+
+    if (.has_group(get_data(object))) {
+      summary_table_values <- summary_table_values %>%
+        rename("Group" = group)
+    }
+
+    summary_table <- summary_table_values %>%
+      export_table(caption = "Individual Level Results", align = col_alignment)
+  } else  {
+    summary_table_individual_values <- get_summary_table(object, "individual") %>%
+      rename("Category" = category, "Percent" = percent)
+
+    summary_table_group_values <- get_summary_table(object, "group") %>%
+      rename("Category" = category, "Percent" = percent)
+
+    if (.has_group(get_data(object))) {
+      summary_table_individual_values <- summary_table_individual_values %>%
+        rename("Group" = group)
+
+      summary_table_group_values <- summary_table_group_values %>%
+        rename("Group" = group)
+    }
+
+    summary_table <- export_table(
+      list(summary_table_individual_values, summary_table_group_values),
+      caption = list("Individual Level Results", "Group Level Results"),
+      align = col_alignment
+    )
+  }
+
+
+  # Cat the summary
+  cat("\nClinical Significance Results\n")
+  cat("-----------------------------\n")
+  cat("There were ", nobs[["n_original"]], " participants in the whole dataset of which ", nobs[["n_used"]], " (", round(nobs[["percent_used"]], digits = 3) * 100, "%) could be included in the analysis.\n\n", sep = "")
+  cat("The ", clinisig_method, " method for calculating cutoffs and reliable change was chosen and the outcome variable was \"", outcome,"\".\n\n", sep = "")
+  cat("The cutoff type was \"", cutoff[["type"]], "\" with a value of ", round(cutoff[["value"]], digits = 2), " based on the following population characteristics:\n", sep = "")
+  cat("(with ", direction, " values representing a beneficial outcome)\n", sep = "")
+  cat("\n", cutoff_descriptives, "\n\n", sep = "")
+  cat(summary_table)
 }

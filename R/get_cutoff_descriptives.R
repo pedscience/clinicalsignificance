@@ -7,8 +7,8 @@
 #' @return A tibble with means and standard deviations of the clinical and
 #'   functional population
 #' @export
-get_descriptives <- function(x) {
+get_cutoff_descriptives <- function(x) {
   x[["cutoff"]][["info"]] %>%
     as_tibble() %>%
-    select(.data$m_clinical:.data$sd_functional)
+    select(-.data$type, -.data$value)
 }

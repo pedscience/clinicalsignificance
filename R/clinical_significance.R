@@ -246,15 +246,28 @@ clinical_significance <- function(data,
 #' @param ... Additional arguments passed to `export_table()`
 #'
 #' @importFrom insight export_table
+#' @importFrom dplyr rename_with
+#' @importFrom tools toTitleCase
+#' @importFrom rlang .data
 #'
 #' @export
 print.clinisig <- function(x, ...) {
   clinisig_method <- get_clinical_significance_method(x)
 
-  caption <- c(paste0("Clinical Significance Results (", clinisig_method, ")"), "blue")
-  summary_table <- x[["summary"]]
+  if (clinisig_method != "HA") {
+    caption <- c(paste0("Clinical Significance Results (", clinisig_method, ")"), "blue")
+    summary_table <- get_summary_table(x) %>%
+      rename_with(toTitleCase, .cols = -.data$n)
+  }
 
   if (clinisig_method == "HA") {
+    summary_table_individual <- get_summary_table(x, "individual") %>%
+      rename_with(toTitleCase, .cols = -.data$n)
+    summary_table_group <- get_summary_table(x, "group") %>%
+      rename_with(toTitleCase)
+
+    summary_table <- list(summary_table_individual, summary_table_group)
+
     caption <- list(
       c("Clinical Significance Results (HA Individual Level)", "blue"),
       c("Clinical Significance Results (HA Group Level)", "blue")
@@ -322,33 +335,18 @@ summary.clinisig <- function(object, ...) {
 
   # Summary table
   if (clinisig_method != "HA") {
-    summary_table_values <- get_summary_table(object) %>%
-      rename("Category" = .data$category, "Percent" = .data$percent)
-
-    if (.has_group(get_data(object))) {
-      summary_table_values <- summary_table_values %>%
-        rename("Group" = .data$group)
-    }
-
-    summary_table <- summary_table_values %>%
+    summary_table <- get_summary_table(object) %>%
+      rename_with(toTitleCase, .cols = -.data$n) %>%
       export_table(caption = "Individual Level Results", align = col_alignment)
   } else  {
-    summary_table_individual_values <- get_summary_table(object, "individual") %>%
-      rename("Category" = .data$category, "Percent" = .data$percent)
+    summary_table_individual <- get_summary_table(object, "individual") %>%
+      rename_with(toTitleCase, .cols = -.data$n)
 
-    summary_table_group_values <- get_summary_table(object, "group") %>%
-      rename("Category" = .data$category, "Percent" = .data$percent)
-
-    if (.has_group(get_data(object))) {
-      summary_table_individual_values <- summary_table_individual_values %>%
-        rename("Group" = .data$group)
-
-      summary_table_group_values <- summary_table_group_values %>%
-        rename("Group" = .data$group)
-    }
+    summary_table_group <- get_summary_table(object, "group") %>%
+      rename_with(toTitleCase)
 
     summary_table <- export_table(
-      list(summary_table_individual_values, summary_table_group_values),
+      list(summary_table_individual, summary_table_group),
       caption = list("Individual Level Results", "Group Level Results"),
       align = col_alignment
     )

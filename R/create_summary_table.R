@@ -6,11 +6,11 @@
 #'
 #' @importFrom rlang .data
 #' @importFrom tidyr pivot_longer everything
-#' @importFrom dplyr summarise mutate across
+#' @importFrom dplyr summarise mutate across group_by ungroup
 #' @importFrom tools toTitleCase
 #'
 #' @noRd
-.create_summary_table <- function(data, n_obs) {
+.create_summary_table <- function(data) {
   # Check if a grouping variables was specified and group results if so
   if (.has_group(data)) {
     group_var <- as.symbol("group")
@@ -21,17 +21,20 @@
   data %>%
     group_by({{ group_var }}) %>%
     summarise(
-      across(.data$recovered:.data$harmed, sum)
+      across(.data$recovered:.data$harmed, sum),
+      .groups = "drop"
     ) %>%
     pivot_longer(
       cols = .data$recovered:.data$harmed,
       names_to = "category",
       values_to = "n"
     ) %>%
+    group_by({{ group_var }}) %>%
     mutate(
-      percent = .data$n / n_obs,
+      percent = .data$n / sum(.data$n),
       category = toTitleCase(.data$category)
-    )
+    ) %>%
+    ungroup()
 }
 
 #' Create group level summary table like Hagemann and Arrindell

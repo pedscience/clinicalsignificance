@@ -204,8 +204,7 @@ clinical_significance <- function(data,
 
   # Create a summary table for printing
   summary_table <- .create_summary_table(
-    data = categories,
-    n_obs = n_obs[["n_used"]]
+    data = categories
   )
 
 

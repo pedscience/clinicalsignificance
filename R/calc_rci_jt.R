@@ -1,6 +1,6 @@
 #' RCI for the Jacobson & Truax method
 #'
-#' This function expects a data frame with at least columns `pre` and `change`.
+#' This function expects a data frame with at least column `change`.
 #' The reliability must be a value between 0 and 1.
 #'
 #' @param data A preprocessed dataframe

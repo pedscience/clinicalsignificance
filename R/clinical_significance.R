@@ -306,6 +306,7 @@ summary.clinisig <- function(object, ...) {
   outcome <- object[["outcome"]]
   clinisig_method <- get_clinical_significance_method(object)
   cutoff <- get_cutoff(object)
+  reliability <- get_reliability(object)[[1]]
   direction <- get_beneficial_direction(object)
   if (.has_group(get_data(object))) col_alignment <- "llrr" else col_alignment <- "lrr"
 
@@ -371,10 +372,11 @@ summary.clinisig <- function(object, ...) {
   # Cat the summary
   cat(blue("\nClinical Significance Results\n\n"))
   # cat("-----------------------------\n")
-  cat("There were ", nobs[["n_original"]], " participants in the whole dataset of which ", bold(nobs[["n_used"]]), bold(paste0(" (", round(nobs[["percent_used"]], digits = 3) * 100, "%)")), " could be included in the analysis.\n\n", sep = "")
-  cat("The ", bold(clinisig_method), " method for calculating cutoffs and reliable change was chosen and the outcome variable was \"", outcome,"\".\n\n", sep = "")
+  cat("There were ", bold(nobs[["n_original"]]), " participants in the whole dataset of which ", bold(nobs[["n_used"]]), bold(paste0(" (", round(nobs[["percent_used"]], digits = 3) * 100, "%)")), " could be included in the analysis.\n\n", sep = "")
+  cat("The ", bold(clinisig_method), " method for calculating cutoffs and reliable change was chosen and the outcome variable was ", bold(paste0("\"", outcome ,"\"")), ".\n\n", sep = "")
   cat("The cutoff type was ", bold(paste0("\"", cutoff[["type"]], "\"")), " with a value of ", bold(round(cutoff[["value"]], digits = 2)), " based on the following population characteristics:\n", sep = "")
   cat("(with ", bold(direction), " values representing a beneficial outcome)\n", sep = "")
   cat("\n", cutoff_descriptives, "\n\n", sep = "")
+  cat("The instrument's reliability was set to ", bold(round(reliability, digits = 2))," \n\n", sep = "")
   cat(summary_table)
 }

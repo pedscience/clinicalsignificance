@@ -8,7 +8,7 @@ Authors@R:
 Description: In contrast to statistical significance, which answers the question 
     whether there exists a treatment effect or not, clinical significance 
     answers the question whether individual changes are meaningful for patients.
-License: MIT + file LICENSE
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Depends: 

@@ -1,8 +1,10 @@
 #' Calculate Categories based on an RCI
 #'
 #' @param cutoff_data A data frame containing categorizations based on the
-#'   cutoff
-#' @param rci_data A data frame containing categorizations based on the RCI
+#'   cutoff, needs at least columns `clinical_pre` and `functional_post` which
+#'   are logicals
+#' @param rci_data A data frame containing categorizations based on the RCI,
+#'   needs at least columns `ìmproved`, `unchanged`, and `deteriorated`
 #'
 #' @importFrom rlang .data
 #' @importFrom dplyr relocate left_join

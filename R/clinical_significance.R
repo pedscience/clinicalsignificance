@@ -61,7 +61,7 @@ clinical_significance <- function(data,
   # If type = "a", discard information of the functional population and give a warning
   if (type == "a" & (!is.na(m_functional) | !is.na(sd_functional))) {
     m_functional <- sd_functional <- NA_real_
-    warn("You selected cutoff type \"a\" and provided summary statistics for the functional population. This information will be dicarded.\nIf you wand to incorporate data from the functional population for the cutoff, choose type = \"b\" or \"c\"", call. = FALSE)
+    inform(c("i" = "You selected cutoff type \"a\" and provided summary statistics for the functional population. This information will be dicarded."), footer = c("*" = "If you wand to incorporate data from the functional population for the cutoff, choose type = \"b\" or \"c\""), use_cli_format = TRUE)
   }
 
 

@@ -127,21 +127,55 @@
 #' @param time Measurement
 #' @param outcome Outcome
 #'
+#' @importFrom dplyr select mutate group_by summarise filter n first last
+#'
 #' @return A list with original and prepped data
 #'
 #' @noRd
-.prep_data_hlm <- function(data, id, time, outcome) {
-  used_data <- data %>%
-    select(id = {{ id }}, time = {{ time }}, outcome = {{ outcome }}) %>%
+.prep_data_hlm <- function(data, id, time, outcome, group = NULL) {
+  # Select relevant variables
+  imported_data <- anxiety %>%
+    select(id = {{ id }}, group = {{ group }}, time = {{ time }}, outcome = {{ outcome }}) %>%
     mutate(id = as.character(id))
 
-  min_time <- min(used_data[["time"]])
-  max_time <- max(used_data[["time"]])
+  if (.has_group(imported_data)) {
+    groups <- imported_data %>%
+      select(id, group) %>%
+      distinct(id, group)
+  }
+
+
+  # Get n of measurements and first (pre) and last (post) measurement
+  wide_data <- imported_data %>%
+    na.omit() %>%
+    group_by(id) %>%
+    summarise(
+      n = n(),
+      pre = first(outcome),
+      post = last(outcome),
+      .groups = "drop"
+    )
+
+  if (.has_group(imported_data)) {
+    cutoff_data <- wide_data %>%
+      left_join(groups, by = "id") %>%
+      filter(n > 1) %>%
+      relocate(group, .after = id)
+  } else {
+    cutoff_data <- wide_data %>%
+      filter(n > 1)
+  }
+
+
+  # Only use those participants with more than one measurement
+  prepped_data <- imported_data %>%
+    filter(id %in% cutoff_data[["id"]])
 
   list(
     original = data,
-    data = used_data,
-    min_time = min_time,
-    max_time = max_time
+    wide = wide_data,
+    data = cutoff_data,
+    groups = groups,
+    model_data = prepped_data
   )
 }

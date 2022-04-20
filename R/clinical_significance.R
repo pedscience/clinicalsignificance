@@ -47,7 +47,7 @@ clinical_significance <- function(data,
   if (missing(id)) abort("You must specify an ID column.")
   if (missing(time)) abort("You must specify a column indicating the different measurements.")
   if (missing(outcome)) abort("You must specify an outcome.")
-  assert_number(reliability, lower = 0, upper = 1)
+  if (clinisig_method != "HLM") assert_number(reliability, lower = 0, upper = 1) else reliability <- NA
   if (clinisig_method == "NK" & !missing(reliability_post)) assert_number(reliability_post, lower = 0, upper = 1)
   if (clinisig_method != "NK" & !missing(reliability_post)) inform(c("i" = "You specified a reliability estimate for the post measurement but did not choose the NK method."), footer = c("*" = "Your post measurement reliability estimate will be ignored."), use_cli_format = TRUE)
 
@@ -66,15 +66,25 @@ clinical_significance <- function(data,
 
 
   # Prepare data
-  datasets <- .prep_data(
-    data = data,
-    id = {{ id }},
-    time = {{ time }},
-    outcome = {{ outcome }},
-    group = {{ group }},
-    pre = pre,
-    post = post
-  )
+  if (clinisig_method == "HLM") {
+    datasets <- .prep_data_hlm(
+      data = data,
+      id = {{ id }},
+      time = {{ time }},
+      outcome = {{ outcome }},
+      group = {{ group }}
+    )
+  } else {
+    datasets <- .prep_data(
+      data = data,
+      id = {{ id }},
+      time = {{ time }},
+      outcome = {{ outcome }},
+      group = {{ group }},
+      pre = pre,
+      post = post
+    )
+  }
 
 
   # Count participants
@@ -161,9 +171,12 @@ clinical_significance <- function(data,
     # pre measurement reliability
     if (missing(reliability_post)) {
       reliability_post <- reliability
-      inform(c("i" = "The NK method requires reliability estimates for pre and post measurements."), footer = c("*" = "You can specify the post reliability with the \"reliabilit_post\" argument. For now, reliability post was set to reliability pre."), use_cli_format = TRUE)
+      inform(
+        c("i" = "The NK method requires reliability estimates for pre and post measurements."),
+        footer = c("*" = "You can specify the post reliability with the \"reliabilit_post\" argument. For now, reliability post was set to reliability pre."),
+        use_cli_format = TRUE
+      )
     }
-
 
     rci <- .calc_rci_nk(
       data = datasets[["data"]],
@@ -181,6 +194,11 @@ clinical_significance <- function(data,
       m_post = m_post,
       sd_post = sd_post,
       reliability = reliability,
+      direction = direction
+    )
+  } else if (clinisig_method == "HLM") {
+    rci <- .calc_rci_hlm(
+      data = datasets[["model_data"]],
       direction = direction
     )
   }
@@ -377,6 +395,10 @@ summary.clinisig <- function(object, ...) {
   cat("The cutoff type was ", bold(paste0("\"", cutoff[["type"]], "\"")), " with a value of ", bold(round(cutoff[["value"]], digits = 2)), " based on the following population characteristics:\n", sep = "")
   cat("(with ", bold(direction), " values representing a beneficial outcome)\n", sep = "")
   cat("\n", cutoff_descriptives, "\n\n", sep = "")
-  cat("The instrument's reliability was set to ", bold(round(reliability, digits = 2))," \n\n", sep = "")
+  if (!is.na(reliability)) {
+    cat("The instrument's reliability was set to ", bold(round(reliability, digits = 2))," \n\n", sep = "")
+  } else {
+    cat("The instrument's reliability was not specified.\n\n")
+  }
   cat(summary_table)
 }

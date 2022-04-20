@@ -15,9 +15,11 @@
 #'
 #' @noRd
 .calc_rci_hlm <- function(data, direction) {
+  . <- NULL
+
   # Fit HLM model
   fitted_model <- data %>%
-    lmer(outcome ~ time + (time | id), data = .data$., REML = TRUE)
+    lmer(outcome ~ time + (time | id), data = ., REML = TRUE)
 
 
   # Extract needed components

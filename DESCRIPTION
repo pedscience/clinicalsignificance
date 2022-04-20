@@ -24,6 +24,7 @@ Imports:
     lme4,
     magrittr,
     rlang,
+    tibble,
     tidyr
 Suggests: 
     testthat (>= 3.0.0)

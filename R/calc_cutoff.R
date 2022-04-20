@@ -1,7 +1,7 @@
 #' Calculate the categories based on the cutoff
 #'
-#' @param data A preprocessed wide dataframe with at least column `pre` and
-#'   `post`
+#' @param data A preprocessed wide dataframe with at least column `id`, `pre`
+#'   and `post`
 #' @param m_functional Mean of functional population
 #' @param sd_functional SD of functional population
 #' @param type Cutoff type, available are `"a"`, `"b"`, and `"c"`

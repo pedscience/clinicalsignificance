@@ -1,7 +1,23 @@
+#' Calc RCI for the HLM method
+#'
+#' @param data A preprocessed data frame with at least variables `id`, `time`,
+#'   and `outcome`
+#' @param direction Which direction is beneficial? 1 = higher, -1 = lower
+#'
+#' @importFrom lme4 lmer
+#' @importFrom insight get_parameters get_variance_intercept get_variance_residual get_variance
+#' @importFrom dplyr count
+#' @importFrom rlang .data
+#' @importFrom stats coef
+#' @importFrom tibble rownames_to_column
+#'
+#' @return A list with a lmer model, individual coefficients and rci data
+#'
+#' @noRd
 .calc_rci_hlm <- function(data, direction) {
   # Fit HLM model
   fitted_model <- data %>%
-    lmer(outcome ~ time + (time | id), data = ., REML = TRUE)
+    lmer(outcome ~ time + (time | id), data = .data$., REML = TRUE)
 
 
   # Extract needed components
@@ -15,10 +31,10 @@
   # mean of individual j)
   lambdas <- data %>%
     na.omit() %>%
-    count(id) %>%
+    count(.data$id) %>%
     mutate(
-      v_j = sigma_squared / n,
-      lambda_j = tau_00 / (tau_00 + v_j)
+      v_j = sigma_squared / .data$n,
+      lambda_j = tau_00 / (tau_00 + .data$v_j)
     )
 
 
@@ -30,12 +46,12 @@
     as_tibble() %>%
     left_join(lambdas, by = "id") %>%
     mutate(
-      eb_slope = lambda_j * slope + (1 - lambda_j) * gamma_00,
-      var_eb_slope = (v_j^-1 + tau_00^-1)^-1 + (1 - lambda_j^2) * var_gamma_00,
-      sd_eb_slope = sqrt(var_eb_slope),
-      z = eb_slope / sd_eb_slope
+      eb_slope = .data$lambda_j * .data$slope + (1 - .data$lambda_j) * gamma_00,
+      var_eb_slope = (.data$v_j^-1 + tau_00^-1)^-1 + (1 - .data$lambda_j^2) * var_gamma_00,
+      sd_eb_slope = sqrt(.data$var_eb_slope),
+      z = .data$eb_slope / .data$sd_eb_slope
     ) %>%
-    select(id, n, intercept, slope, eb_slope, sd_eb_slope, rci = z)
+    select(.data$id, .data$n, .data$intercept, .data$slope, .data$eb_slope, .data$sd_eb_slope, rci = .data$z)
 
   data_with_rci <- rci_data %>%
     .calc_improvement(

@@ -134,7 +134,7 @@
 #' @noRd
 .prep_data_hlm <- function(data, id, time, outcome, group = NULL) {
   # Select relevant variables
-  imported_data <- anxiety %>%
+  imported_data <- data %>%
     select(id = {{ id }}, group = {{ group }}, time = {{ time }}, outcome = {{ outcome }}) %>%
     mutate(id = as.character(id))
 

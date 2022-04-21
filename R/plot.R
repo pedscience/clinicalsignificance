@@ -3,12 +3,12 @@
 #' @param x A clinisig object
 #' @param lower_limit Numeric, lower plotting limit. Defaults to 0
 #' @param upper_limit Numeric, upper plotting limit. Defaults to 100
-#' @param limit_tolerance Numeric, control amount of overplotting. Defaults to
+#' @param overplotting Numeric, control amount of overplotting. Defaults to
 #'   0.02 (i.e., 2% of range between lower and upper limit).
 #' @param rci_fill String, a color (name or HEX code) for RCI filling
 #' @param rci_alpha Numeric, controls the transparency of the RCI. This can be
 #'   any value between 0 and 1.
-#' @param ab_line_color String, a color (name or HEX code) for the line
+#' @param diagonal_color String, a color (name or HEX code) for the line
 #'   indicating no change.
 #' @param show String, which category should be shown with distinctive colors?
 #'   Available are `"recovered"`, `"improved"`, `"deteriorated"`, or
@@ -23,6 +23,8 @@
 #'
 #' @import ggplot2
 #' @importFrom rlang .data abort
+#' @importFrom purrr map2
+#' @importFrom tidyr unnest
 #'
 #' @return A ggplot2 plot
 #' @export
@@ -31,28 +33,67 @@ plot.clinisig <- function(x,
                           upper_limit = 100,
                           rci_fill = "grey10",
                           rci_alpha = 0.1,
-                          ab_line_color = "black",
+                          diagonal_color = "black",
                           show = NULL,
+                          which = c("point", "trajectory", "slope"),
                           include_cutoff = TRUE,
                           include_cutoff_band = FALSE,
-                          x_lab = "Pre",
-                          y_lab = "Post",
-                          limit_tolerance = 0.02, ...
+                          x_lab = NULL,
+                          y_lab = NULL,
+                          color_lab = "Group",
+                          overplotting = 0.02,
+                          ...
                           ) {
   clinisig_method <- get_clinical_significance_method(x)
-  data <- get_augmented_data(x)
+  which_plot <- arg_match(which)
   cutoff <- get_cutoff(x)[["value"]]
+  if (clinisig_method != "HA" & include_cutoff_band) abort("A cutoff band can only be shown for method HA.")
+
+
+  # Get data for different kind of plots
+  if (which_plot == "point") {
+    data <- get_augmented_data(x)
+  } else if (which_plot == "trajectory") {
+    model_data <- get_data(x, "model")
+    categories <- get_augmented_data(x)
+
+    data <- model_data %>%
+      left_join(categories, by = c("id", "group"))
+  } else if (which_plot == "slope") {
+    min_measurement <- x[["datasets"]][["min"]]
+    max_measurement <- x[["datasets"]][["max"]]
+
+    data <- get_augmented_data(x) %>%
+      mutate(
+        plot_data = map2(intercept, eb_slope, ~ .calc_slope_data(.x, .y, min_measurement, max_measurement))
+      ) %>%
+      unnest(plot_data)
+  }
+
+
+  # Default plot labels
+  if (which_plot == "point" & is.null(x_lab) & is.null(y_lab)) {
+    x_lab <- "Pre"
+    y_lab <- "Post"
+  } else if (which_plot == "trajectory" & is.null(x_lab) & is.null(y_lab)) {
+    x_lab <- "Measurement"
+    y_lab <- "Outcome Score"
+  } else if (which_plot == "slope" & is.null(x_lab) & is.null(y_lab)) {
+    x_lab <- "Measurement"
+    y_lab <- "Fitted Score"
+  }
+
+
+  # Check if analysis was grouped and display those groups by default
   if (is.null(show) & .has_group(data)) show <- "group"
 
-  if (clinisig_method != "HA" & include_cutoff_band) abort("A cutoff band can only be shown for method HA.")
-  # if (!(clinisig_method %in% c("JT", "EN", "GLN", "HA", "HLL", "NK"))) abort(paste0("Currently, there is no print method implemented for clinical significance method ", clinisig_method))
 
   # Determine x and y limits for plotting. Overplotting is needed because we
   # want the ribbon to be at the edge of the plot, requiring expand = FALSE in
   # coord_cartesian()
-  overplotting <- (upper_limit - lower_limit) * limit_tolerance
-  lower_limit <- lower_limit - overplotting
-  upper_limit <- upper_limit + overplotting
+  overplot_amount <- (upper_limit - lower_limit) * overplotting
+  lower_limit <- lower_limit - overplot_amount
+  upper_limit <- upper_limit + overplot_amount
   x_limits <- y_limits <- c(lower_limit, upper_limit)
 
 
@@ -103,20 +144,38 @@ plot.clinisig <- function(x,
 
   # Create a list of geoms added to the plot
   geom_list <- list(
-    geom_ribbon(data = rci_data, aes(y = NULL, ymin = .data$ymin, ymax = .data$ymax), fill = rci_fill, alpha = rci_alpha),
-    geom_abline(color = ab_line_color),
+    if (clinisig_method != "HLM") geom_ribbon(data = rci_data, aes(y = NULL, ymin = .data$ymin, ymax = .data$ymax), fill = rci_fill, alpha = rci_alpha),
+    geom_abline(color = diagonal_color),
     if (include_cutoff) geom_hline(yintercept = cutoff, lty = 2),
     if (include_cutoff) geom_vline(xintercept = cutoff, lty = 2),
     if (include_cutoff_band) geom_ribbon(data = cs_data, aes(y = NULL, ymin = .data$ymin, ymax = .data$ymax), alpha = rci_alpha),
     if (is.null(show)) geom_point() else geom_point(aes_(color = as.name(show)))
   )
 
+  geom_list_trajectory <- list(
+    if (is.null(show)) geom_line(na.rm = TRUE) else geom_line(aes_(color = as.name(show)), na.rm = TRUE)
+  )
+
 
   # Plot the whole thing
-  data %>%
-    ggplot(aes(.data$pre, .data$post)) +
-    geom_list +
-    coord_cartesian(xlim = x_limits, ylim = y_limits, expand = FALSE) +
-    labs(x = x_lab, y = y_lab) +
-    theme_light()
+  if (which_plot == "point") {
+    data %>%
+      ggplot(aes(.data$pre, .data$post)) +
+      geom_list +
+      coord_cartesian(xlim = x_limits, ylim = y_limits, expand = FALSE) +
+      labs(x = x_lab, y = y_lab, color = color_lab) +
+      theme_light()
+  } else if (which_plot == "trajectory") {
+    data %>%
+      ggplot(aes(.data$time, .data$outcome, group = .data$id)) +
+      geom_list_trajectory +
+      labs(x = x_lab, y = y_lab, color = color_lab) +
+      theme_light()
+  } else if (which_plot == "slope") {
+    data %>%
+      ggplot(aes(.data$time, .data$fitted, group = .data$id)) +
+      geom_list_trajectory +
+      labs(x = x_lab, y = y_lab, color = color_lab) +
+      theme_light()
+  }
 }

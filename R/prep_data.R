@@ -171,11 +171,18 @@
   prepped_data <- imported_data %>%
     filter(id %in% cutoff_data[["id"]])
 
+
+  # Determine min and max of measurements (needed for plotting)
+  min_measurement <- min(prepped_data[["time"]])
+  max_measurement <- max(prepped_data[["time"]])
+
   list(
     original = data,
     wide = wide_data,
     data = cutoff_data,
     groups = groups,
-    model_data = prepped_data
+    model = prepped_data,
+    min = min_measurement,
+    max = max_measurement
   )
 }

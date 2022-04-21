@@ -198,7 +198,7 @@ clinical_significance <- function(data,
     )
   } else if (clinisig_method == "HLM") {
     rci <- .calc_rci_hlm(
-      data = datasets[["model_data"]],
+      data = datasets[["model"]],
       direction = direction
     )
   }

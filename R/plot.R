@@ -45,7 +45,7 @@ plot.clinisig <- function(x,
   if (is.null(show) & .has_group(data)) show <- "group"
 
   if (clinisig_method != "HA" & include_cutoff_band) abort("A cutoff band can only be shown for method HA.")
-  if (!(clinisig_method %in% c("JT", "EN", "GLN", "HA", "HLL", "NK"))) abort(paste0("Currently, there is no print method implemented for clinical significance method ", clinisig_method))
+  # if (!(clinisig_method %in% c("JT", "EN", "GLN", "HA", "HLL", "NK"))) abort(paste0("Currently, there is no print method implemented for clinical significance method ", clinisig_method))
 
   # Determine x and y limits for plotting. Overplotting is needed because we
   # want the ribbon to be at the edge of the plot, requiring expand = FALSE in

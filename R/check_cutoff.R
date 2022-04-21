@@ -10,10 +10,11 @@
 #'   improve smoothness of highly peaked curves.
 #' @inheritParams clinical_significance
 #'
+#' @importFrom stats dnorm
+#'
 #' @return A ggplot2
 #' @export
 check_cutoff <- function(object = NULL, m_clinical, sd_clinical, m_functional = NA, sd_functional = NA, type = c("a", "b", "c"), better_is = c("lower", "higher"), resolution = 300) {
-  dnorm <- NULL
   # Get effect direction and cutoff type to show
   if (arg_match(better_is) == "lower") direction <- -1 else direction <- 1
   type <- arg_match(type)
@@ -79,5 +80,5 @@ check_cutoff <- function(object = NULL, m_clinical, sd_clinical, m_functional = 
     geom_list +
     expand_limits(x = c(lower_limit, upper_limit), y = 0) +
     theme_light() +
-    labs(x = "Instrument Score", y = "Density", color = "Population")
+    labs(x = "Outcome Score", y = "Density", color = "Population")
 }

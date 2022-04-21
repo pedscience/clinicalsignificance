@@ -3,22 +3,36 @@
 #' @param x A clinisig object
 #' @param lower_limit Numeric, lower plotting limit. Defaults to 0
 #' @param upper_limit Numeric, upper plotting limit. Defaults to 100
-#' @param overplotting Numeric, control amount of overplotting. Defaults to
-#'   0.02 (i.e., 2% of range between lower and upper limit).
+#' @param overplotting Numeric, control amount of overplotting. Defaults to 0.02
+#'   (i.e., 2% of range between lower and upper limit).
 #' @param rci_fill String, a color (name or HEX code) for RCI filling
 #' @param rci_alpha Numeric, controls the transparency of the RCI. This can be
 #'   any value between 0 and 1.
 #' @param diagonal_color String, a color (name or HEX code) for the line
 #'   indicating no change.
-#' @param show String, which category should be shown with distinctive colors?
-#'   Available are `"recovered"`, `"improved"`, `"deteriorated"`, or
-#'   `"unchanged"`.
-#' @param include_cutoff Logical, should the clinical cutoff be plotted as well?
+#' @param show String. You have several options to color different features. Available are
+#'  - `"category"` (shows all categories at once) which is the default
+#'  - `"recovered"` (shows recovered participants)
+#'  - `"improved"` (shows improved participants)
+#'  - `"unchanged"` (shows unchanged participants)
+#'  - `"deteriorated"` (shows deteriorated participants, if available)
+#'  - `"harmed"` (shows harmed participants, if available)
+#' @param which String. Which plot type should be shown? Defaults to `"point"`
+#'   which yields the default clinical significance plot. The HLM method
+#'   incorporates multiple measurements per participant, so a reduction to pre
+#'   and post values may remove important information. Therefore, you can
+#'   additionally choose to plot either
+#'   - each participants trajectory (with `"trajectory"`), or
+#'   - each participants fitted Empirical Bayes slope (with `"slope"`)
+#' @param include_cutoff Logical. Should the clinical cutoff be plotted as well?
 #'   Defaults to `TRUE`.
-#' @param include_cutoff_band If method was HA, a region of uncertainty around
-#'   the cutoff can be plotted
-#' @param x_lab String, x axis label. Default is `"Pre"`.
-#' @param y_lab String, y axis label. Default is `"Post"`.
+#' @param include_cutoff_band Logical. If method was HA, a region of uncertainty
+#'   around the cutoff can be plotted
+#' @param x_lab String, x axis label. Default is `"Pre"` for point and
+#'   `"Measurement"` for trajectory and slope plot.
+#' @param y_lab String, y axis label. Default is `"Post"` for point, `"Outcome
+#'   Score"` for trajectory, and `"Fitted Score"` for slope plot.
+#' @param color_lab String, color guide label. Default is `"Group"`.
 #' @param ... Additional arguments
 #'
 #' @import ggplot2
@@ -65,9 +79,9 @@ plot.clinisig <- function(x,
 
     data <- get_augmented_data(x) %>%
       mutate(
-        plot_data = map2(intercept, eb_slope, ~ .calc_slope_data(.x, .y, min_measurement, max_measurement))
+        plot_data = map2(.data$intercept, .data$eb_slope, ~ .calc_slope_data(.x, .y, min_measurement, max_measurement))
       ) %>%
-      unnest(plot_data)
+      unnest(.data$plot_data)
   }
 
 

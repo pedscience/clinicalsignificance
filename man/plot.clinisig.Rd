@@ -10,13 +10,15 @@
   upper_limit = 100,
   rci_fill = "grey10",
   rci_alpha = 0.1,
-  ab_line_color = "black",
+  diagonal_color = "black",
   show = NULL,
+  which = c("point", "trajectory", "slope"),
   include_cutoff = TRUE,
   include_cutoff_band = FALSE,
-  x_lab = "Pre",
-  y_lab = "Post",
-  limit_tolerance = 0.02,
+  x_lab = NULL,
+  y_lab = NULL,
+  color_lab = "Group",
+  overplotting = 0.02,
   ...
 )
 }
@@ -32,25 +34,44 @@
 \item{rci_alpha}{Numeric, controls the transparency of the RCI. This can be
 any value between 0 and 1.}
 
-\item{ab_line_color}{String, a color (name or HEX code) for the line
+\item{diagonal_color}{String, a color (name or HEX code) for the line
 indicating no change.}
 
-\item{show}{String, which category should be shown with distinctive colors?
-Available are \code{"recovered"}, \code{"improved"}, \code{"deteriorated"}, or
-\code{"unchanged"}.}
+\item{show}{String. You have several options to color different features. Available are
+\itemize{
+\item \code{"category"} (shows all categories at once) which is the default
+\item \code{"recovered"} (shows recovered participants)
+\item \code{"improved"} (shows improved participants)
+\item \code{"unchanged"} (shows unchanged participants)
+\item \code{"deteriorated"} (shows deteriorated participants, if available)
+\item \code{"harmed"} (shows harmed participants, if available)
+}}
 
-\item{include_cutoff}{Logical, should the clinical cutoff be plotted as well?
+\item{which}{String. Which plot type should be shown? Defaults to \code{"point"}
+which yields the default clinical significance plot. The HLM method
+incorporates multiple measurements per participant, so a reduction to pre
+and post values may remove important information. Therefore, you can
+additionally choose to plot either
+\itemize{
+\item each participants trajectory (with \code{"trajectory"}), or
+\item each participants fitted Empirical Bayes slope (with \code{"slope"})
+}}
+
+\item{include_cutoff}{Logical. Should the clinical cutoff be plotted as well?
 Defaults to \code{TRUE}.}
 
-\item{include_cutoff_band}{If method was HA, a region of uncertainty around
-the cutoff can be plotted}
+\item{include_cutoff_band}{Logical. If method was HA, a region of uncertainty
+around the cutoff can be plotted}
 
-\item{x_lab}{String, x axis label. Default is \code{"Pre"}.}
+\item{x_lab}{String, x axis label. Default is \code{"Pre"} for point and
+\code{"Measurement"} for trajectory and slope plot.}
 
-\item{y_lab}{String, y axis label. Default is \code{"Post"}.}
+\item{y_lab}{String, y axis label. Default is \code{"Post"} for point, \code{"Outcome Score"} for trajectory, and \code{"Fitted Score"} for slope plot.}
 
-\item{limit_tolerance}{Numeric, control amount of overplotting. Defaults to
-0.02 (i.e., 2\% of range between lower and upper limit).}
+\item{color_lab}{String, color guide label. Default is \code{"Group"}.}
+
+\item{overplotting}{Numeric, control amount of overplotting. Defaults to 0.02
+(i.e., 2\% of range between lower and upper limit).}
 
 \item{...}{Additional arguments}
 }

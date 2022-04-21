@@ -51,3 +51,50 @@
 #' change in psychotherapy research. Journal of Consulting and Clinical
 #' Psychology, 59(1), 12-19. https://doi.org/10.1037//0022-006X.59.1.12
 "jacobson_1989"
+
+
+#'Anxiety Data (Complete)
+#'
+#'A fictional complete dataset to exemplify the use of HLM method for clinical
+#'significance.
+#'
+#'In a fictional clinical trial, participants were split up to belong to either
+#'a medical placebo ("Placebo") or psychotherapeutic intervention
+#'("Intervention") group.
+#'
+#'They underwent outpatient treatment during which they were followed for 5
+#'measurements at which a fictional anxiety score was measured. This anxiety
+#'score may range from 0 - 60.
+#'
+#'The functional population (i.e., non-anxious
+#'individuals) can be expected to have a mean score of M = 8 points with a
+#'standard deviation of SD = 4.
+#'
+#'@format A data frame with 580 rows and 4 variables: \describe{
+#'  \item{\code{subject}}{Participant} \item{\code{treatment}}{Treatment. Either
+#'  Placebo or Intervention.} \item{\code{measurement}}{Number of measurement}
+#'  \item{\code{anxiety}}{Anxiety score, lower is better.} }
+"anxiety_complete"
+
+
+#'Anxiety Data
+#'
+#'A fictional dataset with misisngs to exemplify the use of HLM method for
+#'clinical significance.
+#'
+#'In a fictional clinical trial, participants were split up to belong to either
+#'a medical placebo ("Placebo") or psychotherapeutic intervention
+#'("Intervention") group.
+#'
+#'They underwent outpatient treatment during which they were followed for 5
+#'measurements at which a fictional anxiety score was measured. This anxiety
+#'score may range from 0 - 60.
+#'
+#'The functional population (i.e., non-anxious individuals) can be expected to
+#'have a mean score of M = 8 points with a standard deviation of SD = 4.
+#'
+#'@format A data frame with 580 rows and 4 variables: \describe{
+#'  \item{\code{subject}}{Participant} \item{\code{treatment}}{Treatment. Either
+#'  Placebo or Intervention.} \item{\code{measurement}}{Number of measurement}
+#'  \item{\code{anxiety}}{Anxiety score, lower is better.} }
+"anxiety"

@@ -15,7 +15,7 @@
   m_pre <- get_cutoff_descriptives(x)[["m_clinical"]]
 
   tibble(
-    pre = lower_limit:upper_limit,
+    pre = c(lower_limit, upper_limit),
     ymin = reliability * .data$pre - reliability * m_pre + m_pre + (-1.96 * s_prediction),
     ymax = reliability * .data$pre - reliability * m_pre + m_pre + (1.96 * s_prediction)
   )

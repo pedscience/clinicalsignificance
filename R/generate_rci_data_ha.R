@@ -17,7 +17,7 @@
   m_post <- mean(data[["post"]])
 
   tibble(
-    pre = lower_limit:upper_limit,
+    pre = c(lower_limit, upper_limit),
     ymin = (-1.65 * sqrt(r_dd) * sqrt(2 * se_measurement^2) - (m_post - m_pre) * (1 - r_dd) + .data$pre * r_dd) / r_dd,
     ymax = (1.65 * sqrt(r_dd) * sqrt(2 * se_measurement^2) - (m_post - m_pre) * (1 - r_dd) + .data$pre * r_dd) / r_dd
   )
@@ -33,7 +33,7 @@
 #' @return A tibble with columns `pre`, `ymin`, and `ymax`
 #'
 #' @noRd
-.generate_true_cut_data <- function(x, lower_limit, upper_limit) {
+.generate_true_cut_data <- function(x, lower_limit = 0, upper_limit = 100) {
   rel_post <- x[["cutoff"]][["reliability_post"]]
   se_measurement <- x[["rci"]][["se_measurement"]]
   m_post <- x[["cutoff"]][["m_post"]]

@@ -142,6 +142,8 @@
     groups <- imported_data %>%
       select(id, group) %>%
       distinct(id, group)
+  } else {
+    groups <- NULL
   }
 
 

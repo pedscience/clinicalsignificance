@@ -13,7 +13,7 @@
   s_diff <- x[["rci"]][[1]]
 
   tibble(
-    pre = lower_limit:upper_limit,
+    pre = c(lower_limit, upper_limit),
     ymin = .data$pre - 1.96 * s_diff,
     ymax = .data$pre + 1.96 * s_diff
   )

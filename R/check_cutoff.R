@@ -27,8 +27,9 @@ check_cutoff <- function(object = NULL, m_clinical, sd_clinical, m_functional = 
     cutoff <- object$cutoff$info
     direction <- object$cutoff$direction
     type <- cutoff$type
+    clinisig_method <- get_clinical_significance_method(object)
 
-    if (type == "HA") abort("Currently, cutoffs of type HA are not supported.")
+    if (clinisig_method == "HA") abort("Currently, cutoffs of type HA are not supported.")
 
     m_clinical <- cutoff$m_clinical
     sd_clinical <- cutoff$sd_clinical

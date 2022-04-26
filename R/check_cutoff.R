@@ -11,6 +11,7 @@
 #' @inheritParams clinical_significance
 #'
 #' @importFrom stats dnorm
+#' @importFrom checkmate test_class
 #'
 #' @return A ggplot2
 #' @export
@@ -22,7 +23,7 @@ check_cutoff <- function(object = NULL, m_clinical, sd_clinical, m_functional = 
 
 
   # Extract descriptives if a clinisig object is specified
-  if (class(object) == "clinisig") {
+  if (!is.null(object) & test_class(object, "clinisig")) {
     cutoff <- object$cutoff$info
     direction <- object$cutoff$direction
     type <- cutoff$type
@@ -33,8 +34,7 @@ check_cutoff <- function(object = NULL, m_clinical, sd_clinical, m_functional = 
     sd_clinical <- cutoff$sd_clinical
     m_functional <- cutoff$m_functional
     sd_functional <- cutoff$sd_functional
-  } else if (!is.null(object) & class(object) != "clinisig") {
-    abort("The object you specified is not a clinisig object.")
+    if (!is.na(m_functional) & !is.na(sd_functional)) has_functional <- TRUE else has_functional <- FALSE
   }
 
 

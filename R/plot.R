@@ -71,8 +71,10 @@ plot.clinisig <- function(x,
     model_data <- get_data(x, "model")
     categories <- get_augmented_data(x)
 
+    if (.has_group(model_data)) join_identifiers <- c("id", "group") else join_identifiers <- c("id")
+
     data <- model_data %>%
-      left_join(categories, by = c("id", "group"))
+      left_join(categories, by = join_identifiers)
   } else if (which_plot == "slope") {
     min_measurement <- x[["datasets"]][["min"]]
     max_measurement <- x[["datasets"]][["max"]]

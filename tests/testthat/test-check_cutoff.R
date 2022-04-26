@@ -1,3 +1,4 @@
+library(vdiffr)
 test_that("cutoff plot is correct", {
   object_cutoff <- check_cutoff(clinical_significance(claus_2020, id, time, bdi, pre = 1, post = 4, reliability = 0.80, m_functional = 8, sd_functional = 8, type = "c"))
   manual_cutoff_a <- check_cutoff(m_clinical = 60, sd_clinical = 8, m_functional = 10, sd_functional = 8, type = "a")

@@ -6,11 +6,12 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of clinicalsignificance is to conduct analyses of clinical
-significance in clinical intervention studies. In contrast to
-*statistical* significance, which assesses if it is probable that there
-is a treatment effect, *clinical* significance can be used to determine
-if a treatment effect is of practical use or meaninful for patients.
+The goal of this package is to provide all necessary tools for analyses
+of clinical significance in clinical intervention studies. In contrast
+to *statistical* significance, which assesses if it is probable that
+there is a treatment effect, *clinical* significance can be used to
+determine if a treatment effect is of practical use or meaninful for
+patients.
 
 ## Installation
 

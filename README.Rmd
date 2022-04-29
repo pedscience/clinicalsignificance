@@ -1,0 +1,70 @@
+---
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# clinicalsignificance
+
+<!-- badges: start -->
+
+<!-- badges: end -->
+
+The goal of clinicalsignificance is to conduct analyses of clinical significance in clinical intervention studies. In contrast to *statistical* significance, which assesses if it is probable that there is a treatment effect, *clinical* significance can be used to determine if a treatment effect is of practical use or meaninful for patients.
+
+## Installation
+
+You can install the development version of clinicalsignificance from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("pedscience/clinicalsignificance")
+```
+
+## Rationale
+
+## Example
+Given a tidy dataset, the employed instrument's reliability and descriptives (_M_ and _SD_) of the functional population, the clinical significance in a study can be easily assessed.
+
+```{r example}
+library(clinicalsignificance)
+
+results <- claus_2020 %>% 
+  clinical_significance(
+    id = id, 
+    time = time, 
+    outcome = bdi, 
+    pre = 1, 
+    post = 4, 
+    reliability = 0.81, 
+    m_functional = 8, 
+    sd_functional = 8, 
+    type = "c"
+  )
+
+results
+```
+
+You can receive a detailed summary of the analysis by
+
+```{r}
+summary(results)
+```
+
+or plot the results with
+
+```{r}
+plot(results)
+```
+

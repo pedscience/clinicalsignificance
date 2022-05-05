@@ -23,40 +23,6 @@ You can install the development version of clinicalsignificance from
 devtools::install_github("pedscience/clinicalsignificance")
 ```
 
-## Rationale
-
-Jacobson et al. (1984) criticized, along with other researchers, that
-the vast majority of research in psychological intervention research is
-based on statistical significance testing. This procedure comes with two
-major disadvantages: first, treatment effects are based on groups and
-lack information on individual participants. Second, a significance test
-lacks practical relevance. One can think of a hypothetical intervention
-that expands life expectancy by 1 day. With enough participants
-incorporated in a significance test, one can virtually guarantee a
-significant result although most would agree that such an intervention
-lacks practical relevance.
-
-Therefore, Jacobson et al. (1984) postulated an additional procedure
-that categorizes each patient based on his/her individual change. If a
-patient (reliably) moves from the dysfunctional to a functional
-population, this patient’s change is **clinically significant**. This
-case is depicted in the figure below.
-
-Let’s suppose an instrument assessing depressive symptoms. A clinical
-population of patients with a major depression may score on average with
-*M* = 34 and an *SD* = 8 on this instrument. A functional population (in
-this case a sample of people without a major depression) may score on
-average with *M* = 8 and an *SD* = 8 on that same instrument. If now an
-individual patient with major depression scores 32 on the depression
-instrument before and intervention (black point in the clinical
-population) and 12 after an intervention (black point in the functional
-population) and therefore has crossed the cutoff between the two
-populations (the black line in between), then this patient has changed
-clinically significant (if that change is beyond the error of
-measurement of the instrument).
-
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" style="display: block; margin: auto;" />
-
 ## Example
 
 Given a tidy dataset, the employed instrument’s reliability and
@@ -131,7 +97,41 @@ or plot the results with
 plot(results)
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="80%" style="display: block; margin: auto;" />
+
+## Rationale
+
+Jacobson et al. (1984) criticized, along with other researchers, that
+the vast majority of research in psychological intervention research is
+based on statistical significance testing. This procedure comes with two
+major disadvantages: first, treatment effects are based on groups and
+lack information on individual participants. Second, a significance test
+lacks practical relevance. One can think of a hypothetical intervention
+that expands life expectancy by 1 day. With enough participants
+incorporated in a significance test, one can virtually guarantee a
+significant result although most would agree that such an intervention
+lacks practical relevance.
+
+Therefore, Jacobson et al. (1984) postulated an additional procedure
+that categorizes each patient based on his/her individual change. If a
+patient (reliably) moves from the dysfunctional to a functional
+population, this patient’s change is **clinically significant**. This
+case is depicted in the figure below.
+
+Let’s suppose an instrument assessing depressive symptoms. A clinical
+population of patients with a major depression may score on average with
+*M* = 34 and an *SD* = 8 on this instrument. A functional population (in
+this case a sample of people without a major depression) may score on
+average with *M* = 8 and an *SD* = 8 on that same instrument. If now an
+individual patient with major depression scores 32 on the depression
+instrument before and intervention (black point in the clinical
+population) and 12 after an intervention (black point in the functional
+population) and therefore has crossed the cutoff between the two
+populations (the black line in between), then this patient has changed
+clinically significant (if that change is beyond the error of
+measurement of the instrument).
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;" />
 
 ## References
 

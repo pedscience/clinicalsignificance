@@ -1,0 +1,352 @@
+---
+title: "Clinical Significance Plots"
+author: Benedikt Claus
+date: "`r format(Sys.time(), '%d-%m-%Y')`"
+output: rmarkdown::html_vignette
+bibliography: references.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+vignette: >
+  %\VignetteIndexEntry{Clinical Significance Plots}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6, 
+  fig.height = 6
+)
+
+library(tidyverse)
+cutoff <- (7 * 36.0 + 7 * 10) / (7 + 7)
+s_diff <- sqrt(2 * (7 * sqrt(1 - 0.80))^2)
+limits <- c(0, 60)
+```
+
+Clinical significance results can be presented in tabular form and as figures. Figures are especially informative and can be used to understand the different clinical significance categories.
+
+Let's consider the fictitious data set `anxiety`. This data set contains anxiety scores of 116 subjects assessed at five measurements during a psychological intervention. Measurement 0 corresponds to the pre intervention and measurement 4 to the post intervention assessment. Furthermore, the sample is grouped into two experimental conditions (Placebo vs. Intervention).
+
+```{r setup}
+library(clinicalsignificance)
+
+anxiety
+```
+
+
+## Clinical Significance Plot
+```{r}
+anxiety_results <- anxiety %>% 
+  clinical_significance(
+    id = subject, 
+    time = measurement, 
+    outcome = anxiety, 
+    pre = 0, 
+    post = 4, 
+    reliability = 0.80, 
+    m_functional = 10, 
+    sd_functional = 7, 
+    type = "c"
+  )
+
+plot(anxiety_results, upper_limit = 60)
+```
+
+## Interpretation
+If a lower instrument score corresponds to a beneficial outcome, then the categories in a clinical significance plot can be interpreted according to the figure below.
+
+```{r, fig.width=6, fig.height=4, echo=FALSE}
+recovered <- tribble(
+  ~x, ~y,
+  cutoff, 0,
+  cutoff, cutoff - 1.96*s_diff,
+  cutoff + 1.96*s_diff, cutoff,
+  60, cutoff,
+  60, 0
+) %>% 
+  mutate(category = "Recovered")
+
+harmed <- tribble(
+  ~x, ~y,
+  0, cutoff,
+  0, 60,
+  cutoff, 60,
+  cutoff, cutoff + 1.96 * s_diff,
+  cutoff-1.96*s_diff, cutoff 
+) %>% 
+  mutate(category = "Harmed")
+
+
+unchanged <- tribble(
+  ~x, ~y,
+  0, 0,
+  0, 1.96 * s_diff,
+  60-1.96 * s_diff, 60,
+  60, 60,
+  60, 60-1.96 * s_diff,
+  0+1.96 * s_diff, 0
+) %>% 
+  mutate(category = "Unchanged")
+
+
+deteriorated <- tribble(
+  ~x, ~y,
+  0, 0 + 1.96*s_diff,
+  0, cutoff,
+  cutoff-1.96*s_diff, cutoff,
+  cutoff, cutoff + 1.96*s_diff,
+  cutoff, 60,
+  60-1.96*s_diff,60
+) %>% 
+  mutate(category = "Deteriorated")
+
+
+improved <- tribble(
+  ~x, ~y,
+  cutoff, cutoff-1.96*s_diff,
+  cutoff, 0,
+  0+1.96*s_diff, 0,
+  cutoff + 1.96*s_diff, cutoff,
+  60, 60-1.96*s_diff,
+  60, cutoff,
+  cutoff + 1.96*s_diff, cutoff
+) %>% 
+  mutate(category = "Improved")
+
+category_data <- bind_rows(recovered, harmed, unchanged, improved, deteriorated) %>% 
+  mutate(
+    category = factor(category, levels = c("Recovered", "Improved", "Unchanged", "Deteriorated", "Harmed"))
+  )
+
+set.seed(20220504)
+tibble(
+  x = rnorm(100, 30, 5),
+  y = rnorm(100, 22, 8)
+) %>% 
+  ggplot(aes(x, y)) +
+  geom_polygon(data = category_data, aes(x, y, fill = category), alpha = 0.4) +
+  geom_point() +
+  geom_abline() + 
+  geom_vline(xintercept = cutoff, linetype = "dashed") +
+  geom_hline(yintercept = cutoff, linetype = "dashed") +
+  coord_cartesian(xlim = limits, ylim = limits, expand = FALSE) +
+  theme_light() +
+  theme(
+    panel.grid = element_blank()
+  ) +
+  labs(fill = "Category")
+```
+
+If a higher instrument score corresponds to a beneficial outcome, then the categories in a clinical significance plot can be interpreted according to the figure below. This is the same plot as above, but flipped along the diagonal that indicates no change.
+
+```{r, fig.width=6, fig.height=4, echo=FALSE}
+harmed <- tribble(
+  ~x, ~y,
+  cutoff, 0,
+  cutoff, cutoff - 1.96*s_diff,
+  cutoff + 1.96*s_diff, cutoff,
+  60, cutoff,
+  60, 0
+) %>% 
+  mutate(category = "Harmed")
+
+recovered <- tribble(
+  ~x, ~y,
+  0, cutoff,
+  0, 60,
+  cutoff, 60,
+  cutoff, cutoff + 1.96 * s_diff,
+  cutoff-1.96*s_diff, cutoff 
+) %>% 
+  mutate(category = "Recovered")
+
+
+unchanged <- tribble(
+  ~x, ~y,
+  0, 0,
+  0, 1.96 * s_diff,
+  60-1.96 * s_diff, 60,
+  60, 60,
+  60, 60-1.96 * s_diff,
+  0+1.96 * s_diff, 0
+) %>% 
+  mutate(category = "Unchanged")
+
+
+improved <- tribble(
+  ~x, ~y,
+  0, 0 + 1.96*s_diff,
+  0, cutoff,
+  cutoff-1.96*s_diff, cutoff,
+  cutoff, cutoff + 1.96*s_diff,
+  cutoff, 60,
+  60-1.96*s_diff,60
+) %>% 
+  mutate(category = "Improved")
+
+
+deteriorated <- tribble(
+  ~x, ~y,
+  cutoff, cutoff-1.96*s_diff,
+  cutoff, 0,
+  0+1.96*s_diff, 0,
+  cutoff + 1.96*s_diff, cutoff,
+  60, 60-1.96*s_diff,
+  60, cutoff,
+  cutoff + 1.96*s_diff, cutoff
+) %>% 
+  mutate(category = "Deteriorated")
+
+category_data <- bind_rows(recovered, harmed, unchanged, improved, deteriorated) %>% 
+  mutate(
+    category = factor(category, levels = c("Recovered", "Improved", "Unchanged", "Deteriorated", "Harmed"))
+  )
+
+
+set.seed(20220504)
+tibble(
+  x = rnorm(100, 22, 5),
+  y = rnorm(100, 32, 8)
+) %>% 
+  ggplot(aes(x, y)) +
+  geom_polygon(data = category_data, aes(x, y, fill = category), alpha = 0.4) +
+  geom_point() +
+  geom_abline() + 
+  geom_vline(xintercept = cutoff, linetype = "dashed") +
+  geom_hline(yintercept = cutoff, linetype = "dashed") +
+  coord_cartesian(xlim = limits, ylim = limits, expand = FALSE) +
+  theme_light() +
+  theme(
+    panel.grid = element_blank()
+  ) +
+  labs(fill = "Category")
+```
+
+
+## Different Methods
+
+## Plot Options
+
+<!-- ## By Hand -->
+<!-- You are free to build your clinical significance plot by hand and we encourage you to do this at least once to get a hang of the method. The `plot()` function can, however, be used to automatically create a publication ready plot based on the results by `clinical_significance()`. -->
+
+<!-- First, let's create a plot that shows anxiety score from the pre assessment at the _x_-axis and the post assessment scores at the _y_-axis. For data wrangling and plotting, we will be using the tidyverse. -->
+
+<!-- ```{r, message=FALSE} -->
+<!-- library(tidyverse) -->
+
+<!-- anxiety_wide <- anxiety %>%  -->
+<!--   filter(measurement %in% c(0, 4)) %>%  -->
+<!--   pivot_wider( -->
+<!--     names_from = measurement, -->
+<!--     names_prefix = "t_", -->
+<!--     values_from = anxiety -->
+<!--   ) %>%  -->
+<!--   na.omit() -->
+
+<!-- anxiety_wide -->
+
+<!-- anxiety_wide %>%  -->
+<!--   ggplot(aes(t_0, t_4)) + -->
+<!--   geom_point() -->
+<!-- ``` -->
+
+<!-- This plot in itself is not really informative. We have to add some context to make it helpful. First, let's include a line that shows all patients that did not change during the study. -->
+
+<!-- ```{r} -->
+<!-- anxiety_wide %>%  -->
+<!--   ggplot(aes(t_0, t_4)) + -->
+<!--   geom_point() + -->
+<!--   geom_abline() -->
+<!-- ``` -->
+
+<!-- All patients (points) that fall on this diagonal line did not change during the study. All patients that fall beneath the diagonal line had smaller values at post assessment as compared to pre assessment. In this example, where lower anxiety means a better outcome, these patients improved during the study. Following that, all patients falling above the diagonal line had larger values at post assessment as compared to the pre assessment and worsened in this example. -->
+
+<!-- We can get a glimpse on the general direction of the patients' change by incorporating the minimum and maximum possible value of the employed instrument. In this example, the lowest possible value is 0 and the largest values possible is 60. -->
+
+<!-- ```{r} -->
+<!-- limits <- c(0, 60) -->
+
+<!-- anxiety_wide %>%  -->
+<!--   ggplot(aes(t_0, t_4)) + -->
+<!--   geom_point() + -->
+<!--   geom_abline() + -->
+<!--   expand_limits(x = limits, y = limits) -->
+<!-- ``` -->
+
+<!-- From this plot, it is obvious that the sample started rather homogeneous (the points funnel around a similar value on the _x_-axis) but become heterogeneous at post assessment (the points scatter widely on the _y_-axis). Most patients seem to fall under the diagonal line, indicating an improvement for most participants. -->
+
+<!-- Next, we can include the cutoff between the clinical and the functional population. Let's assume that the functional population can be described with _M_ = 10 and _SD_ = 7. For the cutoff calculation, we have to get the summary statistics of our clinical population. -->
+
+<!-- ```{r} -->
+<!-- anxiety_wide %>%  -->
+<!--   summarise( -->
+<!--     m_clinical = mean(t_0), -->
+<!--     sd_clinical = sd(t_0) -->
+<!--   ) -->
+<!-- ``` -->
+
+<!-- Now we can calulate the cutoff (c in this case). Given the formula by @Jacobson.1991, we can calculate c like -->
+
+<!-- $$c = \frac{SD_{fun}M_{clin} + SD_{clin}M_{fun}}{SD_{fun} + SD_{clin}}$$ -->
+
+<!-- ```{r} -->
+<!-- cutoff <- (7 * 36.0 + 7 * 10) / (7 + 7) -->
+<!-- ``` -->
+
+<!-- This results in the following plot (with the cutoff plotted as dashed lines). -->
+
+<!-- ```{r} -->
+<!-- anxiety_wide %>%  -->
+<!--   ggplot(aes(t_0, t_4)) + -->
+<!--   geom_point() + -->
+<!--   geom_abline() +  -->
+<!--   geom_vline(xintercept = cutoff, linetype = "dashed") + -->
+<!--   geom_hline(yintercept = cutoff, linetype = "dashed") + -->
+<!--   expand_limits(x = limits, y = limits) -->
+<!-- ``` -->
+
+<!-- Now, all patients in the lower right quadrant of the resulting plot can be seen as belonging to the clinical population at the pre assessment and in the functional population at the post assessment. Patients in the upper right quadrant belonged to the clinical population at the pre assessment and still to the clinical population at post assessment. Patients in the lower left quadrant would have had functional scores at pre and post assessment and the single patient in the upper left quadrant had a functional anxiety score at pre assessment and clinical at post assessment. -->
+
+<!-- Next, we have to incorporate if a given patient changed reliably, i.e., whether his/her change is greater than the error of measurement of the employed instrument. @Jacobson.1991 give the formulas to calculate the reliable change index (RCI) -->
+
+<!-- $$RCI = \frac{x_{post} - x_{pre}}{S_{diff}}$$ -->
+
+<!-- with $$S_{diff} = \sqrt{2 * (SD_{clin}\sqrt{1-r_{xx}})^2}$$ -->
+
+<!-- with $r_{xx}$ being the instrument's reliability, preferably a measure of internal consistency. Let's assume this to be $r_{xx}$ = 0.80, then $S_{diff}$ can be obtained with -->
+
+<!-- ```{r} -->
+<!-- s_diff <- sqrt(2 * (7 * sqrt(1 - 0.80))^2) -->
+<!-- ``` -->
+
+<!-- A patient reliably scored lower at post assessment if his RCI < -1.96, and, conversely, a higher value at post assessment if  RCI > 1.96. With this definition and a little bit of algebra magic, we can generate data for the confidence band in which all patients fall that can be categorized as unchanged. -->
+
+<!-- ```{r} -->
+<!-- rci_data <- tibble( -->
+<!--   t_0 = limits, -->
+<!--   ymin = t_0 - 1.96 * s_diff, -->
+<!--   ymax = t_0 + 1.96 * s_diff -->
+<!-- ) -->
+<!-- ``` -->
+
+<!-- This can be included in the plot we had so far. -->
+
+<!-- ```{r} -->
+<!-- anxiety_wide %>%  -->
+<!--   ggplot(aes(t_0, t_4)) + -->
+<!--   geom_ribbon(data = rci_data, aes(y = NULL, ymin = ymin, ymax = ymax), alpha = 0.1) + -->
+<!--   geom_point() + -->
+<!--   geom_abline() +  -->
+<!--   geom_vline(xintercept = cutoff, linetype = "dashed") + -->
+<!--   geom_hline(yintercept = cutoff, linetype = "dashed") + -->
+<!--   expand_limits(x = limits, y = limits) -->
+<!-- ``` -->
+
+<!-- And there we have it! Arguably, the `plot()` function is a much faste way to obtain the same plot. -->
+
+## References

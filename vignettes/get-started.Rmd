@@ -1,8 +1,10 @@
 ---
 title: "Get started"
+author: Benedikt Claus
+date: "`r format(Sys.time(), '%d-%m-%Y')`"
 output: rmarkdown::html_vignette
 bibliography: references.bib
-cls: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
 vignette: >
   %\VignetteIndexEntry{Get started}
   %\VignetteEncoding{UTF-8}
@@ -110,6 +112,7 @@ plot(results, show = "category")
 ```
 
 
+### Grouped Data
 Because the study compared two groups (TAU and PA) with only the latter one receiving the intervention of interest, this grouping variable can be specified as well. The function call is identical to the call above with the exception that we provide the column containing the groups (`treatment` in this data set).
 
 ```{r}

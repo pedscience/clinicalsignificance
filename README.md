@@ -10,7 +10,7 @@ The goal of this package is to provide all necessary tools for analyses
 of clinical significance in clinical intervention studies. In contrast
 to *statistical* significance, which assesses if it is probable that
 there is a treatment effect, *clinical* significance can be used to
-determine if a treatment effect is of practical use or meaninful for
+determine if a treatment effect is of practical use or meaningful for
 patients.
 
 ## Installation
@@ -24,6 +24,38 @@ devtools::install_github("pedscience/clinicalsignificance")
 ```
 
 ## Rationale
+
+Jacobson et al. (1984) criticized, along with other researchers, that
+the vast majority of research in psychological intervention research is
+based on statistical significance testing. This procedure comes with two
+major disadvantages: first, treatment effects are based on groups and
+lack information on individual participants. Second, a significance test
+lacks practical relevance. One can think of a hypothetical intervention
+that expands life expectancy by 1 day. With enough participants
+incorporated in a significance test, one can virtually guarantee a
+significant result although most would agree that such an intervention
+lacks practical relevance.
+
+Therefore, Jacobson et al. (1984) postulated an additional procedure
+that categorizes each patient based on his/her individual change. If a
+patient (reliably) moves from the dysfunctional to a functional
+population, this patient’s change is **clinically significant**. This
+case is depicted in the figure below.
+
+Let’s suppose an instrument assessing depressive symptoms. A clinical
+population of patients with a major depression may score on average with
+*M* = 34 and an *SD* = 8 on this instrument. A functional population (in
+this case a sample of people without a major depression) may score on
+average with *M* = 8 and an *SD* = 8 on that same instrument. If now an
+individual patient with major depression scores 32 on the depression
+instrument before and intervention (black point in the clinical
+population) and 12 after an intervention (black point in the functional
+population) and therefore has crossed the cutoff between the two
+populations (the black line in between), then this patient has changed
+clinically significant (if that change is beyond the error of
+measurement of the instrument).
+
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" style="display: block; margin: auto;" />
 
 ## Example
 
@@ -99,4 +131,21 @@ or plot the results with
 plot(results)
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="80%" style="display: block; margin: auto;" />
+
+## References
+
+<div id="refs" class="references csl-bib-body hanging-indent"
+line-spacing="2">
+
+<div id="ref-Jacobson.1984" class="csl-entry">
+
+Jacobson, N. S., Follette, W. C., & Revenstorf, D. (1984). <span
+class="nocase">Psychotherapy outcome research: Methods for reporting
+variability and evaluating clinical significance</span>. *Behavior
+Therapy*, *15*(4), 336–352.
+<https://doi.org/10.1016/S0005-7894(84)80002-7>
+
+</div>
+
+</div>

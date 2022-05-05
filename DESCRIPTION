@@ -7,8 +7,30 @@ Authors@R:
            comment = c(ORCID = "0000-0001-9501-0954"))
 Description: In contrast to statistical significance, which answers the question 
     whether there exists a treatment effect or not, clinical significance 
-    answers the question whether individual patients became functional during an 
-    intervention or not.
-License: MIT + file LICENSE
+    answers the question whether individual changes are meaningful for patients.
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
+Depends: 
+    R (>= 2.10)
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Imports: 
+    checkmate,
+    crayon,
+    dplyr,
+    ggplot2,
+    insight,
+    lme4,
+    magrittr,
+    purrr,
+    rlang,
+    tibble,
+    tidyr
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0),
+    vdiffr
+Config/testthat/edition: 3
+VignetteBuilder: knitr

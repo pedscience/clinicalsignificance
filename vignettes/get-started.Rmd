@@ -1,0 +1,180 @@
+---
+title: "Get started"
+author: Benedikt Claus
+date: "`r format(Sys.time(), '%d-%m-%Y')`"
+output: rmarkdown::html_vignette
+bibliography: references.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+vignette: >
+  %\VignetteIndexEntry{Get started}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 5,
+  fig.height = 5
+)
+```
+
+To determine the clinical significance of a intervention, you need at least a **tidy data frame** containing 
+
+- a column with IDs identifying individual participants,
+- a column indicating the different measurements, and
+- a column with a continuous outcome
+
+and a measure of **reliability** for your employed instrument. Optimally, you also have descriptives of a functional population, i.e. its **mean** and **standard deviation**.
+
+## A Typical Example
+Suppose an intervention that enhances the placebo effect of antidepressants in routine care. @Claus.2020 conducted a study examining this intervention in a routine care setting for depressive disorders by comparing a group of patients receiving treatment as usual (TAU) with a group of patients receiving the placebo amplification intervention (PA). They assessed patients four times during treatment with measurements carried out pre treatment, two times during treatment and one time post treatment. The original study data is included in the package as `claus_2020`.
+
+```{r setup}
+library(clinicalsignificance)
+
+claus_2020
+```
+
+It mainly contains a column identifying individual patients (`id`), a column indicating the measurement (`time` with values 1--4), and the four outcomes assessed (`bdi`, `shaps`, `who`, and `hamd`), as well as a column indicating the experimental condition (`treatment` with the two experimental conditions TAU and PA).
+
+Let's consider the primary outcome of the study, the Beck Depression Inventory in its second edition [@Beck.1996], known as the BDI-II. Its scores per patient and measurement can be found in the column `bdi`. First, let's plot the results. We load the `tidyverse` first, to gain access to the packages `ggplot2` and others for data wrangling.
+
+```{r, message=FALSE}
+library(tidyverse)
+
+claus_2020 %>% 
+  mutate(time = as_factor(time)) %>% 
+  ggplot(aes(time, bdi)) +
+  geom_boxplot()
+```
+
+We can see that BDI-II scores seemed to be declining over the course of treatment. 
+
+<!-- A significance test indicates a significant reduction of BDI-II scores from pre (time = 1) to post treatment (time = 4). -->
+
+<!-- ```{r} -->
+<!-- bdi_pre_post <- claus_2020 %>%  -->
+<!--   pivot_wider( -->
+<!--     names_from = time, -->
+<!--     values_from = bdi, -->
+<!--     id_cols = id -->
+<!--   ) -->
+
+<!-- t.test(bdi_pre_post$`1`, bdi_pre_post$`4`, paired = TRUE) -->
+<!-- ``` -->
+
+<!-- So far, so good. But what does this actually mean? The _p_-value tells us that the probability of obtaining the same or a more extreme test statistic (i.e., _t_ >= 5.595) if the null hypothesis was in fact true (and if the study was repeated exactly multiple times with comparable patients) is very low (_p_ < .001). But what does this mean clinically or practically? Not all that much. -->
+
+## Clinical Significance
+Additionally to statistical significance testing, clinical significance testing is a great way to make sense of the results above. With that, we can examine if a given patient changes reliably and crosses the line between a clinical and functional population.
+
+A functional population for this particular example was examined by @Kuhner.2007, who determined a mean BDI-II score of _M_ = 7.69 (_SD_ = 7.52) for a non-clinical German population.
+
+In the study by @Claus.2020, the reliability of the BDI-II was McDonald's $\omega$ = 0.801. With these values, we have all the information we need to calculate the clinical significance with `clinical_significance()`.
+
+```{r}
+results <- claus_2020 %>% 
+  clinical_significance(
+    id = id,
+    time = time,
+    outcome = bdi,
+    pre = 1,
+    post = 4,
+    m_functional = 7.69,
+    sd_functional = 7.52,
+    reliability = 0.801,
+    type = "c"
+  )
+
+results
+```
+
+We now can see that 10 patients a categorized as recovered. That means that 10 patients were in the clinical population pre intervention and in the functional population post treatment and showed a reliable change. 8 patients showed a reliable change but did not change from the clinical to the functional population. 22 patients did not change reliably -- their change was not greater than the error of measurement. Fortunately, no patients deteriorated or were harmed during the study period. 
+
+You can obtain a detailed summary on all incorporated and calculated values with `summary()`.
+
+```{r}
+summary(results)
+```
+
+From that we can see that 40 participants had sufficient data to be used in the analysis (pre _and_ post scores). We further are given the chosen cutoff (`"c"`) as well as its value (21.02).
+
+Additionally, you can plot the results with `plot()`. We know that the upper limit of the BDI-II is 63, which we can specify here to make the plot more comprehensible.
+
+```{r}
+plot(results, upper_limit = 63)
+```
+
+If you wish, you can plot the clinical significance categories as well.
+
+```{r, fig.width=6}
+plot(results, upper_limit = 63, show = "category")
+```
+
+
+### Grouped Data
+Because the study compared two groups (TAU and PA) with only the latter one receiving the intervention of interest, this grouping variable can be specified as well. The function call is identical to the call above with the exception that we provide the column containing the groups (`treatment` in this data set).
+
+```{r}
+results_grouped <- claus_2020 %>% 
+  clinical_significance(
+    id = id,
+    time = time,
+    outcome = bdi,
+    pre = 1,
+    post = 4,
+    m_functional = 7.69,
+    sd_functional = 7.52,
+    reliability = 0.801,
+    type = "c",
+    group = treatment
+  )
+
+results_grouped
+```
+
+From this output, we can see that more patients recovered and improved in the PA group (intervention) as compared to the TAU group (control). More patients were categorized as unchanged in the TAU group than the PA group. These results can also be plotted.
+
+```{r, fig.width=6}
+plot(results_grouped, upper_limit = 63)
+```
+
+## Other Methods
+There have been several proposed methods to conduct a clinical significance analysis and this packages contains most of them. Available are
+
+- Jacobson & Truax [JT, @Jacobson.1991], the default
+- Gulliksen, Lord & Novick [GLN, @Hsu.1989; @Hsu.1995]
+- Hsu, Linn & Lord [HLL, @Hsu.1989]
+- Edwards & Nunnally [EN, @Speer.1992]
+- Nunnally & Kotsch [NK, @Nunnally.1983]
+- Hageman & Arrindell [HA, @Hageman.1999]
+- Hierarchical Linear Modeling [HLM, @Raudenbush.2002]
+
+These can easily be applied via the `method` argument, e.g., one can analyse the same data with the more sophisticated and complicated HA method [@Hageman.1999].
+
+```{r}
+results_ha <- claus_2020 %>% 
+  clinical_significance(
+    id = id,
+    time = time,
+    outcome = bdi, 
+    pre = 1,
+    post = 4,
+    m_functional = 7.69,
+    sd_functional = 7.52,
+    reliability = 0.801,
+    type = "c",
+    method = "HA"
+  )
+
+results_ha
+
+plot(results_ha, upper_limit = 63)
+```
+
+
+## References

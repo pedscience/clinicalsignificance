@@ -1,0 +1,370 @@
+---
+title: "Clinical Significance Plots"
+author: Benedikt Claus
+date: "`r format(Sys.time(), '%d-%m-%Y')`"
+output: rmarkdown::html_vignette
+bibliography: references.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+vignette: >
+  %\VignetteIndexEntry{Clinical Significance Plots}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6, 
+  fig.height = 6
+)
+
+library(tidyverse)
+cutoff <- (7 * 36.0 + 7 * 10) / (7 + 7)
+s_diff <- sqrt(2 * (7 * sqrt(1 - 0.80))^2)
+limits <- c(0, 60)
+```
+
+Clinical significance results can be presented in tabular form and as figures. Figures are especially informative and can be used to understand the different clinical significance categories.
+
+Let's consider the fictitious data set `anxiety`. This data set contains anxiety scores of 116 subjects assessed at five measurements during a psychological intervention. Measurement 0 corresponds to the pre intervention and measurement 4 to the post intervention assessment. Furthermore, the sample is grouped into two experimental conditions (Placebo vs. Intervention).
+
+```{r setup}
+library(clinicalsignificance)
+
+anxiety
+```
+
+
+## Clinical Significance Plot
+```{r}
+anxiety_results <- anxiety %>% 
+  clinical_significance(
+    id = subject, 
+    time = measurement, 
+    outcome = anxiety, 
+    pre = 0, 
+    post = 4, 
+    reliability = 0.80, 
+    m_functional = 10, 
+    sd_functional = 7, 
+    type = "c"
+  )
+
+plot(anxiety_results, upper_limit = 60)
+```
+
+## Interpretation
+If a lower instrument score corresponds to a beneficial outcome, then the categories in a clinical significance plot can be interpreted according to the figure below.
+
+```{r, fig.width=6, fig.height=4, echo=FALSE}
+recovered <- tribble(
+  ~x, ~y,
+  cutoff, 0,
+  cutoff, cutoff - 1.96*s_diff,
+  cutoff + 1.96*s_diff, cutoff,
+  60, cutoff,
+  60, 0
+) %>% 
+  mutate(category = "Recovered")
+
+harmed <- tribble(
+  ~x, ~y,
+  0, cutoff,
+  0, 60,
+  cutoff, 60,
+  cutoff, cutoff + 1.96 * s_diff,
+  cutoff-1.96*s_diff, cutoff 
+) %>% 
+  mutate(category = "Harmed")
+
+
+unchanged <- tribble(
+  ~x, ~y,
+  0, 0,
+  0, 1.96 * s_diff,
+  60-1.96 * s_diff, 60,
+  60, 60,
+  60, 60-1.96 * s_diff,
+  0+1.96 * s_diff, 0
+) %>% 
+  mutate(category = "Unchanged")
+
+
+deteriorated <- tribble(
+  ~x, ~y,
+  0, 0 + 1.96*s_diff,
+  0, cutoff,
+  cutoff-1.96*s_diff, cutoff,
+  cutoff, cutoff + 1.96*s_diff,
+  cutoff, 60,
+  60-1.96*s_diff,60
+) %>% 
+  mutate(category = "Deteriorated")
+
+
+improved <- tribble(
+  ~x, ~y,
+  cutoff, cutoff-1.96*s_diff,
+  cutoff, 0,
+  0+1.96*s_diff, 0,
+  cutoff + 1.96*s_diff, cutoff,
+  60, 60-1.96*s_diff,
+  60, cutoff,
+  cutoff + 1.96*s_diff, cutoff
+) %>% 
+  mutate(category = "Improved")
+
+category_data <- bind_rows(recovered, harmed, unchanged, improved, deteriorated) %>% 
+  mutate(
+    category = factor(category, levels = c("Recovered", "Improved", "Unchanged", "Deteriorated", "Harmed"))
+  )
+
+set.seed(20220504)
+tibble(
+  x = rnorm(100, 30, 5),
+  y = rnorm(100, 22, 8)
+) %>% 
+  ggplot(aes(x, y)) +
+  geom_polygon(data = category_data, aes(x, y, fill = category), alpha = 0.4) +
+  geom_point() +
+  geom_abline() + 
+  geom_vline(xintercept = cutoff, linetype = "dashed") +
+  geom_hline(yintercept = cutoff, linetype = "dashed") +
+  coord_cartesian(xlim = limits, ylim = limits, expand = FALSE) +
+  theme_light() +
+  theme(
+    panel.grid = element_blank()
+  ) +
+  labs(fill = "Category")
+```
+
+If a higher instrument score corresponds to a beneficial outcome, then the categories in a clinical significance plot can be interpreted according to the figure below. This is the same plot as above, but flipped along the diagonal that indicates no change.
+
+```{r, fig.width=6, fig.height=4, echo=FALSE}
+harmed <- tribble(
+  ~x, ~y,
+  cutoff, 0,
+  cutoff, cutoff - 1.96*s_diff,
+  cutoff + 1.96*s_diff, cutoff,
+  60, cutoff,
+  60, 0
+) %>% 
+  mutate(category = "Harmed")
+
+recovered <- tribble(
+  ~x, ~y,
+  0, cutoff,
+  0, 60,
+  cutoff, 60,
+  cutoff, cutoff + 1.96 * s_diff,
+  cutoff-1.96*s_diff, cutoff 
+) %>% 
+  mutate(category = "Recovered")
+
+
+unchanged <- tribble(
+  ~x, ~y,
+  0, 0,
+  0, 1.96 * s_diff,
+  60-1.96 * s_diff, 60,
+  60, 60,
+  60, 60-1.96 * s_diff,
+  0+1.96 * s_diff, 0
+) %>% 
+  mutate(category = "Unchanged")
+
+
+improved <- tribble(
+  ~x, ~y,
+  0, 0 + 1.96*s_diff,
+  0, cutoff,
+  cutoff-1.96*s_diff, cutoff,
+  cutoff, cutoff + 1.96*s_diff,
+  cutoff, 60,
+  60-1.96*s_diff,60
+) %>% 
+  mutate(category = "Improved")
+
+
+deteriorated <- tribble(
+  ~x, ~y,
+  cutoff, cutoff-1.96*s_diff,
+  cutoff, 0,
+  0+1.96*s_diff, 0,
+  cutoff + 1.96*s_diff, cutoff,
+  60, 60-1.96*s_diff,
+  60, cutoff,
+  cutoff + 1.96*s_diff, cutoff
+) %>% 
+  mutate(category = "Deteriorated")
+
+category_data <- bind_rows(recovered, harmed, unchanged, improved, deteriorated) %>% 
+  mutate(
+    category = factor(category, levels = c("Recovered", "Improved", "Unchanged", "Deteriorated", "Harmed"))
+  )
+
+
+set.seed(20220504)
+tibble(
+  x = rnorm(100, 22, 5),
+  y = rnorm(100, 32, 8)
+) %>% 
+  ggplot(aes(x, y)) +
+  geom_polygon(data = category_data, aes(x, y, fill = category), alpha = 0.4) +
+  geom_point() +
+  geom_abline() + 
+  geom_vline(xintercept = cutoff, linetype = "dashed") +
+  geom_hline(yintercept = cutoff, linetype = "dashed") +
+  coord_cartesian(xlim = limits, ylim = limits, expand = FALSE) +
+  theme_light() +
+  theme(
+    panel.grid = element_blank()
+  ) +
+  labs(fill = "Category")
+```
+
+
+## Different Methods
+The plot automatically changes according to the specified clinical significance method.
+
+```{r}
+anxiety_results_ha <- anxiety %>% 
+  clinical_significance(
+    id = subject, 
+    time = measurement, 
+    outcome = anxiety, 
+    pre = 0, 
+    post = 4, 
+    reliability = 0.80, 
+    m_functional = 10, 
+    sd_functional = 7, 
+    type = "c",
+    method = "HA"
+  )
+
+plot(anxiety_results_ha, upper_limit = 60)
+
+
+anxiety_results_en <- anxiety %>% 
+  clinical_significance(
+    id = subject, 
+    time = measurement, 
+    outcome = anxiety, 
+    pre = 0, 
+    post = 4, 
+    reliability = 0.80, 
+    m_functional = 10, 
+    sd_functional = 7, 
+    type = "c",
+    method = "EN"
+  )
+
+plot(anxiety_results_en, upper_limit = 60)
+
+
+```
+
+For clinical significance analyses employing the HLM method [@Raudenbush.2002], individual trajectories and empirical Bayes slopes can be plotted as well.
+
+```{r}
+anxiety_results_hlm <- anxiety %>% 
+  clinical_significance(
+    id = subject,
+    time = measurement,
+    outcome = anxiety,
+    method = "HLM"
+  )
+
+plot(anxiety_results_hlm, which = "trajectory")
+plot(anxiety_results_hlm, which = "slope")
+```
+
+
+## Plot Options
+### Colors
+You can choose different categories or groups to be colored separately. If you clinical significance analysis contains a grouping variable, this is automatically shown in the corresponding plot.
+
+```{r}
+anxiety_results_grouped <- anxiety %>% 
+  clinical_significance(
+    id = subject, 
+    time = measurement, 
+    outcome = anxiety, 
+    pre = 0, 
+    post = 4, 
+    reliability = 0.80, 
+    m_functional = 10, 
+    sd_functional = 7, 
+    type = "c",
+    group = treatment
+  )
+
+plot(anxiety_results_grouped, upper_limit = 60)
+```
+
+Alternatively, you can color the individual clinical significance categories.
+
+```{r}
+plot(anxiety_results, upper_limit = 60, show = "recovered")
+plot(anxiety_results, upper_limit = 60, show = "improved")
+```
+
+Or all categories at once.
+
+```{r}
+plot(anxiety_results, upper_limit = 60, show = "category")
+```
+
+Trajectories and slopes for the HLM can be colored as well.
+
+```{r}
+plot(anxiety_results_hlm, which = "trajectory", show = "recovered")
+plot(anxiety_results_hlm, which = "slope", show = "recovered")
+```
+
+Because `clinicalsignificance` uses ggplot2 internally, you can manipulate plots to your liking.
+
+```{r}
+plot(anxiety_results_hlm, which = "trajectory", show = "recovered") +
+  facet_wrap(~ recovered) +
+  theme_minimal()
+```
+
+### RCI Fill
+You can change the display of the RCI band, i.e., its color and transparency.
+
+```{r}
+plot(anxiety_results, upper_limit = 60, rci_fill = "blue", rci_alpha = 0.2)
+```
+
+The HA method [@Hageman.1999] considers a band around the post measurement cutoff, which can be plotted as well.
+
+```{r}
+plot(anxiety_results_ha, upper_limit = 60, include_cutoff_band = TRUE)
+```
+
+
+### Cutoffs
+It is recommended to include the cutoff between the clinical and functional population. By default, they are plotted but can be omitted as well.
+
+```{r}
+plot(anxiety_results, upper_limit = 60, include_cutoff = FALSE)
+```
+
+
+### Labels
+By default, only generic plot labels are used. You can adjust them to make the figure publication ready.
+
+```{r}
+plot(anxiety_results_grouped, 
+     upper_limit = 60, 
+     x_lab = "Anxiety Pre", 
+     y_lab = "Anxiety Post", 
+     color_lab = "Condition")
+```
+
+
+## References

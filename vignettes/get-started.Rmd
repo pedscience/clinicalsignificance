@@ -16,7 +16,9 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.width = 5,
+  fig.height = 5
 )
 ```
 
@@ -50,20 +52,22 @@ claus_2020 %>%
   geom_boxplot()
 ```
 
-We can see that BDI-II scores seemed to be declining over the course of treatment. A significance test indicates a significant reduction of BDI-II scores from pre (time = 1) to post treatment (time = 4).
+We can see that BDI-II scores seemed to be declining over the course of treatment. 
 
-```{r}
-bdi_pre_post <- claus_2020 %>% 
-  pivot_wider(
-    names_from = time,
-    values_from = bdi,
-    id_cols = id
-  )
+<!-- A significance test indicates a significant reduction of BDI-II scores from pre (time = 1) to post treatment (time = 4). -->
 
-t.test(bdi_pre_post$`1`, bdi_pre_post$`4`, paired = TRUE)
-```
+<!-- ```{r} -->
+<!-- bdi_pre_post <- claus_2020 %>%  -->
+<!--   pivot_wider( -->
+<!--     names_from = time, -->
+<!--     values_from = bdi, -->
+<!--     id_cols = id -->
+<!--   ) -->
 
-So far, so good. But what does this actually mean? The _p_-value tells us that the probability of obtaining the same or a more extreme test statistic (i.e., _t_ >= 5.595) if the null hypothesis was in fact true (and if the study was repeated exactly multiple times with comparable patients) is very low (_p_ < .001). But what does this mean clinically or practically? Not all that much.
+<!-- t.test(bdi_pre_post$`1`, bdi_pre_post$`4`, paired = TRUE) -->
+<!-- ``` -->
+
+<!-- So far, so good. But what does this actually mean? The _p_-value tells us that the probability of obtaining the same or a more extreme test statistic (i.e., _t_ >= 5.595) if the null hypothesis was in fact true (and if the study was repeated exactly multiple times with comparable patients) is very low (_p_ < .001). But what does this mean clinically or practically? Not all that much. -->
 
 ## Clinical Significance
 Additionally to statistical significance testing, clinical significance testing is a great way to make sense of the results above. With that, we can examine if a given patient changes reliably and crosses the line between a clinical and functional population.
@@ -107,8 +111,8 @@ plot(results, upper_limit = 63)
 
 If you wish, you can plot the clinical significance categories as well.
 
-```{r, fig.width=4.5}
-plot(results, show = "category")
+```{r, fig.width=6}
+plot(results, upper_limit = 63, show = "category")
 ```
 
 
@@ -135,12 +139,42 @@ results_grouped
 
 From this output, we can see that more patients recovered and improved in the PA group (intervention) as compared to the TAU group (control). More patients were categorized as unchanged in the TAU group than the PA group. These results can also be plotted.
 
-```{r, fig.width=4}
+```{r, fig.width=6}
 plot(results_grouped, upper_limit = 63)
 ```
 
+## Other Methods
+There have been several proposed methods to conduct a clinical significance analysis and this packages contains most of them. Available are
 
-This analysis results in additional information that can be used to determine the clinical relevance of a given intervention.
+- Jacobson & Truax [JT, @Jacobson.1991], the default
+- Gulliksen, Lord & Novick [GLN, @Hsu.1989; @Hsu.1995]
+- Hsu, Linn & Lord [HLL, @Hsu.1989]
+- Edwards & Nunnally [EN, @Speer.1992]
+- Nunnally & Kotsch [NK, @Nunnally.1983]
+- Hageman & Arrindell [HA, @Hageman.1999]
+- Hierarchical Linear Modeling [HLM, @Raudenbush.2002]
+
+These can easily be applied via the `method` argument, e.g., one can analyse the same data with the more sophisticated and complicated HA method [@Hageman.1999].
+
+```{r}
+results_ha <- claus_2020 %>% 
+  clinical_significance(
+    id = id,
+    time = time,
+    outcome = bdi, 
+    pre = 1,
+    post = 4,
+    m_functional = 7.69,
+    sd_functional = 7.52,
+    reliability = 0.801,
+    type = "c",
+    method = "HA"
+  )
+
+results_ha
+
+plot(results_ha, upper_limit = 63)
+```
 
 
 ## References

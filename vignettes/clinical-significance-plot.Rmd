@@ -340,7 +340,7 @@ You can change the display of the RCI band, i.e., its color and transparency.
 plot(anxiety_results, upper_limit = 60, rci_fill = "blue", rci_alpha = 0.2)
 ```
 
-The HA method [@Hagemann.1999] considers a band around the post measurement cutoff, which can be plotted as well.
+The HA method [@Hageman.1999] considers a band around the post measurement cutoff, which can be plotted as well.
 
 ```{r}
 plot(anxiety_results_ha, upper_limit = 60, include_cutoff_band = TRUE)

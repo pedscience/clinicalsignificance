@@ -54,21 +54,6 @@ claus_2020 %>%
 
 We can see that BDI-II scores seemed to be declining over the course of treatment. 
 
-<!-- A significance test indicates a significant reduction of BDI-II scores from pre (time = 1) to post treatment (time = 4). -->
-
-<!-- ```{r} -->
-<!-- bdi_pre_post <- claus_2020 %>%  -->
-<!--   pivot_wider( -->
-<!--     names_from = time, -->
-<!--     values_from = bdi, -->
-<!--     id_cols = id -->
-<!--   ) -->
-
-<!-- t.test(bdi_pre_post$`1`, bdi_pre_post$`4`, paired = TRUE) -->
-<!-- ``` -->
-
-<!-- So far, so good. But what does this actually mean? The _p_-value tells us that the probability of obtaining the same or a more extreme test statistic (i.e., _t_ >= 5.595) if the null hypothesis was in fact true (and if the study was repeated exactly multiple times with comparable patients) is very low (_p_ < .001). But what does this mean clinically or practically? Not all that much. -->
-
 ## Clinical Significance
 Additionally to statistical significance testing, clinical significance testing is a great way to make sense of the results above. With that, we can examine if a given patient changes reliably and crosses the line between a clinical and functional population.
 

@@ -9,14 +9,34 @@ get_n(x, which = "all")
 \arguments{
 \item{x}{A clinisg object}
 
-\item{which}{Which n should be returned? Available options are \code{"all"} (n
-in the original and used data set), \code{"original"} (n in the original
-dataset), and \code{"used"} (n in the used data set, so after conversion to
-wide format and omitting cases with missing values). The default is \code{"all"}}
+\item{which}{Which n should be returned? Available options are
+\itemize{
+\item \code{"all"}, n in the original and used data set (the default)
+\item \code{"original"}, n in the original dataset
+\item \code{"used"}, n in the used data set, so after conversion to wide format and
+omitting cases with missing values
+}}
 }
 \value{
 A tibble with number of participants
 }
 \description{
 Get Number Of Participants From A clinisig Object
+}
+\examples{
+results <- jacobson_1989 \%>\%
+  clinical_significance(
+    id = subject,
+    time = time,
+    outcome = gds,
+    pre = "pre",
+    reliability = 0.80,
+    m_functional = 30,
+    sd_functional = 10,
+    type = "c"
+  )
+
+get_n(results)
+get_n(results, which = "original")
+get_n(results, which = "used")
 }

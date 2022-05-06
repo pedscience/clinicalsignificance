@@ -17,3 +17,15 @@ A string
 \description{
 Get the Specified Beneficial Direction of a Clinical Significance Analysis
 }
+\examples{
+results <- jacobson_1989 \%>\%
+clinical_significance(
+  id = subject,
+  time = time,
+  outcome = gds,
+  pre = "pre",
+  reliability = 0.80
+)
+
+get_beneficial_direction(results)
+}

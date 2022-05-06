@@ -15,3 +15,33 @@ A tibble conatining the reliability
 \description{
 Get Reliability Of A clinisig Object
 }
+\examples{
+results <- jacobson_1989 \%>\%
+  clinical_significance(
+    id = subject,
+    time = time,
+    outcome = gds,
+    pre = "pre",
+    reliability = 0.80,
+    m_functional = 30,
+    sd_functional = 10,
+    type = "c"
+  )
+
+results_nk <- jacobson_1989 \%>\%
+  clinical_significance(
+    id = subject,
+    time = time,
+    outcome = gds,
+    pre = "pre",
+    reliability = 0.80,
+    reliability_post = 0.85,
+    m_functional = 30,
+    sd_functional = 10,
+    type = "c",
+    method = "NK"
+  )
+
+get_reliability(results)
+get_reliability(results_nk)
+}

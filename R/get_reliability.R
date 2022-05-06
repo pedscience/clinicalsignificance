@@ -6,10 +6,40 @@
 #'
 #' @return A tibble conatining the reliability
 #' @export
+#'
+#' @examples
+#' results <- jacobson_1989 %>%
+#'   clinical_significance(
+#'     id = subject,
+#'     time = time,
+#'     outcome = gds,
+#'     pre = "pre",
+#'     reliability = 0.80,
+#'     m_functional = 30,
+#'     sd_functional = 10,
+#'     type = "c"
+#'   )
+#'
+#' results_nk <- jacobson_1989 %>%
+#'   clinical_significance(
+#'     id = subject,
+#'     time = time,
+#'     outcome = gds,
+#'     pre = "pre",
+#'     reliability = 0.80,
+#'     reliability_post = 0.85,
+#'     m_functional = 30,
+#'     sd_functional = 10,
+#'     type = "c",
+#'     method = "NK"
+#'   )
+#'
+#' get_reliability(results)
+#' get_reliability(results_nk)
 get_reliability <- function(x) {
   assert_class(x, "clinisig")
 
-  clinisig_method <- get_clinical_significance_method(x)
+  clinisig_method <- get_method(x)
 
   reliability <- tibble(
     reliability = x[["reliability"]]

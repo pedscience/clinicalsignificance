@@ -79,5 +79,11 @@ around the cutoff can be plotted}
 A ggplot2 plot
 }
 \description{
-Plot Clinical Significance Results
+Plot the results of a clinical significance analysis.
+}
+\details{
+The resulting plot is a generic clinical significance plot with
+pre-intervention assessment scores on the x-axis and post-intervention
+assessment scores on the y-axis. By default, the cutoff between the clinical
+and functional population is plotted as well as the RCI band.
 }

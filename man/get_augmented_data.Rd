@@ -15,3 +15,18 @@ A tibble with used data and clinical significance categories
 \description{
 Get Data Augmented With Clinical Significance Categories
 }
+\examples{
+results <- jacobson_1989 \%>\%
+clinical_significance(
+  id = subject,
+  time = time,
+  outcome = gds,
+  pre = "pre",
+  reliability = 0.80,
+  m_functional = 30,
+  sd_functional = 7,
+  type = "c"
+)
+
+get_augmented_data(results)
+}

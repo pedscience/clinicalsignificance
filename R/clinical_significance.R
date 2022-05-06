@@ -28,6 +28,89 @@
 #'
 #' @return An S3 object of class `clinisig`
 #' @export
+#'
+#' @examples
+#' # Clinical significane for "negative" outcomes (lower values are desirable)
+#' jacobson_1989 %>%
+#'   clinical_significance(
+#'     id = subject,
+#'     time = time,
+#'     outcome = gds,
+#'     pre = "pre",
+#'     reliability = 0.80
+#'   )
+#'
+#'
+#' # Clinical significane for "positive" outcomes (higher values are desirable)
+#' jacobson_1989 %>%
+#'   clinical_significance(
+#'     id = subject,
+#'     time = time,
+#'     outcome = das,
+#'     pre = "pre",
+#'     reliability = 0.80,
+#'     better_is = "higher"
+#'   )
+#'
+#'
+#' # Clinical significance incorporating descriptives of a functional population.
+#' # Make sure to select type = "c" to incorporate the specified functional
+#' # descriptives.
+#' jacobson_1989 %>%
+#'   clinical_significance(
+#'     id = subject,
+#'     time = time,
+#'     outcome = gds,
+#'     pre = "pre",
+#'     reliability = 0.80,
+#'     m_functional = 30,
+#'     sd_functional = 7,
+#'     type = "c"
+#'   )
+#'
+#'
+#' # Change the clinical significance method
+#' jacobson_1989 %>%
+#'   clinical_significance(
+#'     id = subject,
+#'     time = time,
+#'     outcome = gds,
+#'     pre = "pre",
+#'     reliability = 0.80,
+#'     m_functional = 30,
+#'     sd_functional = 7,
+#'     type = "c",
+#'     method = "EN"
+#'   )
+#'
+#' jacobson_1989 %>%
+#'   clinical_significance(
+#'     id = subject,
+#'     time = time,
+#'     outcome = gds,
+#'     pre = "pre",
+#'     reliability = 0.80,
+#'     m_functional = 30,
+#'     sd_functional = 7,
+#'     type = "c",
+#'     method = "HA"
+#'   )
+#'
+#'
+#' # And plot your results
+#' results <- jacobson_1989 %>%
+#'   clinical_significance(
+#'     id = subject,
+#'     time = time,
+#'     outcome = gds,
+#'     pre = "pre",
+#'     reliability = 0.80,
+#'     m_functional = 30,
+#'     sd_functional = 7,
+#'     type = "c"
+#'   )
+#'
+#' plot(results)
 clinical_significance <- function(data,
                                   id,
                                   time,

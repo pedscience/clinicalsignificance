@@ -28,7 +28,7 @@ To determine the clinical significance of a intervention, you need at least a **
 - a column indicating the different measurements, and
 - a column with a continuous outcome
 
-and a measure of **reliability** for your employed instrument. Optimally, you also have descriptives of a functional population, i.e. its **mean** and **standard deviation**.
+and a measure of **reliability** for your employed instrument. Optimally, you also have descriptive statistics of a functional population, i.e. its **mean** and **standard deviation**. If you have these things, you are ready to roll.
 
 ## A Typical Example
 Suppose an intervention that enhances the placebo effect of antidepressants in routine care. @Claus.2020 conducted a study examining this intervention in a routine care setting for depressive disorders by comparing a group of patients receiving treatment as usual (TAU) with a group of patients receiving the placebo amplification intervention (PA). They assessed patients four times during treatment with measurements carried out pre treatment, two times during treatment and one time post treatment. The original study data is included in the package as `claus_2020`.
@@ -41,7 +41,7 @@ claus_2020
 
 It mainly contains a column identifying individual patients (`id`), a column indicating the measurement (`time` with values 1--4), and the four outcomes assessed (`bdi`, `shaps`, `who`, and `hamd`), as well as a column indicating the experimental condition (`treatment` with the two experimental conditions TAU and PA).
 
-Let's consider the primary outcome of the study, the Beck Depression Inventory in its second edition [@Beck.1996], known as the BDI-II. Its scores per patient and measurement can be found in the column `bdi`. First, let's plot the results. We load the `tidyverse` first, to gain access to the packages `ggplot2` and others for data wrangling.
+Let's consider the primary outcome of the study, the Beck Depression Inventory in its second edition [@Beck.1996], known as the BDI-II. Its scores per patient and measurement can be found in the column `bdi`. First, let's plot the results. We load the `tidyverse`, to gain access to the package [ggplot2](https://ggplot2.tidyverse.org/) and others for data wrangling.
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -52,10 +52,10 @@ claus_2020 %>%
   geom_boxplot()
 ```
 
-We can see that BDI-II scores seemed to be declining over the course of treatment. 
+We can see that BDI-II scores seemed to be declining over the course of treatment. But is that an effect that is meaningful or practical for patients?
 
 ## Clinical Significance
-Additionally to statistical significance testing, clinical significance testing is a great way to make sense of the results above. With that, we can examine if a given patient changes reliably and crosses the line between a clinical and functional population.
+Additionally to statistical significance testing, clinical significance testing is a great way to make sense of the results above. With that, we can examine if a given patient changes reliably and crosses the line between a clinical and functional population which should be of practical relevance for a patient.
 
 A functional population for this particular example was examined by @Kuhner.2007, who determined a mean BDI-II score of _M_ = 7.69 (_SD_ = 7.52) for a non-clinical German population.
 
@@ -77,6 +77,7 @@ results <- claus_2020 %>%
 
 results
 ```
+Note that because @Claus.2020 assessed patients four times during their study, but a clinical significance analysis is usually done on pre and post assessments alone (an exception being the HLM method), we need to specify the pre assessment (with `pre = 1`) and the post assessment (with `post = 4`).
 
 We now can see that 10 patients a categorized as recovered. That means that 10 patients were in the clinical population pre intervention and in the functional population post treatment and showed a reliable change. 8 patients showed a reliable change but did not change from the clinical to the functional population. 22 patients did not change reliably -- their change was not greater than the error of measurement. Fortunately, no patients deteriorated or were harmed during the study period. 
 

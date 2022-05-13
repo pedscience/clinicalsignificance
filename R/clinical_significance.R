@@ -499,14 +499,18 @@ summary.clinisig <- function(object, ...) {
     )
   }
 
+  str_participants <- paste0("There were ", bold(nobs[["n_original"]]), " participants in the whole dataset of which ", bold(nobs[["n_used"]]), bold(paste0(" (", round(nobs[["percent_used"]], digits = 3) * 100, "%)")), " could be included in the analysis.")
+  str_method <- paste0("The ", bold(clinisig_method), " method for calculating cutoffs and reliable change was chosen and the outcome variable was ", bold(paste0("\"", outcome ,"\"")), ".")
+  str_cutoff <- paste0("The cutoff type was ", bold(paste0("\"", cutoff[["type"]], "\"")), " with a value of ", bold(round(cutoff[["value"]], digits = 2)), " based on the following population characteristics (with ", bold(direction), " values representing a beneficial outcome)", ":")
 
   # Cat the summary
   cat(blue("\nClinical Significance Results\n\n"))
   # cat("-----------------------------\n")
-  cat("There were ", bold(nobs[["n_original"]]), " participants in the whole dataset of which ", bold(nobs[["n_used"]]), bold(paste0(" (", round(nobs[["percent_used"]], digits = 3) * 100, "%)")), " could be included in the analysis.\n\n", sep = "")
-  cat("The ", bold(clinisig_method), " method for calculating cutoffs and reliable change was chosen and the outcome variable was ", bold(paste0("\"", outcome ,"\"")), ".\n\n", sep = "")
-  cat("The cutoff type was ", bold(paste0("\"", cutoff[["type"]], "\"")), " with a value of ", bold(round(cutoff[["value"]], digits = 2)), " based on the following population characteristics:\n", sep = "")
-  cat("(with ", bold(direction), " values representing a beneficial outcome)\n", sep = "")
+  cat(strwrap(str_participants, width = 70), sep = "\n")
+  cat("\n")
+  cat(strwrap(str_method, width = 70), sep = "\n")
+  cat("\n")
+  cat(strwrap(str_cutoff, width = 70), sep = "\n")
   cat("\n", cutoff_descriptives, "\n\n", sep = "")
   if (!is.na(reliability)) {
     cat("The instrument's reliability was set to ", bold(round(reliability, digits = 2))," \n\n", sep = "")

@@ -10,13 +10,33 @@ get_data(x, dataset = "data")
 \item{x}{A clinisig object.}
 
 \item{dataset}{The dataset you wish to retrieve. Available options are
-\code{"original"} (the raw original dataset), \code{"wide"} (the original dataset
-in wide format), and \code{"data"} (the dataset which is used in the
-calculations). The default is \code{"data"}}
+\itemize{
+\item \code{"original"} (the raw original dataset)
+\item \code{"wide"} (the original dataset in wide format)
+\item \code{"data"} (the dataset which is used in the calculations).
+The default is \code{"data"}
+}}
 }
 \value{
 A tibble
 }
 \description{
 Get Data From A clinisig Object
+}
+\examples{
+results <- jacobson_1989 \%>\%
+  clinical_significance(
+    id = subject,
+    time = time,
+    outcome = gds,
+    pre = "pre",
+    reliability = 0.80,
+    m_functional = 30,
+    sd_functional = 10,
+    type = "c"
+  )
+
+get_data(results)
+get_data(results, "wide")
+get_data(results, "original")
 }

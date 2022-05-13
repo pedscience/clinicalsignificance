@@ -15,6 +15,26 @@
 #'
 #' @return A ggplot2
 #' @export
+#'
+#' @examples
+#' # Check cutoff with manually specified values
+#' check_cutoff(m_clinical = 40, sd_clinical = 12, m_functional = 10, sd_functional = 12)
+#'
+#'
+#' # Or check the cutoff after you conducted a clinical significance analysis
+#' results <- jacobson_1989 %>%
+#'   clinical_significance(
+#'     id = subject,
+#'     time = time,
+#'     outcome = gds,
+#'     pre = "pre",
+#'     reliability = 0.80,
+#'     m_functional = 30,
+#'     sd_functional = 7,
+#'     type = "c"
+#'   )
+#'
+#' check_cutoff(results)
 check_cutoff <- function(object = NULL, m_clinical, sd_clinical, m_functional = NA, sd_functional = NA, type = c("a", "b", "c"), better_is = c("lower", "higher"), resolution = 300) {
   # Get effect direction and cutoff type to show
   if (arg_match(better_is) == "lower") direction <- -1 else direction <- 1
@@ -27,7 +47,7 @@ check_cutoff <- function(object = NULL, m_clinical, sd_clinical, m_functional = 
     cutoff <- object$cutoff$info
     direction <- object$cutoff$direction
     type <- cutoff$type
-    clinisig_method <- get_clinical_significance_method(object)
+    clinisig_method <- get_method(object)
 
     if (clinisig_method == "HA") abort("Currently, cutoffs of type HA are not supported.")
 

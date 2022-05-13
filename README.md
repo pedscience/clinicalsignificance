@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# clinicalsignificance
+# clinicalsignificance <img src="man/figures/logo.png" width="250" align="right" />
 
 <!-- badges: start -->
 <!-- badges: end -->

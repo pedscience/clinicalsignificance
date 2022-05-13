@@ -1,5 +1,12 @@
 #' Plot Clinical Significance Results
 #'
+#' Plot the results of a clinical significance analysis.
+#'
+#' The resulting plot is a generic clinical significance plot with
+#' pre-intervention assessment scores on the x-axis and post-intervention
+#' assessment scores on the y-axis. By default, the cutoff between the clinical
+#' and functional population is plotted as well as the RCI band.
+#'
 #' @param x A clinisig object
 #' @param lower_limit Numeric, lower plotting limit. Defaults to 0
 #' @param upper_limit Numeric, upper plotting limit. Defaults to 100
@@ -58,7 +65,7 @@ plot.clinisig <- function(x,
                           overplotting = 0.02,
                           ...
                           ) {
-  clinisig_method <- get_clinical_significance_method(x)
+  clinisig_method <- get_method(x)
   which_plot <- arg_match(which)
   cutoff <- get_cutoff(x)[["value"]]
   if (clinisig_method != "HA" & include_cutoff_band) abort("A cutoff band can only be shown for method HA.")

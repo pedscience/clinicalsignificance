@@ -28,10 +28,14 @@ to visualize cutoffs after conducting a clinical significance analysis.}
 \item{sd_functional}{SD of functional population}
 
 \item{type}{Cutoff type. Available are \code{"a"}, \code{"b"}, and \code{"c"}. Defaults to
-\code{"a"} (see details for further information in which cutoff to choose).}
+\code{"a"} (see details for further information in which cutoff to choose)}
 
-\item{better_is}{Which direction means a better outcome? Available are
-\code{"lower"} and \code{"higher"}. Defaults to \code{"lower"}.}
+\item{better_is}{Which direction means a better outcome for the employed
+outcome? Available are
+\itemize{
+\item \code{"lower"} (lower outcome scores are desirable, the default) and
+\item \code{"higher"} (higher outcome scores are desirable)
+}}
 
 \item{resolution}{Curve resolution (number of points to be drawn). This may
 improve smoothness of highly peaked curves.}
@@ -41,4 +45,24 @@ A ggplot2
 }
 \description{
 Check the Clinical Significance Cutoff Based on Population Descriptives
+}
+\examples{
+# Check cutoff with manually specified values
+check_cutoff(m_clinical = 40, sd_clinical = 12, m_functional = 10, sd_functional = 12)
+
+
+# Or check the cutoff after you conducted a clinical significance analysis
+results <- jacobson_1989 \%>\%
+  clinical_significance(
+    id = subject,
+    time = time,
+    outcome = gds,
+    pre = "pre",
+    reliability = 0.80,
+    m_functional = 30,
+    sd_functional = 7,
+    type = "c"
+  )
+
+check_cutoff(results)
 }

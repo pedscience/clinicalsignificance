@@ -10,6 +10,21 @@
 #'
 #' @return A tibble with cutoff information
 #' @export
+#'
+#' @examples
+#' results <- jacobson_1989 %>%
+#'   clinical_significance(
+#'     id = subject,
+#'     time = time,
+#'     outcome = gds,
+#'     pre = "pre",
+#'     reliability = 0.80,
+#'     m_functional = 30,
+#'     sd_functional = 10,
+#'     type = "c"
+#'   )
+#'
+#' get_cutoff(results)
 get_cutoff <- function(x, with_descriptives = FALSE) {
   assert_class(x, "clinisig")
 

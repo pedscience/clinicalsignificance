@@ -41,27 +41,143 @@ clinical_significance(
 \item{sd_functional}{Standard deviation of the functional population}
 
 \item{type}{Cutoff type. Available are \code{"a"}, \code{"b"}, and \code{"c"}. Defaults to
-\code{"a"} (see details for further information in which cutoff to choose).}
+\code{"a"} (see details for further information in which cutoff to choose)}
 
 \item{reliability}{The instrument's reliability estimate. If you selected the
 NK method, the here specified reliability will be the instrument's pre
-measurement reliability.}
+measurement reliability}
 
 \item{reliability_post}{The instrument's reliability at post measurement.
-This is only relevant for the NK method.}
+This is only relevant for the NK method}
 
-\item{better_is}{Which direction means a better outcome? Available are
-\code{"lower"} and \code{"higher"}. Defaults to \code{"lower"}.}
+\item{better_is}{Which direction means a better outcome for the employed
+outcome? Available are
+\itemize{
+\item \code{"lower"} (lower outcome scores are desirable, the default) and
+\item \code{"higher"} (higher outcome scores are desirable)
+}}
 
 \item{method}{Clinical significance method. Available are
 \itemize{
-\item \code{"JT"} (Jacobson & Truax)
-\item \code{"GLN"} (Gulliksen, Lord, and Novick)
+\item \code{"JT"} (Jacobson & Truax, 1991, the default)
+\item \code{"GLN"} (Gulliksen, Lord, and Novick; Hsu, 1989, Hsu, 1995)
+\item \code{"HLL"} (Hsu, Linn & Nord; Hsu, 1989)
+\item \code{"EN"} (Edwards & Nunnally; Speer, 1992)
+\item \code{"NK"} (Nunnally & Kotsch, 1983), requires a reliability estimate at post
+measurement. If this is not supplied, reliability and reliability_post
+are assumed to be equal
+\item \code{"HA"} (Hageman & Arrindell, 1999)
+\item \code{"HLM"} (Hierarchical Linear Modeling; Raudenbush & Bryk, 2002), requires
+at least three measurements per patient
 }}
 }
 \value{
 An S3 object of class \code{clinisig}
 }
 \description{
-Clinical Significance
+This function conducts a clinical significance analysis by determining which
+patients changed reliably and moved from the clinical to the functional
+population during a study.
+}
+\details{
+By default, the JT method is used, but there are other methods implemented
+(see description of arguments).
+
+It is generally recommended to use cutoff \code{"c"}, thus, incorporating
+information of the clinical and functional population into the cutoff
+calculation.
+}
+\examples{
+# Clinical significane for "negative" outcomes (lower values are desirable)
+jacobson_1989 \%>\%
+  clinical_significance(
+    id = subject,
+    time = time,
+    outcome = gds,
+    pre = "pre",
+    reliability = 0.80
+  )
+
+
+# Clinical significane for "positive" outcomes (higher values are desirable)
+jacobson_1989 \%>\%
+  clinical_significance(
+    id = subject,
+    time = time,
+    outcome = das,
+    pre = "pre",
+    reliability = 0.80,
+    better_is = "higher"
+  )
+
+
+# Clinical significance incorporating descriptives of a functional population.
+# Make sure to select type = "c" to incorporate the specified functional
+# descriptives.
+jacobson_1989 \%>\%
+  clinical_significance(
+    id = subject,
+    time = time,
+    outcome = gds,
+    pre = "pre",
+    reliability = 0.80,
+    m_functional = 30,
+    sd_functional = 7,
+    type = "c"
+  )
+
+
+# Change the clinical significance method
+jacobson_1989 \%>\%
+  clinical_significance(
+    id = subject,
+    time = time,
+    outcome = gds,
+    pre = "pre",
+    reliability = 0.80,
+    m_functional = 30,
+    sd_functional = 7,
+    type = "c",
+    method = "EN"
+  )
+
+jacobson_1989 \%>\%
+  clinical_significance(
+    id = subject,
+    time = time,
+    outcome = gds,
+    pre = "pre",
+    reliability = 0.80,
+    m_functional = 30,
+    sd_functional = 7,
+    type = "c",
+    method = "HA"
+  )
+
+
+# And plot your results
+results <- jacobson_1989 \%>\%
+  clinical_significance(
+    id = subject,
+    time = time,
+    outcome = gds,
+    pre = "pre",
+    reliability = 0.80,
+    m_functional = 30,
+    sd_functional = 7,
+    type = "c"
+  )
+
+plot(results)
+}
+\references{
+\itemize{
+\item Jacobson, N. S., & Truax, P. (1991). Clinical significance: A statistical approach to defining meaningful change in psychotherapy research. Journal of Consulting and Clinical Psychology, 59(1), 12–19. https://doi.org/10.1037//0022-006X.59.1.12
+\item Hsu, L. M. (1989). Reliable changes in psychotherapy: Taking into account regression toward the mean. Behavioral Assessment, 11(4), 459–467.
+\item Hsu, L. M. (1995). Regression toward the mean associated with measurement error and the identification of improvement and deterioration in psychotherapy. Journal of Consulting and Clinical Psychology, 63(1), 141–144. https://doi.org/10.1037//0022-006x.63.1.141
+\item Speer, D. C. (1992). Clinically significant change: Jacobson and Truax (1991) revisited. Journal of Consulting and Clinical Psychology, 60(3), 402–408. https://doi.org/10.1037/0022-006X.60.3.402
+\item Nunnally, J. C., & Kotsch, W. E. (1983). Studies of individual subjects: Logic and methods of analysis. British Journal of Clinical Psychology, 22(2), 83–93. https://doi.org/10.1111/j.2044-8260.1983.tb00582.x
+\item Hageman, W. J., & Arrindell, W. A. (1999). Establishing clinically significant change: increment of precision and the distinction between individual and group level analysis. Behaviour Research and Therapy, 37(12), 1169–1193. https://doi.org/10.1016/S0005-7967(99)00032-7
+\item Raudenbush, S. W., & Bryk, A. S. (2002). Hierarchical Linear Models - Applications and Data Analysis Methods (2nd ed.). Sage Publications.
+}
 }

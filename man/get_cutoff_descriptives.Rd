@@ -16,3 +16,18 @@ functional population
 \description{
 Get Descriptives Used In The Cutoff Calculation
 }
+\examples{
+results <- jacobson_1989 \%>\%
+  clinical_significance(
+    id = subject,
+    time = time,
+    outcome = gds,
+    pre = "pre",
+    reliability = 0.80,
+    m_functional = 30,
+    sd_functional = 10,
+    type = "c"
+  )
+
+get_cutoff_descriptives(results)
+}

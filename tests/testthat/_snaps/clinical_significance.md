@@ -186,12 +186,15 @@
       
       Clinical Significance Results
       
-      There were 43 participants in the whole dataset of which 40 (93%) could be included in the analysis.
+      There were 43 participants in the whole dataset of which 40 (93%)
+      could be included in the analysis.
       
-      The JT method for calculating cutoffs and reliable change was chosen and the outcome variable was "bdi".
+      The JT method for calculating cutoffs and reliable change was chosen
+      and the outcome variable was "bdi".
       
-      The cutoff type was "a" with a value of 19.16 based on the following population characteristics:
-      (with lower values representing a beneficial outcome)
+      The cutoff type was "a" with a value of 19.16 based on the following
+      population characteristics (with lower values representing a
+      beneficial outcome):
       
       Population Characteristics
       
@@ -221,12 +224,15 @@
       
       Clinical Significance Results
       
-      There were 43 participants in the whole dataset of which 40 (93%) could be included in the analysis.
+      There were 43 participants in the whole dataset of which 40 (93%)
+      could be included in the analysis.
       
-      The JT method for calculating cutoffs and reliable change was chosen and the outcome variable was "bdi".
+      The JT method for calculating cutoffs and reliable change was chosen
+      and the outcome variable was "bdi".
       
-      The cutoff type was "c" with a value of 21.6 based on the following population characteristics:
-      (with lower values representing a beneficial outcome)
+      The cutoff type was "c" with a value of 21.6 based on the following
+      population characteristics (with lower values representing a
+      beneficial outcome):
       
       Population Characteristics
       
@@ -256,12 +262,15 @@
       
       Clinical Significance Results
       
-      There were 43 participants in the whole dataset of which 40 (93%) could be included in the analysis.
+      There were 43 participants in the whole dataset of which 40 (93%)
+      could be included in the analysis.
       
-      The JT method for calculating cutoffs and reliable change was chosen and the outcome variable was "bdi".
+      The JT method for calculating cutoffs and reliable change was chosen
+      and the outcome variable was "bdi".
       
-      The cutoff type was "a" with a value of 19.16 based on the following population characteristics:
-      (with lower values representing a beneficial outcome)
+      The cutoff type was "a" with a value of 19.16 based on the following
+      population characteristics (with lower values representing a
+      beneficial outcome):
       
       Population Characteristics
       
@@ -296,12 +305,15 @@
       
       Clinical Significance Results
       
-      There were 43 participants in the whole dataset of which 40 (93%) could be included in the analysis.
+      There were 43 participants in the whole dataset of which 40 (93%)
+      could be included in the analysis.
       
-      The HA method for calculating cutoffs and reliable change was chosen and the outcome variable was "bdi".
+      The HA method for calculating cutoffs and reliable change was chosen
+      and the outcome variable was "bdi".
       
-      The cutoff type was "c_true" with a value of 21.57 based on the following population characteristics:
-      (with lower values representing a beneficial outcome)
+      The cutoff type was "c_true" with a value of 21.57 based on the
+      following population characteristics (with lower values representing
+      a beneficial outcome):
       
       Population Characteristics
       
@@ -337,12 +349,15 @@
       
       Clinical Significance Results
       
-      There were 116 participants in the whole dataset of which 115 (99.1%) could be included in the analysis.
+      There were 116 participants in the whole dataset of which 115 (99.1%)
+      could be included in the analysis.
       
-      The HLM method for calculating cutoffs and reliable change was chosen and the outcome variable was "anxiety".
+      The HLM method for calculating cutoffs and reliable change was chosen
+      and the outcome variable was "anxiety".
       
-      The cutoff type was "a" with a value of 22.16 based on the following population characteristics:
-      (with lower values representing a beneficial outcome)
+      The cutoff type was "a" with a value of 22.16 based on the following
+      population characteristics (with lower values representing a
+      beneficial outcome):
       
       Population Characteristics
       

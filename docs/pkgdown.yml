@@ -5,8 +5,6 @@ articles:
   clinical-significance-cutoffs: clinical-significance-cutoffs.html
   clinical-significance-plot: clinical-significance-plot.html
   get-started: get-started.html
-last_built: 2022-05-25T09:32Z
-
 home:
   title: An R-Package for Clinical Significance Analyses
   description: Determine the Clinical Significance in Clinical Trials
@@ -24,15 +22,7 @@ reference:
   desc: >
     Functions to extract tidy information from a clinisg object
   contents:
-  - get_n
-  - get_data
-  - get_augmented_data
-  - get_summary_table
-  - get_cutoff
-  - get_cutoff_descriptives
-  - get_method
-  - get_beneficial_direction
-  - get_reliability
+  - starts_with("get")
 - title: "Datasets"
   desc: >
     Datasets used to examplify the various methods
@@ -41,3 +31,5 @@ reference:
   - claus_2020
   - anxiety
   - anxiety_complete
+last_built: 2022-05-25T09:37Z
+

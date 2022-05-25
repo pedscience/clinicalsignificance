@@ -1,0 +1,35 @@
+pandoc: '2.18'
+pkgdown: 2.0.3
+pkgdown_sha: ~
+  articles:
+  clinical-significance-cutoffs: clinical-significance-cutoffs.html
+clinical-significance-plot: clinical-significance-plot.html
+get-started: get-started.html
+home:
+  title: An R-Package for Clinical Significance Analyses
+description: Determine the Clinical Significance in Clinical Trials
+reference:
+  - title: "Main Functions"
+desc: >
+  Main functions for your workflow
+contents:
+  - clinical_significance
+- check_cutoff
+- summary
+- plot
+- print
+- title: "Helper Functions"
+desc: >
+  Functions to extract tidy information from a clinisg object
+contents:
+  - starts_with("get")
+- title: "Datasets"
+desc: >
+  Datasets used to examplify the various methods
+contents:
+  - jacobson_1989
+- claus_2020
+- anxiety
+- anxiety_complete
+last_built: 2022-05-25T09:37Z
+

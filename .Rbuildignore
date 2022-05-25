@@ -4,4 +4,5 @@
 ^data-raw$
 ^README\.Rmd$
 ^docs$
+^pkgdown$
 ^cran-comments\.md$

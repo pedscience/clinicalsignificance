@@ -7,3 +7,37 @@ articles:
   get-started: get-started.html
 last_built: 2022-05-13T11:28Z
 
+home:
+  title: An R-Package for Clinical Significance Analyses
+  description: Determine the Clinical Significance in Clinical Trials
+reference:
+- title: "Main Functions"
+  desc: >
+    Main functions for your workflow
+  contents:
+  - clinical_significance
+  - check_cutoff
+  - summary
+  - plot
+  - print
+- title: "Helper Functions"
+  desc: >
+    Functions to extract tidy information from a clinisg object
+  contents:
+  - get_n
+  - get_data
+  - get_augmented_data
+  - get_summary_table
+  - get_cutoff
+  - get_cutoff_descriptives
+  - get_method
+  - get_beneficial_direction
+  - get_reliability
+- title: "Datasets"
+  desc: >
+    Datasets used to examplify the various methods
+  contents:
+  - jacobson_1989
+  - claus_2020
+  - anxiety
+  - anxiety_complete

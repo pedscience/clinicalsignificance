@@ -7,8 +7,8 @@ Authors@R:
            comment = c(ORCID = "0000-0001-9501-0954"))
 Description: A clinical significance analysis can be used to determine if an 
     intervention has a meaningful or practical effect for patients. You provide 
-    a tidy data set plus a few more metrics and `clinicalsignificance` will take 
-    care of it to make your results publication ready.
+    a tidy data set plus a few more metrics and this package will take  care of 
+    it to make your results publication ready.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

@@ -1,4 +1,4 @@
-#' Get the emploeyd clinical significance method
+#' Get the employed clinical significance method
 #'
 #' You may choose between several methods to conduct clinical significance
 #' analyses. This function can retrieve the employed method of a clinisig

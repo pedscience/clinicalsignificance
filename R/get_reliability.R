@@ -4,7 +4,7 @@
 #'
 #' @importFrom dplyr tibble
 #'
-#' @return A tibble conatining the reliability
+#' @return A tibble showing the reliability
 #' @export
 #'
 #' @examples

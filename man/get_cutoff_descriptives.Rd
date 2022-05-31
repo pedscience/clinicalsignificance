@@ -7,7 +7,7 @@
 get_cutoff_descriptives(x)
 }
 \arguments{
-\item{x}{A clinisg object}
+\item{x}{A clinisig object}
 }
 \value{
 A tibble with means and standard deviations of the clinical and

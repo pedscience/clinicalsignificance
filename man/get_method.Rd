@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_method.R
 \name{get_method}
 \alias{get_method}
-\title{Get the emploeyd clinical significance method}
+\title{Get the employed clinical significance method}
 \usage{
 get_method(x)
 }

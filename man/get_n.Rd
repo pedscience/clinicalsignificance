@@ -7,7 +7,7 @@
 get_n(x, which = "all")
 }
 \arguments{
-\item{x}{A clinisg object}
+\item{x}{A clinisig object}
 
 \item{which}{Which n should be returned? Available options are
 \itemize{

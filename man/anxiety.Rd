@@ -14,7 +14,7 @@ Placebo or Intervention.} \item{\code{measurement}}{Number of measurement}
 anxiety
 }
 \description{
-A fictional dataset with misisngs to exemplify the use of HLM method for
+A fictional dataset with missings to exemplify the use of HLM method for
 clinical significance.
 }
 \details{

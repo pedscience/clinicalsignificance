@@ -7,7 +7,7 @@
 \method{print}{clinisig}(x, ...)
 }
 \arguments{
-\item{x}{A clinicsig object}
+\item{x}{A clinisig object}
 
 \item{...}{Additional arguments passed to \code{export_table()}}
 }

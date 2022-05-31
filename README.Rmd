@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# clinicalsignificance <img src="man/figures/logo.png" width="250" align="right" />
+# clinicalsignificance <img src="man/figures/logo.png" width="300" align="right" />
 
 <!-- badges: start -->
 

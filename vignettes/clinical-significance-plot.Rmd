@@ -4,7 +4,7 @@ author: Benedikt Claus
 date: "`r format(Sys.time(), '%d-%m-%Y')`"
 output: rmarkdown::html_vignette
 bibliography: references.bib
-csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+csl: apa.csl
 vignette: >
   %\VignetteIndexEntry{Clinical Significance Plots}
   %\VignetteEncoding{UTF-8}

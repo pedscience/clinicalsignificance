@@ -1,0 +1,28 @@
+template:
+  bootstrap: 5
+home:
+  title: An R-Package for Clinical Significance Analyses
+  description: Determine the Clinical Significance in Clinical Trials
+reference:
+- title: "Main Functions"
+  desc: >
+    Main functions for your workflow
+  contents:
+  - clinical_significance
+  - check_cutoff
+  - summary.clinisig
+  - plot.clinisig
+  - print.clinisig
+- title: "Helper Functions"
+  desc: >
+    Functions to extract tidy information from a clinisg object
+  contents:
+  - starts_with("get")
+- title: "Datasets"
+  desc: >
+    Datasets used to examplify the various methods
+  contents:
+  - jacobson_1989
+  - claus_2020
+  - anxiety
+  - anxiety_complete

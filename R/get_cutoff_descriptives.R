@@ -1,6 +1,6 @@
 #' Get Descriptives Used In The Cutoff Calculation
 #'
-#' @param x A clinisg object
+#' @param x A clinisig object
 #'
 #' @importFrom rlang .data
 #'

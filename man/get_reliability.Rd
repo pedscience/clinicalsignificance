@@ -10,7 +10,7 @@ get_reliability(x)
 \item{x}{A clinisig object}
 }
 \value{
-A tibble conatining the reliability
+A tibble showing the reliability
 }
 \description{
 Get Reliability Of A clinisig Object

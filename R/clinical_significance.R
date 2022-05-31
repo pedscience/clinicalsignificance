@@ -373,7 +373,7 @@ clinical_significance <- function(data,
 
 #' Print Clinical Significance Results
 #'
-#' @param x A clinicsig object
+#' @param x A clinisig object
 #' @param ... Additional arguments passed to `export_table()`
 #'
 #' @importFrom insight export_table

@@ -1,6 +1,6 @@
 #' Get Number Of Participants From A clinisig Object
 #'
-#' @param x A clinisg object
+#' @param x A clinisig object
 #' @param which Which n should be returned? Available options are
 #' - `"all"`, n in the original and used data set (the default)
 #' - `"original"`, n in the original dataset

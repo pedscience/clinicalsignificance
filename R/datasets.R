@@ -79,7 +79,7 @@
 
 #'Anxiety Data
 #'
-#'A fictional dataset with misisngs to exemplify the use of HLM method for
+#'A fictional dataset with missings to exemplify the use of HLM method for
 #'clinical significance.
 #'
 #'In a fictional clinical trial, participants were split up to belong to either

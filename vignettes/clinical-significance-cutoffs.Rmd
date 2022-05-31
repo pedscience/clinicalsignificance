@@ -3,7 +3,7 @@ title: "Clinical Significance Cutoffs"
 author: Benedikt Claus
 date: "`r format(Sys.time(), '%d-%m-%Y')`"
 bibliography: references.bib
-csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+csl: apa.csl
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Clinical Significance Cutoffs}

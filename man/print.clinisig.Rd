@@ -11,6 +11,9 @@
 
 \item{...}{Additional arguments passed to \code{export_table()}}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Print Clinical Significance Results
 }

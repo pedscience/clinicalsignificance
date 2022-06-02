@@ -381,6 +381,7 @@ clinical_significance <- function(data,
 #' @importFrom tools toTitleCase
 #' @importFrom rlang .data
 #'
+#' @return No return value, called for side effects
 #' @export
 print.clinisig <- function(x, ...) {
   clinisig_method <- get_method(x)
@@ -430,6 +431,7 @@ print.clinisig <- function(x, ...) {
 #' @importFrom rlang .data
 #' @importFrom crayon bold blue
 #'
+#' @return No return value, called for side effects
 #' @export
 summary.clinisig <- function(object, ...) {
   # Get all bits and pieces to show

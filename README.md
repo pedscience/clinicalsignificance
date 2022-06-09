@@ -4,6 +4,10 @@
 # clinicalsignificance <img src="man/figures/logo.png" width="300" align="right" />
 
 <!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/clinicalsignificance)](https://CRAN.R-project.org/package=clinicalsignificance)
+[![](https://app.codecov.io/gh/pedscience/clinicalsignificance/branch/main/graph/badge.svg)](https://app.codecov.io/gh/pedscience/clinicalsignificance)
 <!-- badges: end -->
 
 The goal of this package is to provide all necessary tools for analyses
@@ -19,6 +23,10 @@ You can install the development version of clinicalsignificance from
 [GitHub](https://github.com/) with:
 
 ``` r
+# The easiest way to get clinicalsignificance is to install it from CRAN:
+install.packages("tidyverse")
+
+# Or you install the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("pedscience/clinicalsignificance")
 ```

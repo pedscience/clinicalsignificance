@@ -26,6 +26,8 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
+[![CRAN status](https://www.r-pkg.org/badges/version/clinicalsignificance)](https://CRAN.R-project.org/package=clinicalsignificance)
+[![](https://app.codecov.io/gh/pedscience/clinicalsignificance/branch/main/graph/badge.svg)](https://app.codecov.io/gh/pedscience/clinicalsignificance)
 <!-- badges: end -->
 
 The goal of this package is to provide all necessary tools for analyses of clinical significance in clinical intervention studies. In contrast to *statistical* significance, which assesses if it is probable that there is a treatment effect, *clinical* significance can be used to determine if a treatment effect is of practical use or meaningful for patients.
@@ -35,6 +37,10 @@ The goal of this package is to provide all necessary tools for analyses of clini
 You can install the development version of clinicalsignificance from [GitHub](https://github.com/) with:
 
 ``` r
+# The easiest way to get clinicalsignificance is to install it from CRAN:
+install.packages("tidyverse")
+
+# Or you install the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("pedscience/clinicalsignificance")
 ```

@@ -24,7 +24,7 @@ You can install the development version of clinicalsignificance from
 
 ``` r
 # The easiest way to get clinicalsignificance is to install it from CRAN:
-install.packages("tidyverse")
+install.packages("clinicalsignificance")
 
 # Or you install the development version from GitHub:
 # install.packages("devtools")

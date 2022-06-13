@@ -34,7 +34,7 @@ library(badger)
 ```{r,echo = FALSE, results='asis', message=FALSE}
 cat(
   badge_cran_release("clinicalsignificance"),
-  badge_cran_download("clinicalsignificance"),
+  badge_cran_download("clinicalsignificance", type = "grand-total"),
   badge_codecov("pedscience/clinicalsignificance")
 )
 ```

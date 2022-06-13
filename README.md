@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![](https://www.r-pkg.org/badges/version/clinicalsignificance)](https://cran.r-project.org/package=clinicalsignificance)
-[![](http://cranlogs.r-pkg.org/badges/last-month/clinicalsignificance)](https://cran.r-project.org/package=clinicalsignificance)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/clinicalsignificance)](https://cran.r-project.org/package=clinicalsignificance)
 [![](https://app.codecov.io/gh/pedscience/clinicalsignificance/branch/main/graph/badge.svg)](https://app.codecov.io/gh/pedscience/clinicalsignificance)
 
 <!-- badges: end -->

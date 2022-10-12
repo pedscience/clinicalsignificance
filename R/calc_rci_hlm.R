@@ -4,11 +4,10 @@
 #'   and `outcome`
 #' @param direction Which direction is beneficial? 1 = higher, -1 = lower
 #'
-#' @importFrom lme4 lmer
+#' @importFrom lme4 lmer ranef
 #' @importFrom insight get_parameters get_variance_intercept get_variance_residual get_variance
 #' @importFrom dplyr count
 #' @importFrom rlang .data
-#' @importFrom stats coef
 #' @importFrom tibble rownames_to_column
 #'
 #' @return A list with a lmer model, individual coefficients and rci data
@@ -26,23 +25,16 @@
   # reliably improved (comparable to RCI calculation in other methods).
   rci_data <- ranef(fitted_model, condVar = TRUE) %>%
     as_tibble() %>%
-    select(id = grp, term, value = condval, sd = condsd) %>%
-    mutate(
-      term = snakecase::to_snake_case(as.character(term))
-    ) %>%
-    pivot_wider(names_from = term, values_from = c(value, sd), id_cols = id) %>%
-    select(id, intercept = value_intercept, eb_slope = value_time, sd_eb_slope = sd_time) %>%
-    mutate(
-      rci = eb_slope / sd_eb_slope
-    ) %>%
-    select(.data$id, .data$intercept, .data$eb_slope, .data$sd_eb_slope, .data$rci)
+    select(id = .data$grp, .data$term, value = .data$condval, sd = .data$condsd) %>%
+    filter(as.character(.data$term) == "time") %>%
+    select(.data$id, eb_estimate = .data$value, .data$sd) %>%
+    mutate(rci = .data$eb_estimate / .data$sd)
 
   data_with_rci <- rci_data %>%
     .calc_improvement(
       rci_cutoff = 1.96,
       direction = direction
       )
-
 
   list(
     model = fitted_model,

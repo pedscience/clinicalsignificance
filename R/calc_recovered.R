@@ -6,7 +6,6 @@
 #' @param rci_data A data frame containing categorizations based on the RCI,
 #'   needs at least columns `ìmproved`, `unchanged`, and `deteriorated`
 #'
-#' @importFrom rlang .data
 #' @importFrom dplyr relocate left_join
 #'
 #' @return The full data frame with categories
@@ -17,13 +16,13 @@
     left_join(rci_data, by = "id") %>%
     left_join(cutoff_data, by = "id") %>%
     mutate(
-      recovered = .data$clinical_pre & .data$functional_post & .data$improved,
-      improved = ifelse(.data$recovered, FALSE, .data$improved),
-      harmed = !.data$clinical_pre & !.data$functional_post & .data$deteriorated,
-      deteriorated = ifelse(.data$harmed, FALSE, .data$deteriorated)
+      recovered = clinical_pre & functional_post & improved,
+      improved = ifelse(recovered, FALSE, improved),
+      harmed = !clinical_pre & !functional_post & deteriorated,
+      deteriorated = ifelse(harmed, FALSE, deteriorated)
     ) %>%
-    relocate(.data$clinical_pre, .data$functional_post, .data$recovered, .before = .data$improved) %>%
-    relocate(.data$unchanged, .after = .data$improved)
+    relocate(clinical_pre, functional_post, recovered, .before = improved) %>%
+    relocate(unchanged, .after = improved)
 }
 
 
@@ -44,11 +43,11 @@
     left_join(cutoff_data, by = "id") %>%
     left_join(rci_data, by = "id") %>%
     mutate(
-      recovered = .data$functional_post & .data$improved,
-      improved = ifelse(.data$recovered, FALSE, .data$improved),
+      recovered = functional_post & improved,
+      improved = ifelse(recovered, FALSE, improved),
       harmed = FALSE
     ) %>%
-    relocate(.data$rci, .after = .data$cs_indiv) %>%
-    relocate(.data$recovered, .after = .data$functional_post) %>%
-    relocate(.data$unchanged, .after = .data$improved)
+    relocate(rci, .after = cs_indiv) %>%
+    relocate(recovered, .after = functional_post) %>%
+    relocate(unchanged, .after = improved)
 }

@@ -108,7 +108,7 @@
   used_data <- wide_data %>%
     na.omit() %>%
     mutate(
-      change = .data$post - .data$pre
+      change = post - pre
     )
 
   list(

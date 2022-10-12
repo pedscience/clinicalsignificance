@@ -153,11 +153,11 @@ plot.clinisig <- function(x,
 
   # Create a list of geoms added to the plot
   geom_list <- list(
-    if (clinisig_method != "HLM") geom_ribbon(data = rci_data, aes(y = NULL, ymin = .data$ymin, ymax = .data$ymax), fill = rci_fill, alpha = rci_alpha),
+    if (clinisig_method != "HLM") geom_ribbon(data = rci_data, aes(y = NULL, ymin = ymin, ymax = ymax), fill = rci_fill, alpha = rci_alpha),
     geom_abline(color = diagonal_color),
     if (include_cutoff) geom_hline(yintercept = cutoff, lty = 2),
     if (include_cutoff) geom_vline(xintercept = cutoff, lty = 2),
-    if (include_cutoff_band) geom_ribbon(data = cs_data, aes(y = NULL, ymin = .data$ymin, ymax = .data$ymax), alpha = rci_alpha),
+    if (include_cutoff_band) geom_ribbon(data = cs_data, aes(y = NULL, ymin = ymin, ymax = ymax), alpha = rci_alpha),
     if (is.null(show)) geom_point() else geom_point(aes_(color = as.name(show)))
   )
 
@@ -169,14 +169,14 @@ plot.clinisig <- function(x,
   # Plot the whole thing
   if (which_plot == "point") {
     data %>%
-      ggplot(aes(.data$pre, .data$post)) +
+      ggplot(aes(pre, post)) +
       geom_list +
       coord_cartesian(xlim = x_limits, ylim = y_limits, expand = FALSE) +
       labs(x = x_lab, y = y_lab, color = color_lab) +
       theme_light()
   } else if (which_plot == "trajectory") {
     data %>%
-      ggplot(aes(.data$time, .data$outcome, group = .data$id)) +
+      ggplot(aes(time, outcome, group = id)) +
       geom_list_trajectory +
       labs(x = x_lab, y = y_lab, color = color_lab) +
       theme_light()

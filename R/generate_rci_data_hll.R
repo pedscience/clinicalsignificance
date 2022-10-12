@@ -17,7 +17,7 @@
 
   tibble(
     pre = c(lower_limit, upper_limit),
-    ymin = -1.96 * s_prediction + m_post + reliability * .data$pre - reliability * m_pre,
-    ymax = 1.96 * s_prediction + m_post + reliability * .data$pre - reliability * m_pre
+    ymin = -1.96 * s_prediction + m_post + reliability * pre - reliability * m_pre,
+    ymax = 1.96 * s_prediction + m_post + reliability * pre - reliability * m_pre
   )
 }

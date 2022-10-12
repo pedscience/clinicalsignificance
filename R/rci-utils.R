@@ -17,11 +17,11 @@
 .calc_improvement <- function(data, rci_cutoff = 1.96, direction = 1) {
   data %>%
     mutate(
-      improved        = ifelse(direction * .data$rci > rci_cutoff, TRUE, FALSE),
-      deteriorated    = ifelse(direction * .data$rci < -rci_cutoff, TRUE, FALSE),
-      unchanged       = !.data$improved & !.data$deteriorated
+      improved        = ifelse(direction * rci > rci_cutoff, TRUE, FALSE),
+      deteriorated    = ifelse(direction * rci < -rci_cutoff, TRUE, FALSE),
+      unchanged       = !improved & !deteriorated
     ) %>%
-    select(.data$id, .data$rci, .data$improved:.data$unchanged)
+    select(id, rci, improved:unchanged)
 }
 
 

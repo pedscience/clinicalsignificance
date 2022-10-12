@@ -15,7 +15,6 @@
 .calc_rci_gln <- function(data, m_pre, sd_pre, reliability, direction = 1) {
   se_prediction <- .calc_se_prediction(sd_pre = sd_pre, reliability = reliability)
 
-
   # Calculate RCI
   rci_data <- data %>%
     mutate(

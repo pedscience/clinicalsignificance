@@ -267,7 +267,7 @@ plot(anxiety_results_en, upper_limit = 60)
 
 ```
 
-For clinical significance analyses employing the HLM method [@Raudenbush.2002], individual trajectories and empirical Bayes slopes can be plotted as well.
+For clinical significance analyses employing the HLM method [@Raudenbush.2002], individual trajectories can be plotted as well.
 
 ```{r}
 anxiety_results_hlm <- anxiety %>% 
@@ -279,7 +279,6 @@ anxiety_results_hlm <- anxiety %>%
   )
 
 plot(anxiety_results_hlm, which = "trajectory")
-plot(anxiety_results_hlm, which = "slope")
 ```
 
 
@@ -318,11 +317,10 @@ Or all categories at once.
 plot(anxiety_results, upper_limit = 60, show = "category")
 ```
 
-Trajectories and slopes for the HLM can be colored as well.
+Trajectories for the HLM can be colored as well.
 
 ```{r}
 plot(anxiety_results_hlm, which = "trajectory", show = "recovered")
-plot(anxiety_results_hlm, which = "slope", show = "recovered")
 ```
 
 Because `clinicalsignificance` uses ggplot2 internally, you can manipulate plots to your liking.

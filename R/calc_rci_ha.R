@@ -8,7 +8,6 @@
 #' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
 #' @importFrom stats sd cor
-#' @importFrom rlang .data
 #'
 #' @return A vector with RCIs
 #'
@@ -26,7 +25,7 @@
 
   rci_data <- data %>%
     mutate(
-      rci = ((.data$post - .data$pre) * r_dd + (m_post - m_pre) * (1 - r_dd)) / (sqrt(r_dd) * sqrt(2 * se_measurement^2))
+      rci = ((post - pre) * r_dd + (m_post - m_pre) * (1 - r_dd)) / (sqrt(r_dd) * sqrt(2 * se_measurement^2))
     )
 
   # Caluclate categories

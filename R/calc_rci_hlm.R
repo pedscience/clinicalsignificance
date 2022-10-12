@@ -25,10 +25,10 @@
   # reliably improved (comparable to RCI calculation in other methods).
   rci_data <- ranef(fitted_model, condVar = TRUE) %>%
     as_tibble() %>%
-    select(id = .data$grp, .data$term, value = .data$condval, sd = .data$condsd) %>%
-    filter(as.character(.data$term) == "time") %>%
-    select(.data$id, eb_estimate = .data$value, .data$sd) %>%
-    mutate(rci = .data$eb_estimate / .data$sd)
+    select(id = grp, term, value = condval, sd = condsd) %>%
+    filter(as.character(term) == "time") %>%
+    select(id, eb_estimate = value, sd) %>%
+    mutate(rci = eb_estimate / sd)
 
   data_with_rci <- rci_data %>%
     .calc_improvement(

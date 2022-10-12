@@ -8,7 +8,6 @@
 #' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
 #' @importFrom stats sd
-#' @importFrom rlang .data
 #'
 #' @return A vector with RCIs
 #'
@@ -20,10 +19,10 @@
   # Calculate RCI
   rci_data <- data %>%
     mutate(
-      pre_adj = reliability * (.data$pre - m_pre),
-      post_adj = .data$post - m_pre,
-      change_adj = .data$post_adj - .data$pre_adj,
-      rci = .data$change_adj / se_prediction
+      pre_adj = reliability * (pre - m_pre),
+      post_adj = post - m_pre,
+      change_adj = post_adj - pre_adj,
+      rci = change_adj / se_prediction
     )
 
 

@@ -10,7 +10,6 @@
 #' @param reliability_post Instrument's reliability post
 #' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
-#' @importFrom rlang .data
 #'
 #' @return A list with RCI info and data
 #'
@@ -20,9 +19,9 @@
 
   rci_data <- data %>%
     mutate(
-      pre_adj = reliability_pre * (.data$pre - m_pre) + m_pre,
-      change_adj = .data$post - .data$pre_adj,
-      rci = .data$change_adj / denominator
+      pre_adj = reliability_pre * (pre - m_pre) + m_pre,
+      change_adj = post - pre_adj,
+      rci = change_adj / denominator
     )
 
   data_rci_categories <- .calc_improvement(

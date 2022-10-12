@@ -25,14 +25,10 @@ test_that("grouping in plots is correct", {
 
 test_that("HLM plots are correct", {
   plot_trajectory <- plot(clinical_significance(anxiety, subject, measurement, anxiety, method = "HLM"), which = "trajectory")
-  plot_slope <- plot(clinical_significance(anxiety, subject, measurement, anxiety, method = "HLM"), which = "slope")
   plot_trajectory_grouped <- plot(clinical_significance(anxiety, subject, measurement, anxiety, group = treatment, method = "HLM"), which = "trajectory")
-  plot_slope_grouped <- plot(clinical_significance(anxiety, subject, measurement, anxiety, group = treatment, method = "HLM"), which = "slope")
 
   expect_doppelganger("trajectories ungrouped", plot_trajectory)
-  expect_doppelganger("EB slopes ungrouped", plot_slope)
   expect_doppelganger("trajectories grouped", plot_trajectory_grouped)
-  expect_doppelganger("EB slopes grouped", plot_slope_grouped)
 })
 
 

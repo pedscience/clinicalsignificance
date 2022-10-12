@@ -28,5 +28,5 @@ get_cutoff_descriptives <- function(x) {
 
   x[["cutoff"]][["info"]] %>%
     as_tibble() %>%
-    select(-.data$type, -.data$value)
+    select(-type, -value)
 }

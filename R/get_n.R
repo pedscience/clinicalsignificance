@@ -38,7 +38,7 @@ get_n <- function(x, which = "all") {
     x[["n_obs"]] %>%
       as_tibble() %>%
       mutate(
-        percent_used = .data$n_used / .data$n_original
+        percent_used = n_used / n_original
       )
   } else if (which == "original") {
     tibble(

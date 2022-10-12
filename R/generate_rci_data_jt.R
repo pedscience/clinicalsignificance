@@ -14,7 +14,7 @@
 
   tibble(
     pre = c(lower_limit, upper_limit),
-    ymin = .data$pre - 1.96 * s_diff,
-    ymax = .data$pre + 1.96 * s_diff
+    ymin = pre - 1.96 * s_diff,
+    ymax = pre + 1.96 * s_diff
   )
 }

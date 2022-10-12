@@ -7,8 +7,6 @@
 #' @param reliability The instrument's reliability
 #' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
-#' @importFrom rlang .data
-#'
 #' @return A data frame with columns `id`, `pre_true` (adjusted true score of
 #'   `pre`), `lower`, `upper`, `improved`, `deteriorated`, and `unchanged`
 #'
@@ -21,9 +19,9 @@
   # regression to the mean)
   confidence_borders <- data %>%
     mutate(
-      pre_true = reliability * (.data$pre - m_pre) + m_pre,
-      lower = .data$pre_true - 2 * se_measurement,
-      upper = .data$pre_true + 2 * se_measurement
+      pre_true = reliability * (pre - m_pre) + m_pre,
+      lower = pre_true - 2 * se_measurement,
+      upper = pre_true + 2 * se_measurement
     )
 
 
@@ -31,22 +29,22 @@
   if (direction == 1) {
     rci_results <- confidence_borders %>%
       mutate(
-        improved = ifelse(.data$post > .data$upper, TRUE, FALSE),
-        deteriorated = ifelse(.data$post < .data$lower, TRUE, FALSE),
-        unchanged = !.data$improved & !.data$deteriorated
+        improved = ifelse(post > upper, TRUE, FALSE),
+        deteriorated = ifelse(post < lower, TRUE, FALSE),
+        unchanged = !improved & !deteriorated
       )
   } else if (direction == -1) {
     rci_results <- confidence_borders %>%
       mutate(
-        improved = ifelse(.data$post < .data$lower, TRUE, FALSE),
-        deteriorated = ifelse(.data$post > .data$upper, TRUE, FALSE),
-        unchanged = !.data$improved & !.data$deteriorated
+        improved = ifelse(post < lower, TRUE, FALSE),
+        deteriorated = ifelse(post > upper, TRUE, FALSE),
+        unchanged = !improved & !deteriorated
       )
   }
 
 
   data_rci_categories <- rci_results %>%
-    select(.data$id, .data$pre_true, .data$lower, .data$upper, .data$improved:.data$unchanged)
+    select(id, pre_true, lower, upper, improved:unchanged)
 
   list(
     se_measurement = se_measurement,

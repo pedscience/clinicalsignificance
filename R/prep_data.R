@@ -108,7 +108,7 @@
   used_data <- wide_data %>%
     na.omit() %>%
     mutate(
-      change = .data$post - .data$pre
+      change = post - pre
     )
 
   list(
@@ -158,14 +158,16 @@
       .groups = "drop"
     )
 
+
+  # Only include patients with at least three measurements
   if (.has_group(imported_data)) {
     cutoff_data <- wide_data %>%
       left_join(groups, by = "id") %>%
-      filter(n > 1) %>%
+      filter(n > 3) %>%
       relocate(group, .after = id)
   } else {
     cutoff_data <- wide_data %>%
-      filter(n > 1)
+      filter(n > 3)
   }
 
 

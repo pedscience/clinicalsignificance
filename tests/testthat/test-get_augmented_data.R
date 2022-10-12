@@ -9,7 +9,7 @@ clinisig_object_hlm <- clinical_significance(anxiety, subject, measurement, anxi
 names_jt <- c("id", "pre", "post", "change", "rci", "clinical_pre", "functional_post", "recovered", "improved", "unchanged", "deteriorated", "harmed", "category")
 names_en <- c("id", "pre", "post", "change", "pre_true", "lower", "upper", "clinical_pre", "functional_post", "recovered", "improved", "unchanged", "deteriorated", "harmed", "category")
 names_ha <- c("id", "pre", "post", "change", "cs_indiv", "rci", "functional_post", "recovered", "improved", "unchanged", "deteriorated", "harmed", "category")
-names_hlm <- c("id", "n", "pre", "post", "intercept", "slope", "eb_slope", "rci", "clinical_pre", "functional_post", "recovered", "improved", "unchanged", "deteriorated", "harmed", "category")
+names_hlm <- c("id", "n", "pre", "post", "eb_estimate", "sd", "rci", "clinical_pre", "functional_post", "recovered", "improved", "unchanged", "deteriorated", "harmed", "category")
 
 test_that("data is augmented correctly", {
   # JT

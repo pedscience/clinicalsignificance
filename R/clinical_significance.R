@@ -389,12 +389,12 @@ print.clinisig <- function(x, ...) {
   if (clinisig_method != "HA") {
     caption <- c(paste0("Clinical Significance Results (", clinisig_method, ")"), "blue")
     summary_table <- get_summary_table(x) %>%
-      rename_with(toTitleCase, .cols = -.data$n)
+      rename_with(toTitleCase, .cols = -n)
   }
 
   if (clinisig_method == "HA") {
     summary_table_individual <- get_summary_table(x, "individual") %>%
-      rename_with(toTitleCase, .cols = -.data$n)
+      rename_with(toTitleCase, .cols = -n)
     summary_table_group <- get_summary_table(x, "group") %>%
       rename_with(toTitleCase)
 
@@ -447,10 +447,10 @@ summary.clinisig <- function(object, ...) {
   # Cutoff table
   cutoff_descriptives <- get_cutoff_descriptives(object) %>%
     rename(
-      "M Clinical" = .data$m_clinical,
-      "SD Clinical" = .data$sd_clinical,
-      "M Functional" = .data$m_functional,
-      "SD Functional" = .data$sd_functional
+      "M Clinical" = m_clinical,
+      "SD Clinical" = sd_clinical,
+      "M Functional" = m_functional,
+      "SD Functional" = sd_functional
     ) %>%
     export_table(
       caption = c("Population Characteristics", "blue"),
@@ -461,12 +461,12 @@ summary.clinisig <- function(object, ...) {
   if (clinisig_method == "HA") {
     cutoff_descriptives <- get_cutoff_descriptives(object) %>%
       rename(
-        "M Clinical" = .data$m_clinical,
-        "SD Clinical" = .data$sd_clinical,
-        "M Functional" = .data$m_functional,
-        "SD Functional" = .data$sd_functional,
-        "Reliability Clinical" = .data$reliability_clinical,
-        "Reliability Functional" = .data$reliability_functional
+        "M Clinical" = m_clinical,
+        "SD Clinical" = sd_clinical,
+        "M Functional" = m_functional,
+        "SD Functional" = sd_functional,
+        "Reliability Clinical" = reliability_clinical,
+        "Reliability Functional" = reliability_functional
       ) %>%
       export_table(
         caption = c("Population Characteristics", "blue"),
@@ -480,7 +480,7 @@ summary.clinisig <- function(object, ...) {
   # Summary table
   if (clinisig_method != "HA") {
     summary_table <- get_summary_table(object) %>%
-      rename_with(toTitleCase, .cols = -.data$n) %>%
+      rename_with(toTitleCase, .cols = -n) %>%
       export_table(
         caption = c("Individual Level Results", "blue"),
         align = col_alignment,
@@ -488,7 +488,7 @@ summary.clinisig <- function(object, ...) {
       )
   } else  {
     summary_table_individual <- get_summary_table(object, "individual") %>%
-      rename_with(toTitleCase, .cols = -.data$n)
+      rename_with(toTitleCase, .cols = -n)
 
     summary_table_group <- get_summary_table(object, "group") %>%
       rename_with(toTitleCase)

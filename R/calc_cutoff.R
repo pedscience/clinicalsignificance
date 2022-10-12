@@ -8,7 +8,6 @@
 #' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
 #' @importFrom stats sd relevel
-#' @importFrom rlang .data
 #'
 #' @return A list with cutoff info and participant wise info on cutoff
 #'   categorization
@@ -29,10 +28,10 @@
 
   data_cutoff_criteria <- data %>%
     mutate(
-      clinical_pre    = ifelse(direction * .data$pre < direction * cutoff, TRUE, FALSE),
-      functional_post = ifelse(direction * .data$post > direction * cutoff, TRUE, FALSE),
+      clinical_pre    = ifelse(direction * pre < direction * cutoff, TRUE, FALSE),
+      functional_post = ifelse(direction * post > direction * cutoff, TRUE, FALSE),
     ) %>%
-    select(.data$id, .data$clinical_pre, .data$functional_post)
+    select(id, clinical_pre, functional_post)
 
   # Bind cutoff info and data with cutoff criteria together for further
   # calculations
@@ -84,10 +83,10 @@
 
   data_cutoff_criteria <- data %>%
     mutate(
-      cs_indiv = (m_post + (.data$post - m_post) * reliability_post - cutoff) / (sqrt(reliability_post) * se_measurement),
-      functional_post = ifelse(direction * .data$cs_indiv > 1.65, TRUE, FALSE)
+      cs_indiv = (m_post + (post - m_post) * reliability_post - cutoff) / (sqrt(reliability_post) * se_measurement),
+      functional_post = ifelse(direction * cs_indiv > 1.65, TRUE, FALSE)
     ) %>%
-    select(.data$id, .data$cs_indiv, .data$functional_post)
+    select(id, cs_indiv, functional_post)
 
   list(
     info = cutoff_info,

@@ -33,7 +33,7 @@ get_cutoff <- function(x, with_descriptives = FALSE) {
 
   if (!with_descriptives) {
     cutoff_info %>%
-      select(.data$type, .data$value)
+      select(type, value)
   } else {
     cutoff_info
   }

@@ -4,14 +4,16 @@
       .calc_recovered(ids, cutoff_data, rci_data)
     Output
       # A tibble: 5 x 10
-           id rci   cs_indiv clinical_pre functional_post recovered improved unchanged
-        <int> <chr> <chr>    <lgl>        <lgl>           <lgl>     <lgl>    <lgl>    
-      1     1 Not ~ Not nee~ TRUE         TRUE            TRUE      FALSE    FALSE    
-      2     2 Not ~ Not nee~ FALSE        FALSE           FALSE     TRUE     FALSE    
-      3     3 Not ~ Not nee~ FALSE        FALSE           FALSE     FALSE    TRUE     
-      4     4 Not ~ Not nee~ FALSE        TRUE            FALSE     FALSE    FALSE    
-      5     5 Not ~ Not nee~ FALSE        FALSE           FALSE     FALSE    FALSE    
-      # ... with 2 more variables: deteriorated <lgl>, harmed <lgl>
+           id rci       cs_in~1 clini~2 funct~3 recov~4 impro~5 uncha~6 deter~7 harmed
+        <int> <chr>     <chr>   <lgl>   <lgl>   <lgl>   <lgl>   <lgl>   <lgl>   <lgl> 
+      1     1 Not need~ Not ne~ TRUE    TRUE    TRUE    FALSE   FALSE   FALSE   FALSE 
+      2     2 Not need~ Not ne~ FALSE   FALSE   FALSE   TRUE    FALSE   FALSE   FALSE 
+      3     3 Not need~ Not ne~ FALSE   FALSE   FALSE   FALSE   TRUE    FALSE   FALSE 
+      4     4 Not need~ Not ne~ FALSE   TRUE    FALSE   FALSE   FALSE   TRUE    FALSE 
+      5     5 Not need~ Not ne~ FALSE   FALSE   FALSE   FALSE   FALSE   FALSE   TRUE  
+      # ... with abbreviated variable names 1: cs_indiv, 2: clinical_pre,
+      #   3: functional_post, 4: recovered, 5: improved, 6: unchanged,
+      #   7: deteriorated
 
 ---
 
@@ -19,12 +21,13 @@
       .calc_recovered_ha(ids, cutoff_data, rci_data)
     Output
       # A tibble: 5 x 10
-           id cs_indiv rci   clinical_pre functional_post recovered improved unchanged
-        <int> <chr>    <chr> <lgl>        <lgl>           <lgl>     <lgl>    <lgl>    
-      1     1 Not nee~ Not ~ TRUE         TRUE            TRUE      FALSE    FALSE    
-      2     2 Not nee~ Not ~ FALSE        FALSE           FALSE     TRUE     FALSE    
-      3     3 Not nee~ Not ~ FALSE        FALSE           FALSE     FALSE    TRUE     
-      4     4 Not nee~ Not ~ FALSE        TRUE            FALSE     FALSE    FALSE    
-      5     5 Not nee~ Not ~ FALSE        FALSE           FALSE     FALSE    FALSE    
-      # ... with 2 more variables: deteriorated <lgl>, harmed <lgl>
+           id cs_indiv   rci    clini~1 funct~2 recov~3 impro~4 uncha~5 deter~6 harmed
+        <int> <chr>      <chr>  <lgl>   <lgl>   <lgl>   <lgl>   <lgl>   <lgl>   <lgl> 
+      1     1 Not needed Not n~ TRUE    TRUE    TRUE    FALSE   FALSE   FALSE   FALSE 
+      2     2 Not needed Not n~ FALSE   FALSE   FALSE   TRUE    FALSE   FALSE   FALSE 
+      3     3 Not needed Not n~ FALSE   FALSE   FALSE   FALSE   TRUE    FALSE   FALSE 
+      4     4 Not needed Not n~ FALSE   TRUE    FALSE   FALSE   FALSE   TRUE    FALSE 
+      5     5 Not needed Not n~ FALSE   FALSE   FALSE   FALSE   FALSE   TRUE    FALSE 
+      # ... with abbreviated variable names 1: clinical_pre, 2: functional_post,
+      #   3: recovered, 4: improved, 5: unchanged, 6: deteriorated
 

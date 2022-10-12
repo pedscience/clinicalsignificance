@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Clinical Significance Plots">
 <meta property="og:description" content="clinicalsignificance">
@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,12 +81,12 @@
 
 
 <div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Clinical Significance Plots</h1>
                         <h4 data-toc-skip class="author">Benedikt
 Claus</h4>
             
-            <h4 data-toc-skip class="date">11-06-2022</h4>
+            <h4 data-toc-skip class="date">12-10-2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/pedscience/clinicalsignificance/blob/HEAD/vignettes/clinical-significance-plot.Rmd" class="external-link"><code>vignettes/clinical-significance-plot.Rmd</code></a></small>
       <div class="d-none name"><code>clinical-significance-plot.Rmd</code></div>
@@ -104,41 +104,41 @@ corresponds to the pre intervention and measurement 4 to the post
 intervention assessment. Furthermore, the sample is grouped into two
 experimental conditions (Placebo vs. Intervention).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pedscience.github.io/clinicalsignificance/" class="external-link">clinicalsignificance</a></span><span class="op">)</span>
-
-<span class="va">anxiety</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 580 × 4</span></span>
-<span class="co">#&gt;    subject treatment    measurement anxiety</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> S001    Placebo                0    36.2</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> S001    Placebo                1    32.4</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> S001    Placebo                2    35.9</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> S001    Placebo                3    32.6</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> S001    Placebo                4    <span style="color: #BB0000;">NA</span>  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> S002    Intervention           0    30.1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> S002    Intervention           1    28.3</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> S002    Intervention           2    34.0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> S002    Intervention           3    33.1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> S002    Intervention           4    33.8</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 570 more rows</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pedscience.github.io/clinicalsignificance/" class="external-link">clinicalsignificance</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">anxiety</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 580 × 4</span></span></span>
+<span><span class="co">#&gt;    subject treatment    measurement anxiety</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> S001    Placebo                0    36.2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> S001    Placebo                1    32.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> S001    Placebo                2    35.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> S001    Placebo                3    32.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> S001    Placebo                4    <span style="color: #BB0000;">NA</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> S002    Intervention           0    30.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> S002    Intervention           1    28.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> S002    Intervention           2    34.0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> S002    Intervention           3    33.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> S002    Intervention           4    33.8</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 570 more rows</span></span></span></code></pre></div>
 <div class="section level2">
 <h2 id="clinical-significance-plot">Clinical Significance Plot<a class="anchor" aria-label="anchor" href="#clinical-significance-plot"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">anxiety_results</span> <span class="op">&lt;-</span> <span class="va">anxiety</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="../reference/clinical_significance.html">clinical_significance</a></span><span class="op">(</span>
-    id <span class="op">=</span> <span class="va">subject</span>, 
-    time <span class="op">=</span> <span class="va">measurement</span>, 
-    outcome <span class="op">=</span> <span class="va">anxiety</span>, 
-    pre <span class="op">=</span> <span class="fl">0</span>, 
-    post <span class="op">=</span> <span class="fl">4</span>, 
-    reliability <span class="op">=</span> <span class="fl">0.80</span>, 
-    m_functional <span class="op">=</span> <span class="fl">10</span>, 
-    sd_functional <span class="op">=</span> <span class="fl">7</span>, 
-    type <span class="op">=</span> <span class="st">"c"</span>
-  <span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">anxiety_results</span> <span class="op">&lt;-</span> <span class="va">anxiety</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/clinical_significance.html">clinical_significance</a></span><span class="op">(</span></span>
+<span>    id <span class="op">=</span> <span class="va">subject</span>, </span>
+<span>    time <span class="op">=</span> <span class="va">measurement</span>, </span>
+<span>    outcome <span class="op">=</span> <span class="va">anxiety</span>, </span>
+<span>    pre <span class="op">=</span> <span class="fl">0</span>, </span>
+<span>    post <span class="op">=</span> <span class="fl">4</span>, </span>
+<span>    reliability <span class="op">=</span> <span class="fl">0.80</span>, </span>
+<span>    m_functional <span class="op">=</span> <span class="fl">10</span>, </span>
+<span>    sd_functional <span class="op">=</span> <span class="fl">7</span>, </span>
+<span>    type <span class="op">=</span> <span class="st">"c"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-2-1.png" width="576"></p>
 </div>
 <div class="section level2">
@@ -160,57 +160,54 @@ flipped along the diagonal that indicates no change.</p>
 <p>The plot automatically changes according to the specified clinical
 significance method.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">anxiety_results_ha</span> <span class="op">&lt;-</span> <span class="va">anxiety</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="../reference/clinical_significance.html">clinical_significance</a></span><span class="op">(</span>
-    id <span class="op">=</span> <span class="va">subject</span>, 
-    time <span class="op">=</span> <span class="va">measurement</span>, 
-    outcome <span class="op">=</span> <span class="va">anxiety</span>, 
-    pre <span class="op">=</span> <span class="fl">0</span>, 
-    post <span class="op">=</span> <span class="fl">4</span>, 
-    reliability <span class="op">=</span> <span class="fl">0.80</span>, 
-    m_functional <span class="op">=</span> <span class="fl">10</span>, 
-    sd_functional <span class="op">=</span> <span class="fl">7</span>, 
-    type <span class="op">=</span> <span class="st">"c"</span>,
-    method <span class="op">=</span> <span class="st">"HA"</span>
-  <span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_ha</span>, upper_limit <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">anxiety_results_ha</span> <span class="op">&lt;-</span> <span class="va">anxiety</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/clinical_significance.html">clinical_significance</a></span><span class="op">(</span></span>
+<span>    id <span class="op">=</span> <span class="va">subject</span>, </span>
+<span>    time <span class="op">=</span> <span class="va">measurement</span>, </span>
+<span>    outcome <span class="op">=</span> <span class="va">anxiety</span>, </span>
+<span>    pre <span class="op">=</span> <span class="fl">0</span>, </span>
+<span>    post <span class="op">=</span> <span class="fl">4</span>, </span>
+<span>    reliability <span class="op">=</span> <span class="fl">0.80</span>, </span>
+<span>    m_functional <span class="op">=</span> <span class="fl">10</span>, </span>
+<span>    sd_functional <span class="op">=</span> <span class="fl">7</span>, </span>
+<span>    type <span class="op">=</span> <span class="st">"c"</span>,</span>
+<span>    method <span class="op">=</span> <span class="st">"HA"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_ha</span>, upper_limit <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-5-1.png" width="576"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-
-<span class="va">anxiety_results_en</span> <span class="op">&lt;-</span> <span class="va">anxiety</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="../reference/clinical_significance.html">clinical_significance</a></span><span class="op">(</span>
-    id <span class="op">=</span> <span class="va">subject</span>, 
-    time <span class="op">=</span> <span class="va">measurement</span>, 
-    outcome <span class="op">=</span> <span class="va">anxiety</span>, 
-    pre <span class="op">=</span> <span class="fl">0</span>, 
-    post <span class="op">=</span> <span class="fl">4</span>, 
-    reliability <span class="op">=</span> <span class="fl">0.80</span>, 
-    m_functional <span class="op">=</span> <span class="fl">10</span>, 
-    sd_functional <span class="op">=</span> <span class="fl">7</span>, 
-    type <span class="op">=</span> <span class="st">"c"</span>,
-    method <span class="op">=</span> <span class="st">"EN"</span>
-  <span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_en</span>, upper_limit <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span></span>
+<span><span class="va">anxiety_results_en</span> <span class="op">&lt;-</span> <span class="va">anxiety</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/clinical_significance.html">clinical_significance</a></span><span class="op">(</span></span>
+<span>    id <span class="op">=</span> <span class="va">subject</span>, </span>
+<span>    time <span class="op">=</span> <span class="va">measurement</span>, </span>
+<span>    outcome <span class="op">=</span> <span class="va">anxiety</span>, </span>
+<span>    pre <span class="op">=</span> <span class="fl">0</span>, </span>
+<span>    post <span class="op">=</span> <span class="fl">4</span>, </span>
+<span>    reliability <span class="op">=</span> <span class="fl">0.80</span>, </span>
+<span>    m_functional <span class="op">=</span> <span class="fl">10</span>, </span>
+<span>    sd_functional <span class="op">=</span> <span class="fl">7</span>, </span>
+<span>    type <span class="op">=</span> <span class="st">"c"</span>,</span>
+<span>    method <span class="op">=</span> <span class="st">"EN"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_en</span>, upper_limit <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-5-2.png" width="576"></p>
 <p>For clinical significance analyses employing the HLM method <span class="citation">(Raudenbush &amp; Bryk, 2002)</span>, individual
-trajectories and empirical Bayes slopes can be plotted as well.</p>
+trajectories can be plotted as well.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">anxiety_results_hlm</span> <span class="op">&lt;-</span> <span class="va">anxiety</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="../reference/clinical_significance.html">clinical_significance</a></span><span class="op">(</span>
-    id <span class="op">=</span> <span class="va">subject</span>,
-    time <span class="op">=</span> <span class="va">measurement</span>,
-    outcome <span class="op">=</span> <span class="va">anxiety</span>,
-    method <span class="op">=</span> <span class="st">"HLM"</span>
-  <span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_hlm</span>, which <span class="op">=</span> <span class="st">"trajectory"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">anxiety_results_hlm</span> <span class="op">&lt;-</span> <span class="va">anxiety</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/clinical_significance.html">clinical_significance</a></span><span class="op">(</span></span>
+<span>    id <span class="op">=</span> <span class="va">subject</span>,</span>
+<span>    time <span class="op">=</span> <span class="va">measurement</span>,</span>
+<span>    outcome <span class="op">=</span> <span class="va">anxiety</span>,</span>
+<span>    method <span class="op">=</span> <span class="st">"HLM"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_hlm</span>, which <span class="op">=</span> <span class="st">"trajectory"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_hlm</span>, which <span class="op">=</span> <span class="st">"slope"</span><span class="op">)</span></code></pre></div>
-<p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-6-2.png" width="576"></p>
 </div>
 <div class="section level2">
 <h2 id="plot-options">Plot Options<a class="anchor" aria-label="anchor" href="#plot-options"></a>
@@ -221,48 +218,45 @@ trajectories and empirical Bayes slopes can be plotted as well.</p>
 <p>You can choose different categories or groups to be colored
 separately. If you clinical significance analysis contains a grouping
 variable, this is automatically shown in the corresponding plot.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">anxiety_results_grouped</span> <span class="op">&lt;-</span> <span class="va">anxiety</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="../reference/clinical_significance.html">clinical_significance</a></span><span class="op">(</span>
-    id <span class="op">=</span> <span class="va">subject</span>, 
-    time <span class="op">=</span> <span class="va">measurement</span>, 
-    outcome <span class="op">=</span> <span class="va">anxiety</span>, 
-    pre <span class="op">=</span> <span class="fl">0</span>, 
-    post <span class="op">=</span> <span class="fl">4</span>, 
-    reliability <span class="op">=</span> <span class="fl">0.80</span>, 
-    m_functional <span class="op">=</span> <span class="fl">10</span>, 
-    sd_functional <span class="op">=</span> <span class="fl">7</span>, 
-    type <span class="op">=</span> <span class="st">"c"</span>,
-    group <span class="op">=</span> <span class="va">treatment</span>
-  <span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_grouped</span>, upper_limit <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">anxiety_results_grouped</span> <span class="op">&lt;-</span> <span class="va">anxiety</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/clinical_significance.html">clinical_significance</a></span><span class="op">(</span></span>
+<span>    id <span class="op">=</span> <span class="va">subject</span>, </span>
+<span>    time <span class="op">=</span> <span class="va">measurement</span>, </span>
+<span>    outcome <span class="op">=</span> <span class="va">anxiety</span>, </span>
+<span>    pre <span class="op">=</span> <span class="fl">0</span>, </span>
+<span>    post <span class="op">=</span> <span class="fl">4</span>, </span>
+<span>    reliability <span class="op">=</span> <span class="fl">0.80</span>, </span>
+<span>    m_functional <span class="op">=</span> <span class="fl">10</span>, </span>
+<span>    sd_functional <span class="op">=</span> <span class="fl">7</span>, </span>
+<span>    type <span class="op">=</span> <span class="st">"c"</span>,</span>
+<span>    group <span class="op">=</span> <span class="va">treatment</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_grouped</span>, upper_limit <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-7-1.png" width="576"></p>
 <p>Alternatively, you can color the individual clinical significance
 categories.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, show <span class="op">=</span> <span class="st">"recovered"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, show <span class="op">=</span> <span class="st">"recovered"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-8-1.png" width="576"></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, show <span class="op">=</span> <span class="st">"improved"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, show <span class="op">=</span> <span class="st">"improved"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-8-2.png" width="576"></p>
 <p>Or all categories at once.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, show <span class="op">=</span> <span class="st">"category"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, show <span class="op">=</span> <span class="st">"category"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-9-1.png" width="576"></p>
-<p>Trajectories and slopes for the HLM can be colored as well.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_hlm</span>, which <span class="op">=</span> <span class="st">"trajectory"</span>, show <span class="op">=</span> <span class="st">"recovered"</span><span class="op">)</span></code></pre></div>
+<p>Trajectories for the HLM can be colored as well.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_hlm</span>, which <span class="op">=</span> <span class="st">"trajectory"</span>, show <span class="op">=</span> <span class="st">"recovered"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-10-1.png" width="576"></p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_hlm</span>, which <span class="op">=</span> <span class="st">"slope"</span>, show <span class="op">=</span> <span class="st">"recovered"</span><span class="op">)</span></code></pre></div>
-<p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-10-2.png" width="576"></p>
 <p>Because <code>clinicalsignificance</code> uses ggplot2 internally,
 you can manipulate plots to your liking.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_hlm</span>, which <span class="op">=</span> <span class="st">"trajectory"</span>, show <span class="op">=</span> <span class="st">"recovered"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">recovered</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_hlm</span>, which <span class="op">=</span> <span class="st">"trajectory"</span>, show <span class="op">=</span> <span class="st">"recovered"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">recovered</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-11-1.png" width="576"></p>
 </div>
 <div class="section level3">
@@ -270,14 +264,14 @@ you can manipulate plots to your liking.</p>
 </h3>
 <p>You can change the display of the RCI band, i.e., its color and
 transparency.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, rci_fill <span class="op">=</span> <span class="st">"blue"</span>, rci_alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, rci_fill <span class="op">=</span> <span class="st">"blue"</span>, rci_alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-12-1.png" width="576"></p>
 <p>The HA method <span class="citation">(Hageman &amp; Arrindell,
 1999)</span> considers a band around the post measurement cutoff, which
 can be plotted as well.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_ha</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, include_cutoff_band <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_ha</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, include_cutoff_band <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-13-1.png" width="576"></p>
 </div>
 <div class="section level3">
@@ -286,8 +280,8 @@ can be plotted as well.</p>
 <p>It is recommended to include the cutoff between the clinical and
 functional population. By default, they are plotted but can be omitted
 as well.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, include_cutoff <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, include_cutoff <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-14-1.png" width="576"></p>
 </div>
 <div class="section level3">
@@ -295,12 +289,12 @@ as well.</p>
 </h3>
 <p>By default, only generic plot labels are used. You can adjust them to
 make the figure publication ready.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_grouped</span>, 
-     upper_limit <span class="op">=</span> <span class="fl">60</span>, 
-     x_lab <span class="op">=</span> <span class="st">"Anxiety Pre"</span>, 
-     y_lab <span class="op">=</span> <span class="st">"Anxiety Post"</span>, 
-     color_lab <span class="op">=</span> <span class="st">"Condition"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_grouped</span>, </span>
+<span>     upper_limit <span class="op">=</span> <span class="fl">60</span>, </span>
+<span>     x_lab <span class="op">=</span> <span class="st">"Anxiety Pre"</span>, </span>
+<span>     y_lab <span class="op">=</span> <span class="st">"Anxiety Post"</span>, </span>
+<span>     color_lab <span class="op">=</span> <span class="st">"Condition"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-15-1.png" width="576"></p>
 </div>
 </div>
@@ -333,7 +327,7 @@ Analysis Methods</span></em> (2nd ed.). <span>Sage Publications</span>.
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>

@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="An R-Package for Clinical Significance Analyses">
 <meta property="og:description" content="Determine the Clinical Significance in Clinical Trials">
@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,80 +91,80 @@
 </h2>
 <p>You can install the development version of clinicalsignificance from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The easiest way to get clinicalsignificance is to install it from CRAN:</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"clinicalsignificance"</span><span class="op">)</span>
-
-<span class="co"># Or you install the development version from GitHub:</span>
-<span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"pedscience/clinicalsignificance"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># The easiest way to get clinicalsignificance is to install it from CRAN:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"clinicalsignificance"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or you install the development version from GitHub:</span></span>
+<span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"pedscience/clinicalsignificance"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>Given a tidy dataset, the employed instrument’s reliability and descriptives (<em>M</em> and <em>SD</em>) of the functional population, the clinical significance in a study can be easily assessed.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pedscience.github.io/clinicalsignificance/" class="external-link">clinicalsignificance</a></span><span class="op">)</span>
-
-<span class="va">results</span> <span class="op">&lt;-</span> <span class="va">claus_2020</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="reference/clinical_significance.html">clinical_significance</a></span><span class="op">(</span>
-    id <span class="op">=</span> <span class="va">id</span>, 
-    time <span class="op">=</span> <span class="va">time</span>, 
-    outcome <span class="op">=</span> <span class="va">bdi</span>, 
-    pre <span class="op">=</span> <span class="fl">1</span>, 
-    post <span class="op">=</span> <span class="fl">4</span>, 
-    reliability <span class="op">=</span> <span class="fl">0.81</span>, 
-    m_functional <span class="op">=</span> <span class="fl">8</span>, 
-    sd_functional <span class="op">=</span> <span class="fl">8</span>, 
-    type <span class="op">=</span> <span class="st">"c"</span>
-  <span class="op">)</span>
-
-<span class="va">results</span>
-<span class="co">#&gt; Clinical Significance Results (JT)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Category     |  n | Percent</span>
-<span class="co">#&gt; ---------------------------</span>
-<span class="co">#&gt; Recovered    | 10 |   0.250</span>
-<span class="co">#&gt; Improved     |  9 |   0.225</span>
-<span class="co">#&gt; Unchanged    | 21 |   0.525</span>
-<span class="co">#&gt; Deteriorated |  0 |   0.000</span>
-<span class="co">#&gt; Harmed       |  0 |   0.000</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pedscience.github.io/clinicalsignificance/" class="external-link">clinicalsignificance</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">claus_2020</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/clinical_significance.html">clinical_significance</a></span><span class="op">(</span></span>
+<span>    id <span class="op">=</span> <span class="va">id</span>, </span>
+<span>    time <span class="op">=</span> <span class="va">time</span>, </span>
+<span>    outcome <span class="op">=</span> <span class="va">bdi</span>, </span>
+<span>    pre <span class="op">=</span> <span class="fl">1</span>, </span>
+<span>    post <span class="op">=</span> <span class="fl">4</span>, </span>
+<span>    reliability <span class="op">=</span> <span class="fl">0.81</span>, </span>
+<span>    m_functional <span class="op">=</span> <span class="fl">8</span>, </span>
+<span>    sd_functional <span class="op">=</span> <span class="fl">8</span>, </span>
+<span>    type <span class="op">=</span> <span class="st">"c"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">results</span></span>
+<span><span class="co">#&gt; Clinical Significance Results (JT)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Category     |  n | Percent</span></span>
+<span><span class="co">#&gt; ---------------------------</span></span>
+<span><span class="co">#&gt; Recovered    | 10 |   0.250</span></span>
+<span><span class="co">#&gt; Improved     |  9 |   0.225</span></span>
+<span><span class="co">#&gt; Unchanged    | 21 |   0.525</span></span>
+<span><span class="co">#&gt; Deteriorated |  0 |   0.000</span></span>
+<span><span class="co">#&gt; Harmed       |  0 |   0.000</span></span></code></pre></div>
 <p>You can receive a detailed summary of the analysis by</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Clinical Significance Results</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; There were 43 participants in the whole dataset of which 40 (93%)</span>
-<span class="co">#&gt; could be included in the analysis.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; The JT method for calculating cutoffs and reliable change was chosen</span>
-<span class="co">#&gt; and the outcome variable was "bdi".</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; The cutoff type was "c" with a value of 21.6 based on the following</span>
-<span class="co">#&gt; population characteristics (with lower values representing a</span>
-<span class="co">#&gt; beneficial outcome):</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Population Characteristics</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; M Clinical | SD Clinical | M Functional | SD Functional</span>
-<span class="co">#&gt; -------------------------------------------------------</span>
-<span class="co">#&gt; 35.48      | 8.16        | 8            | 8            </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; The instrument's reliability was set to 0.81 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Individual Level Results</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Category     |  n | Percent</span>
-<span class="co">#&gt; ---------------------------</span>
-<span class="co">#&gt; Recovered    | 10 |   0.250</span>
-<span class="co">#&gt; Improved     |  9 |   0.225</span>
-<span class="co">#&gt; Unchanged    | 21 |   0.525</span>
-<span class="co">#&gt; Deteriorated |  0 |   0.000</span>
-<span class="co">#&gt; Harmed       |  0 |   0.000</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Clinical Significance Results</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; There were 43 participants in the whole dataset of which 40 (93%)</span></span>
+<span><span class="co">#&gt; could be included in the analysis.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; The JT method for calculating cutoffs and reliable change was chosen</span></span>
+<span><span class="co">#&gt; and the outcome variable was "bdi".</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; The cutoff type was "c" with a value of 21.6 based on the following</span></span>
+<span><span class="co">#&gt; population characteristics (with lower values representing a</span></span>
+<span><span class="co">#&gt; beneficial outcome):</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Population Characteristics</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; M Clinical | SD Clinical | M Functional | SD Functional</span></span>
+<span><span class="co">#&gt; -------------------------------------------------------</span></span>
+<span><span class="co">#&gt; 35.48      | 8.16        | 8            | 8            </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; The instrument's reliability was set to 0.81 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Individual Level Results</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Category     |  n | Percent</span></span>
+<span><span class="co">#&gt; ---------------------------</span></span>
+<span><span class="co">#&gt; Recovered    | 10 |   0.250</span></span>
+<span><span class="co">#&gt; Improved     |  9 |   0.225</span></span>
+<span><span class="co">#&gt; Unchanged    | 21 |   0.525</span></span>
+<span><span class="co">#&gt; Deteriorated |  0 |   0.000</span></span>
+<span><span class="co">#&gt; Harmed       |  0 |   0.000</span></span></code></pre></div>
 <p>or plot the results with</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
@@ -221,7 +221,7 @@ Jacobson, N. S., Follette, W. C., &amp; Revenstorf, D. (1984). <span class="noca
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://cran.r-project.org/package=clinicalsignificance" class="external-link"><img src="https://www.r-pkg.org/badges/version/clinicalsignificance"></a></li>
-<li><a href="https://cran.r-project.org/package=clinicalsignificance" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/last-month/clinicalsignificance"></a></li>
+<li><a href="https://cran.r-project.org/package=clinicalsignificance" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grand-total/clinicalsignificance"></a></li>
 <li><a href="https://app.codecov.io/gh/pedscience/clinicalsignificance" class="external-link"><img src="https://app.codecov.io/gh/pedscience/clinicalsignificance/branch/main/graph/badge.svg"></a></li>
 </ul>
 </div>
@@ -237,7 +237,7 @@ Jacobson, N. S., Follette, W. C., &amp; Revenstorf, D. (1984). <span class="noca
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>

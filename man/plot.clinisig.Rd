@@ -12,7 +12,7 @@
   rci_alpha = 0.1,
   diagonal_color = "black",
   show = NULL,
-  which = c("point", "trajectory", "slope"),
+  which = c("point", "trajectory"),
   include_cutoff = TRUE,
   include_cutoff_band = FALSE,
   x_lab = NULL,
@@ -51,11 +51,7 @@ indicating no change.}
 which yields the default clinical significance plot. The HLM method
 incorporates multiple measurements per participant, so a reduction to pre
 and post values may remove important information. Therefore, you can
-additionally choose to plot either
-\itemize{
-\item each participants trajectory (with \code{"trajectory"}), or
-\item each participants fitted Empirical Bayes slope (with \code{"slope"})
-}}
+additionally choose to plot each participants trajectory (with \code{"trajectory"})}
 
 \item{include_cutoff}{Logical. Should the clinical cutoff be plotted as well?
 Defaults to \code{TRUE}.}

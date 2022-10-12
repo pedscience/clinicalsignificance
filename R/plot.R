@@ -28,9 +28,7 @@
 #'   which yields the default clinical significance plot. The HLM method
 #'   incorporates multiple measurements per participant, so a reduction to pre
 #'   and post values may remove important information. Therefore, you can
-#'   additionally choose to plot either
-#'   - each participants trajectory (with `"trajectory"`), or
-#'   - each participants fitted Empirical Bayes slope (with `"slope"`)
+#'   additionally choose to plot each participants trajectory (with `"trajectory"`)
 #' @param include_cutoff Logical. Should the clinical cutoff be plotted as well?
 #'   Defaults to `TRUE`.
 #' @param include_cutoff_band Logical. If method was HA, a region of uncertainty
@@ -56,7 +54,7 @@ plot.clinisig <- function(x,
                           rci_alpha = 0.1,
                           diagonal_color = "black",
                           show = NULL,
-                          which = c("point", "trajectory", "slope"),
+                          which = c("point", "trajectory"),
                           include_cutoff = TRUE,
                           include_cutoff_band = FALSE,
                           x_lab = NULL,
@@ -82,15 +80,6 @@ plot.clinisig <- function(x,
 
     data <- model_data %>%
       left_join(categories, by = join_identifiers)
-  } else if (which_plot == "slope") {
-    min_measurement <- x[["datasets"]][["min"]]
-    max_measurement <- x[["datasets"]][["max"]]
-
-    data <- get_augmented_data(x) %>%
-      mutate(
-        plot_data = map2(.data$intercept, .data$eb_slope, ~ .calc_slope_data(.x, .y, min_measurement, max_measurement))
-      ) %>%
-      unnest(.data$plot_data)
   }
 
 
@@ -101,9 +90,6 @@ plot.clinisig <- function(x,
   } else if (which_plot == "trajectory" & is.null(x_lab) & is.null(y_lab)) {
     x_lab <- "Measurement"
     y_lab <- "Outcome Score"
-  } else if (which_plot == "slope" & is.null(x_lab) & is.null(y_lab)) {
-    x_lab <- "Measurement"
-    y_lab <- "Fitted Score"
   }
 
 
@@ -191,12 +177,6 @@ plot.clinisig <- function(x,
   } else if (which_plot == "trajectory") {
     data %>%
       ggplot(aes(.data$time, .data$outcome, group = .data$id)) +
-      geom_list_trajectory +
-      labs(x = x_lab, y = y_lab, color = color_lab) +
-      theme_light()
-  } else if (which_plot == "slope") {
-    data %>%
-      ggplot(aes(.data$time, .data$fitted, group = .data$id)) +
       geom_list_trajectory +
       labs(x = x_lab, y = y_lab, color = color_lab) +
       theme_light()

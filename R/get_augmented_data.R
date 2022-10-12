@@ -31,11 +31,11 @@ get_augmented_data <- function(x) {
   if (clinisig_method == "HLM") {
     hlm_categories <- x[["categories"]]
     hlm_coefficients <- x[["rci"]][["coefficients"]] %>%
-      select(.data$id, .data$intercept, .data$eb_slope)
+      select(.data$id, .data$eb_estimate, .data$sd)
 
     categories <- hlm_categories %>%
       left_join(hlm_coefficients, by = "id") %>%
-      relocate(.data$intercept:.data$eb_slope, .after = .data$post)
+      relocate(.data$eb_estimate:.data$sd, .after = .data$post)
   } else {
     categories <- x[["categories"]]
   }

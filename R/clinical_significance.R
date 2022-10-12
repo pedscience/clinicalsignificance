@@ -346,7 +346,8 @@ clinical_significance <- function(data,
       r_dd = rci[["r_dd"]],
       se_measurement = rci[["se_measurement"]],
       cutoff = cutoff[["info"]][["value"]],
-      sd_post = sd_post
+      sd_post = sd_post,
+      direction = direction
     )
 
     summary_table <- list(summary_table, group_level_summary)

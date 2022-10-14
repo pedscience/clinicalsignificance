@@ -7,7 +7,7 @@ clinisig_object_ha <- clinical_significance(jacobson_1989, subject, time, gds, p
 clinisig_object_hlm <- clinical_significance(anxiety, subject, measurement, anxiety, method = "HLM")
 
 names_jt <- c("id", "pre", "post", "change", "rci", "clinical_pre", "functional_post", "recovered", "improved", "unchanged", "deteriorated", "harmed", "category")
-names_en <- c("id", "pre", "post", "change", "pre_true", "lower", "upper", "clinical_pre", "functional_post", "recovered", "improved", "unchanged", "deteriorated", "harmed", "category")
+names_en <- c("id", "pre", "post", "change", "rci", "clinical_pre", "functional_post", "recovered", "improved", "unchanged", "deteriorated", "harmed", "category")
 names_ha <- c("id", "pre", "post", "change", "cs_indiv", "rci", "functional_post", "recovered", "improved", "unchanged", "deteriorated", "harmed", "category")
 names_hlm <- c("id", "n", "pre", "post", "eb_estimate", "sd", "rci", "clinical_pre", "functional_post", "recovered", "improved", "unchanged", "deteriorated", "harmed", "category")
 

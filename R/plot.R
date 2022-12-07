@@ -172,13 +172,11 @@ plot.clinisig <- function(x,
       ggplot(aes(pre, post)) +
       geom_list +
       coord_cartesian(xlim = x_limits, ylim = y_limits, expand = FALSE) +
-      labs(x = x_lab, y = y_lab, color = color_lab) +
-      theme_light()
+      labs(x = x_lab, y = y_lab, color = color_lab)
   } else if (which_plot == "trajectory") {
     data %>%
       ggplot(aes(time, outcome, group = id)) +
       geom_list_trajectory +
-      labs(x = x_lab, y = y_lab, color = color_lab) +
-      theme_light()
+      labs(x = x_lab, y = y_lab, color = color_lab)
   }
 }

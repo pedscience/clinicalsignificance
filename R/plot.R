@@ -17,13 +17,13 @@
 #'   any value between 0 and 1.
 #' @param diagonal_color String, a color (name or HEX code) for the line
 #'   indicating no change.
-#' @param show String. You have several options to color different features. Available are
-#'  - `"category"` (shows all categories at once) which is the default
-#'  - `"recovered"` (shows recovered participants)
-#'  - `"improved"` (shows improved participants)
-#'  - `"unchanged"` (shows unchanged participants)
-#'  - `"deteriorated"` (shows deteriorated participants, if available)
-#'  - `"harmed"` (shows harmed participants, if available)
+#' @param show Category name. You have several options to color different features. Available are
+#'  - `category` (shows all categories at once) which is the default
+#'  - `recovered` (shows recovered participants)
+#'  - `improved` (shows improved participants)
+#'  - `unchanged` (shows unchanged participants)
+#'  - `deteriorated` (shows deteriorated participants, if available)
+#'  - `harmed` (shows harmed participants, if available)
 #' @param which String. Which plot type should be shown? Defaults to `"point"`
 #'   which yields the default clinical significance plot. The HLM method
 #'   incorporates multiple measurements per participant, so a reduction to pre
@@ -53,7 +53,7 @@ plot.clinisig <- function(x,
                           rci_fill = "grey10",
                           rci_alpha = 0.1,
                           diagonal_color = "black",
-                          show = NULL,
+                          show,
                           which = c("point", "trajectory"),
                           include_cutoff = TRUE,
                           include_cutoff_band = FALSE,
@@ -91,10 +91,6 @@ plot.clinisig <- function(x,
     x_lab <- "Measurement"
     y_lab <- "Outcome Score"
   }
-
-
-  # Check if analysis was grouped and display those groups by default
-  if (is.null(show) & .has_group(data)) show <- "group"
 
 
   # Determine x and y limits for plotting. Overplotting is needed because we
@@ -158,11 +154,23 @@ plot.clinisig <- function(x,
     if (include_cutoff) geom_hline(yintercept = cutoff, lty = 2),
     if (include_cutoff) geom_vline(xintercept = cutoff, lty = 2),
     if (include_cutoff_band) geom_ribbon(data = cs_data, aes(y = NULL, ymin = ymin, ymax = ymax), alpha = rci_alpha),
-    if (is.null(show)) geom_point() else geom_point(aes_(color = as.name(show)))
+    if (.has_group(data) & missing(show)) {
+      geom_point(aes(color = group))
+    } else if (.has_group(data) & !missing(show)) {
+      geom_point(aes(color = {{ show }}))
+    } else if (missing(show)) {
+      geom_point()
+    }
   )
 
   geom_list_trajectory <- list(
-    if (is.null(show)) geom_line(na.rm = TRUE) else geom_line(aes_(color = as.name(show)), na.rm = TRUE)
+    if (.has_group(data) & missing(show)) {
+      geom_line(aes(color = group), na.rm = TRUE)
+    } else if (.has_group(data) & !missing(show)) {
+      geom_line(aes(color = {{ show }}), na.rm = TRUE)
+    } else if (missing(show)) {
+      geom_line(na.rm = TRUE)
+    }
   )
 
 

@@ -156,7 +156,7 @@ plot.clinisig <- function(x,
     if (include_cutoff_band) geom_ribbon(data = cs_data, aes(y = NULL, ymin = ymin, ymax = ymax), alpha = rci_alpha),
     if (.has_group(data) & missing(show)) {
       geom_point(aes(color = group))
-    } else if (.has_group(data) & !missing(show)) {
+    } else if (!missing(show)) {
       geom_point(aes(color = {{ show }}))
     } else if (missing(show)) {
       geom_point()
@@ -166,7 +166,7 @@ plot.clinisig <- function(x,
   geom_list_trajectory <- list(
     if (.has_group(data) & missing(show)) {
       geom_line(aes(color = group), na.rm = TRUE)
-    } else if (.has_group(data) & !missing(show)) {
+    } else if (!missing(show)) {
       geom_line(aes(color = {{ show }}), na.rm = TRUE)
     } else if (missing(show)) {
       geom_line(na.rm = TRUE)

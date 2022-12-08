@@ -38,5 +38,7 @@ globalVariables(unique(c(
   # plot.clinisig:
   "outcome", "time", "ymax", "ymin",
   # summary.clinisig:
-  "m_clinical", "m_functional", "reliability_clinical", "reliability_functional", "sd_clinical", "sd_functional"
+  "m_clinical", "m_functional", "reliability_clinical", "reliability_functional", "sd_clinical", "sd_functional",
+  # pot:
+  "group"
 )))

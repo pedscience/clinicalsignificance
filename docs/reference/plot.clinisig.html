@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +27,6 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/clinical-significance-cutoffs.html">Clinical Significance Cutoffs</a>
     <a class="dropdown-item" href="../articles/clinical-significance-plot.html">Clinical Significance Plots</a>
   </div>
 </li>
@@ -69,7 +68,7 @@
 <span>  rci_fill <span class="op">=</span> <span class="st">"grey10"</span>,</span>
 <span>  rci_alpha <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  diagonal_color <span class="op">=</span> <span class="st">"black"</span>,</span>
-<span>  show <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">show</span>,</span>
 <span>  which <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"point"</span>, <span class="st">"trajectory"</span><span class="op">)</span>,</span>
 <span>  include_cutoff <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  include_cutoff_band <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -110,12 +109,12 @@ indicating no change.</p></dd>
 
 
 <dt>show</dt>
-<dd><p>String. You have several options to color different features. Available are</p><ul><li><p><code>"category"</code> (shows all categories at once) which is the default</p></li>
-<li><p><code>"recovered"</code> (shows recovered participants)</p></li>
-<li><p><code>"improved"</code> (shows improved participants)</p></li>
-<li><p><code>"unchanged"</code> (shows unchanged participants)</p></li>
-<li><p><code>"deteriorated"</code> (shows deteriorated participants, if available)</p></li>
-<li><p><code>"harmed"</code> (shows harmed participants, if available)</p></li>
+<dd><p>Category name. You have several options to color different features. Available are</p><ul><li><p><code>category</code> (shows all categories at once) which is the default</p></li>
+<li><p><code>recovered</code> (shows recovered participants)</p></li>
+<li><p><code>improved</code> (shows improved participants)</p></li>
+<li><p><code>unchanged</code> (shows unchanged participants)</p></li>
+<li><p><code>deteriorated</code> (shows deteriorated participants, if available)</p></li>
+<li><p><code>harmed</code> (shows harmed participants, if available)</p></li>
 </ul></dd>
 
 

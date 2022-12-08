@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,6 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/clinical-significance-cutoffs.html">Clinical Significance Cutoffs</a>
     <a class="dropdown-item" href="../articles/clinical-significance-plot.html">Clinical Significance Plots</a>
   </div>
 </li>
@@ -86,7 +85,7 @@
                         <h4 data-toc-skip class="author">Benedikt
 Claus</h4>
             
-            <h4 data-toc-skip class="date">12-10-2022</h4>
+            <h4 data-toc-skip class="date">08-12-2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/pedscience/clinicalsignificance/blob/HEAD/vignettes/clinical-significance-plot.Rmd" class="external-link"><code>vignettes/clinical-significance-plot.Rmd</code></a></small>
       <div class="d-none name"><code>clinical-significance-plot.Rmd</code></div>
@@ -238,18 +237,18 @@ variable, this is automatically shown in the corresponding plot.</p>
 <p>Alternatively, you can color the individual clinical significance
 categories.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, show <span class="op">=</span> <span class="st">"recovered"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, show <span class="op">=</span> <span class="va">recovered</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-8-1.png" width="576"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, show <span class="op">=</span> <span class="st">"improved"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, show <span class="op">=</span> <span class="va">improved</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-8-2.png" width="576"></p>
 <p>Or all categories at once.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, show <span class="op">=</span> <span class="st">"category"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results</span>, upper_limit <span class="op">=</span> <span class="fl">60</span>, show <span class="op">=</span> <span class="va">category</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-9-1.png" width="576"></p>
 <p>Trajectories for the HLM can be colored as well.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_hlm</span>, which <span class="op">=</span> <span class="st">"trajectory"</span>, show <span class="op">=</span> <span class="st">"recovered"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anxiety_results_hlm</span>, which <span class="op">=</span> <span class="st">"trajectory"</span>, show <span class="op">=</span> <span class="va">recovered</span><span class="op">)</span></span></code></pre></div>
 <p><img src="clinical-significance-plot_files/figure-html/unnamed-chunk-10-1.png" width="576"></p>
 <p>Because <code>clinicalsignificance</code> uses ggplot2 internally,
 you can manipulate plots to your liking.</p>

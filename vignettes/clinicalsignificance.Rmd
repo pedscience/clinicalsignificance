@@ -98,7 +98,7 @@ plot(results, upper_limit = 63)
 If you wish, you can plot the clinical significance categories as well.
 
 ```{r, fig.width=6}
-plot(results, upper_limit = 63, show = "category")
+plot(results, upper_limit = 63, show = category)
 ```
 
 

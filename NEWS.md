@@ -1,3 +1,5 @@
+# clinicalsignificance (development version)
+
 # clinicalsignificance 1.2.0
 ## Breaking changes
 * Remove default theming from `plot()` to give the user more control over the overall appearance

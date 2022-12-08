@@ -1,10 +1,11 @@
 # clinicalsignificance 1.2.0
-## Major Changes
+## Breaking changes
 * Remove default theming from `plot()` to give the user more control over the overall appearance
 
-## Minor Changes
+## Minor improvements and fixes
 * Further implementation of tidyeval principles since `aes_()` was deprecated
 * Small improvements in vignettes
+* Better documentation for some functions
 
 
 # clinicalsignificance 1.1.0

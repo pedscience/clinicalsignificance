@@ -307,20 +307,20 @@ plot(anxiety_results_grouped, upper_limit = 60)
 Alternatively, you can color the individual clinical significance categories.
 
 ```{r}
-plot(anxiety_results, upper_limit = 60, show = "recovered")
-plot(anxiety_results, upper_limit = 60, show = "improved")
+plot(anxiety_results, upper_limit = 60, show = recovered)
+plot(anxiety_results, upper_limit = 60, show = improved)
 ```
 
 Or all categories at once.
 
 ```{r}
-plot(anxiety_results, upper_limit = 60, show = "category")
+plot(anxiety_results, upper_limit = 60, show = category)
 ```
 
 Trajectories for the HLM can be colored as well.
 
 ```{r}
-plot(anxiety_results_hlm, which = "trajectory", show = "recovered")
+plot(anxiety_results_hlm, which = "trajectory", show = recovered)
 ```
 
 Because `clinicalsignificance` uses ggplot2 internally, you can manipulate plots to your liking.

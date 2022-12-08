@@ -1,23 +1,39 @@
 #' Clinical Significance
 #'
 #' This function conducts a clinical significance analysis by determining which
-#' patients changed reliably and moved from the clinical to the functional
+#' patients changed reliably and also moved from the clinical to the functional
 #' population during a study.
 #'
-#' By default, the JT method is used, but there are other methods implemented
-#' (see description of arguments).
+#' By default, the Jacobson & Truax (1991) method to determine both criteria is
+#' used, but there are other methods implemented (see description of arguments).
 #'
-#' It is generally recommended to use cutoff `"c"`, thus, incorporating
-#' information of the clinical and functional population into the cutoff
-#' calculation.
+#' To calculate the cutoff between populations, it is generally recommended to
+#' use cutoff `"c"`, thus, incorporating information of the clinical and
+#' functional population into the cutoff calculation (regardless of the employed
+#' method).
+#'
+#' During this analysis, a patient can be classified in one of five categories:
+#' - Recovered (demonstrated a reliable change in the desired direction and
+#' belonged to the clinical population before and to the functional population
+#' after intervention)
+#' - Improved (demonstrated a reliable change in the desired direction but is
+#' still in the same population after intervention as compared to before)
+#' - Unchanged (did not demonstrate a reliable change)
+#' - Deteriorated (demonstrated a reliable change in the undesired direction but
+#' is still in the same population after intervention as compared to before)
+#' - Harmed (demonstrated a reliable change in the undesired direction and
+#' belonged to the functional population before and to the clinical population
+#' after intervention)
 #'
 #' @param data A tidy data frame
 #' @param id Participant ID
 #' @param time Time variable
 #' @param outcome Outcome variable
-#' @param group Grouping variable
-#' @param pre Pre measurement
-#' @param post Post measurement
+#' @param group Grouping variable (optional)
+#' @param pre Pre measurement (only needed if the time variable contains more
+#'   than two measurements)
+#' @param post Post measurement (only needed if the time variable contains more
+#'   than two measurements)
 #' @param m_functional Mean of the functional population
 #' @param sd_functional Standard deviation of the functional population
 #' @param type Cutoff type. Available are `"a"`, `"b"`, and `"c"`. Defaults to
@@ -25,23 +41,23 @@
 #' @param reliability The instrument's reliability estimate. If you selected the
 #'   NK method, the here specified reliability will be the instrument's pre
 #'   measurement reliability
-#' @param reliability_post The instrument's reliability at post measurement.
-#'   This is only relevant for the NK method
+#' @param reliability_post The instrument's reliability at post measurement
+#'   (only needed for the NK method)
 #' @param better_is Which direction means a better outcome for the employed
 #'   outcome? Available are
-#' - `"lower"` (lower outcome scores are desirable, the default) and
-#' - `"higher"` (higher outcome scores are desirable)
+#'   - `"lower"` (lower outcome scores are desirable, the default) and
+#'   - `"higher"` (higher outcome scores are desirable)
 #' @param method Clinical significance method. Available are
-#'  - `"JT"` (Jacobson & Truax, 1991, the default)
-#'  - `"GLN"` (Gulliksen, Lord, and Novick; Hsu, 1989, Hsu, 1995)
-#'  - `"HLL"` (Hsu, Linn & Nord; Hsu, 1989)
-#'  - `"EN"` (Edwards & Nunnally; Speer, 1992)
-#'  - `"NK"` (Nunnally & Kotsch, 1983), requires a reliability estimate at post
-#'    measurement. If this is not supplied, reliability and reliability_post
-#'    are assumed to be equal
-#'  - `"HA"` (Hageman & Arrindell, 1999)
-#'  - `"HLM"` (Hierarchical Linear Modeling; Raudenbush & Bryk, 2002), requires
-#'    at least three measurements per patient
+#'   - `"JT"` (Jacobson & Truax, 1991, the default)
+#'   - `"GLN"` (Gulliksen, Lord, and Novick; Hsu, 1989, Hsu, 1995)
+#'   - `"HLL"` (Hsu, Linn & Nord; Hsu, 1989)
+#'   - `"EN"` (Edwards & Nunnally; Speer, 1992)
+#'   - `"NK"` (Nunnally & Kotsch, 1983), requires a reliability estimate at post
+#'      measurement. If this is not supplied, reliability and reliability_post
+#'      are assumed to be equal
+#'    - `"HA"` (Hageman & Arrindell, 1999)
+#'    - `"HLM"` (Hierarchical Linear Modeling; Raudenbush & Bryk, 2002), requires
+#'      at least three measurements per patient
 #'
 #' @references
 #' - Jacobson, N. S., & Truax, P. (1991). Clinical significance: A statistical approach to defining meaningful change in psychotherapy research. Journal of Consulting and Clinical Psychology, 59(1), 12–19. https://doi.org/10.1037//0022-006X.59.1.12

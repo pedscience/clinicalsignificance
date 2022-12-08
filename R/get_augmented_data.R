@@ -1,5 +1,11 @@
 #' Get Data Augmented With Clinical Significance Categories
 #'
+#' To obtain patient-wise results, use `get_augmented_data()`.
+#'
+#' This function returns the patient-wise results, containing the considered pre
+#' and post intervention value, its raw change as well as the RCI and the
+#' individual category a patient belongs to.
+#'
 #' @inheritParams get_data
 #'
 #' @importFrom dplyr left_join case_when relocate

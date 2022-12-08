@@ -13,7 +13,12 @@ get_augmented_data(x)
 A tibble with used data and clinical significance categories
 }
 \description{
-Get Data Augmented With Clinical Significance Categories
+To obtain patient-wise results, use \code{get_augmented_data()}.
+}
+\details{
+This function returns the patient-wise results, containing the considered pre
+and post intervention value, its raw change as well as the RCI and the
+individual category a patient belongs to.
 }
 \examples{
 results <- jacobson_1989 \%>\%

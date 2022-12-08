@@ -30,11 +30,13 @@ clinical_significance(
 
 \item{outcome}{Outcome variable}
 
-\item{group}{Grouping variable}
+\item{group}{Grouping variable (optional)}
 
-\item{pre}{Pre measurement}
+\item{pre}{Pre measurement (only needed if the time variable contains more
+than two measurements)}
 
-\item{post}{Post measurement}
+\item{post}{Post measurement (only needed if the time variable contains more
+than two measurements)}
 
 \item{m_functional}{Mean of the functional population}
 
@@ -47,8 +49,8 @@ clinical_significance(
 NK method, the here specified reliability will be the instrument's pre
 measurement reliability}
 
-\item{reliability_post}{The instrument's reliability at post measurement.
-This is only relevant for the NK method}
+\item{reliability_post}{The instrument's reliability at post measurement
+(only needed for the NK method)}
 
 \item{better_is}{Which direction means a better outcome for the employed
 outcome? Available are
@@ -76,16 +78,32 @@ An S3 object of class \code{clinisig}
 }
 \description{
 This function conducts a clinical significance analysis by determining which
-patients changed reliably and moved from the clinical to the functional
+patients changed reliably and also moved from the clinical to the functional
 population during a study.
 }
 \details{
-By default, the JT method is used, but there are other methods implemented
-(see description of arguments).
+By default, the Jacobson & Truax (1991) method to determine both criteria is
+used, but there are other methods implemented (see description of arguments).
 
-It is generally recommended to use cutoff \code{"c"}, thus, incorporating
-information of the clinical and functional population into the cutoff
-calculation.
+To calculate the cutoff between populations, it is generally recommended to
+use cutoff \code{"c"}, thus, incorporating information of the clinical and
+functional population into the cutoff calculation (regardless of the employed
+method).
+
+During this analysis, a patient can be classified in one of five categories:
+\itemize{
+\item Recovered (demonstrated a reliable change in the desired direction and
+belonged to the clinical population before and to the functional population
+after intervention)
+\item Improved (demonstrated a reliable change in the desired direction but is
+still in the same population after intervention as compared to before)
+\item Unchanged (did not demonstrate a reliable change)
+\item Deteriorated (demonstrated a reliable change in the undesired direction but
+is still in the same population after intervention as compared to before)
+\item Harmed (demonstrated a reliable change in the undesired direction and
+belonged to the functional population before and to the clinical population
+after intervention)
+}
 }
 \examples{
 # Clinical significane for "negative" outcomes (lower values are desirable)

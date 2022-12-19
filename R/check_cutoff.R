@@ -100,6 +100,5 @@ check_cutoff <- function(object = NULL, m_clinical, sd_clinical, m_functional = 
   ggplot() +
     geom_list +
     expand_limits(x = c(lower_limit, upper_limit), y = 0) +
-    theme_light() +
     labs(x = "Outcome Score", y = "Density", color = "Population")
 }

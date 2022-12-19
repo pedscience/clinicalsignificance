@@ -1,4 +1,6 @@
 # clinicalsignificance (development version)
+## Breaking changes
+* Remove default theming from `check_cutoff()` as in other plot functions
 
 # clinicalsignificance 1.2.0
 ## Breaking changes

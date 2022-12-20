@@ -4,6 +4,7 @@
 
 ## Minor improvements and fixes
 * Improve documentation of datasets
+* Include examples for `summary()` and `plot()` method
 
 # clinicalsignificance 1.2.0
 ## Breaking changes

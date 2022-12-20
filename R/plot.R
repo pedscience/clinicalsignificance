@@ -47,6 +47,54 @@
 #'
 #' @return A ggplot2 plot
 #' @export
+#'
+#' @examples
+#' claus_results <- clinical_significance(
+#'   data = claus_2020,
+#'   id = id,
+#'   time = time,
+#'   outcome = bdi,
+#'   pre = 1,
+#'   post = 4,
+#'   reliability = 0.801,
+#'   m_functional = 8,
+#'   sd_functional = 7,
+#'   type = "c"
+#' )
+#'
+#' # Base plot
+#' plot(claus_results)
+#'
+#'
+#' # Differentiate between groups
+#' claus_grouped_results <- clinical_significance(
+#'   data = claus_2020,
+#'   id = id,
+#'   time = time,
+#'   outcome = bdi,
+#'   pre = 1,
+#'   post = 4,
+#'   reliability = 0.801,
+#'   m_functional = 8,
+#'   sd_functional = 7,
+#'   type = "c",
+#'   group = treatment
+#' )
+#'
+#' plot(claus_grouped_results)
+#'
+#' # Color individual categories
+#' plot(claus_results, show = recovered)
+#' plot(claus_results, show = improved)
+#'
+#' # Color all categroies
+#' plot(claus_results, show = category)
+#'
+#' # Omit cutoff lines
+#' plot(claus_results, include_cutoff = FALSE)
+#'
+#' # Adjust axis labels
+#' plot(claus_results, x_lab = "BDI-II Pre", y_lab = "BDI-II Post")
 plot.clinisig <- function(x,
                           lower_limit = 0,
                           upper_limit = 100,

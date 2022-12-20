@@ -17,3 +17,19 @@ No return value, called for side effects
 \description{
 Summary Method for a clinisig object
 }
+\examples{
+claus_results <- clinical_significance(
+  data = claus_2020,
+  id = id,
+  time = time,
+  outcome = bdi,
+  pre = 1,
+  post = 4,
+  reliability = 0.801,
+  m_functional = 8,
+  sd_functional = 7,
+  type = "c"
+)
+
+summary(claus_results)
+}

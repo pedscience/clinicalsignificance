@@ -2,6 +2,9 @@
 ## Breaking changes
 * Remove default theming from `check_cutoff()` as in other plot functions
 
+## Minor improvements and fixes
+* Improve documentation of datasets
+
 # clinicalsignificance 1.2.0
 ## Breaking changes
 * Remove default theming from `plot()` to give the user more control over the overall appearance

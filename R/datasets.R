@@ -9,12 +9,18 @@
 #'
 #' @format An object of class `tbl_df` with 172 rows and 9 columns.
 #'
-#'   \describe{ \item{id}{Participant ID} \item{age}{Age} \item{sex}{Sex}
+#'   \describe{
+#'   \item{id}{Participant ID}
+#'   \item{age}{Age}
+#'   \item{sex}{Sex}
 #'   \item{treatment}{Treatment (TAU for treatment as usual and PA for placebo
-#'   amplification)} \item{time}{Measurement} \item{bdi}{Beck Depression
-#'   Inventory (2nd Edition) score} \item{shaps}{Snaith-Hamilton Pleasure Scale
-#'   score} \item{who}{WHO-Five Well-Being Index score} \item{hamd}{Hamilton
-#'   Rating Scale for Depression score} }
+#'   amplification)}
+#'   \item{time}{Measurement}
+#'   \item{bdi}{Beck Depression Inventory (2nd Edition) score (lower is better)}
+#'   \item{shaps}{Snaith-Hamilton Pleasure Scale score (higher is better)}
+#'   \item{who}{WHO-Five Well-Being Index score (higher is better)}
+#'   \item{hamd}{Hamilton Rating Scale for Depression score (lower is better)}
+#'   }
 #'
 #' @references
 #' - Claus, B. B., Scherbaum, N., & Bonnet, U. (2020). Effectiveness
@@ -35,9 +41,12 @@
 #'
 #' @format An object of class `tbl_df` with 60 rows and 4 columns.
 #'
-#'   \describe{ \item{subject}{Subject ID} \item{time}{Measurement}
-#'   \item{das}{Dyadic Adjustment Scale score} \item{gds}{Global Distress Scale
-#'   score} }
+#'   \describe{
+#'   \item{subject}{Subject ID}
+#'   \item{time}{Measurement}
+#'   \item{das}{Dyadic Adjustment Scale score (higher is better)}
+#'   \item{gds}{Global Distress Scale score (lower is better)}
+#'   }
 #'
 #' @references
 #' - Jacobson, N. S., Schmaling, K. B., Holtzworth-Munroe, A., Katt,
@@ -70,10 +79,14 @@
 #'individuals) can be expected to have a mean score of M = 8 points with a
 #'standard deviation of SD = 4.
 #'
-#'@format A data frame with 580 rows and 4 variables: \describe{
-#'  \item{\code{subject}}{Participant} \item{\code{treatment}}{Treatment. Either
-#'  Placebo or Intervention.} \item{\code{measurement}}{Number of measurement}
-#'  \item{\code{anxiety}}{Anxiety score, lower is better.} }
+#'@format A data frame with 580 rows and 4 variables:
+#'
+#' \describe{
+#'  \item{\code{subject}}{Participant}
+#'  \item{\code{treatment}}{Treatment. Either Placebo or Intervention}
+#'  \item{\code{measurement}}{Number of measurement}
+#'  \item{\code{anxiety}}{Anxiety score (lower is better)}
+#'  }
 "anxiety_complete"
 
 
@@ -93,8 +106,12 @@
 #'The functional population (i.e., non-anxious individuals) can be expected to
 #'have a mean score of M = 8 points with a standard deviation of SD = 4.
 #'
-#'@format A data frame with 580 rows and 4 variables: \describe{
-#'  \item{\code{subject}}{Participant} \item{\code{treatment}}{Treatment. Either
-#'  Placebo or Intervention.} \item{\code{measurement}}{Number of measurement}
-#'  \item{\code{anxiety}}{Anxiety score, lower is better.} }
+#'@format A data frame with 580 rows and 4 variables:
+#'
+#'  \describe{
+#'  \item{\code{subject}}{Participant}
+#'  \item{\code{treatment}}{Treatment. Either Placebo or Intervention}
+#'  \item{\code{measurement}}{Number of measurement}
+#'  \item{\code{anxiety}}{Anxiety score (lower is better)}
+#'  }
 "anxiety"

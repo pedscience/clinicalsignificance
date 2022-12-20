@@ -7,9 +7,12 @@
 \format{
 An object of class \code{tbl_df} with 60 rows and 4 columns.
 
-\describe{ \item{subject}{Subject ID} \item{time}{Measurement}
-\item{das}{Dyadic Adjustment Scale score} \item{gds}{Global Distress Scale
-score} }
+\describe{
+\item{subject}{Subject ID}
+\item{time}{Measurement}
+\item{das}{Dyadic Adjustment Scale score (higher is better)}
+\item{gds}{Global Distress Scale score (lower is better)}
+}
 }
 \usage{
 jacobson_1989

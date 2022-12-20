@@ -7,12 +7,18 @@
 \format{
 An object of class \code{tbl_df} with 172 rows and 9 columns.
 
-\describe{ \item{id}{Participant ID} \item{age}{Age} \item{sex}{Sex}
+\describe{
+\item{id}{Participant ID}
+\item{age}{Age}
+\item{sex}{Sex}
 \item{treatment}{Treatment (TAU for treatment as usual and PA for placebo
-amplification)} \item{time}{Measurement} \item{bdi}{Beck Depression
-Inventory (2nd Edition) score} \item{shaps}{Snaith-Hamilton Pleasure Scale
-score} \item{who}{WHO-Five Well-Being Index score} \item{hamd}{Hamilton
-Rating Scale for Depression score} }
+amplification)}
+\item{time}{Measurement}
+\item{bdi}{Beck Depression Inventory (2nd Edition) score (lower is better)}
+\item{shaps}{Snaith-Hamilton Pleasure Scale score (higher is better)}
+\item{who}{WHO-Five Well-Being Index score (higher is better)}
+\item{hamd}{Hamilton Rating Scale for Depression score (lower is better)}
+}
 }
 \source{
 \url{https://osf.io/rc754/}

@@ -5,10 +5,14 @@
 \alias{anxiety_complete}
 \title{Anxiety Data (Complete)}
 \format{
-A data frame with 580 rows and 4 variables: \describe{
-\item{\code{subject}}{Participant} \item{\code{treatment}}{Treatment. Either
-Placebo or Intervention.} \item{\code{measurement}}{Number of measurement}
-\item{\code{anxiety}}{Anxiety score, lower is better.} }
+A data frame with 580 rows and 4 variables:
+
+\describe{
+\item{\code{subject}}{Participant}
+\item{\code{treatment}}{Treatment. Either Placebo or Intervention}
+\item{\code{measurement}}{Number of measurement}
+\item{\code{anxiety}}{Anxiety score (lower is better)}
+}
 }
 \usage{
 anxiety_complete

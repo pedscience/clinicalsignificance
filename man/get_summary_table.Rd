@@ -24,7 +24,7 @@ Retrieve the summary table in a tidy tibble format. This is especially useful
 to plot the results or conduct sensitivity analyses.
 }
 \examples{
-results <- jacobson_1989 \%>\%
+results <- jacobson_1989 |>
   clinical_significance(
     id = subject,
     time = time,
@@ -36,7 +36,7 @@ results <- jacobson_1989 \%>\%
     type = "c"
   )
 
-results_ha <- jacobson_1989 \%>\%
+results_ha <- jacobson_1989  |>
   clinical_significance(
     id = subject,
     time = time,

@@ -16,7 +16,7 @@
 #' @export
 #'
 #' @examples
-#' results <- jacobson_1989 %>%
+#' results <- jacobson_1989 |>
 #'   clinical_significance(
 #'     id = subject,
 #'     time = time,
@@ -35,8 +35,8 @@ get_n <- function(x, which = "all") {
   assert_class(x, "clinisig")
 
   if (which == "all") {
-    x[["n_obs"]] %>%
-      as_tibble() %>%
+    x[["n_obs"]] |>
+      as_tibble() |>
       mutate(
         percent_used = n_used / n_original
       )

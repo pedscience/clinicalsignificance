@@ -20,7 +20,7 @@ A tibble with cutoff information
 Get Used Cutoff And Type From A clinisig Object
 }
 \examples{
-results <- jacobson_1989 \%>\%
+results <- jacobson_1989 |>
   clinical_significance(
     id = subject,
     time = time,

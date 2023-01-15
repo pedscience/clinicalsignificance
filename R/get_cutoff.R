@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @examples
-#' results <- jacobson_1989 %>%
+#' results <- jacobson_1989 |>
 #'   clinical_significance(
 #'     id = subject,
 #'     time = time,
@@ -28,11 +28,11 @@
 get_cutoff <- function(x, with_descriptives = FALSE) {
   assert_class(x, "clinisig")
 
-  cutoff_info <- x[["cutoff"]][["info"]] %>%
+  cutoff_info <- x[["cutoff"]][["info"]] |>
     as_tibble()
 
   if (!with_descriptives) {
-    cutoff_info %>%
+    cutoff_info |>
       select(type, value)
   } else {
     cutoff_info

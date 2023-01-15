@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_method.R
 \name{get_method}
 \alias{get_method}
-\title{Get the employed clinical significance method}
+\title{Get the Clinical Significance Method From A clinisig Object}
 \usage{
 get_method(x)
 }
@@ -18,7 +18,7 @@ analyses. This function can retrieve the employed method of a clinisig
 object.
 }
 \examples{
-results <- jacobson_1989 \%>\%
+results <- jacobson_1989 |>
 clinical_significance(
   id = subject,
   time = time,

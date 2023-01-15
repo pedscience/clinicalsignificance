@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' results <- jacobson_1989 %>%
+#' results <- jacobson_1989 |>
 #'   clinical_significance(
 #'     id = subject,
 #'     time = time,
@@ -20,7 +20,7 @@
 #'     type = "c"
 #'   )
 #'
-#' results_nk <- jacobson_1989 %>%
+#' results_nk <- jacobson_1989 |>
 #'   clinical_significance(
 #'     id = subject,
 #'     time = time,
@@ -50,8 +50,8 @@ get_reliability <- function(x) {
       reliability_post = x[["rci"]][["reliability_post"]]
     )
 
-    reliability <- reliability %>%
-      bind_cols(reliability_post) %>%
+    reliability <- reliability |>
+      bind_cols(reliability_post) |>
       rename(reliability_pre = reliability)
   }
 

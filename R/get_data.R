@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' results <- jacobson_1989 %>%
+#' results <- jacobson_1989 |>
 #'   clinical_significance(
 #'     id = subject,
 #'     time = time,

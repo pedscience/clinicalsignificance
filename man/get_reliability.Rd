@@ -16,7 +16,7 @@ A tibble showing the reliability
 Get Reliability Of A clinisig Object
 }
 \examples{
-results <- jacobson_1989 \%>\%
+results <- jacobson_1989 |>
   clinical_significance(
     id = subject,
     time = time,
@@ -28,7 +28,7 @@ results <- jacobson_1989 \%>\%
     type = "c"
   )
 
-results_nk <- jacobson_1989 \%>\%
+results_nk <- jacobson_1989 |>
   clinical_significance(
     id = subject,
     time = time,

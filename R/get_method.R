@@ -1,4 +1,4 @@
-#' Get the employed clinical significance method
+#' Get the Clinical Significance Method From A clinisig Object
 #'
 #' You may choose between several methods to conduct clinical significance
 #' analyses. This function can retrieve the employed method of a clinisig
@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-#' results <- jacobson_1989 %>%
+#' results <- jacobson_1989 |>
 #' clinical_significance(
 #'   id = subject,
 #'   time = time,

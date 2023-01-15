@@ -24,7 +24,7 @@ A tibble with number of participants
 Get Number Of Participants From A clinisig Object
 }
 \examples{
-results <- jacobson_1989 \%>\%
+results <- jacobson_1989 |>
   clinical_significance(
     id = subject,
     time = time,

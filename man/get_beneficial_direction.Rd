@@ -18,7 +18,7 @@ A string
 Get the Specified Beneficial Direction of a Clinical Significance Analysis
 }
 \examples{
-results <- jacobson_1989 \%>\%
+results <- jacobson_1989 |>
 clinical_significance(
   id = subject,
   time = time,

@@ -126,7 +126,7 @@ plot.clinisig <- function(x,
 
     if (.has_group(model_data)) join_identifiers <- c("id", "group") else join_identifiers <- c("id")
 
-    data <- model_data %>%
+    data <- model_data |>
       left_join(categories, by = join_identifiers)
   }
 
@@ -224,13 +224,13 @@ plot.clinisig <- function(x,
 
   # Plot the whole thing
   if (which_plot == "point") {
-    data %>%
+    data |>
       ggplot(aes(pre, post)) +
       geom_list +
       coord_cartesian(xlim = x_limits, ylim = y_limits, expand = FALSE) +
       labs(x = x_lab, y = y_lab, color = color_lab)
   } else if (which_plot == "trajectory") {
-    data %>%
+    data |>
       ggplot(aes(time, outcome, group = id)) +
       geom_list_trajectory +
       labs(x = x_lab, y = y_lab, color = color_lab)

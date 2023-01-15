@@ -13,7 +13,7 @@ manual_rci <- rci_data_hll |>
     post_adj = post - m_post,
     change_adj = post_adj - pre_adj,
     rci = change_adj / se_prediction
-  ) %>%
+  ) |>
   pull(rci)
 
 

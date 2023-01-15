@@ -7,7 +7,7 @@ s_diff <- .calc_s_diff(se_measurement)
 manual_rcis <- rci_data_jt |>
   mutate(
     rci = change / s_diff
-  ) %>%
+  ) |>
   pull(rci)
 
 test_that("RCI for JT method is calculated correctly", {

@@ -18,7 +18,7 @@ r_dd <- nominator / denominator
 manual_rci <- rci_data_ha |>
   mutate(
     rci = ((post - pre) * r_dd + (m_post - m_pre) * (1 - r_dd)) / (sqrt(r_dd) * sqrt(2 * se_measurement^2))
-  ) %>%
+  ) |>
   pull(rci)
 
 

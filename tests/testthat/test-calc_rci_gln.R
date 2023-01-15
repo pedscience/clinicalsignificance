@@ -10,7 +10,7 @@ rcis_gln <- rci_data_gln |>
     post_adj = post - m_pre,
     change_adj = post_adj - pre_adj,
     rci = change_adj / se_prediction
-  ) %>%
+  ) |>
   pull(rci)
 
 

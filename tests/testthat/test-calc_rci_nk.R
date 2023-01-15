@@ -11,7 +11,7 @@ manual_rci <- rci_data_nk |>
     pre_adj = reliability * (pre - m_pre) + m_pre,
     change_adj = post - pre_adj,
     rci = change_adj / denominator
-  ) %>%
+  ) |>
   pull(rci)
 
 

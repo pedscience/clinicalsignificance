@@ -107,7 +107,7 @@ after intervention)
 }
 \examples{
 # Clinical significane for "negative" outcomes (lower values are desirable)
-jacobson_1989 \%>\%
+jacobson_1989 |>
   clinical_significance(
     id = subject,
     time = time,
@@ -118,7 +118,7 @@ jacobson_1989 \%>\%
 
 
 # Clinical significane for "positive" outcomes (higher values are desirable)
-jacobson_1989 \%>\%
+jacobson_1989 |>
   clinical_significance(
     id = subject,
     time = time,
@@ -132,7 +132,7 @@ jacobson_1989 \%>\%
 # Clinical significance incorporating descriptives of a functional population.
 # Make sure to select type = "c" to incorporate the specified functional
 # descriptives.
-jacobson_1989 \%>\%
+jacobson_1989 |>
   clinical_significance(
     id = subject,
     time = time,
@@ -146,7 +146,7 @@ jacobson_1989 \%>\%
 
 
 # Change the clinical significance method
-jacobson_1989 \%>\%
+jacobson_1989 |>
   clinical_significance(
     id = subject,
     time = time,
@@ -159,7 +159,7 @@ jacobson_1989 \%>\%
     method = "EN"
   )
 
-jacobson_1989 \%>\%
+jacobson_1989 |>
   clinical_significance(
     id = subject,
     time = time,
@@ -174,7 +174,7 @@ jacobson_1989 \%>\%
 
 
 # And plot your results
-results <- jacobson_1989 \%>\%
+results <- jacobson_1989 |>
   clinical_significance(
     id = subject,
     time = time,

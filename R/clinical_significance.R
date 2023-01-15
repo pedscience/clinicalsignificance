@@ -77,7 +77,7 @@
 #'
 #' @examples
 #' # Clinical significane for "negative" outcomes (lower values are desirable)
-#' jacobson_1989 %>%
+#' jacobson_1989 |>
 #'   clinical_significance(
 #'     id = subject,
 #'     time = time,
@@ -88,7 +88,7 @@
 #'
 #'
 #' # Clinical significane for "positive" outcomes (higher values are desirable)
-#' jacobson_1989 %>%
+#' jacobson_1989 |>
 #'   clinical_significance(
 #'     id = subject,
 #'     time = time,
@@ -102,7 +102,7 @@
 #' # Clinical significance incorporating descriptives of a functional population.
 #' # Make sure to select type = "c" to incorporate the specified functional
 #' # descriptives.
-#' jacobson_1989 %>%
+#' jacobson_1989 |>
 #'   clinical_significance(
 #'     id = subject,
 #'     time = time,
@@ -116,7 +116,7 @@
 #'
 #'
 #' # Change the clinical significance method
-#' jacobson_1989 %>%
+#' jacobson_1989 |>
 #'   clinical_significance(
 #'     id = subject,
 #'     time = time,
@@ -129,7 +129,7 @@
 #'     method = "EN"
 #'   )
 #'
-#' jacobson_1989 %>%
+#' jacobson_1989 |>
 #'   clinical_significance(
 #'     id = subject,
 #'     time = time,
@@ -144,7 +144,7 @@
 #'
 #'
 #' # And plot your results
-#' results <- jacobson_1989 %>%
+#' results <- jacobson_1989 |>
 #'   clinical_significance(
 #'     id = subject,
 #'     time = time,
@@ -405,14 +405,14 @@ print.clinisig <- function(x, ...) {
 
   if (clinisig_method != "HA") {
     caption <- c(paste0("Clinical Significance Results (", clinisig_method, ")"), "blue")
-    summary_table <- get_summary_table(x) %>%
+    summary_table <- get_summary_table(x) |>
       rename_with(toTitleCase, .cols = -n)
   }
 
   if (clinisig_method == "HA") {
-    summary_table_individual <- get_summary_table(x, "individual") %>%
+    summary_table_individual <- get_summary_table(x, "individual") |>
       rename_with(toTitleCase, .cols = -n)
-    summary_table_group <- get_summary_table(x, "group") %>%
+    summary_table_group <- get_summary_table(x, "group") |>
       rename_with(toTitleCase)
 
     summary_table <- list(summary_table_individual, summary_table_group)
@@ -478,13 +478,13 @@ summary.clinisig <- function(object, ...) {
 
 
   # Cutoff table
-  cutoff_descriptives <- get_cutoff_descriptives(object) %>%
+  cutoff_descriptives <- get_cutoff_descriptives(object) |>
     rename(
       "M Clinical" = m_clinical,
       "SD Clinical" = sd_clinical,
       "M Functional" = m_functional,
       "SD Functional" = sd_functional
-    ) %>%
+    ) |>
     export_table(
       caption = c("Population Characteristics", "blue"),
       digits = 2,
@@ -492,7 +492,7 @@ summary.clinisig <- function(object, ...) {
       align = "llll")
 
   if (clinisig_method == "HA") {
-    cutoff_descriptives <- get_cutoff_descriptives(object) %>%
+    cutoff_descriptives <- get_cutoff_descriptives(object) |>
       rename(
         "M Clinical" = m_clinical,
         "SD Clinical" = sd_clinical,
@@ -500,7 +500,7 @@ summary.clinisig <- function(object, ...) {
         "SD Functional" = sd_functional,
         "Reliability Clinical" = reliability_clinical,
         "Reliability Functional" = reliability_functional
-      ) %>%
+      ) |>
       export_table(
         caption = c("Population Characteristics", "blue"),
         digits = 2,
@@ -512,18 +512,18 @@ summary.clinisig <- function(object, ...) {
 
   # Summary table
   if (clinisig_method != "HA") {
-    summary_table <- get_summary_table(object) %>%
-      rename_with(toTitleCase, .cols = -n) %>%
+    summary_table <- get_summary_table(object) |>
+      rename_with(toTitleCase, .cols = -n) |>
       export_table(
         caption = c("Individual Level Results", "blue"),
         align = col_alignment,
         digits = 3
       )
   } else  {
-    summary_table_individual <- get_summary_table(object, "individual") %>%
+    summary_table_individual <- get_summary_table(object, "individual") |>
       rename_with(toTitleCase, .cols = -n)
 
-    summary_table_group <- get_summary_table(object, "group") %>%
+    summary_table_group <- get_summary_table(object, "group") |>
       rename_with(toTitleCase)
 
     summary_table <- export_table(

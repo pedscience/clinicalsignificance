@@ -4,7 +4,7 @@ sd_pre <- 7
 reliability <- 0.80
 se_prediction <- .calc_se_prediction(sd_pre, reliability)
 
-rcis_gln <- rci_data_gln %>%
+rcis_gln <- rci_data_gln |>
   mutate(
     pre_adj = reliability * (pre - m_pre),
     post_adj = post - m_pre,

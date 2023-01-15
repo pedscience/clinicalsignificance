@@ -1,4 +1,7 @@
 # clinicalsignificance (development version)
+## New features
+* You can now specify a significance level at which you want the analysis to be based on with the `significance_level` argument. The default is `significance_level = 0.05`. Note that for this is the Phi max level when you set `method = "HA"` as outlined in their article.
+
 ## Breaking changes
 * When `method = "HLM`, participants with three or more data points will be used. Before, participants with at least three data points (i.e., 4 or more) were used.
 

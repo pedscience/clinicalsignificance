@@ -24,9 +24,7 @@ Imports:
     ggplot2,
     insight,
     lme4,
-    magrittr,
     purrr,
-    rlang,
     tibble,
     tidyr
 Suggests: 

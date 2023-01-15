@@ -20,11 +20,10 @@ patients.
 
 ## Installation
 
-You can install the development version of clinicalsignificance from
-[GitHub](https://github.com/) with:
+You can install clinicalsignificance from CRAN and the development
+version from [GitHub](https://www.github.com):
 
 ``` r
-# The easiest way to get clinicalsignificance is to install it from CRAN:
 install.packages("clinicalsignificance")
 
 # Or you install the development version from GitHub:
@@ -41,7 +40,7 @@ significance in a study can be easily assessed.
 ``` r
 library(clinicalsignificance)
 
-results <- claus_2020 %>% 
+results <- claus_2020 |>
   clinical_significance(
     id = id, 
     time = time, 

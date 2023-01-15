@@ -46,11 +46,9 @@ cat(
 The goal of this package is to provide all necessary tools for analyses of clinical significance in clinical intervention studies. In contrast to *statistical* significance, which assesses if it is probable that there is a treatment effect, *clinical* significance can be used to determine if a treatment effect is of practical use or meaningful for patients.
 
 ## Installation
-
-You can install the development version of clinicalsignificance from [GitHub](https://github.com/) with:
+You can install clinicalsignificance from CRAN and the development version from [GitHub](https://www.github.com):
 
 ``` r
-# The easiest way to get clinicalsignificance is to install it from CRAN:
 install.packages("clinicalsignificance")
 
 # Or you install the development version from GitHub:
@@ -61,13 +59,12 @@ devtools::install_github("pedscience/clinicalsignificance")
 
 
 ## Example
-
 Given a tidy dataset, the employed instrument's reliability and descriptives (*M* and *SD*) of the functional population, the clinical significance in a study can be easily assessed.
 
 ```{r example}
 library(clinicalsignificance)
 
-results <- claus_2020 %>% 
+results <- claus_2020 |>
   clinical_significance(
     id = id, 
     time = time, 

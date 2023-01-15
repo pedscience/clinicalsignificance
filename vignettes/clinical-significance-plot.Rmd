@@ -40,7 +40,7 @@ anxiety
 
 ## Clinical Significance Plot
 ```{r}
-anxiety_results <- anxiety %>% 
+anxiety_results <- anxiety|> 
   clinical_significance(
     id = subject, 
     time = measurement, 
@@ -67,7 +67,7 @@ recovered <- tribble(
   cutoff + 1.96*s_diff, cutoff,
   60, cutoff,
   60, 0
-) %>% 
+) |>
   mutate(category = "Recovered")
 
 harmed <- tribble(
@@ -77,7 +77,7 @@ harmed <- tribble(
   cutoff, 60,
   cutoff, cutoff + 1.96 * s_diff,
   cutoff-1.96*s_diff, cutoff 
-) %>% 
+) |>
   mutate(category = "Harmed")
 
 
@@ -89,7 +89,7 @@ unchanged <- tribble(
   60, 60,
   60, 60-1.96 * s_diff,
   0+1.96 * s_diff, 0
-) %>% 
+) |>
   mutate(category = "Unchanged")
 
 
@@ -101,7 +101,7 @@ deteriorated <- tribble(
   cutoff, cutoff + 1.96*s_diff,
   cutoff, 60,
   60-1.96*s_diff,60
-) %>% 
+) |>
   mutate(category = "Deteriorated")
 
 
@@ -114,10 +114,10 @@ improved <- tribble(
   60, 60-1.96*s_diff,
   60, cutoff,
   cutoff + 1.96*s_diff, cutoff
-) %>% 
+) |>
   mutate(category = "Improved")
 
-category_data <- bind_rows(recovered, harmed, unchanged, improved, deteriorated) %>% 
+category_data <- bind_rows(recovered, harmed, unchanged, improved, deteriorated) |>
   mutate(
     category = factor(category, levels = c("Recovered", "Improved", "Unchanged", "Deteriorated", "Harmed"))
   )
@@ -126,7 +126,7 @@ set.seed(20220504)
 tibble(
   x = rnorm(100, 30, 5),
   y = rnorm(100, 22, 8)
-) %>% 
+) |>
   ggplot(aes(x, y)) +
   geom_polygon(data = category_data, aes(x, y, fill = category), alpha = 0.4) +
   geom_point() +
@@ -151,7 +151,7 @@ harmed <- tribble(
   cutoff + 1.96*s_diff, cutoff,
   60, cutoff,
   60, 0
-) %>% 
+) |>
   mutate(category = "Harmed")
 
 recovered <- tribble(
@@ -161,7 +161,7 @@ recovered <- tribble(
   cutoff, 60,
   cutoff, cutoff + 1.96 * s_diff,
   cutoff-1.96*s_diff, cutoff 
-) %>% 
+) |>
   mutate(category = "Recovered")
 
 
@@ -173,7 +173,7 @@ unchanged <- tribble(
   60, 60,
   60, 60-1.96 * s_diff,
   0+1.96 * s_diff, 0
-) %>% 
+) |>
   mutate(category = "Unchanged")
 
 
@@ -185,7 +185,7 @@ improved <- tribble(
   cutoff, cutoff + 1.96*s_diff,
   cutoff, 60,
   60-1.96*s_diff,60
-) %>% 
+) |>
   mutate(category = "Improved")
 
 
@@ -198,10 +198,10 @@ deteriorated <- tribble(
   60, 60-1.96*s_diff,
   60, cutoff,
   cutoff + 1.96*s_diff, cutoff
-) %>% 
+) |>
   mutate(category = "Deteriorated")
 
-category_data <- bind_rows(recovered, harmed, unchanged, improved, deteriorated) %>% 
+category_data <- bind_rows(recovered, harmed, unchanged, improved, deteriorated) |>
   mutate(
     category = factor(category, levels = c("Recovered", "Improved", "Unchanged", "Deteriorated", "Harmed"))
   )
@@ -211,7 +211,7 @@ set.seed(20220504)
 tibble(
   x = rnorm(100, 22, 5),
   y = rnorm(100, 32, 8)
-) %>% 
+) |>
   ggplot(aes(x, y)) +
   geom_polygon(data = category_data, aes(x, y, fill = category), alpha = 0.4) +
   geom_point() +
@@ -231,7 +231,7 @@ tibble(
 The plot automatically changes according to the specified clinical significance method.
 
 ```{r}
-anxiety_results_ha <- anxiety %>% 
+anxiety_results_ha <- anxiety |>
   clinical_significance(
     id = subject, 
     time = measurement, 
@@ -248,7 +248,7 @@ anxiety_results_ha <- anxiety %>%
 plot(anxiety_results_ha, upper_limit = 60)
 
 
-anxiety_results_en <- anxiety %>% 
+anxiety_results_en <- anxiety |>
   clinical_significance(
     id = subject, 
     time = measurement, 
@@ -263,14 +263,12 @@ anxiety_results_en <- anxiety %>%
   )
 
 plot(anxiety_results_en, upper_limit = 60)
-
-
 ```
 
 For clinical significance analyses employing the HLM method [@Raudenbush.2002], individual trajectories can be plotted as well.
 
 ```{r}
-anxiety_results_hlm <- anxiety %>% 
+anxiety_results_hlm <- anxiety |>
   clinical_significance(
     id = subject,
     time = measurement,
@@ -287,7 +285,7 @@ plot(anxiety_results_hlm, which = "trajectory")
 You can choose different categories or groups to be colored separately. If you clinical significance analysis contains a grouping variable, this is automatically shown in the corresponding plot.
 
 ```{r}
-anxiety_results_grouped <- anxiety %>% 
+anxiety_results_grouped <- anxiety |>
   clinical_significance(
     id = subject, 
     time = measurement, 
@@ -326,7 +324,7 @@ plot(anxiety_results_hlm, which = "trajectory", show = recovered)
 Because `clinicalsignificance` uses ggplot2 internally, you can manipulate plots to your liking.
 
 ```{r}
-plot(anxiety_results_hlm, which = "trajectory", show = "recovered") +
+plot(anxiety_results_hlm, which = "trajectory", show = recovered) +
   facet_wrap(~ recovered) +
   theme_minimal()
 ```

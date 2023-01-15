@@ -46,8 +46,8 @@ Let's consider the primary outcome of the study, the Beck Depression Inventory i
 ```{r, message=FALSE}
 library(tidyverse)
 
-claus_2020 %>% 
-  mutate(time = as_factor(time)) %>% 
+claus_2020 |> 
+  mutate(time = as_factor(time)) |> 
   ggplot(aes(time, bdi)) +
   geom_boxplot()
 ```
@@ -62,7 +62,7 @@ A functional population for this particular example was examined by @Kuhner.2007
 In the study by @Claus.2020, the reliability of the BDI-II was McDonald's $\omega$ = 0.801. With these values, we have all the information we need to calculate the clinical significance with `clinical_significance()`.
 
 ```{r}
-results <- claus_2020 %>% 
+results <- claus_2020 |> 
   clinical_significance(
     id = id,
     time = time,
@@ -106,7 +106,7 @@ plot(results, upper_limit = 63, show = category)
 Because the study compared two groups (TAU and PA) with only the latter one receiving the intervention of interest, this grouping variable can be specified as well. The function call is identical to the call above with the exception that we provide the column containing the groups (`treatment` in this data set).
 
 ```{r}
-results_grouped <- claus_2020 %>% 
+results_grouped <- claus_2020 |> 
   clinical_significance(
     id = id,
     time = time,
@@ -143,7 +143,7 @@ There have been several proposed methods to conduct a clinical significance anal
 These can easily be applied via the `method` argument, e.g., one can analyse the same data with the more sophisticated and complicated HA method [@Hageman.1999].
 
 ```{r}
-results_ha <- claus_2020 %>% 
+results_ha <- claus_2020 |> 
   clinical_significance(
     id = id,
     time = time,

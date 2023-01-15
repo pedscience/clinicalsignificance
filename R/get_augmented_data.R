@@ -15,7 +15,7 @@
 #' @export
 #'
 #' @examples
-#' results <- jacobson_1989 %>%
+#' results <- jacobson_1989 |>
 #' clinical_significance(
 #'   id = subject,
 #'   time = time,
@@ -36,17 +36,17 @@ get_augmented_data <- function(x) {
 
   if (clinisig_method == "HLM") {
     hlm_categories <- x[["categories"]]
-    hlm_coefficients <- x[["rci"]][["coefficients"]] %>%
+    hlm_coefficients <- x[["rci"]][["coefficients"]] |>
       select(id, eb_estimate, sd)
 
-    categories <- hlm_categories %>%
-      left_join(hlm_coefficients, by = "id") %>%
+    categories <- hlm_categories |>
+      left_join(hlm_coefficients, by = "id") |>
       relocate(eb_estimate:sd, .after = post)
   } else {
     categories <- x[["categories"]]
   }
 
-  categories %>%
+  categories |>
     mutate(
       category = case_when(
         recovered ~ "Recovered",

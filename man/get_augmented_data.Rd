@@ -21,7 +21,7 @@ and post intervention value, its raw change as well as the RCI and the
 individual category a patient belongs to.
 }
 \examples{
-results <- jacobson_1989 \%>\%
+results <- jacobson_1989 |>
 clinical_significance(
   id = subject,
   time = time,

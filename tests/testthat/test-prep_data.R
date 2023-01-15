@@ -55,7 +55,7 @@ wide_data <- imported_data |>
 
 cutoff_data <- wide_data |>
   left_join(manual_groups, by = "id") |>
-  filter(n > 3) |>
+  filter(n >= 3) |>
   relocate(group, .after = id)
 
 

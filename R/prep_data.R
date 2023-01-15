@@ -163,11 +163,11 @@
   if (.has_group(imported_data)) {
     cutoff_data <- wide_data |>
       left_join(groups, by = "id") |>
-      filter(n > 3) |>
+      filter(n >= 3) |>
       relocate(group, .after = id)
   } else {
     cutoff_data <- wide_data |>
-      filter(n > 3)
+      filter(n >= 3)
   }
 
 

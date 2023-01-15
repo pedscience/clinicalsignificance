@@ -1,4 +1,7 @@
 # clinicalsignificance (development version)
+## Breaking changes
+* When `method = "HLM`, participants with three or more data points will be used. Before, participants with at least three data points (i.e., 4 or more) were used.
+
 ## Minor improvements and fixes
 * Change the whole package to use R's native pipe operator `|>`
 * Remove unnecessary dependency on `magrittr`

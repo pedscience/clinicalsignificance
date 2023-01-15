@@ -150,10 +150,10 @@
       
       Category     |  n | Percent
       ---------------------------
-      Recovered    | 21 |   0.193
+      Recovered    | 21 |   0.188
       Improved     |  0 |   0.000
-      Unchanged    | 64 |   0.587
-      Deteriorated | 23 |   0.211
+      Unchanged    | 67 |   0.598
+      Deteriorated | 23 |   0.205
       Harmed       |  1 |   0.009
 
 ---
@@ -349,13 +349,13 @@
       
       Clinical Significance Results
       
-      There were 116 participants in the whole dataset of which 109 (94%)
+      There were 116 participants in the whole dataset of which 112 (96.6%)
       could be included in the analysis.
       
       The HLM method for calculating cutoffs and reliable change was chosen
       and the outcome variable was "anxiety".
       
-      The cutoff type was "a" with a value of 22.21 based on the following
+      The cutoff type was "a" with a value of 22.26 based on the following
       population characteristics (with lower values representing a
       beneficial outcome):
       
@@ -363,7 +363,7 @@
       
       M Clinical | SD Clinical | M Functional | SD Functional
       -------------------------------------------------------
-      36.61      | 7.20        | ---          | ---          
+      36.56      | 7.15        | ---          | ---          
       
       
       The instrument's reliability was not specified.
@@ -372,9 +372,9 @@
       
       Category     |  n | Percent
       ---------------------------
-      Recovered    | 21 |   0.193
+      Recovered    | 21 |   0.188
       Improved     |  0 |   0.000
-      Unchanged    | 64 |   0.587
-      Deteriorated | 23 |   0.211
+      Unchanged    | 67 |   0.598
+      Deteriorated | 23 |   0.205
       Harmed       |  1 |   0.009
 

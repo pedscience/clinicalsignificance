@@ -12,16 +12,16 @@
 #'
 #' @noRd
 .calc_recovered <- function(data, cutoff_data, rci_data) {
-  data %>%
-    left_join(rci_data, by = "id") %>%
-    left_join(cutoff_data, by = "id") %>%
+  data |>
+    left_join(rci_data, by = "id") |>
+    left_join(cutoff_data, by = "id") |>
     mutate(
       recovered = clinical_pre & functional_post & improved,
       improved = ifelse(recovered, FALSE, improved),
       harmed = !clinical_pre & !functional_post & deteriorated,
       deteriorated = ifelse(harmed, FALSE, deteriorated)
-    ) %>%
-    relocate(clinical_pre, functional_post, recovered, .before = improved) %>%
+    ) |>
+    relocate(clinical_pre, functional_post, recovered, .before = improved) |>
     relocate(unchanged, .after = improved)
 }
 
@@ -39,15 +39,15 @@
 #'
 #' @noRd
 .calc_recovered_ha <- function(data, cutoff_data, rci_data) {
-  data %>%
-    left_join(cutoff_data, by = "id") %>%
-    left_join(rci_data, by = "id") %>%
+  data |>
+    left_join(cutoff_data, by = "id") |>
+    left_join(rci_data, by = "id") |>
     mutate(
       recovered = functional_post & improved,
       improved = ifelse(recovered, FALSE, improved),
       harmed = FALSE
-    ) %>%
-    relocate(rci, .after = cs_indiv) %>%
-    relocate(recovered, .after = functional_post) %>%
+    ) |>
+    relocate(rci, .after = cs_indiv) |>
+    relocate(recovered, .after = functional_post) |>
     relocate(unchanged, .after = improved)
 }

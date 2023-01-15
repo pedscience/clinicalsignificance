@@ -4,7 +4,6 @@
 #' @param n_obs "n_obs" element from a clinisig object, used for
 #'   calculating percentages
 #'
-#' @importFrom rlang .data
 #' @importFrom tidyr pivot_longer everything
 #' @importFrom dplyr summarise mutate across group_by ungroup
 #' @importFrom tools toTitleCase
@@ -50,7 +49,6 @@
 #' @importFrom stats pnorm sd
 #' @importFrom dplyr tibble matches
 #' @importFrom tools toTitleCase
-#' @importFrom rlang .data
 #'
 #' @return A tibble with columns `category` and `percent`
 #'

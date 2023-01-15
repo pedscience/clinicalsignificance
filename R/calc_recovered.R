@@ -33,8 +33,6 @@
 #'   cutoff
 #' @param rci_data A data frame containing categorizations based on the RCI
 #'
-#' @importFrom rlang .data
-#'
 #' @return The full data frame with categories
 #'
 #' @noRd

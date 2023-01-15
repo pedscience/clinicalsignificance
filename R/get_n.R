@@ -9,7 +9,6 @@
 #'
 #'
 #' @importFrom dplyr tibble as_tibble
-#' @importFrom rlang .data
 #' @importFrom checkmate assert_class
 #'
 #' @return A tibble with number of participants

@@ -41,7 +41,7 @@
 #' @param ... Additional arguments
 #'
 #' @import ggplot2
-#' @importFrom rlang .data abort
+#' @importFrom rlang abort
 #' @importFrom purrr map2
 #' @importFrom tidyr unnest
 #'

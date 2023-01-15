@@ -26,7 +26,7 @@
 #' @importFrom dplyr select filter mutate group_by ungroup arrange rename pull
 #'   distinct last_col
 #' @importFrom tidyr pivot_wider
-#' @importFrom rlang abort inform .data
+#' @importFrom rlang abort inform
 #'
 #' @return A list containing the original data frame in wide format and the
 #'   useable data frame without missing values

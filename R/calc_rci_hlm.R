@@ -7,7 +7,6 @@
 #' @importFrom lme4 lmer ranef
 #' @importFrom insight get_parameters get_variance_intercept get_variance_residual get_variance
 #' @importFrom dplyr count
-#' @importFrom rlang .data
 #' @importFrom tibble rownames_to_column
 #'
 #' @return A list with a lmer model, individual coefficients and rci data

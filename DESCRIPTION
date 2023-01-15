@@ -25,6 +25,7 @@ Imports:
     insight,
     lme4,
     purrr,
+    rlang,
     tibble,
     tidyr
 Suggests: 

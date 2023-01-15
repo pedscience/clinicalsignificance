@@ -4,8 +4,6 @@
 #' @param lower_limit Lower plotting limit
 #' @param upper_limit Upper plotting limit
 #'
-#' @importFrom rlang .data
-#'
 #' @return A tibble with columns `pre`, `ymin`, and `ymax`
 #'
 #' @noRd

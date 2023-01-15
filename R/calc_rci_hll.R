@@ -8,7 +8,6 @@
 #' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
 #' @importFrom stats sd
-#' @importFrom rlang .data
 #'
 #' @return A vector with RCIs
 #'

@@ -9,7 +9,6 @@
 #' @inheritParams get_data
 #'
 #' @importFrom dplyr left_join case_when relocate
-#' @importFrom rlang .data
 #'
 #' @return A tibble with used data and clinical significance categories
 #' @export

@@ -6,7 +6,6 @@
 #'   on. The default is `FALSE`.
 #'
 #' @importFrom dplyr select as_tibble
-#' @importFrom rlang .data
 #'
 #' @return A tibble with cutoff information
 #' @export

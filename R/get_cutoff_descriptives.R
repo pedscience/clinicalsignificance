@@ -2,8 +2,6 @@
 #'
 #' @param x A clinisig object
 #'
-#' @importFrom rlang .data
-#'
 #' @return A tibble with means and standard deviations of the clinical and
 #'   functional population
 #' @export

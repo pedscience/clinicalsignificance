@@ -396,7 +396,6 @@ clinical_significance <- function(data,
 #' @importFrom insight export_table
 #' @importFrom dplyr rename_with
 #' @importFrom tools toTitleCase
-#' @importFrom rlang .data
 #'
 #' @return No return value, called for side effects
 #' @export
@@ -445,7 +444,6 @@ print.clinisig <- function(x, ...) {
 #' @param ... Additional arguments
 #'
 #' @importFrom dplyr rename
-#' @importFrom rlang .data
 #' @importFrom crayon bold blue
 #'
 #' @return No return value, called for side effects

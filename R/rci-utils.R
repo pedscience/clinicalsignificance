@@ -8,8 +8,6 @@
 #'   cutoff
 #' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
-#' @importFrom rlang .data
-#'
 #' @return A tibble with columns `id`, `rci`, `improved`, `deteriorated`, and
 #'   `unchanged`
 #'

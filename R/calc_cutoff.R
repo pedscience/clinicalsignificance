@@ -56,8 +56,6 @@
 #' @param type Cutoff type, available are `"a"`, `"b"`, and `"c"`
 #' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
-#' @importFrom rlang .data
-#'
 #' @return A list with cutoff info and participant wise info on cutoff
 #'   categorization
 #'

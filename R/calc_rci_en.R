@@ -16,7 +16,7 @@
 
 
   # Calculate the RCI according to reformulation of Speer
-  rci_data <- data %>%
+  rci_data <- data |>
     mutate(
       pre_true = reliability * (pre - m_pre) + m_pre,
       change_adj = post - pre_true,

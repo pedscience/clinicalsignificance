@@ -6,7 +6,7 @@ reliability <- 0.80
 se_measurement <- .calc_se_measurement(sd_pre, reliability)
 
 # Calculate the RCI according to reformulation of Speer
-manual_rci_data <- rci_data_en %>%
+manual_rci_data <- rci_data_en |>
   mutate(
     pre_true = reliability * (pre - m_pre) + m_pre,
     change_adj = post - pre_true,

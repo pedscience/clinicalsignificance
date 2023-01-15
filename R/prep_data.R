@@ -34,21 +34,21 @@
 #' @noRd
 .prep_data <- function(data, id, time, outcome, group = NULL, pre = NULL, post = NULL) {
   # Select relevant variables
-  selected_data <- data %>%
+  selected_data <- data |>
     select(id = {{ id }}, group = {{ group }}, time = {{ time }}, outcome = {{ outcome }}, )
 
 
   # If measurements are defined, filter data accordingly
   if (!is.null(pre) & !is.null(post)) {
-    selected_data <- selected_data %>%
+    selected_data <- selected_data |>
       filter(time %in% c(pre, post))
   }
 
 
   # If the time column contains multiple measurements, throw an error and
   # request specification of two measurements that should be used
-  distinct_measurements <- selected_data %>%
-    distinct(time) %>%
+  distinct_measurements <- selected_data |>
+    distinct(time) |>
     nrow()
 
   if (distinct_measurements > 2) abort("Your measurement column contains more than two measurements. \nPlease specify which two measurements should be used with arguments \"pre\" and \"post\".")
@@ -57,9 +57,9 @@
   # Make sure that the data is sorted correctly (the pre measurement should
   # always be sorted before any subsequent measurement)
   if (is.numeric(selected_data[["time"]])) {
-    sorted_data <- selected_data %>%
-      group_by(id) %>%
-      arrange(id, time) %>%
+    sorted_data <- selected_data |>
+      group_by(id) |>
+      arrange(id, time) |>
       ungroup()
   } else if (is.character(selected_data[["time"]])) {
     if (is.null(pre)) {
@@ -72,10 +72,10 @@
     }
 
     # Sort strings
-    sorted_data <- selected_data %>%
-      mutate(time = relevel(as.factor(time), pre)) %>%
-      group_by(id) %>%
-      arrange(id, time) %>%
+    sorted_data <- selected_data |>
+      mutate(time = relevel(as.factor(time), pre)) |>
+      group_by(id) |>
+      arrange(id, time) |>
       ungroup()
   } else if (is.factor(selected_data[["time"]])) {
     if (is.null(pre)) {
@@ -86,27 +86,27 @@
     }
 
     # Sort factors
-    sorted_data <- selected_data %>%
-      mutate(time = relevel(as.factor(time), pre)) %>%
-      group_by(id) %>%
-      arrange(id, time) %>%
+    sorted_data <- selected_data |>
+      mutate(time = relevel(as.factor(time), pre)) |>
+      group_by(id) |>
+      arrange(id, time) |>
       ungroup()
   }
 
 
   # Make the data wide
-  wide_data <- sorted_data %>%
+  wide_data <- sorted_data |>
     pivot_wider(
       names_from = time,
       values_from = outcome
-    ) %>%
+    ) |>
     rename(pre = last_col() - 1, post = last_col())
 
 
   # Omit cases with missing values. They can not be used. Calculate raw change
   # score
-  used_data <- wide_data %>%
-    na.omit() %>%
+  used_data <- wide_data |>
+    na.omit() |>
     mutate(
       change = post - pre
     )
@@ -134,13 +134,13 @@
 #' @noRd
 .prep_data_hlm <- function(data, id, time, outcome, group = NULL) {
   # Select relevant variables
-  imported_data <- data %>%
-    select(id = {{ id }}, group = {{ group }}, time = {{ time }}, outcome = {{ outcome }}) %>%
+  imported_data <- data |>
+    select(id = {{ id }}, group = {{ group }}, time = {{ time }}, outcome = {{ outcome }}) |>
     mutate(id = as.character(id))
 
   if (.has_group(imported_data)) {
-    groups <- imported_data %>%
-      select(id, group) %>%
+    groups <- imported_data |>
+      select(id, group) |>
       distinct(id, group)
   } else {
     groups <- NULL
@@ -148,9 +148,9 @@
 
 
   # Get n of measurements and first (pre) and last (post) measurement
-  wide_data <- imported_data %>%
-    na.omit() %>%
-    group_by(id) %>%
+  wide_data <- imported_data |>
+    na.omit() |>
+    group_by(id) |>
     summarise(
       n = n(),
       pre = first(outcome),
@@ -161,18 +161,18 @@
 
   # Only include patients with at least three measurements
   if (.has_group(imported_data)) {
-    cutoff_data <- wide_data %>%
-      left_join(groups, by = "id") %>%
-      filter(n > 3) %>%
+    cutoff_data <- wide_data |>
+      left_join(groups, by = "id") |>
+      filter(n > 3) |>
       relocate(group, .after = id)
   } else {
-    cutoff_data <- wide_data %>%
+    cutoff_data <- wide_data |>
       filter(n > 3)
   }
 
 
   # Only use those participants with more than one measurement
-  prepped_data <- imported_data %>%
+  prepped_data <- imported_data |>
     filter(id %in% cutoff_data[["id"]])
 
 

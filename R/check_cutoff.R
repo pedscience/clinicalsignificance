@@ -22,7 +22,7 @@
 #'
 #'
 #' # Or check the cutoff after you conducted a clinical significance analysis
-#' results <- jacobson_1989 %>%
+#' results <- jacobson_1989 |>
 #'   clinical_significance(
 #'     id = subject,
 #'     time = time,

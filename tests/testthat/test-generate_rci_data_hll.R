@@ -11,8 +11,8 @@ m_pre <- get_cutoff_descriptives(clinisig_object)[["m_clinical"]]
 # Manual calculation
 manual_calculation <- tibble(
   pre = c(0, 100),
-  ymin = -1.96 * s_prediction + m_post + reliability * .data$pre - reliability * m_pre,
-  ymax = 1.96 * s_prediction + m_post + reliability * .data$pre - reliability * m_pre
+  ymin = -qnorm(1 - 0.05/2) * s_prediction + m_post + reliability * .data$pre - reliability * m_pre,
+  ymax = qnorm(1 - 0.05/2) * s_prediction + m_post + reliability * .data$pre - reliability * m_pre
 )
 
 

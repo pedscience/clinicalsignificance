@@ -58,6 +58,9 @@
 #'    - `"HA"` (Hageman & Arrindell, 1999)
 #'    - `"HLM"` (Hierarchical Linear Modeling; Raudenbush & Bryk, 2002), requires
 #'      at least three measurements per patient
+#' @param significance_level Significance level alpha, defaults to `0.05`. If
+#'      you choose the `"HA"` method, this value corresponds to the maximum risk
+#'      of misclassification
 #'
 #' @references
 #' - Jacobson, N. S., & Truax, P. (1991). Clinical significance: A statistical approach to defining meaningful change in psychotherapy research. Journal of Consulting and Clinical Psychology, 59(1), 12–19. https://doi.org/10.1037//0022-006X.59.1.12
@@ -170,12 +173,14 @@ clinical_significance <- function(data,
                                   reliability,
                                   reliability_post,
                                   better_is = c("lower", "higher"),
-                                  method = c("JT", "GLN", "HLL", "EN", "NK", "HA", "HLM")) {
+                                  method = c("JT", "GLN", "HLL", "EN", "NK", "HA", "HLM"),
+                                  significance_level = 0.05) {
   # Check if arguments are set correctly
   clinisig_method <- arg_match(method)
   if (missing(id)) abort("You must specify an ID column.")
   if (missing(time)) abort("You must specify a column indicating the different measurements.")
   if (missing(outcome)) abort("You must specify an outcome.")
+  assert_number(significance_level, lower = 0, upper = 1)
   if (clinisig_method != "HLM") assert_number(reliability, lower = 0, upper = 1) else reliability <- NA
   if (clinisig_method == "NK" & !missing(reliability_post)) assert_number(reliability_post, lower = 0, upper = 1)
   if (clinisig_method != "NK" & !missing(reliability_post)) inform(c("i" = "You specified a reliability estimate for the post measurement but did not choose the NK method."), footer = c("*" = "Your post measurement reliability estimate will be ignored."), use_cli_format = TRUE)
@@ -263,12 +268,15 @@ clinical_significance <- function(data,
 
 
   # Calculate RCI
+  if (clinisig_method != "HA") critical_value <- stats::qnorm(1 - significance_level/2) else critical_value <- stats::qnorm(1 - significance_level)
+
   if (clinisig_method == "JT") {
     rci <- .calc_rci_jt(
       data = datasets[["data"]],
       sd_pre = sd_pre,
       reliability = reliability,
-      direction = direction
+      direction = direction,
+      critical_value = critical_value
     )
   } else if (clinisig_method == "GLN") {
     rci <- .calc_rci_gln(
@@ -276,7 +284,8 @@ clinical_significance <- function(data,
       m_pre = m_pre,
       sd_pre = sd_pre,
       reliability = reliability,
-      direction = direction
+      direction = direction,
+      critical_value = critical_value
     )
   } else if (clinisig_method == "HLL") {
     rci <- .calc_rci_hll(
@@ -285,7 +294,8 @@ clinical_significance <- function(data,
       sd_pre = sd_pre,
       m_post = m_post,
       reliability = reliability,
-      direction = direction
+      direction = direction,
+      critical_value = critical_value
     )
   } else if (clinisig_method == "EN") {
     rci <- .calc_rci_en(
@@ -293,7 +303,8 @@ clinical_significance <- function(data,
       m_pre = m_pre,
       sd_pre = sd_pre,
       reliability = reliability,
-      direction = direction
+      direction = direction,
+      critical_value = critical_value
     )
   } else if (clinisig_method == "NK") {
     # Check if post measurement reliability is given. If not, inform and take
@@ -313,7 +324,8 @@ clinical_significance <- function(data,
       sd_pre = sd_pre,
       reliability_pre = reliability,
       reliability_post = reliability_post,
-      direction = direction
+      direction = direction,
+      critical_value = critical_value
     )
   } else if (clinisig_method == "HA") {
     rci <- .calc_rci_ha(
@@ -323,12 +335,14 @@ clinical_significance <- function(data,
       m_post = m_post,
       sd_post = sd_post,
       reliability = reliability,
-      direction = direction
+      direction = direction,
+      critical_value = critical_value
     )
   } else if (clinisig_method == "HLM") {
     rci <- .calc_rci_hlm(
       data = datasets[["model"]],
-      direction = direction
+      direction = direction,
+      critical_value = critical_value
     )
   }
 
@@ -377,6 +391,7 @@ clinical_significance <- function(data,
     n_obs = n_obs,
     method = method,
     reliability = reliability,
+    critical_value = critical_value,
     cutoff = cutoff,
     rci = rci,
     categories = categories,

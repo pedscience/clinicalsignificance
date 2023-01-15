@@ -9,10 +9,11 @@
 #' @noRd
 .generate_rci_data_jt <- function(x, lower_limit = 0, upper_limit = 100) {
   s_diff <- x[["rci"]][[1]]
+  critical_value <- x[["critical_value"]]
 
   tibble(
     pre = c(lower_limit, upper_limit),
-    ymin = pre - 1.96 * s_diff,
-    ymax = pre + 1.96 * s_diff
+    ymin = pre - critical_value * s_diff,
+    ymax = pre + critical_value * s_diff
   )
 }

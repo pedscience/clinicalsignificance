@@ -10,8 +10,8 @@ m_pre <- get_cutoff_descriptives(clinisig_object)[["m_clinical"]]
 # Manual calculation
 manual_calculation <- tibble(
   pre = c(0, 100),
-  ymin = reliability * pre - reliability * m_pre + m_pre + (-1.96 * s_prediction),
-  ymax = reliability * pre - reliability * m_pre + m_pre + (1.96 * s_prediction)
+  ymin = reliability * pre - reliability * m_pre + m_pre + (-qnorm(1 - 0.05/2) * s_prediction),
+  ymax = reliability * pre - reliability * m_pre + m_pre + (qnorm(1 - 0.05/2) * s_prediction)
 )
 
 test_that("RCI data for GLN method plotting is calculated correctly", {

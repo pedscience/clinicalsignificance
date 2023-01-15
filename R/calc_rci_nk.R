@@ -9,12 +9,12 @@
 #' @param reliability_pre Instrument' reliability pre
 #' @param reliability_post Instrument's reliability post
 #' @param direction Which direction is better? 1 = higher, -1 = lower
-#'
+#' @param critical_value The critical value for the RCI decision, should be 1.96
 #'
 #' @return A list with RCI info and data
 #'
 #' @noRd
-.calc_rci_nk <- function(data, m_pre, sd_pre, reliability_pre, reliability_post, direction = 1) {
+.calc_rci_nk <- function(data, m_pre, sd_pre, reliability_pre, reliability_post, direction = 1, critical_value = 1.96) {
   denominator <- sqrt((reliability_pre^2 * sd_pre ^2 * (1 - reliability_pre)) + (sd_pre^2 * (1 - reliability_post)))
 
   rci_data <- data |>
@@ -26,7 +26,7 @@
 
   data_rci_categories <- .calc_improvement(
     data = rci_data,
-    rci_cutoff = 1.96,
+    rci_cutoff = critical_value,
     direction = direction
   )
 

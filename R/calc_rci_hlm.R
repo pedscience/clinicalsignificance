@@ -3,6 +3,7 @@
 #' @param data A preprocessed data frame with at least variables `id`, `time`,
 #'   and `outcome`
 #' @param direction Which direction is beneficial? 1 = higher, -1 = lower
+#' @param critical_value The critical value for the RCI decision, should be 1.96
 #'
 #' @importFrom lme4 lmer ranef
 #' @importFrom insight get_parameters get_variance_intercept get_variance_residual get_variance
@@ -12,7 +13,7 @@
 #' @return A list with a lmer model, individual coefficients and rci data
 #'
 #' @noRd
-.calc_rci_hlm <- function(data, direction) {
+.calc_rci_hlm <- function(data, direction, critical_value = 1.96) {
   . <- NULL
 
   # Fit HLM model
@@ -31,7 +32,7 @@
 
   data_with_rci <- .calc_improvement(
       data = rci_data,
-      rci_cutoff = 1.96,
+      rci_cutoff = critical_value,
       direction = direction
       )
 

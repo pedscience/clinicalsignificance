@@ -5,8 +5,8 @@ s_diff <- clinisig_object$rci$s_diff
 
 manual_results <- tibble(
   pre = c(0, 100),
-  ymin = pre - 1.96 * s_diff,
-  ymax = pre + 1.96 * s_diff
+  ymin = pre - qnorm(1 - 0.05/2) * s_diff,
+  ymax = pre + qnorm(1 - 0.05/2) * s_diff
 )
 
 test_that("RCI data for JT method plotting is calculated correctly", {

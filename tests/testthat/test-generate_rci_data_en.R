@@ -11,8 +11,8 @@ m_pre <- get_cutoff_descriptives(clinisig_object)[["m_clinical"]]
 manual_calculation <- tibble(
   pre = c(0, 100),
   pre_true = reliability * (pre - m_pre) + m_pre,
-  ymin = pre_true - 2 * se_measurement,
-  ymax = pre_true + 2 * se_measurement
+  ymin = pre_true - qnorm(1 - 0.05/2) * se_measurement,
+  ymax = pre_true + qnorm(1 - 0.05/2) * se_measurement
 )
 
 test_that("RCI data for EN method plotting is calculated correctly", {

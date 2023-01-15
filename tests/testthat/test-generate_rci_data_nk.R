@@ -8,8 +8,8 @@ reliability_post <- get_reliability(clinisig_object)[[2]]
 
 manual_calculation <- tibble(
   pre = c(0, 100),
-  ymin = -1.96 * sqrt((reliability_pre^2 * sd_pre^2 * (1 - reliability_pre)) + (sd_pre^2 * (1 - reliability_post))) + (reliability_pre * (pre - m_pre) + m_pre),
-  ymax = 1.96 * sqrt((reliability_pre^2 * sd_pre^2 * (1 - reliability_pre)) + (sd_pre^2 * (1 - reliability_post))) + (reliability_pre * (pre - m_pre) + m_pre)
+  ymin = -qnorm(1 - 0.05/2) * sqrt((reliability_pre^2 * sd_pre^2 * (1 - reliability_pre)) + (sd_pre^2 * (1 - reliability_post))) + (reliability_pre * (pre - m_pre) + m_pre),
+  ymax = qnorm(1 - 0.05/2) * sqrt((reliability_pre^2 * sd_pre^2 * (1 - reliability_pre)) + (sd_pre^2 * (1 - reliability_post))) + (reliability_pre * (pre - m_pre) + m_pre)
 )
 
 test_that("multiplication works", {

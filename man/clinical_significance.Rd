@@ -18,7 +18,8 @@ clinical_significance(
   reliability,
   reliability_post,
   better_is = c("lower", "higher"),
-  method = c("JT", "GLN", "HLL", "EN", "NK", "HA", "HLM")
+  method = c("JT", "GLN", "HLL", "EN", "NK", "HA", "HLM"),
+  significance_level = 0.05
 )
 }
 \arguments{
@@ -72,6 +73,10 @@ are assumed to be equal
 \item \code{"HLM"} (Hierarchical Linear Modeling; Raudenbush & Bryk, 2002), requires
 at least three measurements per patient
 }}
+
+\item{significance_level}{Significance level alpha, defaults to \code{0.05}. If
+you choose the \code{"HA"} method, this value corresponds to the maximum risk
+of misclassification}
 }
 \value{
 An S3 object of class \code{clinisig}

@@ -11,11 +11,12 @@
   se_measurement <- x[["rci"]][[1]]
   reliability <- get_reliability(x)[[1]]
   m_pre <- get_cutoff_descriptives(x)[["m_clinical"]]
+  critical_value <- x[["critical_value"]]
 
   tibble(
     pre = c(lower_limit, upper_limit),
     pre_true = reliability * (pre - m_pre) + m_pre,
-    ymin = pre_true - 2 * se_measurement,
-    ymax = pre_true + 2 * se_measurement
+    ymin = pre_true - critical_value * se_measurement,
+    ymax = pre_true + critical_value * se_measurement
   )
 }

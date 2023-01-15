@@ -14,15 +14,15 @@ cutoff <- clinisig_object[["cutoff"]][["info"]][["value"]]
 # RCI
 manual_calculation <- tibble(
   pre = c(0, 100),
-  ymin = (-1.65 * sqrt(r_dd) * sqrt(2 * se_measurement^2) - (m_post - m_pre) * (1 - r_dd) + pre * r_dd) / r_dd,
-  ymax = (1.65 * sqrt(r_dd) * sqrt(2 * se_measurement^2) - (m_post - m_pre) * (1 - r_dd) + pre * r_dd) / r_dd
+  ymin = (-qnorm(1 - 0.05) * sqrt(r_dd) * sqrt(2 * se_measurement^2) - (m_post - m_pre) * (1 - r_dd) + pre * r_dd) / r_dd,
+  ymax = (qnorm(1 - 0.05) * sqrt(r_dd) * sqrt(2 * se_measurement^2) - (m_post - m_pre) * (1 - r_dd) + pre * r_dd) / r_dd
 )
 
 # Cutoff band
 manual_calculation_cutoff <- tibble(
   pre = c(0, 100),
-  ymin = (-1.65 * sqrt(rel_post) * se_measurement - m_post + m_post * rel_post + cutoff) / rel_post,
-  ymax = (1.65 * sqrt(rel_post) * se_measurement - m_post + m_post * rel_post + cutoff) / rel_post
+  ymin = (-qnorm(1 - 0.05) * sqrt(rel_post) * se_measurement - m_post + m_post * rel_post + cutoff) / rel_post,
+  ymax = (qnorm(1 - 0.05) * sqrt(rel_post) * se_measurement - m_post + m_post * rel_post + cutoff) / rel_post
 )
 
 

@@ -6,13 +6,18 @@
 #' @param data A preprocessed dataframe
 #' @param reliability Instrument's reliability
 #' @param direction Which direction is better? 1 = higher, -1 = lower
+#' @param m_pre M pre measurement
+#' @param sd_pre SD pre measurement
+#' @param m_post M post measurement
+#' @param sd_post SD post measurement
+#' @param critical_value The critical value for the RCI decision, should be 1.96
 #'
 #' @importFrom stats sd cor
 #'
 #' @return A vector with RCIs
 #'
 #' @noRd
-.calc_rci_ha <- function(data, m_pre, sd_pre, m_post, sd_post, reliability, direction = 1) {
+.calc_rci_ha <- function(data, m_pre, sd_pre, m_post, sd_post, reliability, direction = 1, critical_value = 1.65) {
   se_measurement <- .calc_se_measurement(sd_pre = sd_pre, reliability = reliability)
   r_xx_1 <- .calc_reliability_ha(sd = sd_pre, se_measurment = se_measurement)
   r_xx_2 <- .calc_reliability_ha(sd = sd_post, se_measurment = se_measurement)
@@ -31,7 +36,7 @@
   # Caluclate categories
   data_with_rci <- .calc_improvement(
     data = rci_data,
-    rci_cutoff = 1.65,
+    rci_cutoff = critical_value,
     direction = direction
   )
 

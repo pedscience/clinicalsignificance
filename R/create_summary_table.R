@@ -18,22 +18,22 @@
     group_var <- NULL
   }
 
-  data %>%
-    group_by({{ group_var }}) %>%
+  data |>
+    group_by({{ group_var }}) |>
     summarise(
       across(recovered:harmed, sum),
       .groups = "drop"
-    ) %>%
+    ) |>
     pivot_longer(
       cols = recovered:harmed,
       names_to = "category",
       values_to = "n"
-    ) %>%
-    group_by({{ group_var }}) %>%
+    ) |>
+    group_by({{ group_var }}) |>
     mutate(
       percent = n / sum(n),
       category = toTitleCase(category)
-    ) %>%
+    ) |>
     ungroup()
 }
 
@@ -64,8 +64,8 @@
     group_var <- NULL
   }
 
-  summaries <- data %>%
-    group_by({{ group_var }}) %>%
+  summaries <- data |>
+    group_by({{ group_var }}) |>
     summarise(
       mean_change = mean(change),
       sd_change = sd(change),
@@ -74,7 +74,7 @@
     )
 
   if (direction == 1) {
-    group_level_pcts <- summaries %>%
+    group_level_pcts <- summaries |>
       mutate(
         z_changed = (0 - mean_change) / (sd_change * sqrt(r_dd)),
         changed = 1 - pnorm(z_changed),
@@ -82,7 +82,7 @@
         functional = 1 - pnorm(z_functional)
       )
   } else if (direction == -1) {
-    group_level_pcts <- summaries %>%
+    group_level_pcts <- summaries |>
       mutate(
         z_changed = (0 - mean_change) / (sd_change * sqrt(r_dd)),
         changed = pnorm(z_changed),
@@ -91,13 +91,13 @@
       )
   }
 
-  group_level_pcts %>%
-    select(-matches(".*_.*")) %>%
+  group_level_pcts |>
+    select(-matches(".*_.*")) |>
     pivot_longer(
       cols = c(changed, functional),
       names_to = "category",
       values_to = "percent"
-    ) %>%
+    ) |>
     mutate(
       category = toTitleCase(category)
     )

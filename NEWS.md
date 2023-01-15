@@ -1,7 +1,7 @@
 # clinicalsignificance (development version)
 ## Minor improvements and fixes
 * Change the whole package to use R's native pipe operator `|>`
-* Remove unnecessary dependency on `magrittr` and `rlang`
+* Remove unnecessary dependency on `magrittr`
 
 # clinicalsignificance 1.2.1
 ## Breaking changes

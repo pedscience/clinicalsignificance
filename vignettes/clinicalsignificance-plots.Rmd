@@ -1,6 +1,6 @@
 ---
 title: "Clinical Significance Plots"
-author: Benedikt Claus
+author: 
 date: "`r format(Sys.time(), '%d-%m-%Y')`"
 output: rmarkdown::html_vignette
 bibliography: references.bib

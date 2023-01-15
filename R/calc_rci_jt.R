@@ -18,7 +18,7 @@
 
 
   # Calculate RCI
-  rci_data <- data %>%
+  rci_data <- data |>
     mutate(
       rci = change / s_diff
     )

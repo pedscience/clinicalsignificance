@@ -4,7 +4,7 @@ reliability = 0.80
 se_measurement <- .calc_se_measurement(sd_pre, reliability)
 s_diff <- .calc_s_diff(se_measurement)
 
-manual_rcis <- rci_data_jt %>%
+manual_rcis <- rci_data_jt |>
   mutate(
     rci = change / s_diff
   ) %>%

@@ -7,7 +7,7 @@ se_prediction <- .calc_se_prediction(sd_pre, reliability)
 
 
 # Calculate RCI
-manual_rci <- rci_data_hll %>%
+manual_rci <- rci_data_hll |>
   mutate(
     pre_adj = reliability * (pre - m_pre),
     post_adj = post - m_post,

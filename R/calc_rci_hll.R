@@ -18,7 +18,7 @@
 
 
   # Calculate RCI
-  rci_data <- data %>%
+  rci_data <- data |>
     mutate(
       pre_adj = reliability * (pre - m_pre),
       post_adj = post - m_post,

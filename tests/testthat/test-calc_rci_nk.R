@@ -6,7 +6,7 @@ reliability_post <- 0.80
 denominator <- sqrt((reliability^2 * sd_pre ^2 * (1 - reliability)) + (sd_pre^2 * (1 - reliability_post)))
 
 
-manual_rci <- rci_data_nk %>%
+manual_rci <- rci_data_nk |>
   mutate(
     pre_adj = reliability * (pre - m_pre) + m_pre,
     change_adj = post - pre_adj,

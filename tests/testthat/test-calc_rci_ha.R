@@ -15,7 +15,7 @@ denominator <- (sd_pre^2 + sd_post^2 - 2 * sd_pre * sd_post * cor_pre_post)
 
 r_dd <- nominator / denominator
 
-manual_rci <- rci_data_ha %>%
+manual_rci <- rci_data_ha |>
   mutate(
     rci = ((post - pre) * r_dd + (m_post - m_pre) * (1 - r_dd)) / (sqrt(r_dd) * sqrt(2 * se_measurement^2))
   ) %>%

@@ -23,7 +23,7 @@
 
   r_dd <- nominator / denominator
 
-  rci_data <- data %>%
+  rci_data <- data  |>
     mutate(
       rci = ((post - pre) * r_dd + (m_post - m_pre) * (1 - r_dd)) / (sqrt(r_dd) * sqrt(2 * se_measurement^2))
     )

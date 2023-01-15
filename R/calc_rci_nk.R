@@ -17,7 +17,7 @@
 .calc_rci_nk <- function(data, m_pre, sd_pre, reliability_pre, reliability_post, direction = 1) {
   denominator <- sqrt((reliability_pre^2 * sd_pre ^2 * (1 - reliability_pre)) + (sd_pre^2 * (1 - reliability_post)))
 
-  rci_data <- data %>%
+  rci_data <- data |>
     mutate(
       pre_adj = reliability_pre * (pre - m_pre) + m_pre,
       change_adj = post - pre_adj,

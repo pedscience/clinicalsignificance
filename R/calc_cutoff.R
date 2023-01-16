@@ -62,7 +62,7 @@
 #'   categorization
 #'
 #' @noRd
-.calc_cutoff_ha_data <- function(data, m_clinical, sd_clinical, m_functional, sd_functional, m_post, sd_post, reliability, type = "a", direction = 1, cirital_value = 1.65) {
+.calc_cutoff_ha_data <- function(data, m_clinical, sd_clinical, m_functional, sd_functional, m_post, sd_post, reliability, type = "a", direction = 1, critical_value = 1.65) {
   se_measurement <- .calc_se_measurement(sd_pre = sd_clinical, reliability = reliability)
   reliability_clinical <- .calc_reliability_ha(sd = sd_clinical, se_measurment = se_measurement)
   reliability_post <- .calc_reliability_ha(sd = sd_post, se_measurment = se_measurement)

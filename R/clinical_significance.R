@@ -263,7 +263,8 @@ clinical_significance <- function(data,
       sd_post = sd_post,
       reliability = reliability,
       type = type,
-      direction = direction
+      direction = direction,
+      critical_value = critical_value
     )
   }
 

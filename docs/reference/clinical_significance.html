@@ -14,7 +14,7 @@ population during a study."><meta property="og:image" content="/logo.png"><!-- m
     
     <a class="navbar-brand me-2" href="../index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9002</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,16 +22,14 @@ population during a study."><meta property="og:image" content="/logo.png"><!-- m
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item">
-  <a class="nav-link" href="../articles/clinicalsignificance.html">Get started</a>
-</li>
-<li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/clinical-significance-plot.html">Clinical Significance Plots</a>
+    <a class="dropdown-item" href="../articles/clinicalsignificance-get-started.html">Get started</a>
+    <a class="dropdown-item" href="../articles/clinicalsignificance-plots.html">Clinical Significance Plots</a>
   </div>
 </li>
 <li class="nav-item">
@@ -80,7 +78,8 @@ population during a study.</p>
 <span>  <span class="va">reliability</span>,</span>
 <span>  <span class="va">reliability_post</span>,</span>
 <span>  better_is <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lower"</span>, <span class="st">"higher"</span><span class="op">)</span>,</span>
-<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JT"</span>, <span class="st">"GLN"</span>, <span class="st">"HLL"</span>, <span class="st">"EN"</span>, <span class="st">"NK"</span>, <span class="st">"HA"</span>, <span class="st">"HLM"</span><span class="op">)</span></span>
+<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JT"</span>, <span class="st">"GLN"</span>, <span class="st">"HLL"</span>, <span class="st">"EN"</span>, <span class="st">"NK"</span>, <span class="st">"HA"</span>, <span class="st">"HLM"</span><span class="op">)</span>,</span>
+<span>  significance_level <span class="op">=</span> <span class="fl">0.05</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -160,6 +159,12 @@ are assumed to be equal</p></li>
 at least three measurements per patient</p></li>
 </ul></dd>
 
+
+<dt>significance_level</dt>
+<dd><p>Significance level alpha, defaults to <code>0.05</code>. If
+you choose the <code>"HA"</code> method, this value corresponds to the maximum risk
+of misclassification</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -204,7 +209,7 @@ after intervention)</p></li>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Clinical significane for "negative" outcomes (lower values are desirable)</span></span></span>
-<span class="r-in"><span><span class="va">jacobson_1989</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">jacobson_1989</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">clinical_significance</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    id <span class="op">=</span> <span class="va">subject</span>,</span></span>
 <span class="r-in"><span>    time <span class="op">=</span> <span class="va">time</span>,</span></span>
@@ -224,7 +229,7 @@ after intervention)</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Clinical significane for "positive" outcomes (higher values are desirable)</span></span></span>
-<span class="r-in"><span><span class="va">jacobson_1989</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">jacobson_1989</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">clinical_significance</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    id <span class="op">=</span> <span class="va">subject</span>,</span></span>
 <span class="r-in"><span>    time <span class="op">=</span> <span class="va">time</span>,</span></span>
@@ -247,7 +252,7 @@ after intervention)</p></li>
 <span class="r-in"><span><span class="co"># Clinical significance incorporating descriptives of a functional population.</span></span></span>
 <span class="r-in"><span><span class="co"># Make sure to select type = "c" to incorporate the specified functional</span></span></span>
 <span class="r-in"><span><span class="co"># descriptives.</span></span></span>
-<span class="r-in"><span><span class="va">jacobson_1989</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">jacobson_1989</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">clinical_significance</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    id <span class="op">=</span> <span class="va">subject</span>,</span></span>
 <span class="r-in"><span>    time <span class="op">=</span> <span class="va">time</span>,</span></span>
@@ -270,7 +275,7 @@ after intervention)</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Change the clinical significance method</span></span></span>
-<span class="r-in"><span><span class="va">jacobson_1989</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">jacobson_1989</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">clinical_significance</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    id <span class="op">=</span> <span class="va">subject</span>,</span></span>
 <span class="r-in"><span>    time <span class="op">=</span> <span class="va">time</span>,</span></span>
@@ -292,7 +297,7 @@ after intervention)</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Deteriorated |  0 |   0.000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Harmed       |  0 |   0.000</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">jacobson_1989</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">jacobson_1989</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">clinical_significance</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    id <span class="op">=</span> <span class="va">subject</span>,</span></span>
 <span class="r-in"><span>    time <span class="op">=</span> <span class="va">time</span>,</span></span>
@@ -323,7 +328,7 @@ after intervention)</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># And plot your results</span></span></span>
-<span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">jacobson_1989</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">jacobson_1989</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">clinical_significance</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    id <span class="op">=</span> <span class="va">subject</span>,</span></span>
 <span class="r-in"><span>    time <span class="op">=</span> <span class="va">time</span>,</span></span>

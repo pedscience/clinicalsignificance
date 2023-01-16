@@ -240,6 +240,7 @@ clinical_significance <- function(data,
   # Calculate cutoff
   direction <- 1
   if (arg_match(better_is) == "lower") direction <- -1
+  if (clinisig_method != "HA") critical_value <- stats::qnorm(1 - significance_level/2) else critical_value <- stats::qnorm(1 - significance_level)
 
   if (clinisig_method != "HA") {
     cutoff <- .calc_cutoff_jt_data(
@@ -268,8 +269,6 @@ clinical_significance <- function(data,
 
 
   # Calculate RCI
-  if (clinisig_method != "HA") critical_value <- stats::qnorm(1 - significance_level/2) else critical_value <- stats::qnorm(1 - significance_level)
-
   if (clinisig_method == "JT") {
     rci <- .calc_rci_jt(
       data = datasets[["data"]],

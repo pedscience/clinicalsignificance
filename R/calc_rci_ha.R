@@ -10,7 +10,7 @@
 #' @param sd_pre SD pre measurement
 #' @param m_post M post measurement
 #' @param sd_post SD post measurement
-#' @param critical_value The critical value for the RCI decision, should be 1.96
+#' @param critical_value The critical value for the RCI decision, should be 1.65
 #'
 #' @importFrom stats sd cor
 #'

@@ -175,6 +175,8 @@ clinical_significance <- function(data,
                                   better_is = c("lower", "higher"),
                                   method = c("JT", "GLN", "HLL", "EN", "NK", "HA", "HLM"),
                                   significance_level = 0.05) {
+  # browser()
+
   # Check if arguments are set correctly
   clinisig_method <- arg_match(method)
   if (missing(id)) abort("You must specify an ID column.")
@@ -206,7 +208,8 @@ clinical_significance <- function(data,
       id = {{ id }},
       time = {{ time }},
       outcome = {{ outcome }},
-      group = {{ group }}
+      group = {{ group }},
+      method = clinisig_method
     )
   } else {
     datasets <- .prep_data(
@@ -216,7 +219,8 @@ clinical_significance <- function(data,
       outcome = {{ outcome }},
       group = {{ group }},
       pre = pre,
-      post = post
+      post = post,
+      method = clinisig_method
     )
   }
 
@@ -237,114 +241,53 @@ clinical_significance <- function(data,
   }
 
 
+  # Statistical approach
   # Calculate cutoff
   direction <- 1
   if (arg_match(better_is) == "lower") direction <- -1
   if (clinisig_method != "HA") critical_value <- stats::qnorm(1 - significance_level/2) else critical_value <- stats::qnorm(1 - significance_level)
 
-  if (clinisig_method != "HA") {
-    cutoff <- .calc_cutoff_jt_data(
-      data = datasets[["data"]],
-      m_clinical = m_pre,
-      sd_clinical = sd_pre,
-      m_functional = m_functional,
-      sd_functional = sd_functional,
-      type = type,
-      direction = direction
-    )
-  } else if (clinisig_method == "HA") {
-    cutoff <- .calc_cutoff_ha_data(
-      data = datasets[["data"]],
-      m_clinical = m_pre,
-      sd_clinical = sd_pre,
-      m_functional = m_functional,
-      sd_functional = sd_functional,
-      m_post = m_post,
-      sd_post = sd_post,
-      reliability = reliability,
-      type = type,
-      direction = direction,
-      critical_value = critical_value
-    )
-  }
+  cutoff <- calc_cutoff_from_data(
+    data = datasets,
+    m_clinical = m_pre,
+    sd_clinical = sd_pre,
+    m_functional = m_functional,
+    sd_functional = sd_functional,
+    m_post = m_post,
+    sd_post = sd_post,
+    reliability = reliability,
+    type = type,
+    direction = direction,
+    critical_value = critical_value
+  )
 
 
+  # Distribution-based approach
   # Calculate RCI
-  if (clinisig_method == "JT") {
-    rci <- .calc_rci_jt(
-      data = datasets[["data"]],
-      sd_pre = sd_pre,
-      reliability = reliability,
-      direction = direction,
-      critical_value = critical_value
-    )
-  } else if (clinisig_method == "GLN") {
-    rci <- .calc_rci_gln(
-      data = datasets[["data"]],
-      m_pre = m_pre,
-      sd_pre = sd_pre,
-      reliability = reliability,
-      direction = direction,
-      critical_value = critical_value
-    )
-  } else if (clinisig_method == "HLL") {
-    rci <- .calc_rci_hll(
-      data = datasets[["data"]],
-      m_pre = m_pre,
-      sd_pre = sd_pre,
-      m_post = m_post,
-      reliability = reliability,
-      direction = direction,
-      critical_value = critical_value
-    )
-  } else if (clinisig_method == "EN") {
-    rci <- .calc_rci_en(
-      data = datasets[["data"]],
-      m_pre = m_pre,
-      sd_pre = sd_pre,
-      reliability = reliability,
-      direction = direction,
-      critical_value = critical_value
-    )
-  } else if (clinisig_method == "NK") {
+  if (clinisig_method == "NK") {
     # Check if post measurement reliability is given. If not, inform and take
     # pre measurement reliability
     if (missing(reliability_post)) {
       reliability_post <- reliability
       inform(
         c("i" = "The NK method requires reliability estimates for pre and post measurements."),
-        footer = c("*" = "You can specify the post reliability with the \"reliabilit_post\" argument. For now, reliability post was set to reliability pre."),
+        footer = c("*" = "You can specify the post reliability with the \"reliability_post\" argument. For now, reliability post was set to reliability pre."),
         use_cli_format = TRUE
       )
     }
+  }
 
-    rci <- .calc_rci_nk(
-      data = datasets[["data"]],
+    rci <- calc_rci(
+      data = datasets,
       m_pre = m_pre,
+      m_post = m_post,
       sd_pre = sd_pre,
-      reliability_pre = reliability,
+      sd_post = sd_post,
+      reliability = reliability,
       reliability_post = reliability_post,
       direction = direction,
       critical_value = critical_value
     )
-  } else if (clinisig_method == "HA") {
-    rci <- .calc_rci_ha(
-      data = datasets[["data"]],
-      m_pre = m_pre,
-      sd_pre = sd_pre,
-      m_post = m_post,
-      sd_post = sd_post,
-      reliability = reliability,
-      direction = direction,
-      critical_value = critical_value
-    )
-  } else if (clinisig_method == "HLM") {
-    rci <- .calc_rci_hlm(
-      data = datasets[["model"]],
-      direction = direction,
-      critical_value = critical_value
-    )
-  }
 
 
   # Calculate recovered
@@ -403,167 +346,167 @@ clinical_significance <- function(data,
 }
 
 
-#' Print Clinical Significance Results
+#' #' Print Clinical Significance Results
+#' #'
+#' #' @param x A clinisig object
+#' #' @param ... Additional arguments passed to `export_table()`
+#' #'
+#' #' @importFrom insight export_table
+#' #' @importFrom dplyr rename_with
+#' #' @importFrom tools toTitleCase
+#' #'
+#' #' @return No return value, called for side effects
+#' #' @export
+#' print.clinisig <- function(x, ...) {
+#'   clinisig_method <- get_method(x)
 #'
-#' @param x A clinisig object
-#' @param ... Additional arguments passed to `export_table()`
+#'   if (clinisig_method != "HA") {
+#'     caption <- c(paste0("Clinical Significance Results (", clinisig_method, ")"), "blue")
+#'     summary_table <- get_summary_table(x) |>
+#'       rename_with(toTitleCase, .cols = -n)
+#'   }
 #'
-#' @importFrom insight export_table
-#' @importFrom dplyr rename_with
-#' @importFrom tools toTitleCase
+#'   if (clinisig_method == "HA") {
+#'     summary_table_individual <- get_summary_table(x, "individual") |>
+#'       rename_with(toTitleCase, .cols = -n)
+#'     summary_table_group <- get_summary_table(x, "group") |>
+#'       rename_with(toTitleCase)
 #'
-#' @return No return value, called for side effects
-#' @export
-print.clinisig <- function(x, ...) {
-  clinisig_method <- get_method(x)
-
-  if (clinisig_method != "HA") {
-    caption <- c(paste0("Clinical Significance Results (", clinisig_method, ")"), "blue")
-    summary_table <- get_summary_table(x) |>
-      rename_with(toTitleCase, .cols = -n)
-  }
-
-  if (clinisig_method == "HA") {
-    summary_table_individual <- get_summary_table(x, "individual") |>
-      rename_with(toTitleCase, .cols = -n)
-    summary_table_group <- get_summary_table(x, "group") |>
-      rename_with(toTitleCase)
-
-    summary_table <- list(summary_table_individual, summary_table_group)
-
-    caption <- list(
-      c("Clinical Significance Results (HA Individual Level)", "blue"),
-      c("Clinical Significance Results (HA Group Level)", "blue")
-    )
-  }
-
-  if (.has_group(get_data(x))) alignment <- "llrr" else alignment <- "lrr"
-
-  cat(
-    export_table(
-      summary_table,
-      width = c(n = 5),
-      digits = 3,
-      caption = caption,
-      align = alignment,
-      ...
-    )
-  )
-}
-
-
-
-#' Summary Method for a clinisig object
+#'     summary_table <- list(summary_table_individual, summary_table_group)
 #'
-#' @param object A clinisig object
-#' @param ... Additional arguments
+#'     caption <- list(
+#'       c("Clinical Significance Results (HA Individual Level)", "blue"),
+#'       c("Clinical Significance Results (HA Group Level)", "blue")
+#'     )
+#'   }
 #'
-#' @importFrom dplyr rename
-#' @importFrom crayon bold blue
+#'   if (.has_group(get_data(x))) alignment <- "llrr" else alignment <- "lrr"
 #'
-#' @return No return value, called for side effects
-#' @export
+#'   cat(
+#'     export_table(
+#'       summary_table,
+#'       width = c(n = 5),
+#'       digits = 3,
+#'       caption = caption,
+#'       align = alignment,
+#'       ...
+#'     )
+#'   )
+#' }
+
+
+
+#' #' Summary Method for a clinisig object
+#' #'
+#' #' @param object A clinisig object
+#' #' @param ... Additional arguments
+#' #'
+#' #' @importFrom dplyr rename
+#' #' @importFrom crayon bold blue
+#' #'
+#' #' @return No return value, called for side effects
+#' #' @export
+#' #'
+#' #' @examples
+#' #' claus_results <- clinical_significance(
+#' #'   data = claus_2020,
+#' #'   id = id,
+#' #'   time = time,
+#' #'   outcome = bdi,
+#' #'   pre = 1,
+#' #'   post = 4,
+#' #'   reliability = 0.801,
+#' #'   m_functional = 8,
+#' #'   sd_functional = 7,
+#' #'   type = "c"
+#' #' )
+#' #'
+#' #' summary(claus_results)
+#' summary.clinisig <- function(object, ...) {
+#'   # Get all bits and pieces to show
+#'   nobs <- get_n(object)
+#'   outcome <- object[["outcome"]]
+#'   clinisig_method <- get_method(object)
+#'   cutoff <- get_cutoff(object)
+#'   reliability <- get_reliability(object)[[1]]
+#'   direction <- get_beneficial_direction(object)
+#'   if (.has_group(get_data(object))) col_alignment <- "llrr" else col_alignment <- "lrr"
 #'
-#' @examples
-#' claus_results <- clinical_significance(
-#'   data = claus_2020,
-#'   id = id,
-#'   time = time,
-#'   outcome = bdi,
-#'   pre = 1,
-#'   post = 4,
-#'   reliability = 0.801,
-#'   m_functional = 8,
-#'   sd_functional = 7,
-#'   type = "c"
-#' )
 #'
-#' summary(claus_results)
-summary.clinisig <- function(object, ...) {
-  # Get all bits and pieces to show
-  nobs <- get_n(object)
-  outcome <- object[["outcome"]]
-  clinisig_method <- get_method(object)
-  cutoff <- get_cutoff(object)
-  reliability <- get_reliability(object)[[1]]
-  direction <- get_beneficial_direction(object)
-  if (.has_group(get_data(object))) col_alignment <- "llrr" else col_alignment <- "lrr"
-
-
-  # Cutoff table
-  cutoff_descriptives <- get_cutoff_descriptives(object) |>
-    rename(
-      "M Clinical" = m_clinical,
-      "SD Clinical" = sd_clinical,
-      "M Functional" = m_functional,
-      "SD Functional" = sd_functional
-    ) |>
-    export_table(
-      caption = c("Population Characteristics", "blue"),
-      digits = 2,
-      missing = "---",
-      align = "llll")
-
-  if (clinisig_method == "HA") {
-    cutoff_descriptives <- get_cutoff_descriptives(object) |>
-      rename(
-        "M Clinical" = m_clinical,
-        "SD Clinical" = sd_clinical,
-        "M Functional" = m_functional,
-        "SD Functional" = sd_functional,
-        "Reliability Clinical" = reliability_clinical,
-        "Reliability Functional" = reliability_functional
-      ) |>
-      export_table(
-        caption = c("Population Characteristics", "blue"),
-        digits = 2,
-        missing = "---",
-        align = "llllll"
-      )
-  }
-
-
-  # Summary table
-  if (clinisig_method != "HA") {
-    summary_table <- get_summary_table(object) |>
-      rename_with(toTitleCase, .cols = -n) |>
-      export_table(
-        caption = c("Individual Level Results", "blue"),
-        align = col_alignment,
-        digits = 3
-      )
-  } else  {
-    summary_table_individual <- get_summary_table(object, "individual") |>
-      rename_with(toTitleCase, .cols = -n)
-
-    summary_table_group <- get_summary_table(object, "group") |>
-      rename_with(toTitleCase)
-
-    summary_table <- export_table(
-      list(summary_table_individual, summary_table_group),
-      caption = list(c("Individual Level Results", "blue"), c("Group Level Results", "blue")),
-      align = col_alignment,
-      digits = 3
-    )
-  }
-
-  str_participants <- paste0("There were ", bold(nobs[["n_original"]]), " participants in the whole dataset of which ", bold(nobs[["n_used"]]), bold(paste0(" (", round(nobs[["percent_used"]], digits = 3) * 100, "%)")), " could be included in the analysis.")
-  str_method <- paste0("The ", bold(clinisig_method), " method for calculating cutoffs and reliable change was chosen and the outcome variable was ", bold(paste0("\"", outcome ,"\"")), ".")
-  str_cutoff <- paste0("The cutoff type was ", bold(paste0("\"", cutoff[["type"]], "\"")), " with a value of ", bold(round(cutoff[["value"]], digits = 2)), " based on the following population characteristics (with ", bold(direction), " values representing a beneficial outcome)", ":")
-
-  # Cat the summary
-  cat(blue("\nClinical Significance Results\n\n"))
-  # cat("-----------------------------\n")
-  cat(strwrap(str_participants, width = 70), sep = "\n")
-  cat("\n")
-  cat(strwrap(str_method, width = 70), sep = "\n")
-  cat("\n")
-  cat(strwrap(str_cutoff, width = 70), sep = "\n")
-  cat("\n", cutoff_descriptives, "\n\n", sep = "")
-  if (!is.na(reliability)) {
-    cat("The instrument's reliability was set to ", bold(round(reliability, digits = 2))," \n\n", sep = "")
-  } else {
-    cat("The instrument's reliability was not specified.\n\n")
-  }
-  cat(summary_table)
-}
+#'   # Cutoff table
+#'   cutoff_descriptives <- get_cutoff_descriptives(object) |>
+#'     rename(
+#'       "M Clinical" = m_clinical,
+#'       "SD Clinical" = sd_clinical,
+#'       "M Functional" = m_functional,
+#'       "SD Functional" = sd_functional
+#'     ) |>
+#'     export_table(
+#'       caption = c("Population Characteristics", "blue"),
+#'       digits = 2,
+#'       missing = "---",
+#'       align = "llll")
+#'
+#'   if (clinisig_method == "HA") {
+#'     cutoff_descriptives <- get_cutoff_descriptives(object) |>
+#'       rename(
+#'         "M Clinical" = m_clinical,
+#'         "SD Clinical" = sd_clinical,
+#'         "M Functional" = m_functional,
+#'         "SD Functional" = sd_functional,
+#'         "Reliability Clinical" = reliability_clinical,
+#'         "Reliability Functional" = reliability_functional
+#'       ) |>
+#'       export_table(
+#'         caption = c("Population Characteristics", "blue"),
+#'         digits = 2,
+#'         missing = "---",
+#'         align = "llllll"
+#'       )
+#'   }
+#'
+#'
+#'   # Summary table
+#'   if (clinisig_method != "HA") {
+#'     summary_table <- get_summary_table(object) |>
+#'       rename_with(toTitleCase, .cols = -n) |>
+#'       export_table(
+#'         caption = c("Individual Level Results", "blue"),
+#'         align = col_alignment,
+#'         digits = 3
+#'       )
+#'   } else  {
+#'     summary_table_individual <- get_summary_table(object, "individual") |>
+#'       rename_with(toTitleCase, .cols = -n)
+#'
+#'     summary_table_group <- get_summary_table(object, "group") |>
+#'       rename_with(toTitleCase)
+#'
+#'     summary_table <- export_table(
+#'       list(summary_table_individual, summary_table_group),
+#'       caption = list(c("Individual Level Results", "blue"), c("Group Level Results", "blue")),
+#'       align = col_alignment,
+#'       digits = 3
+#'     )
+#'   }
+#'
+#'   str_participants <- paste0("There were ", bold(nobs[["n_original"]]), " participants in the whole dataset of which ", bold(nobs[["n_used"]]), bold(paste0(" (", round(nobs[["percent_used"]], digits = 3) * 100, "%)")), " could be included in the analysis.")
+#'   str_method <- paste0("The ", bold(clinisig_method), " method for calculating cutoffs and reliable change was chosen and the outcome variable was ", bold(paste0("\"", outcome ,"\"")), ".")
+#'   str_cutoff <- paste0("The cutoff type was ", bold(paste0("\"", cutoff[["type"]], "\"")), " with a value of ", bold(round(cutoff[["value"]], digits = 2)), " based on the following population characteristics (with ", bold(direction), " values representing a beneficial outcome)", ":")
+#'
+#'   # Cat the summary
+#'   cat(blue("\nClinical Significance Results\n\n"))
+#'   # cat("-----------------------------\n")
+#'   cat(strwrap(str_participants, width = 70), sep = "\n")
+#'   cat("\n")
+#'   cat(strwrap(str_method, width = 70), sep = "\n")
+#'   cat("\n")
+#'   cat(strwrap(str_cutoff, width = 70), sep = "\n")
+#'   cat("\n", cutoff_descriptives, "\n\n", sep = "")
+#'   if (!is.na(reliability)) {
+#'     cat("The instrument's reliability was set to ", bold(round(reliability, digits = 2))," \n\n", sep = "")
+#'   } else {
+#'     cat("The instrument's reliability was not specified.\n\n")
+#'   }
+#'   cat(summary_table)
+#' }

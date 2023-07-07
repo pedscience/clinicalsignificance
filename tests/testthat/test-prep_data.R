@@ -1,3 +1,6 @@
+library(dplyr)
+library(tidyr)
+
 # Prepare correct data transformation
 correct_data_claus <- claus_2020 |>
   select(id, time, bdi) |>
@@ -27,7 +30,7 @@ factor_wide_data <- jacobson_1989 |>
   mutate(
     time = factor(time, levels = c("pre", "post"))
   ) |>
-  .prep_data(subject, time, gds) |>
+  .prep_data(subject, time, gds, method = "JT") |>
   purrr::pluck("wide")
 
 
@@ -72,35 +75,33 @@ max_measurement <- max(prepped_data[["time"]])
 
 # Tests
 test_that("data is prepared correctly", {
-  prepped_list_claus <- .prep_data(claus_2020, id, time, bdi, pre = 1, post = 4)
-  prepped_list_jacobson <- .prep_data(jacobson_1989, subject, time, gds, pre = "pre")
+  prepped_list_claus <- .prep_data(claus_2020, id, time, bdi, pre = 1, post = 4, method = "JT")
+  prepped_list_jacobson <- .prep_data(jacobson_1989, subject, time, gds, pre = "pre", method = "JT")
 
   jacobson_factor <- jacobson_1989 |>
     mutate(
       time = factor(time, levels = c("pre", "post"))
     )
 
-  prepped_factor_data_list <- .prep_data(jacobson_factor, subject, time, gds)
+  prepped_factor_data_list <- .prep_data(jacobson_factor, subject, time, gds, method = "JT")
 
   # Claus data
-  expect_type(prepped_list_claus, "list")
+  expect_s3_class(prepped_list_claus, "cs_jt")
   expect_equal(prepped_list_claus[["data"]], correct_data_claus)
-  expect_error(clinical_significance(claus_2020, id, time, bdi, reliability = 0.80))
 
   # Jacobson data
-  expect_type(prepped_list_jacobson, "list")
+  expect_s3_class(prepped_list_jacobson, "cs_jt")
   expect_equal(prepped_list_jacobson[["data"]], correct_data_jacobson)
-  expect_message(clinical_significance(jacobson_1989, subject, time, gds, reliability = 0.80))
 
   # Factor data
-  expect_snapshot(.prep_data(jacobson_factor, subject, time, gds))
+  expect_snapshot(.prep_data(jacobson_factor, subject, time, gds, method = "JT"))
   expect_equal(prepped_factor_data_list[["wide"]], factor_wide_data)
 })
 
 test_that("data is prepared correctly for HLM method", {
-  prepped_list <- .prep_data_hlm(anxiety, subject, measurement, anxiety, group = treatment)
+  prepped_list <- .prep_data(anxiety, subject, measurement, anxiety, group = treatment, method = "HLM")
 
-  expect_type(prepped_list, "list")
+  expect_s3_class(prepped_list, "cs_hlm")
   expect_equal(prepped_list[["wide"]], wide_data)
   expect_equal(prepped_list[["groups"]], manual_groups)
   expect_equal(prepped_list[["data"]], cutoff_data)

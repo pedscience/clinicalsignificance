@@ -34,11 +34,9 @@
 #'     method = "NK"
 #'   )
 #'
-#' get_reliability(results)
-#' get_reliability(results_nk)
-get_reliability <- function(x) {
-  assert_class(x, "clinisig")
-
+#' cs_get_reliability(results)
+#' cs_get_reliability(results_nk)
+cs_get_reliability <- function(x) {
   clinisig_method <- get_method(x)
 
   reliability <- tibble(
@@ -47,7 +45,7 @@ get_reliability <- function(x) {
 
   if (clinisig_method == "NK") {
     reliability_post <- tibble(
-      reliability_post = x[["rci"]][["reliability_post"]]
+      reliability_post = x[["rci_results"]][["reliability_post"]]
     )
 
     reliability <- reliability |>

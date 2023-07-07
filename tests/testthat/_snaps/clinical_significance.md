@@ -22,7 +22,7 @@
 ---
 
     i The NK method requires reliability estimates for pre and post measurements.
-    * You can specify the post reliability with the "reliabilit_post" argument. For now, reliability post was set to reliability pre.
+    * You can specify the post reliability with the "reliability_post" argument. For now, reliability post was set to reliability pre.
 
 ---
 

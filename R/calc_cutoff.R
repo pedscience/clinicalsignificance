@@ -1,3 +1,27 @@
+#' Generic for statistical approach
+#'
+#' @param x
+#'
+#' @return Cutoff results
+#' @export
+#'
+#' @noRd
+calc_cutoff_from_data <- function(x,
+                                  data,
+                                  m_clinical,
+                                  sd_clinical,
+                                  m_functional,
+                                  sd_functional,
+                                  m_post,
+                                  sd_post,
+                                  reliability,
+                                  type,
+                                  direction,
+                                  critical_value) {
+  UseMethod("calc_cutoff_from_data")
+}
+
+
 #' Calculate the categories based on the cutoff
 #'
 #' @param data A preprocessed wide dataframe with at least column `id`, `pre`
@@ -13,7 +37,9 @@
 #'   categorization
 #'
 #' @noRd
-.calc_cutoff_jt_data <- function(data, m_clinical, sd_clinical, m_functional, sd_functional, type = "a", direction = 1) {
+calc_cutoff_from_data.default <- function(data, m_clinical, sd_clinical, m_functional, sd_functional, type = "a", direction = 1, ...) {
+  data <- data[["data"]]
+
   # Calculate cutoff
   cutoff_info <- .calc_cutoff_jt(
     m_clinical = m_clinical,
@@ -62,7 +88,9 @@
 #'   categorization
 #'
 #' @noRd
-.calc_cutoff_ha_data <- function(data, m_clinical, sd_clinical, m_functional, sd_functional, m_post, sd_post, reliability, type = "a", direction = 1, critical_value = 1.65) {
+calc_cutoff_from_data.clinisig_ha <- function(data, m_clinical, sd_clinical, m_functional, sd_functional, m_post, sd_post, reliability, type = "a", direction = 1, critical_value = 1.65) {
+  data <- data[["data"]]
+
   se_measurement <- .calc_se_measurement(sd_pre = sd_clinical, reliability = reliability)
   reliability_clinical <- .calc_reliability_ha(sd = sd_clinical, se_measurment = se_measurement)
   reliability_post <- .calc_reliability_ha(sd = sd_post, se_measurment = se_measurement)

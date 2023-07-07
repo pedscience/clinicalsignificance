@@ -27,12 +27,10 @@
 #'     type = "c"
 #'   )
 #'
-#' get_n(results)
-#' get_n(results, which = "original")
-#' get_n(results, which = "used")
-get_n <- function(x, which = "all") {
-  assert_class(x, "clinisig")
-
+#' cs_get_n(results)
+#' cs_get_n(results, which = "original")
+#' cs_get_n(results, which = "used")
+cs_get_n <- function(x, which = "all") {
   if (which == "all") {
     x[["n_obs"]] |>
       as_tibble() |>

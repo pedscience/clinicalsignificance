@@ -23,11 +23,11 @@
 #'     type = "c"
 #'   )
 #'
-#' get_data(results)
-#' get_data(results, "wide")
-#' get_data(results, "original")
-get_data <- function(x, dataset = "data") {
-  assert_class(x, "clinisig")
+#' cs_get_data(results)
+#' cs_get_data(results, "wide")
+#' cs_get_data(results, "original")
+cs_get_data <- function(x, dataset = "data") {
+  if (!inherits(x, "clinisig")) cli::cli_abort("The supplied object must be of class {.code clinisig}.")
 
   x[["datasets"]][[dataset]]
 }

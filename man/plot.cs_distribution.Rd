@@ -4,10 +4,27 @@
 \alias{plot.cs_distribution}
 \title{Plot an Object of Class cs_distribution}
 \usage{
-\method{plot}{cs_distribution}(x, ...)
+\method{plot}{cs_distribution}(
+  x,
+  x_lab = "Pre",
+  y_lab = "Post",
+  lower_limit,
+  upper_limit,
+  overplotting = 0.02,
+  ...
+)
 }
 \arguments{
-\item{...}{}
+\item{x}{An object of class \code{cs_distribution}}
+
+\item{x_lab}{String, x axis label. Default is \code{"Pre"}.}
+
+\item{y_lab}{String, x axis label. Default is \code{"Post"}.}
+
+\item{...}{Additional arguments}
+}
+\value{
+A ggplot2 plot
 }
 \description{
 Plot an Object of Class cs_distribution

@@ -159,7 +159,7 @@ cs_distribution <- function(data,
 
 
   # Return output
-  class(output) <- c("clinisig", "cs_distribution", class(output))
+  class(output) <- c("clinisig", "cs_distribution", class(datasets), class(output))
   output
 }
 

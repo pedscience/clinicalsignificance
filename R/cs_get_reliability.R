@@ -37,13 +37,13 @@
 #' cs_get_reliability(results)
 #' cs_get_reliability(results_nk)
 cs_get_reliability <- function(x) {
-  clinisig_method <- get_method(x)
+  cs_method <- cs_get_method(x)
 
   reliability <- tibble(
     reliability = x[["reliability"]]
   )
 
-  if (clinisig_method == "NK") {
+  if (cs_method == "NK") {
     reliability_post <- tibble(
       reliability_post = x[["rci_results"]][["reliability_post"]]
     )

@@ -3,7 +3,7 @@
 #' Retrieve the summary table in a tidy tibble format. This is especially useful
 #' to plot the results or conduct sensitivity analyses.
 #'
-#' @inheritParams get_data
+#' @inheritParams cs_get_data
 #' @param which Which level of summary table to return. This is only necessary
 #'   for method `"HA"` since two summary tables are reported. Available are
 #'   - `individual`, the default

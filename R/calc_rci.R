@@ -49,7 +49,7 @@ calc_rci.cs_jt <- function(data, sd_pre, reliability, direction = 1, critical_va
 
   # Calculate RCI
   rci_data <- data |>
-    mutate(
+    dplyr::mutate(
       rci = change / s_diff
     )
 
@@ -88,7 +88,7 @@ calc_rci.cs_gln <- function(data, m_pre, sd_pre, reliability, direction = 1, cri
 
   # Calculate RCI
   rci_data <- data |>
-    mutate(
+    dplyr::mutate(
       pre_adj = reliability * (pre - m_pre),
       post_adj = post - m_pre,
       change_adj = post_adj - pre_adj,
@@ -131,7 +131,7 @@ calc_rci.cs_hll <- function(data, m_pre, sd_pre, m_post, reliability, direction 
 
   # Calculate RCI
   rci_data <- data |>
-    mutate(
+    dplyr::mutate(
       pre_adj = reliability * (pre - m_pre),
       post_adj = post - m_post,
       change_adj = post_adj - pre_adj,
@@ -175,7 +175,7 @@ calc_rci.cs_en <- function(data, m_pre, sd_pre, reliability, direction = 1, crit
 
   # Calculate the RCI according to reformulation of Speer
   rci_data <- data |>
-    mutate(
+    dplyr::mutate(
       pre_true = reliability * (pre - m_pre) + m_pre,
       change_adj = post - pre_true,
       rci = change_adj / se_measurement
@@ -215,7 +215,7 @@ calc_rci.cs_nk <- function(data, m_pre, sd_pre, reliability, reliability_post, d
   denominator <- sqrt((reliability^2 * sd_pre ^2 * (1 - reliability)) + (sd_pre^2 * (1 - reliability_post)))
 
   rci_data <- data |>
-    mutate(
+    dplyr::mutate(
       pre_adj = reliability * (pre - m_pre) + m_pre,
       change_adj = post - pre_adj,
       rci = change_adj / denominator
@@ -261,7 +261,7 @@ calc_rci.cs_ha <- function(data, m_pre, sd_pre, m_post, sd_post, reliability, di
   r_dd <- nominator / denominator
 
   rci_data <- data  |>
-    mutate(
+    dplyr::mutate(
       rci = ((post - pre) * r_dd + (m_post - m_pre) * (1 - r_dd)) / (sqrt(r_dd) * sqrt(2 * se_measurement^2))
     )
 

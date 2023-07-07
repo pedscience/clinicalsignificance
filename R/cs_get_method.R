@@ -19,9 +19,9 @@
 #'   reliability = 0.80
 #' )
 #'
-#' get_method(results)
-get_method <- function(x) {
-  assert_class(x, "clinisig")
+#' cs_get_method(results)
+cs_get_method <- function(x) {
+  if (!inherits(x, "clinisig")) cli::cli_abort("The supplied object must be of class {.code clinisig}.")
 
   if (length(x[["method"]]) > 1) {
     x[["method"]][[1]]

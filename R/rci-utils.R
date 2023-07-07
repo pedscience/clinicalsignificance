@@ -14,12 +14,12 @@
 #' @noRd
 .calc_improvement <- function(data, rci_cutoff = 1.96, direction = 1) {
   data |>
-    mutate(
+    dplyr::mutate(
       improved        = ifelse(direction * rci > rci_cutoff, TRUE, FALSE),
       deteriorated    = ifelse(direction * rci < -rci_cutoff, TRUE, FALSE),
       unchanged       = !improved & !deteriorated
     ) |>
-    select(id, rci, improved:unchanged)
+    dplyr::select(id, rci, improved:unchanged)
 }
 
 

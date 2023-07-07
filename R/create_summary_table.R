@@ -49,7 +49,7 @@ create_summary_table.cs_distribution <- function(x, data, ...) {
   # Count all cases per category and calculate relative amount (percentages)
   summary <- joined_data |>
     dplyr::summarise(
-      dplyr::across(improved:unchanged, sum), .by = group_var
+      dplyr::across(improved:unchanged, sum), .by = tidyr::all_of(group_var)
     ) |>
     tidyr::pivot_longer(
       cols = improved:unchanged,

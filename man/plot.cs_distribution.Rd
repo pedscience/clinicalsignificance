@@ -6,10 +6,14 @@
 \usage{
 \method{plot}{cs_distribution}(
   x,
-  x_lab = "Pre",
-  y_lab = "Post",
+  x_lab = NULL,
+  y_lab = NULL,
+  color_lab = "Group",
   lower_limit,
   upper_limit,
+  show,
+  rci_fill = "grey10",
+  rci_alpha = 0.1,
   overplotting = 0.02,
   ...
 )
@@ -21,11 +25,40 @@
 
 \item{y_lab}{String, x axis label. Default is \code{"Post"}.}
 
+\item{color_lab}{String, color label (if colors are displayed). Default is
+\code{"Group"}}
+
+\item{lower_limit}{Numeric, lower plotting limit. Defaults to 2\% smaller
+than minimum instrument score}
+
+\item{upper_limit}{Numeric, upper plotting limit. Defaults to 2\% larger than
+maximum instrument score}
+
+\item{show}{String, category name. You have several options to color
+different features. Available are
+\itemize{
+\item \code{category} (shows all categories at once) which is the default
+\item \code{improved} (shows improved participants)
+\item \code{unchanged} (shows unchanged participants)
+\item \code{deteriorated} (shows deteriorated participants, if available)
+}}
+
+\item{rci_fill}{String, a color (name or HEX code) for RCI fill}
+
+\item{rci_alpha}{Numeric, controls the transparency of the RCI. This can be
+any value between 0 and 1, defaults to 0.1}
+
+\item{overplotting}{Numeric, control amount of overplotting. Defaults to 0.02
+(i.e., 2\% of range between lower and upper limit).}
+
 \item{...}{Additional arguments}
 }
 \value{
 A ggplot2 plot
 }
 \description{
-Plot an Object of Class cs_distribution
+This function creates a generic clinical significance plot bz plotting the
+patients' pre intervention value on the x-axis and the post intervention
+score on the y-axis. Additionally, the RCI (region signifying unchanged
+patients) is shown with a diagonal corresponding to no change.
 }

@@ -50,7 +50,7 @@ cs_get_reliability <- function(x) {
 
     reliability <- reliability |>
       bind_cols(reliability_post) |>
-      rename(reliability_pre = reliability)
+      dplyr::rename(reliability_pre = reliability)
   }
 
   reliability

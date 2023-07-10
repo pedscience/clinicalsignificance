@@ -1,22 +1,70 @@
 #' Plot an Object of Class cs_distribution
 #'
+#' This function creates a generic clinical significance plot bz plotting the
+#' patients' pre intervention value on the x-axis and the post intervention
+#' score on the y-axis. Additionally, the RCI (region signifying unchanged
+#' patients) is shown with a diagonal corresponding to no change.
+#'
 #' @param x An object of class `cs_distribution`
 #' @param x_lab String, x axis label. Default is `"Pre"`.
 #' @param y_lab String, x axis label. Default is `"Post"`.
+#' @param color_lab String, color label (if colors are displayed). Default is
+#'   `"Group"`
+#' @param lower_limit Numeric, lower plotting limit. Defaults to 2% smaller
+#'   than minimum instrument score
+#' @param upper_limit Numeric, upper plotting limit. Defaults to 2% larger than
+#'   maximum instrument score
+#' @param show String, category name. You have several options to color
+#'   different features. Available are
+#'   - `category` (shows all categories at once) which is the default
+#'   - `improved` (shows improved participants)
+#'   - `unchanged` (shows unchanged participants)
+#'   - `deteriorated` (shows deteriorated participants, if available)
+#' @param overplotting Numeric, control amount of overplotting. Defaults to 0.02
+#'   (i.e., 2% of range between lower and upper limit).
+#' @param rci_fill String, a color (name or HEX code) for RCI fill
+#' @param rci_alpha Numeric, controls the transparency of the RCI. This can be
+#'   any value between 0 and 1, defaults to 0.1
 #' @param ... Additional arguments
 #'
 #' @return A ggplot2 plot
 #' @export
 plot.cs_distribution <- function(x,
-                                 x_lab = "Pre",
-                                 y_lab = "Post",
+                                 x_lab = NULL,
+                                 y_lab = NULL,
+                                 color_lab = "Group",
                                  lower_limit,
                                  upper_limit,
+                                 show,
+                                 rci_fill = "grey10",
+                                 rci_alpha = 0.1,
                                  overplotting = 0.02,
                                  ...) {
-  # Get method (necessary?) and augmented data for plotting
+  # Which plot should be plotted?
   cs_method <- cs_get_method(x)
-  data <- cs_get_augmented_data(x)
+  if (cs_method != "HLM") which_plot <- "point" else which_plot <- "trajectory"
+
+
+  # Get augmented data for plotting
+  if (which_plot == "point") {
+    data <- cs_get_augmented_data(x) |>
+      dplyr::mutate(
+        dplyr::across(dplyr::where(is.logical), \(x) ifelse(x, "Yes", "No"))
+      )
+  } else if (which_plot == "trajectory") {
+    model_data <- cs_get_data(x, "model")
+    categories <- cs_get_augmented_data(x)
+
+    if (.has_group(model_data)) join_identifiers <- c("id", "group") else join_identifiers <- c("id")
+
+    data <- model_data |>
+      left_join(categories, by = join_identifiers) |>
+      dplyr::mutate(
+        dplyr::across(dplyr::where(is.logical), \(x) ifelse(x, "Yes", "No"))
+      )
+  }
+
+
 
 
   # If lower and upper limit are not supplied, get them based on the data
@@ -33,13 +81,52 @@ plot.cs_distribution <- function(x,
 
 
   # Generate data for the RCI band
-  rci_data <- generate_rci_band(x, lower_limit = lower_limit, upper_limit = upper_limit)
+  if (cs_method != "HLM") rci_data <- generate_plotting_band(x, lower_limit = lower_limit, upper_limit = upper_limit)
 
-  list(
-    method = cs_method,
-    data = data,
-    labels = c(x_lab, y_lab),
-    limits = x_limits,
-    rci = rci_data
-  )
+
+  # Default plot labels
+  if (which_plot == "point" & is.null(x_lab) & is.null(y_lab)) {
+    x_lab <- "Pre"
+    y_lab <- "Post"
+  } else if (which_plot == "trajectory" & is.null(x_lab) & is.null(y_lab)) {
+    x_lab <- "Measurement"
+    y_lab <- "Outcome Score"
+  }
+
+
+  # Create a list of geoms added to the plot
+  if (cs_method != "HLM") {
+    geom_list <- list(
+      ggplot2::geom_ribbon(data = rci_data, ggplot2::aes(y = NULL, ymin = ymin, ymax = ymax), fill = rci_fill, alpha = rci_alpha),
+      ggplot2::geom_abline(color = "grey10"),
+      if (.has_group(data) & missing(show)) {
+        ggplot2::geom_point(ggplot2::aes(color = group))
+      } else {
+        ggplot2::geom_point(ggplot2::aes(color = {{ show }}))
+      }
+    )
+  } else if (cs_method == "HLM"){
+    geom_list_trajectory <- list(
+      if (.has_group(data) & missing(show)) {
+        ggplot2::geom_line(ggplot2::aes(color = group), na.rm = TRUE)
+      } else {
+        ggplot2::geom_line(ggplot2::aes(color = {{ show }}), na.rm = TRUE)
+      }
+    )
+  }
+
+
+  # Plot the whole thing
+  if (which_plot == "point") {
+    data |>
+      ggplot2::ggplot(ggplot2::aes(pre, post)) +
+      geom_list +
+      ggplot2::coord_cartesian(xlim = x_limits, ylim = y_limits, expand = FALSE) +
+      ggplot2::labs(x = x_lab, y = y_lab, color = color_lab)
+  } else if (which_plot == "trajectory") {
+    data |>
+      ggplot2::ggplot(ggplot2::aes(time, outcome, group = id)) +
+      geom_list_trajectory +
+      ggplot2::labs(x = x_lab, y = y_lab, color = color_lab)
+  }
 }

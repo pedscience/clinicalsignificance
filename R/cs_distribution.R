@@ -132,7 +132,7 @@ cs_distribution <- function(data,
   if (cs_method != "HA") critical_value <- stats::qnorm(1 - significance_level/2) else critical_value <- stats::qnorm(1 - significance_level)
 
 
-  # Determine RCI and check each participant's change relative top it
+  # Determine RCI and check each participant's change relative to it
   rci_results <- calc_rci(
     data = datasets,
     m_pre = m_pre,

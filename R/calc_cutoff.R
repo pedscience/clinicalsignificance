@@ -53,19 +53,22 @@ calc_cutoff_from_data.default <- function(data, m_clinical, sd_clinical, m_funct
   cutoff <- cutoff_info[["value"]]
 
   data_cutoff_criteria <- data |>
-    mutate(
+    dplyr::mutate(
       clinical_pre    = ifelse(direction * pre < direction * cutoff, TRUE, FALSE),
       functional_post = ifelse(direction * post > direction * cutoff, TRUE, FALSE),
     ) |>
-    select(id, clinical_pre, functional_post)
+    dplyr::select(id, clinical_pre, functional_post)
 
   # Bind cutoff info and data with cutoff criteria together for further
   # calculations
-  list(
+  out <- list(
     info = cutoff_info,
     direction = direction,
     data = data_cutoff_criteria
   )
+
+  class(out) <- c("cs_statistical_jt", class(out))
+  out
 }
 
 
@@ -88,7 +91,7 @@ calc_cutoff_from_data.default <- function(data, m_clinical, sd_clinical, m_funct
 #'   categorization
 #'
 #' @noRd
-calc_cutoff_from_data.clinisig_ha <- function(data, m_clinical, sd_clinical, m_functional, sd_functional, m_post, sd_post, reliability, type = "a", direction = 1, critical_value = 1.65) {
+calc_cutoff_from_data.cs_ha <- function(data, m_clinical, sd_clinical, m_functional, sd_functional, m_post, sd_post, reliability, type = "a", direction = 1, critical_value = 1.65) {
   data <- data[["data"]]
 
   se_measurement <- .calc_se_measurement(sd_pre = sd_clinical, reliability = reliability)
@@ -110,13 +113,13 @@ calc_cutoff_from_data.clinisig_ha <- function(data, m_clinical, sd_clinical, m_f
   cutoff <- cutoff_info[["value"]]
 
   data_cutoff_criteria <- data |>
-    mutate(
+    dplyr::mutate(
       cs_indiv = (m_post + (post - m_post) * reliability_post - cutoff) / (sqrt(reliability_post) * se_measurement),
       functional_post = ifelse(direction * cs_indiv > critical_value, TRUE, FALSE)
     ) |>
-    select(id, cs_indiv, functional_post)
+    dplyr::select(id, cs_indiv, functional_post)
 
-  list(
+  out <- list(
     info = cutoff_info,
     reliability_post = reliability_post,
     m_post = m_post,
@@ -124,6 +127,9 @@ calc_cutoff_from_data.clinisig_ha <- function(data, m_clinical, sd_clinical, m_f
     direction = direction,
     data = data_cutoff_criteria
   )
+
+  class(out) <- c("cs_statistical_ha", class(out))
+  out
 }
 
 

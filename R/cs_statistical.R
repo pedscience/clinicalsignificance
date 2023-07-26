@@ -1,3 +1,28 @@
+#' Title
+#'
+#' @param m_functional Numeric, mean of functional population.
+#' @param sd_functional Numeric, standard deviation of functional population
+#' @param cutoff_method Cutoff method, Available are
+#'   - `"JT"` (Jacobson & Truax, 1991, the default)
+#'   - `"HA"` (Hageman & Arrindell, 1999)
+#' @param cutoff_type
+#'
+#' @inheritParams cs_distribution
+#'
+#' @references
+#' - Jacobson, N. S., & Truax, P. (1991). Clinical significance: A statistical approach to defining meaningful change in psychotherapy research. Journal of Consulting and Clinical Psychology, 59(1), 12–19. https://doi.org/10.1037//0022-006X.59.1.12
+#' - Hageman, W. J., & Arrindell, W. A. (1999). Establishing clinically significant change: increment of precision and the distinction between individual and group level analysis. Behaviour Research and Therapy, 37(12), 1169–1193. https://doi.org/10.1016/S0005-7967(99)00032-7
+#'
+#' @return An S3 object of class `clinisig` and `cs_statistical`
+#' @export
+#'
+#' @examples
+#' claus_2020 |>
+#'   cs_statistical(id, time, bdi, m_functional = 8, sd_functional = 7, pre = 1, post = 4, cutoff_type = "c")
+#'
+#' # Different method
+#' claus_2020 |>
+#'   cs_statistical(id, time, bdi, m_functional = 8, sd_functional = 7, pre = 1, post = 4, cutoff_type = "c", cutoff_method = "HA")
 cs_statistical <- function(data,
                            id,
                            time,
@@ -15,6 +40,16 @@ cs_statistical <- function(data,
   # Check arguments
   cs_method <- rlang::arg_match(cutoff_method)
   cut_type <- rlang::arg_match(cutoff_type)
+  if (missing(id)) cli::cli_abort("Argument {.code id} is missing with no default. A column containing patient-specific IDs must be supplied.")
+  if (missing(time)) cli::cli_abort("Argument {.code time} is missing with no default. A column identifying the individual measurements must be supplied.")
+  if (missing(outcome)) cli::cli_abort("Argument {.code outcome} is missing with no default. A column containing the outcome must be supplied.")
+  if (cs_method == "HA") {
+    if (is.null(reliability)) cli::cli_abort("Argument {.code reliability} is missing with no default. An instrument reliability must be supplied.")
+    if (!is.null(reliability) & !is.numeric(reliability)) cli::cli_abort("{.code reliability} must be numeric but a {.code {typeof(reliability)}} was supplied.")
+    if (!is.null(reliability) & !dplyr::between(reliability, 0, 1)) cli::cli_abort("{.code reliability} must be between 0 and 1 but {reliability} was supplied.")
+  } else {
+    if (!is.null(reliability)) cli::cli_alert_info("A reliability for the JT approach to calculating a population cutoff is not needed and will be ignored.")
+  }
 
   # Prepare the data
   datasets <- .prep_data(

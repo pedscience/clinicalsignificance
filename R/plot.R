@@ -14,9 +14,9 @@
 #'   than minimum instrument score
 #' @param upper_limit Numeric, upper plotting limit. Defaults to 2% larger than
 #'   maximum instrument score
-#' @param show String, category name. You have several options to color
+#' @param show Unquoted category name. You have several options to color
 #'   different features. Available are
-#'   - `category` (shows all categories at once) which is the default
+#'   - `category` (shows all categories at once)
 #'   - `improved` (shows improved participants)
 #'   - `unchanged` (shows unchanged participants)
 #'   - `deteriorated` (shows deteriorated participants, if available)
@@ -129,4 +129,95 @@ plot.cs_distribution <- function(x,
       geom_list_trajectory +
       ggplot2::labs(x = x_lab, y = y_lab, color = color_lab)
   }
+}
+
+
+
+
+#' Plot an Object of Class cs_statistical
+#'
+#' @param x An object of class `cs_statistical`
+#' @param include_cutoff Logical, whether to include the population cutoff.
+#'   Default is `TRUE`.
+#' @param show Unquoted category name. You have several options to color
+#'   different features. Available are
+#'   - `category` (shows all categories at once)
+#'   - `clinical_pre` (shows participants with clinical scores pre intervention)
+#'   - `functional_post` (shows participants with functional scores post
+#'     intervention)
+#'   - `unchanged` (shows unchanged participants)
+#'
+#' @inheritParams plot.cs_distribution
+#'
+#' @return A ggplot2 plot
+#' @export
+#'
+#' @examples
+#' claus_results <- claus_2020 |>
+#'   cs_statistical(id, time, bdi, m_functional = 8, sd_functional = 7, pre = 1, post = 4, cutoff_type = "c")
+#'
+#' plot(claus_results)
+#' plot(claus_results, show = category)
+#'
+#'
+#' claus_results_ha <- claus_2020 |>
+#'   cs_statistical(id, time, bdi, m_functional = 8, sd_functional = 7, pre = 1, post = 4, reliability = 0.80, cutoff_type = "c", cutoff_method = "HA")
+#'
+#' plot(claus_results_ha)
+#' plot(claus_results_ha, show = category)
+plot.cs_statistical <- function(x,
+                                x_lab = "Pre",
+                                y_lab = "Post",
+                                color_lab = "Group",
+                                include_cutoff = TRUE,
+                                lower_limit,
+                                upper_limit,
+                                show,
+                                overplotting = 0.02,
+                                ...) {
+  cs_method <- cs_get_method(x)
+
+
+  # Get data
+  data <- cs_get_augmented_data(x) |>
+    dplyr::mutate(
+      dplyr::across(dplyr::where(is.logical), \(x) ifelse(x, "Yes", "No"))
+    )
+
+  # Get the cutoff
+  cs_cutoff <- cs_get_cutoff(x)[["value"]]
+
+
+  # If lower and upper limit are not supplied, get them based on the data
+  if (missing(lower_limit)) lower_limit <- min(data[["pre"]], data[["post"]])
+  if (missing(upper_limit)) upper_limit <- max(data[["pre"]], data[["post"]])
+
+  # Determine x and y limits for plotting. Overplotting is needed because we
+  # want the ribbon to be at the edge of the plot, thus requiring expand = FALSE
+  # in coord_cartesian()
+  overplot_amount <- (upper_limit - lower_limit) * overplotting
+  lower_limit <- lower_limit - overplot_amount
+  upper_limit <- upper_limit + overplot_amount
+  x_limits <- y_limits <- c(lower_limit, upper_limit)
+
+
+  # Create a list of geoms that can be added to the plot
+  geom_list <- list(
+    ggplot2::geom_vline(xintercept = cs_cutoff, lty = "dashed"),
+    ggplot2::geom_hline(yintercept = cs_cutoff, lty = "dashed"),
+    ggplot2::geom_abline(color = "grey10"),
+    if (.has_group(data) & missing(show)) {
+      ggplot2::geom_point(ggplot2::aes(color = group))
+    } else {
+      ggplot2::geom_point(ggplot2::aes(color = {{ show }}))
+    }
+  )
+
+
+  # Plot the whole thing
+  data |>
+    ggplot2::ggplot(ggplot2::aes(pre, post)) +
+    geom_list +
+    ggplot2::coord_cartesian(xlim = x_limits, ylim = y_limits, expand = FALSE) +
+    ggplot2::labs(x = x_lab, y = y_lab, color = color_lab)
 }

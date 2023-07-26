@@ -38,6 +38,51 @@ cs_get_augmented_data.cs_distribution <- function(x, ...) {
 
 
 
+#' Extract Augmented Data from a cs_statistical Object
+#'
+#' @param x An object of class `cs_distribution`
+#' @param ... Additional arguments
+#'
+#' @return A tibble
+#' @export
+cs_get_augmented_data.cs_statistical <- function(x, ...) {
+  if (!inherits(x, "clinisig")) cli::cli_abort("The supplied object must be of class {.code clinisig}.")
+
+  cutoff_categories <- x[["cutoff_results"]][["data"]]
+  used_data <- x[["datasets"]][["data"]]
+  cs_method <- cs_get_method(x)
+
+
+  # Join data with cutoff results
+  joined_data <- used_data |>
+    dplyr::left_join(cutoff_categories, dplyr::join_by("id"))
+
+
+  # Build categories based on cs_method
+  if (cs_method != "HA") {
+    joined_data |>
+      dplyr::mutate(
+        category = dplyr::case_when(
+          clinical_pre & functional_post ~ "Improved",
+          !clinical_pre & !functional_post ~ "Deteriorated",
+          !(clinical_pre & functional_post) & !(!clinical_pre & !functional_post) ~ "Unchanged"
+        ),
+        category = factor(category, levels = c("Improved", "Unchanged", "Deteriorated"))
+      )
+  } else {
+    joined_data |>
+      dplyr::mutate(
+        category = dplyr::case_when(
+          functional_post ~ "Improved",
+          !functional_post ~ "Unchanged"
+        ),
+        category = factor(category, levels = c("Improved", "Unchanged"))
+      )
+  }
+}
+
+
+
 #' #' Get Data Augmented With Clinical Significance Categories
 #' #'
 #' #' To obtain patient-wise results, use `get_augmented_data()`.

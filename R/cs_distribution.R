@@ -104,6 +104,10 @@ cs_distribution <- function(data,
   )
 
 
+  # Prepend a class to enable method dispatch for RCI calculation
+  class(datasets) <- c(paste0("cs_", tolower(cs_method)), class(datasets))
+
+
   # Count participants
   n_obs <- list(
     n_original = nrow(datasets[["wide"]]),

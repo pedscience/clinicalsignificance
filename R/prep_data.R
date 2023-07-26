@@ -174,6 +174,5 @@
     )
   }
 
-  class(out) <- c(paste0("cs_", tolower(method[[1]])), class(out))
   return(out)
 }

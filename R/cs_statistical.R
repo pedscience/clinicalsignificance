@@ -1,11 +1,14 @@
-#' Title
+#' Statistical Analysis of Clinical Significance
 #'
 #' @param m_functional Numeric, mean of functional population.
 #' @param sd_functional Numeric, standard deviation of functional population
 #' @param cutoff_method Cutoff method, Available are
 #'   - `"JT"` (Jacobson & Truax, 1991, the default)
 #'   - `"HA"` (Hageman & Arrindell, 1999)
-#' @param cutoff_type
+#' @param cutoff_type Cutoff type. Available are `"a"`, `"b"`, and `"c"`.
+#'   Defaults to `"a"` but `"c"` is usually recommended. For `"b"` and `"c"`,
+#'   summary data from a functional population must be given with arguments
+#'   `"m_functional"` and `"sd_functional"`.
 #'
 #' @inheritParams cs_distribution
 #'
@@ -17,6 +20,10 @@
 #' @export
 #'
 #' @examples
+#' claus_2020 |>
+#'   cs_statistical(id, time, bdi, pre = 1, post = 4)
+#'
+#' # Different cutoff
 #' claus_2020 |>
 #'   cs_statistical(id, time, bdi, m_functional = 8, sd_functional = 7, pre = 1, post = 4, cutoff_type = "c")
 #'
@@ -49,6 +56,10 @@ cs_statistical <- function(data,
     if (!is.null(reliability) & !dplyr::between(reliability, 0, 1)) cli::cli_abort("{.code reliability} must be between 0 and 1 but {reliability} was supplied.")
   } else {
     if (!is.null(reliability)) cli::cli_alert_info("A reliability for the JT approach to calculating a population cutoff is not needed and will be ignored.")
+  }
+  if (cut_type %in% c("b", "c")) {
+    if (is.null(m_functional) | is.null(sd_functional)) cli::cli_abort("For cutoffs {.code b} and {.code c}, mean and standard deviation for a functional population must be provided via {.code m_functional} and {.code sd_functional}")
+    if ((!is.null(m_functional) & !is.numeric(m_functional)) | (!is.null(sd_functional) & !is.numeric(sd_functional))) cli::cli_abort("The mean and standard deviation supplied with {.code m_functional} and {.code sd_functional} must be numeric.")
   }
 
   # Prepare the data

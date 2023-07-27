@@ -122,9 +122,12 @@ cs_statistical <- function(data,
   # Create the summary table for printing and exporting
   summary_table <- create_summary_table(
     x = cutoff_results,
-    data = datasets
+    data = datasets,
+    method = cs_method
   )
 
+
+  class(cutoff_results) <- "list"
 
   # Put everything into a list
   output <- list(

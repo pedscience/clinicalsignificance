@@ -67,7 +67,7 @@ calc_cutoff_from_data.default <- function(data, m_clinical, sd_clinical, m_funct
     data = data_cutoff_criteria
   )
 
-  class(out) <- c("cs_statistical_jt", class(out))
+  class(out) <- c("cs_statistical", class(out))
   out
 }
 
@@ -128,7 +128,7 @@ calc_cutoff_from_data.cs_ha <- function(data, m_clinical, sd_clinical, m_functio
     data = data_cutoff_criteria
   )
 
-  class(out) <- c("cs_statistical_ha", class(out))
+  class(out) <- c("cs_statistical", class(out))
   out
 }
 

@@ -163,13 +163,13 @@ print.cs_combined <- function(x, ...) {
     cli::cli_text("Combined approach using the {.strong {cs_method}} method.")
     cli::cat_line()
     if (cs_method != "HA") {
-      cli::cli_verbatim(insight::export_table(individual_summary_table))
+      cli::cli_verbatim(insight::export_table(individual_summary_table_formatted))
     } else {
       cli::cli_text("Individual Level Summary")
-      cli::cli_verbatim(insight::export_table(individual_summary_table))
+      cli::cli_verbatim(insight::export_table(individual_summary_table_formatted))
       cli::cat_line()
       cli::cli_text("Groupcs Level Summary")
-      cli::cli_verbatim(insight::export_table(group_summary_table))
+      cli::cli_verbatim(insight::export_table(group_summary_table_formatted))
     }
   }
   output_fun()

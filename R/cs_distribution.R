@@ -153,6 +153,8 @@ cs_distribution <- function(data,
   )
 
 
+  class(rci_results) <- "list"
+
   # Put everything into a list
   output <- list(
     datasets = datasets,

@@ -92,17 +92,85 @@ cs_combined <- function(data,
 
 
   # Create the summary table for printing and exporting
-
-
-
-  # class(rci_results) <- "list"
-  # class(cutoff_results) <- "list"
-
-
-  list(
-    data = datasets,
-    direction = direction,
+  summary_table <- create_summary_table(
+    rci_results = rci_results,
     cutoff_results = cutoff_results,
-    rci_results = rci_results
+    data = datasets,
+    method = cs_method,
+    r_dd = rci_results[["r_dd"]],
+    se_measurement = rci_results[["se_measurement"]],
+    cutoff = cutoff_results[["info"]][["value"]],
+    sd_post = sd_post,
+    direction = direction
   )
+
+
+  class(rci_results) <- "list"
+  class(cutoff_results) <- "list"
+
+
+  # Put everything into a list
+  output <- list(
+    datasets = datasets,
+    cutoff_results = cutoff_results,
+    rci_results = rci_results,
+    outcome = deparse(substitute(outcome)),
+    n_obs = n_obs,
+    method = cs_method,
+    reliability = reliability,
+    critical_value = critical_value,
+    summary_table = summary_table
+  )
+
+
+  # Return output
+  class(output) <- c("clinisig", "cs_combined", class(datasets), class(output))
+  output
+}
+
+
+
+
+#' Print Method for the Combined Approach
+#'
+#' @param x An object of class `cs_combined`
+#' @param ... Additional arguments
+#'
+#' @return No return value, called for side effects
+#' @export
+#'
+#' @examples
+#' cs_results <- claus_2020 |>
+#'   cs_combined(id, time, hamd, pre = 1, post = 4, reliability = 0.8)
+#' cs_results
+print.cs_combined <- function(x, ...) {
+  individual_summary_table <- x[["summary_table"]][["individual_level_summary"]]
+  group_summary_table <- x[["summary_table"]][["group_level_summary"]]
+  cs_method <- x[["method"]]
+
+  individual_summary_table_formatted <- individual_summary_table |>
+    dplyr::rename_with(tools::toTitleCase)
+
+  if (cs_method == "HA") {
+    group_summary_table_formatted <- group_summary_table |>
+      dplyr::rename_with(tools::toTitleCase)
+  }
+
+
+  # Print output
+  output_fun <- function() {
+    cli::cli_h2("Clinical Significance Results")
+    cli::cli_text("Combined approach using the {.strong {cs_method}} method.")
+    cli::cat_line()
+    if (cs_method != "HA") {
+      cli::cli_verbatim(insight::export_table(individual_summary_table))
+    } else {
+      cli::cli_text("Individual Level Summary")
+      cli::cli_verbatim(insight::export_table(individual_summary_table))
+      cli::cat_line()
+      cli::cli_text("Groupcs Level Summary")
+      cli::cli_verbatim(insight::export_table(group_summary_table))
+    }
+  }
+  output_fun()
 }

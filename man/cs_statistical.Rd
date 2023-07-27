@@ -2,7 +2,7 @@
 % Please edit documentation in R/cs_statistical.R
 \name{cs_statistical}
 \alias{cs_statistical}
-\title{Title}
+\title{Statistical Analysis of Clinical Significance}
 \usage{
 cs_statistical(
   data,
@@ -72,7 +72,7 @@ of misclassification}
 An S3 object of class \code{clinisig} and \code{cs_statistical}
 }
 \description{
-Title
+Statistical Analysis of Clinical Significance
 }
 \examples{
 claus_2020 |>

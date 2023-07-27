@@ -127,6 +127,8 @@ cs_statistical <- function(data,
   )
 
 
+  class(cutoff_results) <- "list"
+
   # Put everything into a list
   output <- list(
     datasets = datasets,

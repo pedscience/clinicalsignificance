@@ -83,59 +83,52 @@ cs_get_augmented_data.cs_statistical <- function(x, ...) {
 
 
 
-#' #' Get Data Augmented With Clinical Significance Categories
-#' #'
-#' #' To obtain patient-wise results, use `get_augmented_data()`.
-#' #'
-#' #' This function returns the patient-wise results, containing the considered pre
-#' #' and post intervention value, its raw change as well as the RCI and the
-#' #' individual category a patient belongs to.
-#' #'
-#' #' @inheritParams get_data
-#' #'
-#' #' @return A tibble with used data and clinical significance categories
-#' #' @export
-#' #'
-#' #' @examples
-#' #' results <- jacobson_1989 |>
-#' #' clinical_significance(
-#' #'   id = subject,
-#' #'   time = time,
-#' #'   outcome = gds,
-#' #'   pre = "pre",
-#' #'   reliability = 0.80,
-#' #'   m_functional = 30,
-#' #'   sd_functional = 7,
-#' #'   type = "c"
-#' #' )
-#' #'
-#' #' cs_get_augmented_data(results)
-#' cs_get_augmented_data <- function(x) {
-#'   assert_class(x, "clinisig")
+#' Extract Augmented Data from a cs_combined Object
 #'
-#'   cs_method <- cs_get_method(x)
+#' To obtain patient-wise results.
 #'
-#'   if (cs_method == "HLM") {
-#'     hlm_categories <- x[["categories"]]
-#'     hlm_coefficients <- x[["rci"]][["coefficients"]] |>
-#'       select(id, eb_estimate, sd)
+#' This function returns the patient-wise results, containing the considered pre
+#' and post intervention value, its raw change as well as the RCI and the
+#' individual category a patient belongs to.
 #'
-#'     categories <- hlm_categories |>
-#'       dplyr::left_join(hlm_coefficients, by = "id") |>
-#'       dplyr::relocate(eb_estimate:sd, .after = post)
-#'   } else {
-#'     categories <- x[["categories"]]
-#'   }
 #'
-#'   categories |>
-#'     dplyr::mutate(
-#'       category = dplyr::case_when(
-#'         recovered ~ "Recovered",
-#'         improved ~ "Improved",
-#'         unchanged ~ "Unchanged",
-#'         deteriorated ~ "Deteriorated",
-#'         harmed ~ "Harmed"
-#'       ),
-#'       category = factor(category, levels = c("Recovered", "Improved", "Unchanged", "Deteriorated", "Harmed"))
-#'     )
-#' }
+#' @return A tibble with used data and clinical significance categories
+#' @export
+#'
+#' @examples
+#' results <- jacobson_1989 |>
+#' clinical_significance(
+#'   id = subject,
+#'   time = time,
+#'   outcome = gds,
+#'   pre = "pre",
+#'   reliability = 0.80,
+#'   m_functional = 30,
+#'   sd_functional = 7,
+#'   type = "c"
+#' )
+#'
+#' cs_get_augmented_data(results)
+cs_get_augmented_data.cs_combined <- function(x) {
+  if (!inherits(x, "clinisig")) cli::cli_abort("The supplied object must be of class {.code clinisig}.")
+
+  cs_method <- cs_get_method(x)
+  categories <- x[["summary_table"]][["categories"]]
+
+
+  # Join used data with RCI results. This results in a data frame with one
+  # participant per row and associated scores, change and RCI value as well as
+  # the RCI category
+  categories |>
+    dplyr::rename(rci_indiv = rci) |>
+    dplyr::mutate(
+      category = dplyr::case_when(
+        recovered ~ "Recovered",
+        improved ~ "Improved",
+        unchanged ~ "Unchanged",
+        deteriorated ~ "Deteriorated",
+        harmed ~ "Harmed"
+      ),
+      category = factor(category, levels = c("Recovered", "Improved", "Unchanged", "Deteriorated", "Harmed"))
+    )
+}

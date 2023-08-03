@@ -260,7 +260,8 @@ create_summary_table.cs_combined <- function(rci_results, cutoff_results, data, 
 
   list(
     individual_level_summary = individual_level_summary,
-    group_level_summary = group_level_summary
+    group_level_summary = group_level_summary,
+    categories = categories
   )
 }
 

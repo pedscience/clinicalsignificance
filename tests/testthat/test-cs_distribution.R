@@ -10,9 +10,9 @@ test_that("All arguments are set correctly", {
   expect_snapshot_error(cs_distribution(claus_2020))
   expect_snapshot_error(cs_distribution(claus_2020, id = id))
   expect_snapshot_error(cs_distribution(claus_2020, id = id, time = time))
-  expect_snapshot_error(cs_distribution(claus_2020, id = id, time = time, reliability = "0.80"))
-  expect_snapshot_error(cs_distribution(claus_2020, id = id, time = time, reliability = 1.1))
-  expect_snapshot_error(cs_distribution(claus_2020, id = id, time = time, reliability = -0.8))
+  expect_snapshot_error(cs_distribution(claus_2020, id = id, time = time, outcome = hamd, reliability = "0.80"))
+  expect_snapshot_error(cs_distribution(claus_2020, id = id, time = time, outcome = hamd, reliability = 1.1))
+  expect_snapshot_error(cs_distribution(claus_2020, id = id, time = time, outcome = hamd, reliability = -0.8))
 })
 
 

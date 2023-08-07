@@ -12,13 +12,13 @@
 
 ---
 
-    Argument `outcome` is missing with no default. A column containing the outcome must be supplied.
+    `reliability` must be numeric but a `character` was supplied.
 
 ---
 
-    Argument `outcome` is missing with no default. A column containing the outcome must be supplied.
+    `reliability` must be between 0 and 1 but 1.1 was supplied.
 
 ---
 
-    Argument `outcome` is missing with no default. A column containing the outcome must be supplied.
+    `reliability` must be between 0 and 1 but -0.8 was supplied.
 

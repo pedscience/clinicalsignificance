@@ -205,6 +205,12 @@ summary.cs_statistical <- function(x, ...) {
   n_original <- cs_get_n(x, "original")[[1]]
   n_used <- cs_get_n(x, "used")[[1]]
   pct <- round(n_used / n_original, digits = 3) * 100
+  cutoff_info <- cs_get_cutoff(x, with_descriptives = TRUE)
+  cutoff_type <- cutoff_info[["type"]]
+  cutoff_value <- round(cutoff_info[["value"]], 2)
+  cutoff_descriptives <- cutoff_info[, 1:4] |>
+    dplyr::rename("M Clinical" = "m_clinical", "SD Clinical" = "sd_clinical", "M Functional" = "m_functional", "SD Functional" = "sd_functional") |>
+    insight::export_table(missing = "---", )
 
   outcome <- x[["outcome"]]
 
@@ -215,6 +221,11 @@ summary.cs_statistical <- function(x, ...) {
     cli::cli_text("Statistical approach of clinical significance using the {.strong {cs_method}} method for calculating the population cutoff.")
     cli::cat_line()
     cli::cli_text("There were {.strong {n_original}} participants in the whole dataset of which {.strong {n_used}} {.strong ({pct}%)} could be included in the analysis.")
+    cli::cat_line()
+    cli::cli_text("The cutoff type was {.strong {cutoff_type}} with a value of {.strong {cutoff_value}} based on the following sumamry statistics:")
+    cli::cat_line()
+    cli::cli_h3("Population Characteristics")
+    cli::cli_verbatim(cutoff_descriptives)
     cli::cat_line()
     cli::cli_h3("Individual Level Results")
     cli::cli_verbatim(insight::export_table(summary_table_formatted))

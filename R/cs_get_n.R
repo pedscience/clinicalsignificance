@@ -33,16 +33,16 @@
 cs_get_n <- function(x, which = "all") {
   if (which == "all") {
     x[["n_obs"]] |>
-      as_tibble() |>
-      mutate(
+      dplyr::as_tibble() |>
+      dplyr::mutate(
         percent_used = n_used / n_original
       )
   } else if (which == "original") {
-    tibble(
+    dplyr::tibble(
       n_original = x[["n_obs"]][["n_original"]]
     )
   } else if (which == "used") {
-    tibble(
+    dplyr::tibble(
       n_used = x[["n_obs"]][["n_used"]]
     )
   }

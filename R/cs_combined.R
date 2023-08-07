@@ -187,3 +187,80 @@ print.cs_combined <- function(x, ...) {
   }
   output_fun()
 }
+
+
+
+
+#' Summary Method for the Combined Approach
+#'
+#' @param x An object of class `cs_combined`
+#' @param ... Additional arguments
+#'
+#' @return No return value, called for side effects only
+#' @export
+#'
+#' @examples
+#' cs_results <- claus_2020 |>
+#'   cs_combined(id, time, hamd, pre = 1, post = 4, reliability = 0.8)
+#'
+#' summary(cs_results)
+summary.cs_combined <- function(x, ...) {
+  # browser()
+  # Get necessary information from object
+  summary_table_formatted <- x[["summary_table"]][["individual_level_summary"]] |>
+    dplyr::rename_with(tools::toTitleCase) |>
+    insight::export_table()
+
+  cs_method <- x[["method"]]
+  n_original <- cs_get_n(x, "original")[[1]]
+  n_used <- cs_get_n(x, "used")[[1]]
+  pct <- round(n_used / n_original, digits = 3) * 100
+  cutoff_info <- cs_get_cutoff(x, with_descriptives = TRUE)
+  cutoff_type <- cutoff_info[["type"]]
+  cutoff_value <- round(cutoff_info[["value"]], 2)
+  cutoff_descriptives <- cutoff_info[, 1:4] |>
+    dplyr::rename("M Clinical" = "m_clinical", "SD Clinical" = "sd_clinical", "M Functional" = "m_functional", "SD Functional" = "sd_functional") |>
+    insight::export_table(missing = "---", )
+
+  if (cs_method == "HA") {
+    group_summary_table <- x[["summary_table"]][["group_level_summary"]] |>
+      dplyr::rename_with(tools::toTitleCase) |>
+      insight::export_table()
+  }
+
+  outcome <- x[["outcome"]]
+  if (cs_method != "NK") {
+    reliability <- cs_get_reliability(x)[[1]]
+    reliability_summary <- "The outcome was {.strong {outcome}} and the reliability was set to {.strong {reliability}}."
+  } else {
+    reliability_pre <- cs_get_reliability(x)[[1]]
+    reliability_post <- cs_get_reliability(x)[[2]]
+    reliability_summary <- "The outcome was {.strong {outcome}} and the reliability was set to {.strong {reliability_pre}} (pre intervention) and {.strong {reliability_post}} (post intervention)."
+  }
+
+
+  # Print output
+  output_fun <- function() {
+    cli::cli_h2("Clinical Significance Results")
+    cli::cli_text("Combined analysis of clinical significance using the {.strong {cs_method}} method for calculating the RCI and population cutoffs.")
+    cli::cat_line()
+    cli::cli_text("There were {.strong {n_original}} participants in the whole dataset of which {.strong {n_used}} {.strong ({pct}%)} could be included in the analysis.")
+    cli::cat_line()
+    cli::cli_text(reliability_summary)
+    cli::cat_line()
+    cli::cli_text("The cutoff type was {.strong {cutoff_type}} with a value of {.strong {cutoff_value}} based on the following sumamry statistics:")
+    cli::cat_line()
+    cli::cli_h3("Population Characteristics")
+    cli::cli_verbatim(cutoff_descriptives)
+    cli::cat_line()
+
+    cli::cli_h3("Individual Level Results")
+    cli::cli_verbatim(summary_table_formatted)
+    if (cs_method == "HA") {
+      cli::cat_line()
+      cli::cli_h3("Group Level Results")
+      cli::cli_verbatim(group_summary_table)
+    }
+  }
+  output_fun()
+}

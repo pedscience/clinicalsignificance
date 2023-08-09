@@ -29,6 +29,16 @@ claus_hlm_combined <- claus_2020 |>
   cs_combined(id, time, hamd, m_functional = 8, sd_functional = 8, cutoff_type = "c", rci_method = "HLM")
 
 
+claus_pct_impr <- claus_2020 |>
+  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
+
+claus_pct_impr_grouped <- claus_2020 |>
+  cs_percentage(id, time, hamd, pre = 1, post = 4, group = treatment, pct_improvement = 0.5)
+
+claus_pct_impr_det <- claus_2020 |>
+  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
+
+
 test_that("Plots are created correctly", {
   vdiffr::expect_doppelganger("Distribution JT Plot", plot(claus_jt))
   vdiffr::expect_doppelganger("Distribution EN Plot", plot(claus_en))
@@ -40,4 +50,7 @@ test_that("Plots are created correctly", {
   vdiffr::expect_doppelganger("Combined HA Plot", plot(claus_ha_combined))
   vdiffr::expect_doppelganger("Combined HLM Plot", plot(claus_hlm_combined))
   vdiffr::expect_doppelganger("Combined JT Plot Grouped", plot(claus_jt_combined_grouped))
+  vdiffr::expect_doppelganger("Percentage Plot", plot(claus_pct_impr))
+  vdiffr::expect_doppelganger("Percentage Plot Grouped", plot(claus_pct_impr_grouped))
+  vdiffr::expect_doppelganger("Percentage Plot with Improvement and Deterioration", plot(claus_pct_impr_det))
 })

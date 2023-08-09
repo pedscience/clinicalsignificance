@@ -132,3 +132,30 @@ cs_get_augmented_data.cs_combined <- function(x) {
       category = factor(category, levels = c("Recovered", "Improved", "Unchanged", "Deteriorated", "Harmed"))
     )
 }
+
+
+
+#' Extract Augmented Data from a cs_percentage Object
+#'
+#' @param x An object of class `cs_percentage`
+#' @param ... Additional arguments
+#'
+#' @return A tibble
+#' @export
+cs_get_augmented_data.cs_percentage <- function(x, ...) {
+  if (!inherits(x, "clinisig")) cli::cli_abort("The supplied object must be of class {.code clinisig}.")
+
+  pct_categories <- x[["pct_results"]]
+  used_data <- x[["datasets"]][["data"]]
+
+  used_data |>
+    dplyr::left_join(pct_categories, dplyr::join_by("id")) |>
+    dplyr::mutate(
+      category = dplyr::case_when(
+        improved ~ "Improved",
+        unchanged ~ "Unchanged",
+        deteriorated ~ "Deteriorated"
+      ),
+      category = factor(category, levels = c("Improved", "Unchanged", "Deteriorated"))
+    )
+}

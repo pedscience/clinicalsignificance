@@ -34,6 +34,12 @@ than two measurements)}
 \item{post}{Post measurement (only needed if the time variable contains more
 than two measurements)}
 
+\item{pct_improvement}{Numeric, percent change that indicates a clinically
+significant improvement}
+
+\item{pct_deterioration}{Numeric, percent change that indicates a clinically
+significant deterioration}
+
 \item{better_is}{Which direction means a better outcome for the used
 instrument? Available are
 \itemize{
@@ -49,10 +55,10 @@ Percentage-Change Analysis of Clinical Significance
 }
 \examples{
 claus_2020 |>
-  cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.8)
+  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
 
 
-# Different RCI method
+# Different thresholds for improvement and deterioration
 claus_2020 |>
-  cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.8, rci_method = "EN")
+  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5, pct_deterioration = 0.3)
 }

@@ -22,3 +22,136 @@
 
     `reliability` must be between 0 and 1 but -0.8 was supplied.
 
+# Results are correct
+
+    Code
+      cs_distribution(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
+        rci_method = "JT")
+    Message <cliMessage>
+      
+      -- Clinical Significance Results --
+      
+      Distribution-based approach using the JT method.
+    Output
+      
+    Message <cliMessage>
+      Category     |  n | Percent
+      ---------------------------
+      Improved     | 29 |    0.72
+      Unchanged    | 10 |    0.25
+      Deteriorated |  1 |    0.02
+
+---
+
+    Code
+      cs_distribution(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
+        rci_method = "EN")
+    Message <cliMessage>
+      
+      -- Clinical Significance Results --
+      
+      Distribution-based approach using the EN method.
+    Output
+      
+    Message <cliMessage>
+      Category     |  n | Percent
+      ---------------------------
+      Improved     | 32 |    0.80
+      Unchanged    |  5 |    0.12
+      Deteriorated |  3 |    0.07
+
+---
+
+    Code
+      cs_distribution(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
+        rci_method = "HLL")
+    Message <cliMessage>
+      
+      -- Clinical Significance Results --
+      
+      Distribution-based approach using the HLL method.
+    Output
+      
+    Message <cliMessage>
+      Category     |  n | Percent
+      ---------------------------
+      Improved     | 12 |    0.30
+      Unchanged    | 16 |    0.40
+      Deteriorated | 12 |    0.30
+
+---
+
+    Code
+      cs_distribution(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
+        rci_method = "GLN")
+    Message <cliMessage>
+      
+      -- Clinical Significance Results --
+      
+      Distribution-based approach using the GLN method.
+    Output
+      
+    Message <cliMessage>
+      Category     |  n | Percent
+      ---------------------------
+      Improved     | 29 |    0.72
+      Unchanged    | 10 |    0.25
+      Deteriorated |  1 |    0.02
+
+---
+
+    Code
+      cs_distribution(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
+        reliability_post = 0.5, rci_method = "NK")
+    Message <cliMessage>
+      
+      -- Clinical Significance Results --
+      
+      Distribution-based approach using the NK method.
+    Output
+      
+    Message <cliMessage>
+      Category     |  n | Percent
+      ---------------------------
+      Improved     | 28 |    0.70
+      Unchanged    | 11 |    0.28
+      Deteriorated |  1 |    0.02
+
+---
+
+    Code
+      cs_distribution(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
+        rci_method = "HA")
+    Message <cliMessage>
+      
+      -- Clinical Significance Results --
+      
+      Distribution-based approach using the HA method.
+    Output
+      
+    Message <cliMessage>
+      Category     |  n | Percent
+      ---------------------------
+      Improved     | 32 |    0.80
+      Unchanged    |  7 |    0.17
+      Deteriorated |  1 |    0.02
+
+---
+
+    Code
+      cs_distribution(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
+        rci_method = "HLM")
+    Message <cliMessage>
+      
+      -- Clinical Significance Results --
+      
+      Distribution-based approach using the HLM method.
+    Output
+      
+    Message <cliMessage>
+      Category     |  n | Percent
+      ---------------------------
+      Improved     | 11 |    0.28
+      Unchanged    | 20 |    0.50
+      Deteriorated |  9 |    0.22
+

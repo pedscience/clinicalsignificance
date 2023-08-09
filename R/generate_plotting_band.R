@@ -135,3 +135,26 @@ generate_plotting_band.cs_ha <- function(x, lower_limit = 0, upper_limit = 100, 
     ymax = (critical_value * sqrt(r_dd) * sqrt(2 * se_measurement^2) - (m_post - m_pre) * (1 - r_dd) + pre * r_dd) / r_dd
   )
 }
+
+
+
+#' Generate RCI Band for the Percentage-Change Approach
+#'
+#' @inheritParams generate_plotting_band
+#'
+#' @return A tibble
+#' @export
+generate_plotting_band.cs_percentage <- function(x, lower_limit = 0, upper_limit = 100, ...) {
+  pct_improvement <- x[["pct_improvement"]]
+  pct_deterioration <- x[["pct_deterioration"]]
+  direction <- x[["direction"]]
+
+  if (direction == -1) pct_decrease <- pct_improvement else pct_decrease <- pct_deterioration
+  if (direction == -1) pct_increase <- pct_deterioration else pct_increase <- pct_improvement
+
+  tibble::tibble(
+    pre = c(lower_limit, upper_limit),
+    ymin = pre - (pre * pct_decrease),
+    ymax = pre + (pre * pct_increase)
+  )
+}

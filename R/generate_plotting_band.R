@@ -158,3 +158,26 @@ generate_plotting_band.cs_percentage <- function(x, lower_limit = 0, upper_limit
     ymax = pre + (pre * pct_increase)
   )
 }
+
+
+
+#' Generate RCI Band for the Individual Anchor-Based Approach
+#'
+#' @inheritParams generate_plotting_band
+#'
+#' @return A tibble
+#' @export
+generate_plotting_band.cs_anchor_individual <- function(x, lower_limit = 0, upper_limit = 100, ...) {
+  mid_improvement <- x[["mid_improvement"]]
+  mid_deterioration <- x[["mid_deterioration"]]
+  direction <- x[["direction"]]
+
+  if (direction == -1) mid_decrease <- mid_improvement else mid_decrease <- mid_deterioration
+  if (direction == -1) mid_increase <- mid_deterioration else mid_increase <- mid_improvement
+
+  tibble::tibble(
+    pre = c(lower_limit, upper_limit),
+    ymin = pre - mid_decrease,
+    ymax = pre + mid_increase
+  )
+}

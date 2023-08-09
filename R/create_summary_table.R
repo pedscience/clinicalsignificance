@@ -268,7 +268,7 @@ create_summary_table.cs_combined <- function(rci_results, cutoff_results, data, 
 
 #' Create Summary Table for Percentage-Change Approach
 #'
-#' @param x RCI results
+#' @param x pct_results
 #' @param data The used dataframe
 #' @param ... Additional arguments
 #'
@@ -291,6 +291,55 @@ create_summary_table.cs_percentage <- function(pct_results, data, ...) {
   # the RCI category
   joined_data <- used_data |>
     dplyr::left_join(pct_results, dplyr::join_by("id"))
+
+
+  # Count all cases per category and calculate relative amount (percentages)
+  summary <- joined_data |>
+    dplyr::summarise(
+      dplyr::across(improved:unchanged, sum), .by = tidyr::all_of(group_var)
+    ) |>
+    tidyr::pivot_longer(
+      cols = improved:unchanged,
+      names_to = "category",
+      values_to = "n"
+    ) |>
+    dplyr::mutate(
+      percent = n / sum(n),
+      category = tools::toTitleCase(category),
+      category = factor(category, levels = c("Improved", "Unchanged", "Deteriorated"))
+    )
+
+  if (!.has_group(used_data)) dplyr::arrange(summary, category) else dplyr::arrange(summary, group, category)
+}
+
+
+
+
+#' Create Summary Table for Anchor-Based Approach
+#'
+#' @param x anchor_results
+#' @param data The used dataframe
+#' @param ... Additional arguments
+#'
+#' @return A tibble containing the category, respective n, and percent
+#' @export
+#'
+#' @noRd
+create_summary_table.cs_anchor_individual <- function(anchor_results, data, ...) {
+  # Get the percentage results as well as the used data (needed if grouped
+  # results are required)
+  used_data <- data[["data"]]
+
+
+  # Check if data has a group column
+  if (.has_group(used_data)) group_var <- as.symbol("group") else group_var <- NULL
+
+
+  # Join used data with RCI results. This results in a data frame with one
+  # participant per row and associated scores, change and RCI value as well as
+  # the RCI category
+  joined_data <- used_data |>
+    dplyr::left_join(anchor_results, dplyr::join_by("id"))
 
 
   # Count all cases per category and calculate relative amount (percentages)

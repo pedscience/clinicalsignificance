@@ -16,7 +16,8 @@ cs_anchor(
   mid_deterioration = NULL,
   better_is = c("lower", "higher"),
   target = c("individual", "group"),
-  effect = c("within", "between")
+  effect = c("within", "between"),
+  ci_level = 0.95
 )
 }
 \arguments{

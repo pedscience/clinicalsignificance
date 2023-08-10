@@ -4,7 +4,7 @@
 \alias{calc_anchor}
 \title{Generic to Calculate Anchor-Based Results}
 \usage{
-calc_anchor(data, mid_improvement, mid_deterioration, direction)
+calc_anchor(data, mid_improvement, mid_deterioration, direction, ci_level)
 }
 \arguments{
 \item{data}{A datasets object}

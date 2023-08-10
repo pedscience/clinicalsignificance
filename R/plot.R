@@ -426,23 +426,23 @@ plot.cs_percentage<- function(x,
 
 
   # Create a list of geoms added to the plot
-    geom_list <- list(
-      ggplot2::geom_ribbon(data = band_data, ggplot2::aes(y = NULL, ymin = ymin, ymax = ymax), fill = pct_fill, alpha = pct_alpha),
-      ggplot2::geom_abline(color = "grey10"),
-      if (.has_group(data) & missing(show)) {
-        ggplot2::geom_point(ggplot2::aes(color = group))
-      } else {
-        ggplot2::geom_point(ggplot2::aes(color = {{ show }}))
-      }
-    )
+  geom_list <- list(
+    ggplot2::geom_ribbon(data = band_data, ggplot2::aes(y = NULL, ymin = ymin, ymax = ymax), fill = pct_fill, alpha = pct_alpha),
+    ggplot2::geom_abline(color = "grey10"),
+    if (.has_group(data) & missing(show)) {
+      ggplot2::geom_point(ggplot2::aes(color = group))
+    } else {
+      ggplot2::geom_point(ggplot2::aes(color = {{ show }}))
+    }
+  )
 
 
   # Plot the whole thing
-    data |>
-      ggplot2::ggplot(ggplot2::aes(pre, post)) +
-      geom_list +
-      ggplot2::coord_cartesian(xlim = x_limits, ylim = y_limits, expand = FALSE) +
-      ggplot2::labs(x = x_lab, y = y_lab, color = color_lab)
+  data |>
+    ggplot2::ggplot(ggplot2::aes(pre, post)) +
+    geom_list +
+    ggplot2::coord_cartesian(xlim = x_limits, ylim = y_limits, expand = FALSE) +
+    ggplot2::labs(x = x_lab, y = y_lab, color = color_lab)
 }
 
 
@@ -469,16 +469,16 @@ plot.cs_percentage<- function(x,
 #' @return A ggplot2 plot
 #' @export
 plot.cs_anchor_individual_within <- function(x,
-                                      x_lab = "Pre",
-                                      y_lab = "Post",
-                                      color_lab = "Group",
-                                      lower_limit,
-                                      upper_limit,
-                                      show,
-                                      pct_fill = "grey10",
-                                      pct_alpha = 0.1,
-                                      overplotting = 0.02,
-                                      ...) {
+                                             x_lab = "Pre",
+                                             y_lab = "Post",
+                                             color_lab = "Group",
+                                             lower_limit,
+                                             upper_limit,
+                                             show,
+                                             pct_fill = "grey10",
+                                             pct_alpha = 0.1,
+                                             overplotting = 0.02,
+                                             ...) {
   # Get augmented data for plotting
   data <- cs_get_augmented_data(x) |>
     dplyr::mutate(
@@ -504,21 +504,64 @@ plot.cs_anchor_individual_within <- function(x,
 
 
   # Create a list of geoms added to the plot
-    geom_list <- list(
-      ggplot2::geom_ribbon(data = band_data, ggplot2::aes(y = NULL, ymin = ymin, ymax = ymax), fill = pct_fill, alpha = pct_alpha),
-      ggplot2::geom_abline(color = "grey10"),
-      if (.has_group(data) & missing(show)) {
-        ggplot2::geom_point(ggplot2::aes(color = group))
-      } else {
-        ggplot2::geom_point(ggplot2::aes(color = {{ show }}))
-      }
-    )
+  geom_list <- list(
+    ggplot2::geom_ribbon(data = band_data, ggplot2::aes(y = NULL, ymin = ymin, ymax = ymax), fill = pct_fill, alpha = pct_alpha),
+    ggplot2::geom_abline(color = "grey10"),
+    if (.has_group(data) & missing(show)) {
+      ggplot2::geom_point(ggplot2::aes(color = group))
+    } else {
+      ggplot2::geom_point(ggplot2::aes(color = {{ show }}))
+    }
+  )
 
 
   # Plot the whole thing
+  data |>
+    ggplot2::ggplot(ggplot2::aes(pre, post)) +
+    geom_list +
+    ggplot2::coord_cartesian(xlim = x_limits, ylim = y_limits, expand = FALSE) +
+    ggplot2::labs(x = x_lab, y = y_lab, color = color_lab)
+}
+
+
+
+
+#' Plot an Object of Class cs_anchor_group_within
+#'
+#' This function creates a generic clinical significance plot bz plotting the
+#' patients' pre intervention value on the x-axis and the post intervention
+#' score on the y-axis. Additionally, the RCI (region signifying unchanged
+#' patients) is shown with a diagonal corresponding to no change.
+#'
+#' @return A ggplot2 plot
+#' @export
+plot.cs_anchor_group_within <- function(x,
+                                        x_lab = "Group",
+                                        y_lab = "Mean Intervention Effect\n(with 95%-CI)",
+                                        ...) {
+  # Get augmented data for plotting
+  data <- x[["anchor_results"]]
+  mid_improvement <- x[["mid_improvement"]]
+
+
+  geom_list <- list(
+    ggplot2::geom_hline(yintercept =0),
+    ggplot2::geom_hline(yintercept = -9, linetype = "dashed"),
+    ggplot2::geom_point(shape = 15, size = 2),
+    ggplot2::geom_errorbar(ggplot2::aes(ymin = lower, ymax = upper), width = 0.2),
+    ggplot2::expand_limits(y = 0, x = 0:2)
+  )
+
+
+  if (.has_group(data)) {
     data |>
-      ggplot2::ggplot(ggplot2::aes(pre, post)) +
+      ggplot2::ggplot(ggplot2::aes(group, mean_difference)) +
       geom_list +
-      ggplot2::coord_cartesian(xlim = x_limits, ylim = y_limits, expand = FALSE) +
-      ggplot2::labs(x = x_lab, y = y_lab, color = color_lab)
+      labs(x = x_lab, y = y_lab)
+  } else {
+    data |>
+      ggplot2::ggplot(ggplot2::aes("", mean_difference)) +
+      geom_list +
+      labs(x = x_lab, y = y_lab)
+  }
 }

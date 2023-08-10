@@ -167,7 +167,7 @@ generate_plotting_band.cs_percentage <- function(x, lower_limit = 0, upper_limit
 #'
 #' @return A tibble
 #' @export
-generate_plotting_band.cs_anchor_individual <- function(x, lower_limit = 0, upper_limit = 100, ...) {
+generate_plotting_band.cs_anchor_individual_within <- function(x, lower_limit = 0, upper_limit = 100, ...) {
   mid_improvement <- x[["mid_improvement"]]
   mid_deterioration <- x[["mid_deterioration"]]
   direction <- x[["direction"]]

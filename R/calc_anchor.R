@@ -26,7 +26,7 @@ calc_anchor <- function(data,
 #'
 #' @return An object of class `cs_anchor_individual`
 #' @export
-calc_anchor.cs_anchor_individual <- function(data, mid_improvement, mid_deterioration, direction) {
+calc_anchor.cs_anchor_individual_within <- function(data, mid_improvement, mid_deterioration, direction) {
   out <- data[["data"]] |>
     dplyr::mutate(
       improved     = direction * change >= mid_improvement,
@@ -35,6 +35,6 @@ calc_anchor.cs_anchor_individual <- function(data, mid_improvement, mid_deterior
     ) |>
     dplyr::select(id, improved:unchanged)
 
-  class(out) <- c("cs_anchor_individual", class(out))
+  class(out) <- c("cs_anchor_individual_within", class(out))
   out
 }

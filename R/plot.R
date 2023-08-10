@@ -448,7 +448,7 @@ plot.cs_percentage<- function(x,
 
 
 
-#' Plot an Object of Class cs_anchor_individual
+#' Plot an Object of Class cs_anchor_individual_within
 #'
 #' This function creates a generic clinical significance plot bz plotting the
 #' patients' pre intervention value on the x-axis and the post intervention
@@ -468,7 +468,7 @@ plot.cs_percentage<- function(x,
 #'
 #' @return A ggplot2 plot
 #' @export
-plot.cs_anchor_individual <- function(x,
+plot.cs_anchor_individual_within <- function(x,
                                       x_lab = "Pre",
                                       y_lab = "Post",
                                       color_lab = "Group",

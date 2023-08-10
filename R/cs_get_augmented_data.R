@@ -166,12 +166,12 @@ cs_get_augmented_data.cs_percentage <- function(x, ...) {
 
 #' Extract Augmented Data from a cs_anchor_individual Object
 #'
-#' @param x An object of class `cs_anchor_individual`
+#' @param x An object of class `cs_anchor_individual_within`
 #' @param ... Additional arguments
 #'
 #' @return A tibble
 #' @export
-cs_get_augmented_data.cs_anchor_individual <- function(x, ...) {
+cs_get_augmented_data.cs_anchor_individual_within <- function(x, ...) {
   if (!inherits(x, "clinisig")) cli::cli_abort("The supplied object must be of class {.code clinisig}.")
 
   anchor_categories <- x[["anchor_results"]]

@@ -28,7 +28,11 @@ cs_anchor <- function(data,
                       mid_improvement = NULL,
                       mid_deterioration = NULL,
                       better_is = c("lower", "higher"),
-                      target = c("individual", "group")) {
+                      target = c("individual", "group"),
+                      effect = c("within", "between")) {
+  cs_target <- rlang::arg_match(target)
+  cs_effect <- rlang::arg_match(effect)
+
   # Check arguments
   if (missing(id)) cli::cli_abort("Argument {.code id} is missing with no default. A column containing patient-specific IDs must be supplied.")
   if (missing(time)) cli::cli_abort("Argument {.code time} is missing with no default. A column identifying the individual measurements must be supplied.")
@@ -57,7 +61,8 @@ cs_anchor <- function(data,
 
 
   # Prepend a class to enable method dispatch for RCI calculation
-  class(datasets) <- c("cs_anchor", paste0("cs_anchor_", target), class(datasets))
+  prepend_classes <- c("cs_anchor", paste("cs", "anchor", cs_target, cs_effect, sep = "_"))
+  class(datasets) <- c(prepend_classes, class(datasets))
 
 
   # Count participants
@@ -104,7 +109,7 @@ cs_anchor <- function(data,
 
 
   # Return output
-  class(output) <- c("clinisig", "cs_anchor", "cs_anchor_individual", class(output))
+  class(output) <- c("clinisig", prepend_classes, class(output))
   output
 }
 
@@ -113,7 +118,7 @@ cs_anchor <- function(data,
 
 #' Print Method for the Percentange-Change Approach
 #'
-#' @param x An object of class `cs_anchor_individual`
+#' @param x An object of class `cs_anchor_individual_within`
 #' @param ... Additional arguments
 #'
 #' @return No return value, called for side effects
@@ -123,7 +128,7 @@ cs_anchor <- function(data,
 #' cs_results <- claus_2020 |>
 #'   cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.8)
 #' cs_results
-print.cs_anchor_individual <- function(x, ...) {
+print.cs_anchor_individual_within <- function(x, ...) {
   summary_table <- x[["summary_table"]]
   mid_improvement <- x[["mid_improvement"]]
   mid_deterioration <- x[["mid_deterioration"]]
@@ -159,7 +164,7 @@ print.cs_anchor_individual <- function(x, ...) {
 
 #' Summary Method for the Percentage-Change Approach
 #'
-#' @param x An object of class `cs_anchor_individual`
+#' @param x An object of class `cs_anchor_individual_within`
 #' @param ... Additional arguments
 #'
 #' @return No return value, called for side effects only
@@ -170,7 +175,7 @@ print.cs_anchor_individual <- function(x, ...) {
 #'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
 #'
 #' summary(cs_results)
-summary.cs_anchor_individual <- function(x, ...) {
+summary.cs_anchor_individual_within <- function(x, ...) {
   # Get necessary information from object
   summary_table <- x[["summary_table"]] |>
     dplyr::rename_with(tools::toTitleCase)

@@ -48,7 +48,7 @@ instrument? Available are
 }}
 }
 \value{
-An S3 object of class \code{clinisig} and \code{cs_percentage}
+An S3 object of class \code{cs_analysis} and \code{cs_percentage}
 }
 \description{
 Percentage-Change Analysis of Clinical Significance

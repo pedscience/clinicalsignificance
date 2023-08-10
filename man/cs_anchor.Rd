@@ -51,7 +51,7 @@ instrument? Available are
 }}
 }
 \value{
-An S3 object of class \code{clinisig} and \code{cs_anchor}
+An S3 object of class \code{cs_analysis} and \code{cs_anchor}
 }
 \description{
 Anchor-Based Analysis of Clinical Significance

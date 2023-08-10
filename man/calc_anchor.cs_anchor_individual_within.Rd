@@ -4,7 +4,7 @@
 \alias{calc_anchor.cs_anchor_individual_within}
 \title{Anchor Calculations for Individual Results}
 \usage{
-\method{calc_anchor}{cs_anchor_individual_within}(data, mid_improvement, mid_deterioration, direction)
+\method{calc_anchor}{cs_anchor_individual_within}(data, mid_improvement, mid_deterioration, direction, ci_level)
 }
 \arguments{
 \item{data}{A datasets object}
@@ -16,6 +16,8 @@ significant improvement}
 significant deterioration}
 
 \item{direction}{Which direction is beneficial? Lower = -1, better = 1}
+
+\item{ci_level}{Numeric, desired confidence interval.}
 }
 \value{
 An object of class \code{cs_anchor_individual_within}

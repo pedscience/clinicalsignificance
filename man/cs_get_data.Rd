@@ -2,12 +2,12 @@
 % Please edit documentation in R/cs_get_data.R
 \name{cs_get_data}
 \alias{cs_get_data}
-\title{Get Data From A clinisig Object}
+\title{Get Data From A cs_analysis Object}
 \usage{
 cs_get_data(x, dataset = "data")
 }
 \arguments{
-\item{x}{A clinisig object.}
+\item{x}{A cs_analysis object.}
 
 \item{dataset}{The dataset you wish to retrieve. Available options are
 \itemize{
@@ -21,22 +21,13 @@ The default is \code{"data"}
 A tibble
 }
 \description{
-Get Data From A clinisig Object
+Get Data From A cs_analysis Object
 }
 \examples{
-results <- jacobson_1989 |>
-  clinical_significance(
-    id = subject,
-    time = time,
-    outcome = gds,
-    pre = "pre",
-    reliability = 0.80,
-    m_functional = 30,
-    sd_functional = 10,
-    type = "c"
-  )
+cs_results <- claus_2020 |>
+  cs_anchor(id, time, bdi, mid_improvement = 9, pre = 1, post = 4)
 
-cs_get_data(results)
-cs_get_data(results, "wide")
-cs_get_data(results, "original")
+cs_get_data(cs_results)
+cs_get_data(cs_results, dataset = "wide")
+cs_get_data(cs_results, dataset = "original")
 }

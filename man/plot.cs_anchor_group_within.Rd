@@ -4,7 +4,12 @@
 \alias{plot.cs_anchor_group_within}
 \title{Plot an Object of Class cs_anchor_group_within}
 \usage{
-\method{plot}{cs_anchor_group_within}(x, x_lab = NULL, y_lab = "Mean Change", ...)
+\method{plot}{cs_anchor_group_within}(
+  x,
+  x_lab = "Group",
+  y_lab = "Mean Intervention Effect\\n(with 95\%-CI)",
+  ...
+)
 }
 \value{
 A ggplot2 plot

@@ -16,6 +16,8 @@ significant improvement}
 significant deterioration}
 
 \item{direction}{Which direction is beneficial? Lower = -1, better = 1}
+
+\item{ci_level}{Numeric, desired confidence interval.}
 }
 \value{
 An object of class \code{cs_anchor_group_within}

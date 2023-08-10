@@ -18,36 +18,8 @@
 #' - Hageman, W. J., & Arrindell, W. A. (1999). Establishing clinically significant change: increment of precision and the distinction between individual and group level analysis. Behaviour Research and Therapy, 37(12), 1169–1193. https://doi.org/10.1016/S0005-7967(99)00032-7
 #'
 #' @examples
-#' results <- jacobson_1989 |>
-#'   clinical_significance(
-#'     id = subject,
-#'     time = time,
-#'     outcome = gds,
-#'     pre = "pre",
-#'     reliability = 0.80,
-#'     m_functional = 30,
-#'     sd_functional = 10,
-#'     type = "c"
-#'   )
-#'
-#' results_ha <- jacobson_1989  |>
-#'   clinical_significance(
-#'     id = subject,
-#'     time = time,
-#'     outcome = gds,
-#'     pre = "pre",
-#'     reliability = 0.80,
-#'     m_functional = 30,
-#'     sd_functional = 10,
-#'     type = "c",
-#'     method = "HA"
-#'   )
-#'
-#' get_summary_table(results)
-#' get_summary_table(results_ha)
-#' get_summary_table(results_ha, which = "group")
 get_summary_table <- function(x, which = c("individual", "group")) {
-  assert_class(x, "clinisig")
+  .check_class(x)
 
   which_table <- arg_match(which)
   clinisig_method <- get_method(x)

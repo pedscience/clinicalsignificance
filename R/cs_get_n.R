@@ -1,6 +1,6 @@
-#' Get Number Of Participants From A clinisig Object
+#' Get Number Of Participants From A cs_analysis Object
 #'
-#' @param x A clinisig object
+#' @param x A cs_analysis object
 #' @param which Which n should be returned? Available options are
 #' - `"all"`, n in the original and used data set (the default)
 #' - `"original"`, n in the original dataset
@@ -15,22 +15,16 @@
 #' @export
 #'
 #' @examples
-#' results <- jacobson_1989 |>
-#'   clinical_significance(
-#'     id = subject,
-#'     time = time,
-#'     outcome = gds,
-#'     pre = "pre",
-#'     reliability = 0.80,
-#'     m_functional = 30,
-#'     sd_functional = 10,
-#'     type = "c"
-#'   )
+#' cs_results <- claus_2020 |>
+#'   cs_anchor(id, time, bdi, mid_improvement = 9, pre = 1, post = 4)
 #'
-#' cs_get_n(results)
-#' cs_get_n(results, which = "original")
-#' cs_get_n(results, which = "used")
+#' cs_get_n(cs_results)
+#' cs_get_n(cs_results, "original")
+#' cs_get_n(cs_results, "used")
 cs_get_n <- function(x, which = "all") {
+  .check_class(x)
+
+
   if (which == "all") {
     x[["n_obs"]] |>
       dplyr::as_tibble() |>

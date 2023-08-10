@@ -1,13 +1,13 @@
 #' Anchor-Based Analysis of Clinical Significance
 #'
+#' @inheritParams cs_distribution
 #' @param mid_improvement Numeric, change that indicates a clinically
 #'   significant improvement
 #' @param mid_deterioration Numeric, change that indicates a clinically
 #'   significant deterioration
-#' @inheritParams cs_distribution
 #'
 #'
-#' @return An S3 object of class `clinisig` and `cs_anchor`
+#' @return An S3 object of class `cs_analysis` and `cs_anchor`
 #' @export
 #'
 #' @examples
@@ -89,7 +89,7 @@ cs_anchor <- function(data,
 
 
   # Create the summary table for printing and exporting
-  if (target == "individual") {
+  if (cs_target == "individual") {
     summary_table <- create_summary_table(
       anchor_results = anchor_results,
       data = datasets
@@ -116,7 +116,7 @@ cs_anchor <- function(data,
 
 
   # Return output
-  class(output) <- c("clinisig", prepend_classes, class(output))
+  class(output) <- c("cs_analysis", prepend_classes, class(output))
   output
 }
 

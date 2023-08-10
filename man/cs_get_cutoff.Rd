@@ -2,12 +2,12 @@
 % Please edit documentation in R/cs_get_cutoff.R
 \name{cs_get_cutoff}
 \alias{cs_get_cutoff}
-\title{Get Used Cutoff And Type From A clinisig Object}
+\title{Get Used Cutoff And Type From A cs_analysis Object}
 \usage{
 cs_get_cutoff(x, with_descriptives = FALSE)
 }
 \arguments{
-\item{x}{A clinisig object}
+\item{x}{A cs_analysis object}
 
 \item{with_descriptives}{Logical indicating whether you want to retrieve only
 the cutoff type and value or the summary statistics on which it is based
@@ -17,5 +17,12 @@ on. The default is \code{FALSE}.}
 A tibble with cutoff information
 }
 \description{
-Get Used Cutoff And Type From A clinisig Object
+Get Used Cutoff And Type From A cs_analysis Object
+}
+\examples{
+cs_results <- claus_2020 |>
+  cs_statistical(id, time, bdi, pre = 1, post = 4, m_functional = 8, sd_functional = 8, cutoff_type = "c")
+
+cs_get_cutoff(cs_results)
+cs_get_cutoff(cs_results, with_descriptives = TRUE)
 }

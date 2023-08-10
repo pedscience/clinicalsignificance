@@ -6,6 +6,7 @@
 #' @param mid_deterioration Numeric, change that indicates a clinically
 #'   significant deterioration
 #' @param direction Which direction is beneficial? Lower = -1, better = 1
+#' @param ci_level Numeric, desired confidence interval.
 #'
 #' @return An object of class `cs_anchor`
 #' @export
@@ -27,7 +28,7 @@ calc_anchor <- function(data,
 #'
 #' @return An object of class `cs_anchor_individual_within`
 #' @export
-calc_anchor.cs_anchor_individual_within <- function(data, mid_improvement, mid_deterioration, direction) {
+calc_anchor.cs_anchor_individual_within <- function(data, mid_improvement, mid_deterioration, direction, ci_level) {
   out <- data[["data"]] |>
     dplyr::mutate(
       improved     = direction * change >= mid_improvement,
@@ -58,7 +59,7 @@ calc_anchor.cs_anchor_group_within <- function(data, mid_improvement, mid_deteri
     results_tbl <- used_data |>
       tidyr::nest(.by = group) |>
       dplyr::mutate(
-        results = purrr::map(data, \(x) tidy_t_test(x, ci_level = 0.95)),
+        results = purrr::map(data, \(x) tidy_t_test(x, ci_level = ci_level)),
         .keep = "unused"
       ) |>
       tidyr::unnest(results)

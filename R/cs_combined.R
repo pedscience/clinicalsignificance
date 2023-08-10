@@ -137,7 +137,7 @@ cs_combined <- function(data,
 
 
   # Return output
-  class(output) <- c("clinisig", "cs_combined", class(datasets), class(output))
+  class(output) <- c("cs_analysis", "cs_combined", class(datasets), class(output))
   output
 }
 

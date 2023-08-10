@@ -7,7 +7,7 @@
 #' @inheritParams cs_distribution
 #'
 #'
-#' @return An S3 object of class `clinisig` and `cs_percentage`
+#' @return An S3 object of class `cs_analysis` and `cs_percentage`
 #' @export
 #'
 #' @examples
@@ -103,7 +103,7 @@ cs_percentage <- function(data,
 
 
   # Return output
-  class(output) <- c("clinisig", "cs_percentage", class(output))
+  class(output) <- c("cs_analysis", "cs_percentage", class(output))
   output
 }
 

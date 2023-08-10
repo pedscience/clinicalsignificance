@@ -69,7 +69,7 @@ you choose the \code{"HA"} method, this value corresponds to the maximum risk
 of misclassification}
 }
 \value{
-An S3 object of class \code{clinisig} and \code{cs_statistical}
+An S3 object of class \code{cs_analysis} and \code{cs_statistical}
 }
 \description{
 Statistical Analysis of Clinical Significance

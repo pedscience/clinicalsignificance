@@ -2,12 +2,12 @@
 % Please edit documentation in R/cs_get_n.R
 \name{cs_get_n}
 \alias{cs_get_n}
-\title{Get Number Of Participants From A clinisig Object}
+\title{Get Number Of Participants From A cs_analysis Object}
 \usage{
 cs_get_n(x, which = "all")
 }
 \arguments{
-\item{x}{A clinisig object}
+\item{x}{A cs_analysis object}
 
 \item{which}{Which n should be returned? Available options are
 \itemize{
@@ -21,22 +21,13 @@ omitting cases with missing values
 A tibble with number of participants
 }
 \description{
-Get Number Of Participants From A clinisig Object
+Get Number Of Participants From A cs_analysis Object
 }
 \examples{
-results <- jacobson_1989 |>
-  clinical_significance(
-    id = subject,
-    time = time,
-    outcome = gds,
-    pre = "pre",
-    reliability = 0.80,
-    m_functional = 30,
-    sd_functional = 10,
-    type = "c"
-  )
+cs_results <- claus_2020 |>
+  cs_anchor(id, time, bdi, mid_improvement = 9, pre = 1, post = 4)
 
-cs_get_n(results)
-cs_get_n(results, which = "original")
-cs_get_n(results, which = "used")
+cs_get_n(cs_results)
+cs_get_n(cs_results, "original")
+cs_get_n(cs_results, "used")
 }

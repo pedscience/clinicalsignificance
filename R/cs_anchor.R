@@ -30,6 +30,7 @@ cs_anchor <- function(data,
                       better_is = c("lower", "higher"),
                       target = c("individual", "group"),
                       effect = c("within", "between"),
+                      reference_group = NULL,
                       ci_level = 0.95) {
   cs_target <- rlang::arg_match(target)
   cs_effect <- rlang::arg_match(effect)
@@ -41,24 +42,39 @@ cs_anchor <- function(data,
   if (is.null(mid_improvement)) cli::cli_abort("Argument {.code mid_improvement} is missing with no default. A percentage change that indicates clinically signifcant change must be supplied.")
   if (!is.null(mid_improvement) & !is.numeric(mid_improvement)) cli::cli_abort("{.code mid_improvement} must be numeric but a {.code {typeof(mid_improvement)}} was supplied.")
   if (!is.null(mid_improvement) & mid_improvement < 0) cli::cli_abort("{.code mid_improvement} must be greater than 0 but {mid_improvement} was supplied.")
+  if (!dplyr::between(ci_level, 0, 1)) cli::cli_abort("{.code ci_level} must be between 0 and 1 but {ci_level} was supplied.")
   if (!is.null(mid_deterioration)) {
     if (!is.numeric(mid_deterioration)) cli::cli_abort("{.code mid_deterioration} must be numeric but a {.code {typeof(mid_deterioration)}} was supplied.")
     if (!dplyr::between(mid_deterioration, 0, 1)) cli::cli_abort("{.code mid_deterioration} must be between 0 and 1 but {mid_deterioration} was supplied.")
+  }
+  if (cs_effect == "between") {
+    if (cs_target == "individual") cli::cli_abort("A between subjects design can only be chosen if groups should be examined, but not individuals. Did you mean to set {.code target = \"group\"}?")
+    if (is.null(post)) cli::cli_abort("Argument {.code post} is missing with no default. The measurement for which groupwise differences should be calculated must be supplied.")
   }
 
   if (is.null(mid_deterioration)) mid_deterioration <- mid_improvement
 
 
   # Prepare the data
-  datasets <- .prep_data(
-    data = data,
-    id = {{ id }},
-    time = {{ time }},
-    outcome = {{ outcome }},
-    group = {{ group }},
-    pre = {{ pre }},
-    post = {{ post }}
-  )
+  if (cs_effect != "between") {
+    datasets <- .prep_data(
+      data = data,
+      id = {{ id }},
+      time = {{ time }},
+      outcome = {{ outcome }},
+      group = {{ group }},
+      pre = {{ pre }},
+      post = {{ post }}
+    )
+  } else {
+    datasets <- data |>
+      dplyr::select(
+        id = {{ id }},
+        time = {{ time }},
+        outcome = {{ outcome }},
+        group = {{  group }}
+      )
+  }
 
 
   # Prepend a class to enable method dispatch for RCI calculation
@@ -83,9 +99,10 @@ cs_anchor <- function(data,
     mid_improvement = mid_improvement,
     mid_deterioration = mid_deterioration,
     direction = direction,
+    reference_group = reference_group,
+    post = post,
     ci_level = ci_level
   )
-
 
 
   # Create the summary table for printing and exporting
@@ -98,7 +115,7 @@ cs_anchor <- function(data,
     class(anchor_results) <- c("tbl_df", "tbl", "data.frame")
   } else {
     summary_table <- NULL
-    class(datasets) <- "list"
+    if (cs_effect == "within") class(datasets) <- "list" else class(datasets) <- c("tbl_df", "tbl", "data.frame")
   }
 
 
@@ -171,7 +188,7 @@ print.cs_anchor_individual_within <- function(x, ...) {
 
 #' Print Method for the Anchor-Based Approach for Groups (Within)
 #'
-#' @param x An object of class `cs_anchor_individual_within`
+#' @param x An object of class `cs_anchor_group_within`
 #' @param ... Additional arguments
 #'
 #' @return No return value, called for side effects
@@ -195,7 +212,47 @@ print.cs_anchor_group_within <- function(x, ...) {
   # Print output
   output_fun <- function() {
     cli::cli_h2("Clinical Significance Results")
-    cli::cli_text("Groupwise anchor-based approach with a {.strong {mid_improvement} point} {dir_improvement} in instrument scores indicating a clinical significant improvement.")
+    cli::cli_text("Groupwise anchor-based approach ({.strong within} groups) with a {.strong {mid_improvement} point} {dir_improvement} in instrument scores indicating a clinical significant improvement.")
+    cli::cat_line()
+    cli::cli_verbatim(insight::export_table(summary_table_formatted, align = "left"))
+  }
+  output_fun()
+}
+
+
+
+
+#' Print Method for the Anchor-Based Approach for Groups (Between)
+#'
+#' @param x An object of class `cs_anchor_group_between`
+#' @param ... Additional arguments
+#'
+#' @return No return value, called for side effects
+#' @export
+print.cs_anchor_group_between <- function(x, ...) {
+  summary_table_formatted <- x[["anchor_results"]] |>
+    dplyr::rename(
+      "Group 1" = "reference",
+      "Group 2" = "comparison",
+      "Mean Intervention Effect" = "mean_difference",
+      "CI-Level" = "ci",
+      "[Lower" = "lower",
+      "Upper]" = "upper",
+      "Category" = "category",
+      "n (1)" = "n_reference",
+      "n (2)" = "n_comparison"
+    )
+
+  mid_improvement <- x[["mid_improvement"]]
+  direction <- x[["direction"]]
+
+  if (direction == -1) dir_improvement <- "decrease" else dir_improvement <- "increase"
+  if (direction == -1) dir_deterioration <- "increase" else dir_deterioration <- "decrease"
+
+  # Print output
+  output_fun <- function() {
+    cli::cli_h2("Clinical Significance Results")
+    cli::cli_text("Groupwise anchor-based approach ({.strong between} groups) with a {.strong {mid_improvement} point} {dir_improvement} in instrument scores indicating a clinical significant improvement.")
     cli::cat_line()
     cli::cli_verbatim(insight::export_table(summary_table_formatted, align = "left"))
   }
@@ -261,7 +318,7 @@ summary.cs_anchor_individual_within <- function(x, ...) {
 
 #' Summary Method for the Anchor-Based Approach for Groups (Within)
 #'
-#' @param x An object of class `cs_anchor_individual_within`
+#' @param x An object of class `cs_anchor_group_within`
 #' @param ... Additional arguments
 #'
 #' @return No return value, called for side effects only
@@ -293,9 +350,61 @@ summary.cs_anchor_group_within <- function(x, ...) {
   # Print output
   output_fun <- function() {
     cli::cli_h2("Clinical Significance Results")
-    cli::cli_text(c("Groupwise anchor-based analysis of clinical significance (within) with a {.strong {mid_improvement} point} {dir_improvement} in instrument scores ({.strong {outcome}}) indicating a clinical significant improvement."))
+    cli::cli_text(c("Groupwise anchor-based analysis of clinical significance ({.strong within} groups) with a {.strong {mid_improvement} point} {dir_improvement} in instrument scores ({.strong {outcome}}) indicating a clinical significant improvement."))
     cli::cat_line()
     cli::cli_text("There were {.strong {n_original}} participants in the whole dataset of which {.strong {n_used}} {.strong ({pct}%)} could be included in the analysis.")
+    cli::cat_line()
+    cli::cli_h3("Group Level Results")
+    cli::cat_line()
+    cli::cli_verbatim(insight::export_table(summary_table_formatted, align = "left"))
+  }
+  output_fun()
+}
+
+
+
+
+#' Summary Method for the Anchor-Based Approach for Groups (Between)
+#'
+#' @param x An object of class `cs_anchor_group_between`
+#' @param ... Additional arguments
+#'
+#' @return No return value, called for side effects only
+#' @export
+#'
+#' @examples
+#' cs_results <- claus_2020 |>
+#'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
+#'
+#' summary(cs_results)
+summary.cs_anchor_group_between <- function(x, ...) {
+  # Get necessary information from object
+  summary_table_formatted <- x[["anchor_results"]] |>
+    dplyr::rename(
+      "Group 1" = "reference",
+      "Group 2" = "comparison",
+      "Mean Intervention Effect" = "mean_difference",
+      "CI-Level" = "ci",
+      "[Lower" = "lower",
+      "Upper]" = "upper",
+      "Category" = "category",
+      "n (1)" = "n_reference",
+      "n (2)" = "n_comparison"
+    )
+
+  mid_improvement <- x[["mid_improvement"]]
+  direction <- x[["direction"]]
+
+  if (direction == -1) dir_improvement <- "decrease" else dir_improvement <- "increase"
+  if (direction == -1) dir_deterioration <- "increase" else dir_deterioration <- "decrease"
+
+  outcome <- x[["outcome"]]
+
+
+  # Print output
+  output_fun <- function() {
+    cli::cli_h2("Clinical Significance Results")
+    cli::cli_text(c("Groupwise anchor-based analysis of clinical significance ({.strong between} groups) with a {.strong {mid_improvement} point} {dir_improvement} in instrument scores ({.strong {outcome}}) indicating a clinical significant improvement."))
     cli::cat_line()
     cli::cli_h3("Group Level Results")
     cli::cat_line()

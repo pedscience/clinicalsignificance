@@ -542,11 +542,14 @@ plot.cs_anchor_group_within <- function(x,
   # Get augmented data for plotting
   data <- x[["anchor_results"]]
   mid_improvement <- x[["mid_improvement"]]
+  direction <- x[["direction"]]
+
+  threshold <- direction * mid_improvement
 
 
   geom_list <- list(
     ggplot2::geom_hline(yintercept =0),
-    ggplot2::geom_hline(yintercept = -9, linetype = "dashed"),
+    ggplot2::geom_hline(yintercept = threshold, linetype = "dashed"),
     ggplot2::geom_point(shape = 15, size = 2),
     ggplot2::geom_errorbar(ggplot2::aes(ymin = lower, ymax = upper), width = 0.2),
     ggplot2::expand_limits(y = 0, x = 0:2)
@@ -557,11 +560,50 @@ plot.cs_anchor_group_within <- function(x,
     data |>
       ggplot2::ggplot(ggplot2::aes(group, mean_difference)) +
       geom_list +
-      labs(x = x_lab, y = y_lab)
+      ggplot2::labs(x = x_lab, y = y_lab)
   } else {
     data |>
       ggplot2::ggplot(ggplot2::aes("", mean_difference)) +
       geom_list +
-      labs(x = x_lab, y = y_lab)
+      ggplot2::labs(x = x_lab, y = y_lab)
   }
+}
+
+
+
+
+#' Plot an Object of Class cs_anchor_group_between
+#'
+#' This function creates a generic clinical significance plot bz plotting the
+#' patients' pre intervention value on the x-axis and the post intervention
+#' score on the y-axis. Additionally, the RCI (region signifying unchanged
+#' patients) is shown with a diagonal corresponding to no change.
+#'
+#' @return A ggplot2 plot
+#' @export
+plot.cs_anchor_group_between <- function(x,
+                                        x_lab = "Group",
+                                        y_lab = "Mean Intervention Effect\n(with 95%-CI)",
+                                        ...) {
+  # Get augmented data for plotting
+  data <- x[["anchor_results"]]
+  mid_improvement <- x[["mid_improvement"]]
+  direction <- x[["direction"]]
+
+  threshold <- direction * mid_improvement
+
+
+  geom_list <- list(
+    ggplot2::geom_hline(yintercept =0),
+    ggplot2::geom_hline(yintercept = threshold, linetype = "dashed"),
+    ggplot2::geom_point(shape = 15, size = 2),
+    ggplot2::geom_errorbar(ggplot2::aes(ymin = lower, ymax = upper), width = 0.2),
+    ggplot2::expand_limits(y = 0, x = 0:2)
+  )
+
+
+    data |>
+      ggplot2::ggplot(ggplot2::aes(comparison, mean_difference)) +
+      geom_list +
+      ggplot2::labs(x = x_lab, y = y_lab)
 }

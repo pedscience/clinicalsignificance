@@ -4,7 +4,7 @@
 \alias{calc_anchor.cs_anchor_individual_within}
 \title{Anchor Calculations for Individual Results}
 \usage{
-\method{calc_anchor}{cs_anchor_individual_within}(data, mid_improvement, mid_deterioration, direction, ci_level)
+\method{calc_anchor}{cs_anchor_individual_within}(data, mid_improvement, mid_deterioration, direction, ci_level, ...)
 }
 \arguments{
 \item{data}{A datasets object}

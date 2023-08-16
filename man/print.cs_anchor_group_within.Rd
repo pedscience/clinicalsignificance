@@ -7,7 +7,7 @@
 \method{print}{cs_anchor_group_within}(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{cs_anchor_individual_within}}
+\item{x}{An object of class \code{cs_anchor_group_within}}
 
 \item{...}{Additional arguments}
 }

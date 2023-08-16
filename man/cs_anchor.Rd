@@ -17,6 +17,7 @@ cs_anchor(
   better_is = c("lower", "higher"),
   target = c("individual", "group"),
   effect = c("within", "between"),
+  reference_group = NULL,
   ci_level = 0.95
 )
 }

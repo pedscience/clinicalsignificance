@@ -16,6 +16,8 @@ calc_anchor <- function(data,
                         reference_group,
                         post,
                         direction,
+                        bayesian,
+                        prior_scale,
                         ci_level) {
   UseMethod("calc_anchor")
 }
@@ -53,7 +55,7 @@ calc_anchor.cs_anchor_individual_within <- function(data, mid_improvement, mid_d
 #'
 #' @return An object of class `cs_anchor_group_within`
 #' @export
-calc_anchor.cs_anchor_group_within <- function(data, mid_improvement, mid_deterioration, direction, ci_level, ...) {
+calc_anchor.cs_anchor_group_within <- function(data, mid_improvement, mid_deterioration, direction, ci_level, bayesian, prior_scale,...) {
   used_data <- data[["data"]]
   threshold <- direction * mid_improvement
 
@@ -61,12 +63,12 @@ calc_anchor.cs_anchor_group_within <- function(data, mid_improvement, mid_deteri
     results_tbl <- used_data |>
       tidyr::nest(.by = group) |>
       dplyr::mutate(
-        results = purrr::map(data, \(x) t_test_within(x, ci_level = ci_level, paired = TRUE)),
+        results = purrr::map(data, \(x) t_test_within(x, ci_level = ci_level, bayesian = bayesian, prior_scale = prior_scale)),
         .keep = "unused"
       ) |>
       tidyr::unnest(results)
   } else {
-    results_tbl <- t_test_within(used_data, ci_level = ci_level, paired = TRUE)
+    results_tbl <- t_test_within(used_data, ci_level = ci_level, bayesian = bayesian, prior_scale = prior_scale)
   }
 
   if (direction == -1) {
@@ -75,8 +77,8 @@ calc_anchor.cs_anchor_group_within <- function(data, mid_improvement, mid_deteri
         category = dplyr::case_when(
           sign(lower) != sign(upper) ~ "Statistically not significant",
           (sign(lower) == sign(upper)) & lower > threshold ~ "Statistically significant but not clincally relevant",
-          upper > threshold & mean_difference > threshold & lower < threshold ~ "Not significantly less than the threshold",
-          upper > threshold & mean_difference < threshold & lower < threshold ~ "Probably clinically significant effect",
+          upper > threshold & difference > threshold & lower < threshold ~ "Not significantly less than the threshold",
+          upper > threshold & difference < threshold & lower < threshold ~ "Probably clinically significant effect",
           upper < threshold ~ "Large clinically significant effect"
         )
       )
@@ -85,8 +87,8 @@ calc_anchor.cs_anchor_group_within <- function(data, mid_improvement, mid_deteri
       dplyr::mutate(
         category = dplyr::case_when(
           (sign(lower) == sign(upper)) & upper < threshold ~ "Statistically significant but not clincally relevant",
-          lower < threshold & mean_difference < threshold & upper > threshold ~ "Not significantly greater than the threshold",
-          lower < threshold & mean_difference > threshold & upper > threshold ~ "Probably clinically significant effect",
+          lower < threshold & difference < threshold & upper > threshold ~ "Not significantly greater than the threshold",
+          lower < threshold & difference > threshold & upper > threshold ~ "Probably clinically significant effect",
           lower > threshold ~ "Large clinically significant effect"
         )
       )
@@ -104,7 +106,7 @@ calc_anchor.cs_anchor_group_within <- function(data, mid_improvement, mid_deteri
 #'
 #' @return An object of class `cs_anchor_group_between`
 #' @export
-calc_anchor.cs_anchor_group_between <- function(data, mid_improvement, mid_deterioration, reference_group, post, direction, ci_level) {
+calc_anchor.cs_anchor_group_between <- function(data, mid_improvement, mid_deterioration, reference_group, post, direction, ci_level, bayesian, prior_scale) {
   threshold <- direction * mid_improvement
   if (is.null(reference_group)) {
     if (is.factor(data[["group"]])) {
@@ -149,7 +151,7 @@ calc_anchor.cs_anchor_group_between <- function(data, mid_improvement, mid_deter
   ) |>
     dplyr::mutate(
       data = purrr::pmap(list(data, reference, comparison), \(a, b, c) dplyr::filter(a, group %in% c(b, c), time == post)),
-      results = purrr::map2(data, reference, \(a, b) t_test_between(data = a, reference_group = b, ci_level = ci_level))
+      results = purrr::map2(data, reference, \(a, b) t_test_between(data = a, reference_group = b, ci_level = ci_level, bayesian = bayesian, prior_scale = prior_scale))
     ) |>
     dplyr::select(-data) |>
     tidyr::unnest(results)
@@ -162,8 +164,8 @@ calc_anchor.cs_anchor_group_between <- function(data, mid_improvement, mid_deter
         category = dplyr::case_when(
           sign(lower) != sign(upper) ~ "Statistically not significant",
           (sign(lower) == sign(upper)) & lower > threshold ~ "Statistically significant but not clincally relevant",
-          upper > threshold & mean_difference > threshold & lower < threshold ~ "Not significantly less than the threshold",
-          upper > threshold & mean_difference < threshold & lower < threshold ~ "Probably clinically significant effect",
+          upper > threshold & difference > threshold & lower < threshold ~ "Not significantly less than the threshold",
+          upper > threshold & difference < threshold & lower < threshold ~ "Probably clinically significant effect",
           upper < threshold ~ "Large clinically significant effect"
         )
       )
@@ -172,8 +174,8 @@ calc_anchor.cs_anchor_group_between <- function(data, mid_improvement, mid_deter
       dplyr::mutate(
         category = dplyr::case_when(
           (sign(lower) == sign(upper)) & upper < threshold ~ "Statistically significant but not clincally relevant",
-          lower < threshold & mean_difference < threshold & upper > threshold ~ "Not significantly greater than the threshold",
-          lower < threshold & mean_difference > threshold & upper > threshold ~ "Probably clinically significant effect",
+          lower < threshold & difference < threshold & upper > threshold ~ "Not significantly greater than the threshold",
+          lower < threshold & difference > threshold & upper > threshold ~ "Probably clinically significant effect",
           lower > threshold ~ "Large clinically significant effect"
         )
       )
@@ -191,42 +193,72 @@ calc_anchor.cs_anchor_group_between <- function(data, mid_improvement, mid_deter
 
 
 
-t_test_within <- function(data, group_1 = "post", group_2 = "pre", ci_level, paired) {
-  results <- stats::t.test(data[[group_1]], data[[group_2]], paired = paired, conf.level = ci_level)
+t_test_within <- function(data, group_1 = "post", group_2 = "pre", ci_level = 0.95, bayesian = FALSE, prior_scale = sqrt(2)/2) {
+  if (!bayesian) {
+    results <- stats::t.test(data[[group_1]], data[[group_2]], paired = TRUE, conf.level = ci_level)
 
-  dplyr::tibble(
-    mean_difference = results$estimate,
-    lower = results$conf.int[[1]],
-    upper = results$conf.int[[2]],
-    ci = ci_level,
-    n = nrow(data)
-  )
+    dplyr::tibble(
+      difference = results$estimate,
+      lower = results$conf.int[[1]],
+      upper = results$conf.int[[2]],
+      ci = ci_level,
+      n = nrow(data)
+    )
+  } else {
+    BayesFactor::ttestBF(data[[group_1]], data[[group_2]], paired = TRUE, rscale = prior_scale) |>
+      bayestestR::describe_posterior(ci = ci_level) |>
+      dplyr::as_tibble() |>
+      dplyr::select(
+        difference = Median,
+        lower = CI_low,
+        upper = CI_high,
+        ci = CI
+      ) |>
+      dplyr::mutate(n = nrow(data))
+  }
 }
 
 
 
-t_test_between <- function(data, reference_group, ci_level) {
+t_test_between <- function(data, reference_group, ci_level, bayesian = FALSE, prior_scale = sqrt(2)/2) {
   # Get data vectors
   reference_data <- data |>
     dplyr::filter(group == reference_group) |>
-    dplyr::pull(outcome)
+    dplyr::pull(outcome) |>
+    na.omit()
 
   comparison_data <- data |>
     dplyr::filter(group != reference_group) |>
-    dplyr::pull(outcome)
+    dplyr::pull(outcome) |>
+    na.omit()
 
 
-  # t test results
-  results <- t.test(comparison_data, reference_data, data = data, conf.level = ci_level)
+  if (!bayesian) {
+    # t test results
+    results <- t.test(comparison_data, reference_data, data = data, conf.level = ci_level)
 
 
-  # Output a tibble
-  dplyr::tibble(
-    mean_difference = results$estimate[[1]] - results$estimate[[2]],
-    lower = results$conf.int[[1]],
-    upper = results$conf.int[[2]],
-    ci = ci_level,
-    n_reference = length(reference_data),
-    n_comparison = length(comparison_data)
-  )
+    # Output a tibble
+    dplyr::tibble(
+      difference = results$estimate[[1]] - results$estimate[[2]],
+      lower = results$conf.int[[1]],
+      upper = results$conf.int[[2]],
+      ci = ci_level,
+      n_reference = length(reference_data),
+      n_comparison = length(comparison_data)
+    )
+  } else {
+    BayesFactor::ttestBF(comparison_data, reference_data, rscale = prior_scale) |>
+      bayestestR::describe_posterior() |>
+      dplyr::select(
+        difference = Median,
+        lower = CI_low,
+        upper = CI_high,
+        ci = CI
+      ) |>
+      dplyr::mutate(
+        n_reference = length(reference_data),
+        n_comparison = length(comparison_data)
+      )
+  }
 }

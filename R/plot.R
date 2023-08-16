@@ -558,12 +558,12 @@ plot.cs_anchor_group_within <- function(x,
 
   if (.has_group(data)) {
     data |>
-      ggplot2::ggplot(ggplot2::aes(group, mean_difference)) +
+      ggplot2::ggplot(ggplot2::aes(group, difference)) +
       geom_list +
       ggplot2::labs(x = x_lab, y = y_lab)
   } else {
     data |>
-      ggplot2::ggplot(ggplot2::aes("", mean_difference)) +
+      ggplot2::ggplot(ggplot2::aes("", difference)) +
       geom_list +
       ggplot2::labs(x = x_lab, y = y_lab)
   }
@@ -603,7 +603,7 @@ plot.cs_anchor_group_between <- function(x,
 
 
     data |>
-      ggplot2::ggplot(ggplot2::aes(comparison, mean_difference)) +
+      ggplot2::ggplot(ggplot2::aes(comparison, difference)) +
       geom_list +
       ggplot2::labs(x = x_lab, y = y_lab)
 }

@@ -22,7 +22,7 @@ cs_anchor <- function(data,
                       id,
                       time,
                       outcome,
-                      group = NULL,
+                      group,
                       pre = NULL,
                       post = NULL,
                       mid_improvement = NULL,
@@ -30,6 +30,8 @@ cs_anchor <- function(data,
                       better_is = c("lower", "higher"),
                       target = c("individual", "group"),
                       effect = c("within", "between"),
+                      bayesian = FALSE,
+                      prior_scale = "medium",
                       reference_group = NULL,
                       ci_level = 0.95) {
   cs_target <- rlang::arg_match(target)
@@ -49,6 +51,7 @@ cs_anchor <- function(data,
   }
   if (cs_effect == "between") {
     if (cs_target == "individual") cli::cli_abort("A between subjects design can only be chosen if groups should be examined, but not individuals. Did you mean to set {.code target = \"group\"}?")
+    if (missing(group)) cli::cli_abort("To calculate the difference between several groups, {.code group} must be set to a column containing a group identifier.")
     if (is.null(post)) cli::cli_abort("Argument {.code post} is missing with no default. The measurement for which groupwise differences should be calculated must be supplied.")
   }
 
@@ -98,9 +101,11 @@ cs_anchor <- function(data,
     data = datasets,
     mid_improvement = mid_improvement,
     mid_deterioration = mid_deterioration,
-    direction = direction,
     reference_group = reference_group,
     post = post,
+    direction = direction,
+    bayesian = bayesian,
+    prior_scale = prior_scale,
     ci_level = ci_level
   )
 
@@ -128,6 +133,8 @@ cs_anchor <- function(data,
     mid_improvement = mid_improvement,
     mid_deterioration = mid_deterioration,
     direction = direction,
+    bayesian = bayesian,
+    prior_scale = prior_scale,
     summary_table = summary_table
   )
 
@@ -200,8 +207,14 @@ print.cs_anchor_individual_within <- function(x, ...) {
 #' cs_results
 print.cs_anchor_group_within <- function(x, ...) {
   summary_table_formatted <- x[["anchor_results"]] |>
-    dplyr::rename("Mean Intervention Effect" = "mean_difference", "CI-Level" = "ci", "[Lower" = "lower", "Upper]" = "upper", "Category" = "category")
+    dplyr::rename(
+      "CI-Level" = "ci",
+      "[Lower" = "lower",
+      "Upper]" = "upper",
+      "Category" = "category"
+    )
   if (.has_group(summary_table_formatted)) summary_table_formatted <- dplyr::rename(summary_table_formatted, "Group" = "group")
+  if (!x[["bayesian"]]) summary_table_formatted <- dplyr::rename(summary_table_formatted, "Mean Treatment Effect" = "difference") else summary_table_formatted <- dplyr::rename(summary_table_formatted, "Median Treatment Effect" = "difference")
 
   mid_improvement <- x[["mid_improvement"]]
   direction <- x[["direction"]]
@@ -234,7 +247,6 @@ print.cs_anchor_group_between <- function(x, ...) {
     dplyr::rename(
       "Group 1" = "reference",
       "Group 2" = "comparison",
-      "Mean Intervention Effect" = "mean_difference",
       "CI-Level" = "ci",
       "[Lower" = "lower",
       "Upper]" = "upper",
@@ -242,6 +254,8 @@ print.cs_anchor_group_between <- function(x, ...) {
       "n (1)" = "n_reference",
       "n (2)" = "n_comparison"
     )
+
+  if (!x[["bayesian"]]) summary_table_formatted <- dplyr::rename(summary_table_formatted, "Mean Difference" = "difference") else summary_table_formatted <- dplyr::rename(summary_table_formatted, "Median Difference" = "difference")
 
   mid_improvement <- x[["mid_improvement"]]
   direction <- x[["direction"]]
@@ -383,7 +397,6 @@ summary.cs_anchor_group_between <- function(x, ...) {
     dplyr::rename(
       "Group 1" = "reference",
       "Group 2" = "comparison",
-      "Mean Intervention Effect" = "mean_difference",
       "CI-Level" = "ci",
       "[Lower" = "lower",
       "Upper]" = "upper",
@@ -391,6 +404,8 @@ summary.cs_anchor_group_between <- function(x, ...) {
       "n (1)" = "n_reference",
       "n (2)" = "n_comparison"
     )
+
+  if (!x[["bayesian"]]) summary_table_formatted <- dplyr::rename(summary_table_formatted, "Mean Difference" = "difference") else summary_table_formatted <- dplyr::rename(summary_table_formatted, "Median Difference" = "difference")
 
   mid_improvement <- x[["mid_improvement"]]
   direction <- x[["direction"]]

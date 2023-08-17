@@ -9,7 +9,7 @@ cs_anchor(
   id,
   time,
   outcome,
-  group = NULL,
+  group,
   pre = NULL,
   post = NULL,
   mid_improvement = NULL,
@@ -17,6 +17,8 @@ cs_anchor(
   better_is = c("lower", "higher"),
   target = c("individual", "group"),
   effect = c("within", "between"),
+  bayesian = FALSE,
+  prior_scale = "medium",
   reference_group = NULL,
   ci_level = 0.95
 )

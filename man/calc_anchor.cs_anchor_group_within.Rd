@@ -4,7 +4,16 @@
 \alias{calc_anchor.cs_anchor_group_within}
 \title{Anchor Calculations for Group Effect Within}
 \usage{
-\method{calc_anchor}{cs_anchor_group_within}(data, mid_improvement, mid_deterioration, direction, ci_level, ...)
+\method{calc_anchor}{cs_anchor_group_within}(
+  data,
+  mid_improvement,
+  mid_deterioration,
+  direction,
+  ci_level,
+  bayesian,
+  prior_scale,
+  ...
+)
 }
 \arguments{
 \item{data}{A datasets object}

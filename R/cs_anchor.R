@@ -214,7 +214,7 @@ print.cs_anchor_group_within <- function(x, ...) {
       "Category" = "category"
     )
   if (.has_group(summary_table_formatted)) summary_table_formatted <- dplyr::rename(summary_table_formatted, "Group" = "group")
-  if (!x[["bayesian"]]) summary_table_formatted <- dplyr::rename(summary_table_formatted, "Mean Treatment Effect" = "difference") else summary_table_formatted <- dplyr::rename(summary_table_formatted, "Median Treatment Effect" = "difference")
+  if (!x[["bayesian"]]) summary_table_formatted <- dplyr::rename(summary_table_formatted, "Mean Difference" = "difference") else summary_table_formatted <- dplyr::rename(summary_table_formatted, "Median Difference" = "difference")
 
   mid_improvement <- x[["mid_improvement"]]
   direction <- x[["direction"]]
@@ -346,7 +346,7 @@ summary.cs_anchor_individual_within <- function(x, ...) {
 summary.cs_anchor_group_within <- function(x, ...) {
   # Get necessary information from object
   summary_table_formatted <- x[["anchor_results"]] |>
-    dplyr::rename("Mean Intervention Effect" = "mean_difference", "CI-Level" = "ci", "[Lower" = "lower", "Upper]" = "upper", "Category" = "category")
+    dplyr::rename("Mean Difference" = "mean_difference", "CI-Level" = "ci", "[Lower" = "lower", "Upper]" = "upper", "Category" = "category")
   if (.has_group(summary_table_formatted)) summary_table_formatted <- dplyr::rename(summary_table_formatted, "Group" = "group")
 
   mid_improvement <- x[["mid_improvement"]]

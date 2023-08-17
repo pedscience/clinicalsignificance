@@ -11,6 +11,8 @@ calc_anchor(
   reference_group,
   post,
   direction,
+  bayesian,
+  prior_scale,
   ci_level
 )
 }

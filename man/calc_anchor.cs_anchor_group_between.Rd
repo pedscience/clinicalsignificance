@@ -11,7 +11,9 @@
   reference_group,
   post,
   direction,
-  ci_level
+  ci_level,
+  bayesian,
+  prior_scale
 )
 }
 \arguments{

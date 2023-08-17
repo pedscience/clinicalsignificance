@@ -11,13 +11,40 @@
 #' @export
 #'
 #' @examples
-#' claus_2020 |>
-#'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
+#' cs_results <- claus_2020 |>
+#'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.3)
+#'
+#' cs_results
+#' summary(cs_results)
+#' plot(cs_results)
 #'
 #'
 #' # Different thresholds for improvement and deterioration
-#' claus_2020 |>
-#'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5, pct_deterioration = 0.3)
+#' cs_results_2 <- claus_2020 |>
+#'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.3, pct_deterioration = 0.2)
+#'
+#' cs_results_2
+#' summary(cs_results_2)
+#' plot(cs_results_2)
+#'
+#'
+#' # Grouped results
+#' cs_results_grouped <- claus_2020 |>
+#'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.3, group = treatment)
+#'
+#' cs_results_grouped
+#' summary(cs_results_grouped)
+#' plot(cs_results_grouped)
+#'
+#'
+#' # Positive outcomes
+#' cs_results_who <- claus_2020 |>
+#'   cs_percentage(id, time, who, pre = 1, post = 4, pct_improvement = 0.3, better_is = "higher")
+#'
+#' cs_results_who
+#' summary(cs_results_who)
+#' plot(cs_results_who)
+#' plot(cs_results_who, show = category)
 cs_percentage <- function(data,
                           id,
                           time,
@@ -105,21 +132,6 @@ cs_percentage <- function(data,
   # Return output
   class(output) <- c("cs_analysis", "cs_percentage", class(output))
   output
-}
-
-
-calc_percentage <- function(data, pct_improvement, pct_deterioration, direction) {
-  out <- data |>
-    dplyr::mutate(
-      pct_change   = change / pre,
-      improved     = direction * pct_change >= pct_improvement,
-      deteriorated = direction * pct_change <= -pct_deterioration,
-      unchanged = !improved & !deteriorated
-    ) |>
-    dplyr::select(id, pct_change:unchanged)
-
-  class(out) <- c("cs_percentage", class(out))
-  out
 }
 
 

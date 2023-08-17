@@ -54,11 +54,38 @@ An S3 object of class \code{cs_analysis} and \code{cs_percentage}
 Percentage-Change Analysis of Clinical Significance
 }
 \examples{
-claus_2020 |>
-  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
+cs_results <- claus_2020 |>
+  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.3)
+
+cs_results
+summary(cs_results)
+plot(cs_results)
 
 
 # Different thresholds for improvement and deterioration
-claus_2020 |>
-  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5, pct_deterioration = 0.3)
+cs_results_2 <- claus_2020 |>
+  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.3, pct_deterioration = 0.2)
+
+cs_results_2
+summary(cs_results_2)
+plot(cs_results_2)
+
+
+# Grouped results
+cs_results_grouped <- claus_2020 |>
+  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.3, group = treatment)
+
+cs_results_grouped
+summary(cs_results_grouped)
+plot(cs_results_grouped)
+
+
+# Positive outcomes
+cs_results_who <- claus_2020 |>
+  cs_percentage(id, time, who, pre = 1, post = 4, pct_improvement = 0.3, better_is = "higher")
+
+cs_results_who
+summary(cs_results_who)
+plot(cs_results_who)
+plot(cs_results_who, show = category)
 }

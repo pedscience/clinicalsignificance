@@ -1,5 +1,6 @@
 #' Statistical Analysis of Clinical Significance
 #'
+#' @inheritParams cs_distribution
 #' @param m_functional Numeric, mean of functional population.
 #' @param sd_functional Numeric, standard deviation of functional population
 #' @param cutoff_method Cutoff method, Available are
@@ -10,7 +11,6 @@
 #'   summary data from a functional population must be given with arguments
 #'   `"m_functional"` and `"sd_functional"`.
 #'
-#' @inheritParams cs_distribution
 #'
 #' @references
 #' - Jacobson, N. S., & Truax, P. (1991). Clinical significance: A statistical approach to defining meaningful change in psychotherapy research. Journal of Consulting and Clinical Psychology, 59(1), 12–19. https://doi.org/10.1037//0022-006X.59.1.12
@@ -20,16 +20,39 @@
 #' @export
 #'
 #' @examples
-#' claus_2020 |>
-#'   cs_statistical(id, time, bdi, pre = 1, post = 4)
+#' cs_results <- claus_2020 |>
+#'   cs_statistical(id, time, hamd, pre = 1, post = 4)
 #'
-#' # Different cutoff
-#' claus_2020 |>
-#'   cs_statistical(id, time, bdi, m_functional = 8, sd_functional = 7, pre = 1, post = 4, cutoff_type = "c")
+#' cs_results
+#' summary(cs_results)
+#' plot(cs_results)
 #'
-#' # Different method
-#' claus_2020 |>
-#'   cs_statistical(id, time, bdi, m_functional = 8, sd_functional = 7, pre = 1, post = 4, cutoff_type = "c", cutoff_method = "HA")
+#'
+#' # Different cutoff type
+#' cs_results_c <- claus_2020 |>
+#'   cs_statistical(id, time, hamd, pre = 1, post = 4, m_functional = 8, sd_functional = 8, cutoff_type = "c")
+#'
+#' cs_results_c
+#' summary(cs_results_c)
+#' plot(cs_results_c)
+#'
+#'
+#' # Different cutoff method
+#' cs_results_ha <- claus_2020 |>
+#'   cs_statistical(id, time, hamd, pre = 1, post = 4, m_functional = 8, sd_functional = 8, reliability = 0.80, cutoff_type = "c", cutoff_method = "HA")
+#'-
+#' cs_results_ha
+#' summary(cs_results_ha)
+#' plot(cs_results_ha)
+#'
+#'
+#' # Grouped analysis
+#' cs_results_grouped <- claus_2020 |>
+#'   cs_statistical(id, time, hamd, pre = 1, post = 4, group = treatment)
+#'
+#' cs_results_grouped
+#' summary(cs_results_grouped)
+#' plot(cs_results_grouped)
 cs_statistical <- function(data,
                            id,
                            time,

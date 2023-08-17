@@ -19,8 +19,6 @@ cs_get_augmented_data <- function(x, ...) {
 #' @return A tibble
 #' @export
 cs_get_augmented_data.cs_distribution <- function(x, ...) {
-  if (!inherits(x, "clinisig")) cli::cli_abort("The supplied object must be of class {.code clinisig}.")
-
   rci_categories <- x[["rci_results"]][["data"]]
   used_data <- x[["datasets"]][["data"]]
 
@@ -46,11 +44,9 @@ cs_get_augmented_data.cs_distribution <- function(x, ...) {
 #' @return A tibble
 #' @export
 cs_get_augmented_data.cs_statistical <- function(x, ...) {
-  if (!inherits(x, "clinisig")) cli::cli_abort("The supplied object must be of class {.code clinisig}.")
-
   cutoff_categories <- x[["cutoff_results"]][["data"]]
   used_data <- x[["datasets"]][["data"]]
-  cs_method <- cs_get_method(x)
+  cs_method <- x[["method"]]
 
 
   # Join data with cutoff results
@@ -110,9 +106,7 @@ cs_get_augmented_data.cs_statistical <- function(x, ...) {
 #'
 #' cs_get_augmented_data(results)
 cs_get_augmented_data.cs_combined <- function(x) {
-  if (!inherits(x, "clinisig")) cli::cli_abort("The supplied object must be of class {.code clinisig}.")
-
-  cs_method <- cs_get_method(x)
+  cs_method <- x[["method"]]
   categories <- x[["summary_table"]][["categories"]]
 
 
@@ -144,8 +138,6 @@ cs_get_augmented_data.cs_combined <- function(x) {
 #' @return A tibble
 #' @export
 cs_get_augmented_data.cs_percentage <- function(x, ...) {
-  if (!inherits(x, "clinisig")) cli::cli_abort("The supplied object must be of class {.code clinisig}.")
-
   pct_categories <- x[["pct_results"]]
   used_data <- x[["datasets"]][["data"]]
 
@@ -172,8 +164,6 @@ cs_get_augmented_data.cs_percentage <- function(x, ...) {
 #' @return A tibble
 #' @export
 cs_get_augmented_data.cs_anchor_individual_within <- function(x, ...) {
-  if (!inherits(x, "clinisig")) cli::cli_abort("The supplied object must be of class {.code clinisig}.")
-
   anchor_categories <- x[["anchor_results"]]
   used_data <- x[["datasets"]][["data"]]
 

@@ -37,7 +37,7 @@
 #' cs_get_reliability(results)
 #' cs_get_reliability(results_nk)
 cs_get_reliability <- function(x) {
-  cs_method <- cs_get_method(x)
+  cs_method <- x[["method"]]
 
   reliability <- tibble(
     reliability = x[["reliability"]]

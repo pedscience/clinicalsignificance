@@ -41,7 +41,7 @@ plot.cs_distribution <- function(x,
                                  overplotting = 0.02,
                                  ...) {
   # Which plot should be plotted?
-  cs_method <- cs_get_method(x)
+  cs_method <- x[["method"]]
   if (cs_method != "HLM") which_plot <- "point" else which_plot <- "trajectory"
 
 
@@ -176,8 +176,7 @@ plot.cs_statistical <- function(x,
                                 show,
                                 overplotting = 0.02,
                                 ...) {
-  cs_method <- cs_get_method(x)
-
+  cs_method <- x[["method"]]
 
   # Get data
   data <- cs_get_augmented_data(x) |>
@@ -270,7 +269,7 @@ plot.cs_combined <- function(x,
                              overplotting = 0.02,
                              ...) {
   # Which plot should be plotted?
-  cs_method <- cs_get_method(x)
+  cs_method <- x[["method"]]
   if (cs_method != "HLM") which_plot <- "point" else which_plot <- "trajectory"
 
 

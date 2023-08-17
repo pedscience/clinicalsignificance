@@ -46,13 +46,30 @@
 #' @export
 #'
 #' @examples
-#' claus_2020 |>
-#'   cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.8)
+#' cs_results <- claus_2020 |>
+#'   cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.80)
+#'
+#' cs_results
+#' summary(cs_results)
+#' plot(cs_results)
 #'
 #'
 #' # Different RCI method
-#' claus_2020 |>
-#'   cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.8, rci_method = "EN")
+#' cs_results_ha <- claus_2020 |>
+#'   cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.80, rci_method = "HA")
+#'
+#' cs_results_ha
+#' summary(cs_results_ha)
+#' plot(cs_results_ha)
+#'
+#'
+#' # Grouped analysis
+#' cs_results_grouped <- claus_2020 |>
+#'   cs_distribution(id, time, hamd, pre = 1, post = 4, group = treatment, reliability = 0.80)
+#'
+#' cs_results_grouped
+#' summary(cs_results_grouped)
+#' plot(cs_results_grouped)
 cs_distribution <- function(data,
                             id,
                             time,
@@ -187,6 +204,7 @@ cs_distribution <- function(data,
 #' @examples
 #' cs_results <- claus_2020 |>
 #'   cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.8)
+#'
 #' cs_results
 print.cs_distribution <- function(x, ...) {
   summary_table <- x[["summary_table"]]

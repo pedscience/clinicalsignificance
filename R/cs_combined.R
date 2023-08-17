@@ -1,3 +1,36 @@
+#' Combined Analysis of Clinical Significance
+#'
+#' @inheritParams cs_distribution
+#' @inheritParams cs_statistical
+#'
+#' @return An S3 object of class `cs_analysis` and `cs_combined`
+#' @export
+#'
+#' @examples
+#' cs_results <- claus_2020 |>
+#'   cs_combined(id, time, bdi, pre = 1, post = 4, reliability = 0.80)
+#'
+#' cs_results
+#' summary(cs_results)
+#' plot(cs_results)
+#'
+#'
+#' # Different cutoff type
+#' cs_results_c <- claus_2020 |>
+#'   cs_combined(id, time, bdi, pre = 1, post = 4, reliability = 0.80, m_functional = 8, sd_functional = 8, cutoff_type = "c")
+#'
+#' cs_results_c
+#' summary(cs_results_c)
+#' plot(cs_results_c)
+#'
+#'
+#' # Grouped analysis
+#' cs_results_grouped <- claus_2020 |>
+#'   cs_combined(id, time, bdi, pre = 1, post = 4, group = treatment, reliability = 0.80, m_functional = 8, sd_functional = 8, cutoff_type = "c")
+#'
+#' cs_results_grouped
+#' summary(cs_results_grouped)
+#' plot(cs_results_grouped)
 cs_combined <- function(data,
                         id,
                         time,

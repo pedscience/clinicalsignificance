@@ -23,6 +23,12 @@ A tibble with clinical significance categories
 Retrieve the summary table in a tidy tibble format. This is especially useful
 to plot the results or conduct sensitivity analyses.
 }
+\examples{
+cs_results <- claus_2020 |>
+  cs_anchor(id, time, bdi, pre = 1, post = 4, mid_improvement = 8)
+
+cs_get_summary(cs_results)
+}
 \references{
 \itemize{
 \item Hageman, W. J., & Arrindell, W. A. (1999). Establishing clinically significant change: increment of precision and the distinction between individual and group level analysis. Behaviour Research and Therapy, 37(12), 1169–1193. https://doi.org/10.1016/S0005-7967(99)00032-7

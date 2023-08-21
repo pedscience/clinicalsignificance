@@ -3,6 +3,8 @@
 #' @inheritParams cs_distribution
 #' @inheritParams cs_statistical
 #'
+#' @family main
+#'
 #' @return An S3 object of class `cs_analysis` and `cs_combined`
 #' @export
 #'

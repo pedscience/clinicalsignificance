@@ -17,7 +17,7 @@ cs_anchor(
   better_is = c("lower", "higher"),
   target = c("individual", "group"),
   effect = c("within", "between"),
-  bayesian = FALSE,
+  bayesian = TRUE,
   prior_scale = "medium",
   reference_group = NULL,
   ci_level = 0.95
@@ -52,19 +52,254 @@ instrument? Available are
 \item \code{"lower"} (lower outcome scores are desirable, the default) and
 \item \code{"higher"} (higher outcome scores are desirable)
 }}
+
+\item{target}{String, whether an individual or group analysis should be
+calculated. Available are
+\itemize{
+\item \code{"individual"} (the default) for which every individual participant is
+evaluated
+\item \code{"group"} for which only the group wise effect is evaluated
+}}
+
+\item{effect}{String, if \code{target = "group"}, specify which effect should be
+calculated. Available are
+\itemize{
+\item \code{"within"} (the default), which yields the mean pre-post intervention
+difference with associated confidence intervals
+\item \code{"between"}, which estimates the group wise mean difference and
+confidence intervals between two or more groups specified with the \code{group}
+argument at the specified measurement supplied with the \code{post}- argument
+The reference group may be supplied with \code{reference_group}
+}}
+
+\item{bayesian}{Logical, only relevant if \code{target = "group"}. Indicates if a
+Bayesian estimate (i.e., the median) of group differences with a
+credibility interval should be calculated (if set to \code{TRUE}, the default)
+or a frequentist mean difference with confidence interval (if set to
+\code{FALSE})}
+
+\item{prior_scale}{String or numeric, can be adjusted to change the Bayesian
+prior distribution. See the documentation for \code{rscale} in
+\code{\link[BayesFactor:ttestBF]{BayesFactor::ttestBF()}} for details.}
+
+\item{reference_group}{Specifiy the reference group to which all subsequent
+groups are compared against if \code{target = "group"} and \code{effect = "within"}.
+Otherwise, the first distinct group is chosen based on alphabetical,
+numerical or factor ordering.}
+
+\item{ci_level}{Numeric, define the credibility or confidence interval level.
+The default is 0.95 for a 95\%-CI.}
 }
 \value{
 An S3 object of class \code{cs_analysis} and \code{cs_anchor}
 }
 \description{
-Anchor-Based Analysis of Clinical Significance
+\code{cs_anchor()} can be used to determine the clinical significance of
+intervention studies employing the anchor-based approach. For this, a
+predefined minimally important difference (MID) for an instrument is known
+that corresponds to an important symptom improvement for patients. The data
+can then be analyzed on the individual as well as the group level to
+estimate, if the change because of an intervention is clinically significant.
 }
+\section{Computational details}{
+ For the individual-level analyses, the
+analysis is straight forward. An MID can be specified for an improvement as
+well as a deterioration (because these must not necessarily be identical)
+and the function basically counts how many patients fall within the MID
+range for both, improvement and deterioration, or how many patients exceed
+the limits of this range in either direction. A patient may than be
+categorized as:
+\itemize{
+\item Improved, the patient demonstrated a change that is equal or greater then
+the MID for an improvement
+\item Unchanged, the patient demonstrated a change that is less than both MIDs
+\item Deteriorated, the patient demonstrated a change that is equal or greater
+then the MID for a deterioration
+}
+
+For group-level analyses, the whole sample is either treated as a single
+group or is split up by grouping presented in the data. For within group
+analyses, the function calculates the median change from pre to post
+intervention with the associated credibility interval (CI). Based on the
+median change and the limits of this CI, a group change can be categorized
+in 5 distinctive categories:
+\itemize{
+\item Statistically not significant, the CI contains 0
+\item Statistically significant but not clinically relevant, the CI does not
+contain 0, but the median and both CI limits are beneath the MID threshold
+\item Not significantly less than the threshold, the MID threshold falls within
+the CI but the median is still below that threshold
+\item Probably clinically significant effect, the median crossed the MID
+threshold but the threshold is still inside the CI
+\item Large clinically significant effect, the median crossed the MID threshold
+and the CI does not contain the threshold
+}
+
+If a between group comparison is desired, a reference group can be defined
+to which all subsequent groups are compared. This is usually an inactive
+comparator such as a placebo or wait-list control group. The difference
+between the pairwise compared groups is categorized just as the within
+group difference above, so the same categories apply.
+
+The approach can be changed to a classical frequentist framework for which
+the point estimate then represents the mean difference and the CI a
+confidence interval.
+}
+
+\section{Data preparation}{
+ The data set must be tidy, which corresponds to a
+long data frame in general. It must contain a patient identifier which must
+be unique per patient. Also, a column containing the different measurements
+and the outcome must be supplied. Each participant-measurement combination
+must be unique, so for instance, the data must not contain two "After"
+measurements for the same patient.
+
+Additionally, if the measurement column contains only two values, the first
+value based on alphabetical, numerical or factor ordering will be used as
+the \code{pre} measurement. For instance, if the column contains the
+measurements identifiers \code{"pre"} and \code{"post"} as strings, then \code{"post"}
+will be sorted before \code{"pre"} and thus be used as the \code{"pre"} measurement.
+The function will throw a warning but generally you may want to explicitly
+define the \code{"pre"} and \code{"post"} measurement with arguments \code{pre} and
+\code{post}. In case of more than two measurement identifiers, you have to
+define \code{pre} and \code{post} manually since the function does not know what your
+pre and post intervention measurements are.
+
+If your data is grouped, you can specify the group by referencing the
+grouping variable (see examples below). The analysis is then run for every
+group to compare group differences.
+}
+
 \examples{
-claus_2020 |>
-  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
+cs_results <- antidepressants |>
+  cs_anchor(patient, measurement, mom_di, mid_improvement = 8)
+
+cs_results
+plot(cs_results)
+
+# Set argument "pre" to avoid a warning
+cs_results <- antidepressants |>
+  cs_anchor(
+    patient,
+    measurement,
+    mom_di,
+    pre = "Before",
+    mid_improvement = 8
+  )
 
 
-# Different thresholds for improvement and deterioration
-claus_2020 |>
-  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5, pct_deterioration = 0.3)
+# Inlcude the MID for deterioration
+cs_results_with_deterioration <- antidepressants |>
+  cs_anchor(
+    patient,
+    measurement,
+    mom_di,
+    pre = "Before",
+    mid_improvement = 8,
+    mid_deterioration = 5
+  )
+
+cs_results_with_deterioration
+summary(cs_results_with_deterioration)
+plot(cs_results_with_deterioration)
+
+
+# Group the results by experimental condition
+cs_results_grouped <- antidepressants |>
+  cs_anchor(
+    patient,
+    measurement,
+    mom_di,
+    pre = "Before",
+    group = condition,
+    mid_improvement = 8,
+    mid_deterioration = 5
+  )
+
+cs_results_grouped
+summary(cs_results_grouped)
+plot(cs_results_grouped)
+
+# The plot method always returns a ggplot2 object, so the plot may be further
+# modified with ggplot2 code, e.g., facetting to avoid overplotting of groups
+plot(cs_results_grouped) +
+  ggplot2::facet_wrap(~ group)
+
+
+# Compute group wise results
+cs_results_groupwise <- antidepressants |>
+  cs_anchor(
+    patient,
+    measurement,
+    mom_di,
+    pre = "Before",
+    mid_improvement = 8,
+    target = "group"
+  )
+
+cs_results_groupwise
+summary(cs_results_groupwise)
+plot(cs_results_groupwise)
+
+
+# Group wise analysis, but split by experimentawl condition
+cs_results_groupwise_condition <- antidepressants |>
+  cs_anchor(
+    patient,
+    measurement,
+    mom_di,
+    pre = "Before",
+    group = condition,
+    mid_improvement = 8,
+    target = "group"
+  )
+
+cs_results_groupwise_condition
+summary(cs_results_groupwise_condition)
+plot(cs_results_groupwise_condition)
+
+
+# Compare all groups to a predefined reference group at a predefined measurement
+cs_results_groupwise_between <- antidepressants |>
+  cs_anchor(
+    patient,
+    measurement,
+    mom_di,
+    post = "After",
+    group = condition,
+    mid_improvement = 8,
+    target = "group",
+    effect = "between"
+  )
+
+cs_results_groupwise_between
+summary(cs_results_groupwise_between)
+plot(cs_results_groupwise_between)
+
+
+# Compare all groups to a predefined reference group with frequentist appraoch
+cs_results_groupwise_between_freq <- antidepressants |>
+  cs_anchor(
+    patient,
+    measurement,
+    mom_di,
+    post = "After",
+    group = condition,
+    mid_improvement = 8,
+    target = "group",
+    effect = "between",
+    bayesian = FALSE
+  )
+
+cs_results_groupwise_between_freq
+summary(cs_results_groupwise_between_freq)
+plot(cs_results_groupwise_between_freq)
 }
+\seealso{
+Main clinical signficance functions
+\code{\link{cs_combined}()},
+\code{\link{cs_distribution}()},
+\code{\link{cs_percentage}()},
+\code{\link{cs_statistical}()}
+}
+\concept{main}

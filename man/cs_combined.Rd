@@ -39,8 +39,8 @@ than two measurements)}
 \item{post}{Post measurement (only needed if the time variable contains more
 than two measurements)}
 
-\item{reliability}{The instrument's reliability estimate. If you selected
-the NK method, the here specified reliability will be the instrument's pre
+\item{reliability}{The instrument's reliability estimate. If you selected the
+NK method, the here specified reliability will be the instrument's pre
 measurement reliability}
 
 \item{reliability_post}{The instrument's reliability at post measurement
@@ -64,8 +64,8 @@ instrument? Available are
 \item \code{"HLL"} (Hsu, Linn & Nord; Hsu, 1989)
 \item \code{"EN"} (Edwards & Nunnally; Speer, 1992)
 \item \code{"NK"} (Nunnally & Kotsch, 1983), requires a reliability estimate at post
-measurement. If this is not supplied, reliability and reliability_post
-are assumed to be equal
+measurement. If this is not supplied, reliability and reliability_post are
+assumed to be equal
 \item \code{"HA"} (Hageman & Arrindell, 1999)
 \item \code{"HLM"} (Hierarchical Linear Modeling; Raudenbush & Bryk, 2002),
 requires at least three measurements per patient
@@ -77,8 +77,8 @@ summary data from a functional population must be given with arguments
 \code{"m_functional"} and \code{"sd_functional"}.}
 
 \item{significance_level}{Significance level alpha, defaults to \code{0.05}. If
-you choose the \code{"HA"} method, this value corresponds to the maximum risk
-of misclassification}
+you choose the \code{"HA"} method, this value corresponds to the maximum risk of
+misclassification}
 }
 \value{
 An S3 object of class \code{cs_analysis} and \code{cs_combined}
@@ -112,3 +112,11 @@ cs_results_grouped
 summary(cs_results_grouped)
 plot(cs_results_grouped)
 }
+\seealso{
+Main clinical signficance functions
+\code{\link{cs_anchor}()},
+\code{\link{cs_distribution}()},
+\code{\link{cs_percentage}()},
+\code{\link{cs_statistical}()}
+}
+\concept{main}

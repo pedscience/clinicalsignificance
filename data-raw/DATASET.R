@@ -115,3 +115,33 @@ anxiety |>
   ggplot(aes(measurement, anxiety, color = treatment)) +
   geom_line(aes(group = subject)) +
   facet_wrap(~ treatment)
+
+
+
+# Antidepressants ---------------------------------------------------------
+set.seed(20230821)
+antidepressants <- sim_design(
+  within = list("measurement" = c("Before", "After")),
+  between = list("condition" = c("Wait List", "Inactive Placebo", "Active Placebo", "Antidepressant")),
+  n = round(runif(4, 120, 160), 0),
+  mu = c(35, 36, 34, 25, 35, 19, 34, 19),
+  sd = c(rnorm(7, mean = 8, sd = 1), 8),
+  long = TRUE,
+  dv = "mom_di",
+  id = "patient",
+  plot = FALSE
+) |>
+  mutate(
+    mom_di = round(mom_di, 0)
+  ) |>
+  arrange(patient, measurement) |>
+  as_tibble()
+
+use_data(antidepressants, overwrite = TRUE)
+
+# Visual checks
+antidepressants |>
+  summarise(mean = mean(mom_di), sd = sd(mom_di), .by = c(condition, measurement)) |>
+  ggplot(aes(measurement, mean, color = condition)) +
+  geom_point(position = position_dodge(width = 0.2)) +
+  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.2,position = position_dodge(width = 0.2))

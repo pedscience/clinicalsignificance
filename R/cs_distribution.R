@@ -1,5 +1,27 @@
 #' Distribution-Based Analysis of Clinical Significance
 #'
+#' @section Data preparation: The data set must be tidy, which corresponds to a
+#'   long data frame in general. It must contain a patient identifier which must
+#'   be unique per patient. Also, a column containing the different measurements
+#'   and the outcome must be supplied. Each participant-measurement combination
+#'   must be unique, so for instance, the data must not contain two "After"
+#'   measurements for the same patient.
+#'
+#'   Additionally, if the measurement column contains only two values, the first
+#'   value based on alphabetical, numerical or factor ordering will be used as
+#'   the `pre` measurement. For instance, if the column contains the
+#'   measurements identifiers `"pre"` and `"post"` as strings, then `"post"`
+#'   will be sorted before `"pre"` and thus be used as the `"pre"` measurement.
+#'   The function will throw a warning but generally you may want to explicitly
+#'   define the `"pre"` and `"post"` measurement with arguments `pre` and
+#'   `post`. In case of more than two measurement identifiers, you have to
+#'   define `pre` and `post` manually since the function does not know what your
+#'   pre and post intervention measurements are.
+#'
+#'   If your data is grouped, you can specify the group by referencing the
+#'   grouping variable (see examples below). The analysis is then run for every
+#'   group to compare group differences.
+#'
 #' @param data A tidy data frame
 #' @param id Participant ID
 #' @param time Time variable
@@ -9,8 +31,8 @@
 #'   than two measurements)
 #' @param post Post measurement (only needed if the time variable contains more
 #'   than two measurements)
-#' @param reliability The instrument's reliability estimate. If you selected
-#'   the NK method, the here specified reliability will be the instrument's pre
+#' @param reliability The instrument's reliability estimate. If you selected the
+#'   NK method, the here specified reliability will be the instrument's pre
 #'   measurement reliability
 #' @param reliability_post The instrument's reliability at post measurement
 #'   (only needed for the NK method)
@@ -24,14 +46,14 @@
 #'   - `"HLL"` (Hsu, Linn & Nord; Hsu, 1989)
 #'   - `"EN"` (Edwards & Nunnally; Speer, 1992)
 #'   - `"NK"` (Nunnally & Kotsch, 1983), requires a reliability estimate at post
-#'      measurement. If this is not supplied, reliability and reliability_post
-#'      are assumed to be equal
+#'   measurement. If this is not supplied, reliability and reliability_post are
+#'   assumed to be equal
 #'    - `"HA"` (Hageman & Arrindell, 1999)
 #'    - `"HLM"` (Hierarchical Linear Modeling; Raudenbush & Bryk, 2002),
-#'      requires at least three measurements per patient
+#'   requires at least three measurements per patient
 #' @param significance_level Significance level alpha, defaults to `0.05`. If
-#'      you choose the `"HA"` method, this value corresponds to the maximum risk
-#'      of misclassification
+#'   you choose the `"HA"` method, this value corresponds to the maximum risk of
+#'   misclassification
 #'
 #' @references
 #' - Jacobson, N. S., & Truax, P. (1991). Clinical significance: A statistical approach to defining meaningful change in psychotherapy research. Journal of Consulting and Clinical Psychology, 59(1), 12–19. https://doi.org/10.1037//0022-006X.59.1.12
@@ -41,6 +63,8 @@
 #' - Nunnally, J. C., & Kotsch, W. E. (1983). Studies of individual subjects: Logic and methods of analysis. British Journal of Clinical Psychology, 22(2), 83–93. https://doi.org/10.1111/j.2044-8260.1983.tb00582.x
 #' - Hageman, W. J., & Arrindell, W. A. (1999). Establishing clinically significant change: increment of precision and the distinction between individual and group level analysis. Behaviour Research and Therapy, 37(12), 1169–1193. https://doi.org/10.1016/S0005-7967(99)00032-7
 #' - Raudenbush, S. W., & Bryk, A. S. (2002). Hierarchical Linear Models - Applications and Data Analysis Methods (2nd ed.). Sage Publications.
+#'
+#' @family main
 #'
 #' @return An S3 object of class `cs_analysis` and `cs_distribution`
 #' @export

@@ -42,8 +42,8 @@ than two measurements)}
 
 \item{sd_functional}{Numeric, standard deviation of functional population}
 
-\item{reliability}{The instrument's reliability estimate. If you selected
-the NK method, the here specified reliability will be the instrument's pre
+\item{reliability}{The instrument's reliability estimate. If you selected the
+NK method, the here specified reliability will be the instrument's pre
 measurement reliability}
 
 \item{better_is}{Which direction means a better outcome for the used
@@ -65,8 +65,8 @@ summary data from a functional population must be given with arguments
 \code{"m_functional"} and \code{"sd_functional"}.}
 
 \item{significance_level}{Significance level alpha, defaults to \code{0.05}. If
-you choose the \code{"HA"} method, this value corresponds to the maximum risk
-of misclassification}
+you choose the \code{"HA"} method, this value corresponds to the maximum risk of
+misclassification}
 }
 \value{
 An S3 object of class \code{cs_analysis} and \code{cs_statistical}
@@ -115,3 +115,11 @@ plot(cs_results_grouped)
 \item Hageman, W. J., & Arrindell, W. A. (1999). Establishing clinically significant change: increment of precision and the distinction between individual and group level analysis. Behaviour Research and Therapy, 37(12), 1169–1193. https://doi.org/10.1016/S0005-7967(99)00032-7
 }
 }
+\seealso{
+Main clinical signficance functions
+\code{\link{cs_anchor}()},
+\code{\link{cs_combined}()},
+\code{\link{cs_distribution}()},
+\code{\link{cs_percentage}()}
+}
+\concept{main}

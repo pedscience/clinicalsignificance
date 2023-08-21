@@ -76,7 +76,7 @@ calc_anchor.cs_anchor_group_within <- function(data, mid_improvement, mid_deteri
       dplyr::mutate(
         category = dplyr::case_when(
           sign(lower) != sign(upper) ~ "Statistically not significant",
-          (sign(lower) == sign(upper)) & lower > threshold ~ "Statistically significant but not clincally relevant",
+          (sign(lower) == sign(upper)) & lower > threshold ~ "Statistically significant but not clinically relevant",
           upper > threshold & difference > threshold & lower < threshold ~ "Not significantly less than the threshold",
           upper > threshold & difference < threshold & lower < threshold ~ "Probably clinically significant effect",
           upper < threshold ~ "Large clinically significant effect"
@@ -86,7 +86,7 @@ calc_anchor.cs_anchor_group_within <- function(data, mid_improvement, mid_deteri
     out <- results_tbl |>
       dplyr::mutate(
         category = dplyr::case_when(
-          (sign(lower) == sign(upper)) & upper < threshold ~ "Statistically significant but not clincally relevant",
+          (sign(lower) == sign(upper)) & upper < threshold ~ "Statistically significant but not clinically relevant",
           lower < threshold & difference < threshold & upper > threshold ~ "Not significantly greater than the threshold",
           lower < threshold & difference > threshold & upper > threshold ~ "Probably clinically significant effect",
           lower > threshold ~ "Large clinically significant effect"
@@ -163,7 +163,7 @@ calc_anchor.cs_anchor_group_between <- function(data, mid_improvement, mid_deter
       dplyr::mutate(
         category = dplyr::case_when(
           sign(lower) != sign(upper) ~ "Statistically not significant",
-          (sign(lower) == sign(upper)) & lower > threshold ~ "Statistically significant but not clincally relevant",
+          (sign(lower) == sign(upper)) & lower > threshold ~ "Statistically significant but not clinically relevant",
           upper > threshold & difference > threshold & lower < threshold ~ "Not significantly less than the threshold",
           upper > threshold & difference < threshold & lower < threshold ~ "Probably clinically significant effect",
           upper < threshold ~ "Large clinically significant effect"
@@ -173,7 +173,7 @@ calc_anchor.cs_anchor_group_between <- function(data, mid_improvement, mid_deter
     out <- results_tbl |>
       dplyr::mutate(
         category = dplyr::case_when(
-          (sign(lower) == sign(upper)) & upper < threshold ~ "Statistically significant but not clincally relevant",
+          (sign(lower) == sign(upper)) & upper < threshold ~ "Statistically significant but not clinically relevant",
           lower < threshold & difference < threshold & upper > threshold ~ "Not significantly greater than the threshold",
           lower < threshold & difference > threshold & upper > threshold ~ "Probably clinically significant effect",
           lower > threshold ~ "Large clinically significant effect"

@@ -6,6 +6,8 @@
 #'   significant deterioration
 #' @inheritParams cs_distribution
 #'
+#' @family main
+#'
 #'
 #' @return An S3 object of class `cs_analysis` and `cs_percentage`
 #' @export

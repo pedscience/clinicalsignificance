@@ -89,3 +89,11 @@ summary(cs_results_who)
 plot(cs_results_who)
 plot(cs_results_who, show = category)
 }
+\seealso{
+Main clinical signficance functions
+\code{\link{cs_anchor}()},
+\code{\link{cs_combined}()},
+\code{\link{cs_distribution}()},
+\code{\link{cs_statistical}()}
+}
+\concept{main}

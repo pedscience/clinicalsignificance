@@ -1,23 +1,216 @@
 #' Anchor-Based Analysis of Clinical Significance
 #'
+#' `cs_anchor()` can be used to determine the clinical significance of
+#' intervention studies employing the anchor-based approach. For this, a
+#' predefined minimally important difference (MID) for an instrument is known
+#' that corresponds to an important symptom improvement for patients. The data
+#' can then be analyzed on the individual as well as the group level to
+#' estimate, if the change because of an intervention is clinically significant.
+#'
+#' @section Computational details: For the individual-level analyses, the
+#'   analysis is straight forward. An MID can be specified for an improvement as
+#'   well as a deterioration (because these must not necessarily be identical)
+#'   and the function basically counts how many patients fall within the MID
+#'   range for both, improvement and deterioration, or how many patients exceed
+#'   the limits of this range in either direction. A patient may than be
+#'   categorized as:
+#' - Improved, the patient demonstrated a change that is equal or greater then
+#'   the MID for an improvement
+#' - Unchanged, the patient demonstrated a change that is less than both MIDs
+#' - Deteriorated, the patient demonstrated a change that is equal or greater
+#'   then the MID for a deterioration
+#'
+#' For group-level analyses, the whole sample is either treated as a single
+#'   group or is split up by grouping presented in the data. For within group
+#'   analyses, the function calculates the median change from pre to post
+#'   intervention with the associated credibility interval (CI). Based on the
+#'   median change and the limits of this CI, a group change can be categorized
+#'   in 5 distinctive categories:
+#' - Statistically not significant, the CI contains 0
+#' - Statistically significant but not clinically relevant, the CI does not
+#'   contain 0, but the median and both CI limits are beneath the MID threshold
+#' - Not significantly less than the threshold, the MID threshold falls within
+#'   the CI but the median is still below that threshold
+#' - Probably clinically significant effect, the median crossed the MID
+#'   threshold but the threshold is still inside the CI
+#' - Large clinically significant effect, the median crossed the MID threshold
+#'   and the CI does not contain the threshold
+#'
+#' If a between group comparison is desired, a reference group can be defined
+#'   to which all subsequent groups are compared. This is usually an inactive
+#'   comparator such as a placebo or wait-list control group. The difference
+#'   between the pairwise compared groups is categorized just as the within
+#'   group difference above, so the same categories apply.
+#'
+#' The approach can be changed to a classical frequentist framework for which
+#'   the point estimate then represents the mean difference and the CI a
+#'   confidence interval.
+#'
+#' @inheritSection cs_distribution Data preparation
+#'
+#'
 #' @inheritParams cs_distribution
 #' @param mid_improvement Numeric, change that indicates a clinically
 #'   significant improvement
 #' @param mid_deterioration Numeric, change that indicates a clinically
 #'   significant deterioration
+#' @param target String, whether an individual or group analysis should be
+#'   calculated. Available are
+#'   - `"individual"` (the default) for which every individual participant is
+#'   evaluated
+#'   - `"group"` for which only the group wise effect is evaluated
+#' @param effect String, if `target = "group"`, specify which effect should be
+#'   calculated. Available are
+#'   - `"within"` (the default), which yields the mean pre-post intervention
+#'   difference with associated confidence intervals
+#'   - `"between"`, which estimates the group wise mean difference and
+#'   confidence intervals between two or more groups specified with the `group`
+#'   argument at the specified measurement supplied with the `post`- argument
+#'   The reference group may be supplied with `reference_group`
+#' @param bayesian Logical, only relevant if `target = "group"`. Indicates if a
+#'   Bayesian estimate (i.e., the median) of group differences with a
+#'   credibility interval should be calculated (if set to `TRUE`, the default)
+#'   or a frequentist mean difference with confidence interval (if set to
+#'   `FALSE`)
+#' @param prior_scale String or numeric, can be adjusted to change the Bayesian
+#'   prior distribution. See the documentation for `rscale` in
+#'   [BayesFactor::ttestBF()] for details.
+#' @param reference_group Specifiy the reference group to which all subsequent
+#'   groups are compared against if `target = "group"` and `effect = "within"`.
+#'   Otherwise, the first distinct group is chosen based on alphabetical,
+#'   numerical or factor ordering.
+#' @param ci_level Numeric, define the credibility or confidence interval level.
+#'   The default is 0.95 for a 95%-CI.
 #'
+#' @family main
 #'
 #' @return An S3 object of class `cs_analysis` and `cs_anchor`
 #' @export
 #'
 #' @examples
-#' claus_2020 |>
-#'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
+#' cs_results <- antidepressants |>
+#'   cs_anchor(patient, measurement, mom_di, mid_improvement = 8)
+#'
+#' cs_results
+#' plot(cs_results)
+#'
+#' # Set argument "pre" to avoid a warning
+#' cs_results <- antidepressants |>
+#'   cs_anchor(
+#'     patient,
+#'     measurement,
+#'     mom_di,
+#'     pre = "Before",
+#'     mid_improvement = 8
+#'   )
 #'
 #'
-#' # Different thresholds for improvement and deterioration
-#' claus_2020 |>
-#'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5, pct_deterioration = 0.3)
+#' # Inlcude the MID for deterioration
+#' cs_results_with_deterioration <- antidepressants |>
+#'   cs_anchor(
+#'     patient,
+#'     measurement,
+#'     mom_di,
+#'     pre = "Before",
+#'     mid_improvement = 8,
+#'     mid_deterioration = 5
+#'   )
+#'
+#' cs_results_with_deterioration
+#' summary(cs_results_with_deterioration)
+#' plot(cs_results_with_deterioration)
+#'
+#'
+#' # Group the results by experimental condition
+#' cs_results_grouped <- antidepressants |>
+#'   cs_anchor(
+#'     patient,
+#'     measurement,
+#'     mom_di,
+#'     pre = "Before",
+#'     group = condition,
+#'     mid_improvement = 8,
+#'     mid_deterioration = 5
+#'   )
+#'
+#' cs_results_grouped
+#' summary(cs_results_grouped)
+#' plot(cs_results_grouped)
+#'
+#' # The plot method always returns a ggplot2 object, so the plot may be further
+#' # modified with ggplot2 code, e.g., facetting to avoid overplotting of groups
+#' plot(cs_results_grouped) +
+#'   ggplot2::facet_wrap(~ group)
+#'
+#'
+#' # Compute group wise results
+#' cs_results_groupwise <- antidepressants |>
+#'   cs_anchor(
+#'     patient,
+#'     measurement,
+#'     mom_di,
+#'     pre = "Before",
+#'     mid_improvement = 8,
+#'     target = "group"
+#'   )
+#'
+#' cs_results_groupwise
+#' summary(cs_results_groupwise)
+#' plot(cs_results_groupwise)
+#'
+#'
+#' # Group wise analysis, but split by experimentawl condition
+#' cs_results_groupwise_condition <- antidepressants |>
+#'   cs_anchor(
+#'     patient,
+#'     measurement,
+#'     mom_di,
+#'     pre = "Before",
+#'     group = condition,
+#'     mid_improvement = 8,
+#'     target = "group"
+#'   )
+#'
+#' cs_results_groupwise_condition
+#' summary(cs_results_groupwise_condition)
+#' plot(cs_results_groupwise_condition)
+#'
+#'
+#' # Compare all groups to a predefined reference group at a predefined measurement
+#' cs_results_groupwise_between <- antidepressants |>
+#'   cs_anchor(
+#'     patient,
+#'     measurement,
+#'     mom_di,
+#'     post = "After",
+#'     group = condition,
+#'     mid_improvement = 8,
+#'     target = "group",
+#'     effect = "between"
+#'   )
+#'
+#' cs_results_groupwise_between
+#' summary(cs_results_groupwise_between)
+#' plot(cs_results_groupwise_between)
+#'
+#'
+#' # Compare all groups to a predefined reference group with frequentist appraoch
+#' cs_results_groupwise_between_freq <- antidepressants |>
+#'   cs_anchor(
+#'     patient,
+#'     measurement,
+#'     mom_di,
+#'     post = "After",
+#'     group = condition,
+#'     mid_improvement = 8,
+#'     target = "group",
+#'     effect = "between",
+#'     bayesian = FALSE
+#'   )
+#'
+#' cs_results_groupwise_between_freq
+#' summary(cs_results_groupwise_between_freq)
+#' plot(cs_results_groupwise_between_freq)
 cs_anchor <- function(data,
                       id,
                       time,
@@ -30,7 +223,7 @@ cs_anchor <- function(data,
                       better_is = c("lower", "higher"),
                       target = c("individual", "group"),
                       effect = c("within", "between"),
-                      bayesian = FALSE,
+                      bayesian = TRUE,
                       prior_scale = "medium",
                       reference_group = NULL,
                       ci_level = 0.95) {
@@ -47,7 +240,7 @@ cs_anchor <- function(data,
   if (!dplyr::between(ci_level, 0, 1)) cli::cli_abort("{.code ci_level} must be between 0 and 1 but {ci_level} was supplied.")
   if (!is.null(mid_deterioration)) {
     if (!is.numeric(mid_deterioration)) cli::cli_abort("{.code mid_deterioration} must be numeric but a {.code {typeof(mid_deterioration)}} was supplied.")
-    if (!dplyr::between(mid_deterioration, 0, 1)) cli::cli_abort("{.code mid_deterioration} must be between 0 and 1 but {mid_deterioration} was supplied.")
+    if (mid_deterioration < 0) cli::cli_abort("{.code mid_deterioration} must be greater than 0 but {mid_deterioration} was supplied.")
   }
   if (cs_effect == "between") {
     if (cs_target == "individual") cli::cli_abort("A between subjects design can only be chosen if groups should be examined, but not individuals. Did you mean to set {.code target = \"group\"}?")
@@ -173,7 +366,7 @@ print.cs_anchor_individual_within <- function(x, ...) {
   if (mid_improvement == mid_deterioration) {
     pct_string <- "{.strong {mid_improvement} point} {dir_improvement} in instrument scores indicating a clinical significant improvement."
   } else {
-    pct_string <- "{.strong {mid_improvement} point} {dir_improvement} in instrument scores indicating a clinical significant improvement and a {.strong {pct_deterioration} point} {dir_deterioration} in instrument scores indicating a clinical significant deterioration."
+    pct_string <- "{.strong {mid_improvement} point} {dir_improvement} in instrument scores indicating a clinical significant improvement and a {.strong {mid_deterioration} point} {dir_deterioration} in instrument scores indicating a clinical significant deterioration."
   }
 
   summary_table_formatted <- summary_table |>
@@ -309,7 +502,7 @@ summary.cs_anchor_individual_within <- function(x, ...) {
   if (mid_improvement == mid_deterioration) {
     pct_string <- "{.strong {mid_improvement} point} {dir_improvement} in instrument scores ({.strong {outcome}}) indicating a clinical significant improvement."
   } else {
-    pct_string <- "{.strong {mid_improvement} point} {dir_improvement} in instrument scores ({.strong {outcome}}) indicating a clinical significant improvement and a {.strong {pct_deterioration} point} {dir_deterioration} in instrument scores indicating a clinical significant deterioration."
+    pct_string <- "{.strong {mid_improvement} point} {dir_improvement} in instrument scores ({.strong {outcome}}) indicating a clinical significant improvement and a {.strong {mid_deterioration} point} {dir_deterioration} in instrument scores indicating a clinical significant deterioration."
   }
 
 
@@ -346,7 +539,7 @@ summary.cs_anchor_individual_within <- function(x, ...) {
 summary.cs_anchor_group_within <- function(x, ...) {
   # Get necessary information from object
   summary_table_formatted <- x[["anchor_results"]] |>
-    dplyr::rename("Mean Difference" = "mean_difference", "CI-Level" = "ci", "[Lower" = "lower", "Upper]" = "upper", "Category" = "category")
+    dplyr::rename("Difference" = "difference", "CI-Level" = "ci", "[Lower" = "lower", "Upper]" = "upper", "Category" = "category")
   if (.has_group(summary_table_formatted)) summary_table_formatted <- dplyr::rename(summary_table_formatted, "Group" = "group")
 
   mid_improvement <- x[["mid_improvement"]]

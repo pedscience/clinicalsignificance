@@ -36,8 +36,8 @@ than two measurements)}
 \item{post}{Post measurement (only needed if the time variable contains more
 than two measurements)}
 
-\item{reliability}{The instrument's reliability estimate. If you selected
-the NK method, the here specified reliability will be the instrument's pre
+\item{reliability}{The instrument's reliability estimate. If you selected the
+NK method, the here specified reliability will be the instrument's pre
 measurement reliability}
 
 \item{reliability_post}{The instrument's reliability at post measurement
@@ -57,16 +57,16 @@ instrument? Available are
 \item \code{"HLL"} (Hsu, Linn & Nord; Hsu, 1989)
 \item \code{"EN"} (Edwards & Nunnally; Speer, 1992)
 \item \code{"NK"} (Nunnally & Kotsch, 1983), requires a reliability estimate at post
-measurement. If this is not supplied, reliability and reliability_post
-are assumed to be equal
+measurement. If this is not supplied, reliability and reliability_post are
+assumed to be equal
 \item \code{"HA"} (Hageman & Arrindell, 1999)
 \item \code{"HLM"} (Hierarchical Linear Modeling; Raudenbush & Bryk, 2002),
 requires at least three measurements per patient
 }}
 
 \item{significance_level}{Significance level alpha, defaults to \code{0.05}. If
-you choose the \code{"HA"} method, this value corresponds to the maximum risk
-of misclassification}
+you choose the \code{"HA"} method, this value corresponds to the maximum risk of
+misclassification}
 }
 \value{
 An S3 object of class \code{cs_analysis} and \code{cs_distribution}
@@ -74,6 +74,30 @@ An S3 object of class \code{cs_analysis} and \code{cs_distribution}
 \description{
 Distribution-Based Analysis of Clinical Significance
 }
+\section{Data preparation}{
+ The data set must be tidy, which corresponds to a
+long data frame in general. It must contain a patient identifier which must
+be unique per patient. Also, a column containing the different measurements
+and the outcome must be supplied. Each participant-measurement combination
+must be unique, so for instance, the data must not contain two "After"
+measurements for the same patient.
+
+Additionally, if the measurement column contains only two values, the first
+value based on alphabetical, numerical or factor ordering will be used as
+the \code{pre} measurement. For instance, if the column contains the
+measurements identifiers \code{"pre"} and \code{"post"} as strings, then \code{"post"}
+will be sorted before \code{"pre"} and thus be used as the \code{"pre"} measurement.
+The function will throw a warning but generally you may want to explicitly
+define the \code{"pre"} and \code{"post"} measurement with arguments \code{pre} and
+\code{post}. In case of more than two measurement identifiers, you have to
+define \code{pre} and \code{post} manually since the function does not know what your
+pre and post intervention measurements are.
+
+If your data is grouped, you can specify the group by referencing the
+grouping variable (see examples below). The analysis is then run for every
+group to compare group differences.
+}
+
 \examples{
 cs_results <- claus_2020 |>
   cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.80)
@@ -111,3 +135,11 @@ plot(cs_results_grouped)
 \item Raudenbush, S. W., & Bryk, A. S. (2002). Hierarchical Linear Models - Applications and Data Analysis Methods (2nd ed.). Sage Publications.
 }
 }
+\seealso{
+Main clinical signficance functions
+\code{\link{cs_anchor}()},
+\code{\link{cs_combined}()},
+\code{\link{cs_percentage}()},
+\code{\link{cs_statistical}()}
+}
+\concept{main}

@@ -1,11 +1,12 @@
 #' Anchor-Based Analysis of Clinical Significance
 #'
-#' `cs_anchor()` can be used to determine the clinical significance of
-#' intervention studies employing the anchor-based approach. For this, a
-#' predefined minimally important difference (MID) for an instrument is known
-#' that corresponds to an important symptom improvement for patients. The data
-#' can then be analyzed on the individual as well as the group level to
-#' estimate, if the change because of an intervention is clinically significant.
+#' @description `cs_anchor()` can be used to determine the clinical significance
+#'   of intervention studies employing the anchor-based approach. For this, a
+#'   predefined minimally important difference (MID) for an instrument is known
+#'   that corresponds to an important symptom improvement for patients. The data
+#'   can then be analyzed on the individual as well as the group level to
+#'   estimate, if the change because of an intervention is clinically
+#'   significant.
 #'
 #' @section Computational details: For the individual-level analyses, the
 #'   analysis is straight forward. An MID can be specified for an improvement as
@@ -14,37 +15,39 @@
 #'   range for both, improvement and deterioration, or how many patients exceed
 #'   the limits of this range in either direction. A patient may than be
 #'   categorized as:
-#' - Improved, the patient demonstrated a change that is equal or greater then
+#'   - Improved, the patient demonstrated a change that is equal or greater then
 #'   the MID for an improvement
-#' - Unchanged, the patient demonstrated a change that is less than both MIDs
-#' - Deteriorated, the patient demonstrated a change that is equal or greater
+#'   - Unchanged, the patient demonstrated a change that is less than both MIDs
+#'   - Deteriorated, the patient demonstrated a change that is equal or greater
 #'   then the MID for a deterioration
 #'
-#' For group-level analyses, the whole sample is either treated as a single
+#'   For group-level analyses, the whole sample is either treated as a single
 #'   group or is split up by grouping presented in the data. For within group
 #'   analyses, the function calculates the median change from pre to post
-#'   intervention with the associated credibility interval (CI). Based on the
+#'   intervention with the associated credible interval (CI). Based on the
 #'   median change and the limits of this CI, a group change can be categorized
 #'   in 5 distinctive categories:
-#' - Statistically not significant, the CI contains 0
-#' - Statistically significant but not clinically relevant, the CI does not
+#'   - Statistically not significant, the CI contains 0
+#'   - Statistically significant but not clinically relevant, the CI does not
 #'   contain 0, but the median and both CI limits are beneath the MID threshold
-#' - Not significantly less than the threshold, the MID threshold falls within
+#'   - Not significantly less than the threshold, the MID threshold falls within
 #'   the CI but the median is still below that threshold
-#' - Probably clinically significant effect, the median crossed the MID
+#'   - Probably clinically significant effect, the median crossed the MID
 #'   threshold but the threshold is still inside the CI
-#' - Large clinically significant effect, the median crossed the MID threshold
+#'   - Large clinically significant effect, the median crossed the MID threshold
 #'   and the CI does not contain the threshold
 #'
-#' If a between group comparison is desired, a reference group can be defined
-#'   to which all subsequent groups are compared. This is usually an inactive
-#'   comparator such as a placebo or wait-list control group. The difference
-#'   between the pairwise compared groups is categorized just as the within
-#'   group difference above, so the same categories apply.
+#'   If a between group comparison is desired, a reference group can be defined
+#'   with the `reference_group` argument to which all subsequent groups are
+#'   compared. This is usually an inactive comparator such as a placebo or
+#'   wait-list control group. The difference between the pairwise compared
+#'   groups is categorized just as the within group difference above, so the
+#'   same categories apply.
 #'
-#' The approach can be changed to a classical frequentist framework for which
+#'   The approach can be changed to a classical frequentist framework for which
 #'   the point estimate then represents the mean difference and the CI a
-#'   confidence interval.
+#'   confidence interval. For an extensive overview over the differences between
+#'   a Bayesian and frequentist CI, refer to Hespanhol et al. (2019).
 #'
 #' @inheritSection cs_distribution Data preparation
 #'
@@ -68,10 +71,9 @@
 #'   argument at the specified measurement supplied with the `post`- argument
 #'   The reference group may be supplied with `reference_group`
 #' @param bayesian Logical, only relevant if `target = "group"`. Indicates if a
-#'   Bayesian estimate (i.e., the median) of group differences with a
-#'   credibility interval should be calculated (if set to `TRUE`, the default)
-#'   or a frequentist mean difference with confidence interval (if set to
-#'   `FALSE`)
+#'   Bayesian estimate (i.e., the median) of group differences with a credible
+#'   interval should be calculated (if set to `TRUE`, the default) or a
+#'   frequentist mean difference with confidence interval (if set to `FALSE`)
 #' @param prior_scale String or numeric, can be adjusted to change the Bayesian
 #'   prior distribution. See the documentation for `rscale` in
 #'   [BayesFactor::ttestBF()] for details.
@@ -79,8 +81,13 @@
 #'   groups are compared against if `target = "group"` and `effect = "within"`.
 #'   Otherwise, the first distinct group is chosen based on alphabetical,
 #'   numerical or factor ordering.
-#' @param ci_level Numeric, define the credibility or confidence interval level.
+#' @param ci_level Numeric, define the credible or confidence interval level.
 #'   The default is 0.95 for a 95%-CI.
+#'
+#' @references Hespanhol, L., Vallio, C. S., Costa, L. M., & Saragiotto, B. T.
+#'   (2019). Understanding and interpreting confidence and credible intervals
+#'   around effect estimates. Brazilian Journal of Physical Therapy, 23(4),
+#'   290–301. https://doi.org/10.1016/j.bjpt.2018.12.006
 #'
 #' @family main
 #'

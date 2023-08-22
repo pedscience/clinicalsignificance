@@ -73,10 +73,9 @@ The reference group may be supplied with \code{reference_group}
 }}
 
 \item{bayesian}{Logical, only relevant if \code{target = "group"}. Indicates if a
-Bayesian estimate (i.e., the median) of group differences with a
-credibility interval should be calculated (if set to \code{TRUE}, the default)
-or a frequentist mean difference with confidence interval (if set to
-\code{FALSE})}
+Bayesian estimate (i.e., the median) of group differences with a credible
+interval should be calculated (if set to \code{TRUE}, the default) or a
+frequentist mean difference with confidence interval (if set to \code{FALSE})}
 
 \item{prior_scale}{String or numeric, can be adjusted to change the Bayesian
 prior distribution. See the documentation for \code{rscale} in
@@ -87,19 +86,20 @@ groups are compared against if \code{target = "group"} and \code{effect = "withi
 Otherwise, the first distinct group is chosen based on alphabetical,
 numerical or factor ordering.}
 
-\item{ci_level}{Numeric, define the credibility or confidence interval level.
+\item{ci_level}{Numeric, define the credible or confidence interval level.
 The default is 0.95 for a 95\%-CI.}
 }
 \value{
 An S3 object of class \code{cs_analysis} and \code{cs_anchor}
 }
 \description{
-\code{cs_anchor()} can be used to determine the clinical significance of
-intervention studies employing the anchor-based approach. For this, a
+\code{cs_anchor()} can be used to determine the clinical significance
+of intervention studies employing the anchor-based approach. For this, a
 predefined minimally important difference (MID) for an instrument is known
 that corresponds to an important symptom improvement for patients. The data
 can then be analyzed on the individual as well as the group level to
-estimate, if the change because of an intervention is clinically significant.
+estimate, if the change because of an intervention is clinically
+significant.
 }
 \section{Computational details}{
  For the individual-level analyses, the
@@ -120,7 +120,7 @@ then the MID for a deterioration
 For group-level analyses, the whole sample is either treated as a single
 group or is split up by grouping presented in the data. For within group
 analyses, the function calculates the median change from pre to post
-intervention with the associated credibility interval (CI). Based on the
+intervention with the associated credible interval (CI). Based on the
 median change and the limits of this CI, a group change can be categorized
 in 5 distinctive categories:
 \itemize{
@@ -136,14 +136,16 @@ and the CI does not contain the threshold
 }
 
 If a between group comparison is desired, a reference group can be defined
-to which all subsequent groups are compared. This is usually an inactive
-comparator such as a placebo or wait-list control group. The difference
-between the pairwise compared groups is categorized just as the within
-group difference above, so the same categories apply.
+with the \code{reference_group} argument to which all subsequent groups are
+compared. This is usually an inactive comparator such as a placebo or
+wait-list control group. The difference between the pairwise compared
+groups is categorized just as the within group difference above, so the
+same categories apply.
 
 The approach can be changed to a classical frequentist framework for which
 the point estimate then represents the mean difference and the CI a
-confidence interval.
+confidence interval. For an extensive overview over the differences between
+a Bayesian and frequentist CI, refer to Hespanhol et al. (2019).
 }
 
 \section{Data preparation}{
@@ -294,6 +296,12 @@ cs_results_groupwise_between_freq <- antidepressants |>
 cs_results_groupwise_between_freq
 summary(cs_results_groupwise_between_freq)
 plot(cs_results_groupwise_between_freq)
+}
+\references{
+Hespanhol, L., Vallio, C. S., Costa, L. M., & Saragiotto, B. T.
+(2019). Understanding and interpreting confidence and credible intervals
+around effect estimates. Brazilian Journal of Physical Therapy, 23(4),
+290–301. https://doi.org/10.1016/j.bjpt.2018.12.006
 }
 \seealso{
 Main clinical signficance functions

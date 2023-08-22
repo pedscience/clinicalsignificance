@@ -1,5 +1,34 @@
 #' Distribution-Based Analysis of Clinical Significance
 #'
+#' @description `cs_distribution()` can be used to determine the clinical
+#'   significance of intervention studies employing the distribution-based
+#'   approach. For this, the reliable change index is estimated from the
+#'   provided data and a known reliability estimate which indicates, if an
+#'   observed individual change is likely to be greater than the measurement
+#'   error inherent for the used instrument. In this case, a reliable change is
+#'   defined as clinically significant. Several methods for calculating this RCI
+#'   can be chosen.
+#'
+#' @section Computational details: From the provided data, a region of change is
+#'   calculated in which an individual change may likely be due to an inherent
+#'   measurement of the used instrument. This concept is also known as the
+#'   minimally detectable change (MDC).
+#'
+#'
+#' @section Categories: Each individual's change may then be categorized into
+#'   one of the following three categories:
+#'   - Improved, the change is greater than the RCI in the beneficial direction
+#'   - Unchanged, the change is within a region that may attributable to
+#'   measurement error
+#'   - Deteriorated, the change is greater than the RCI, but in the
+#'   disadvantageous direction
+#'
+#'   Most of these methods are develped to deal with data containing two
+#'   measurements per individual, i.e., a pre intervention and post intervention
+#'   measurement. The Hierarchical Linear Modeling (`rci_method = "HLM"`) method
+#'   can incorporate data for multiple measurements an can thusly be used only
+#'   for at least three measurements per participant.
+#'
 #' @section Data preparation: The data set must be tidy, which corresponds to a
 #'   long data frame in general. It must contain a patient identifier which must
 #'   be unique per patient. Also, a column containing the different measurements
@@ -33,7 +62,7 @@
 #'   than two measurements)
 #' @param reliability The instrument's reliability estimate. If you selected the
 #'   NK method, the here specified reliability will be the instrument's pre
-#'   measurement reliability
+#'   measurement reliability. Not needed for the HLM method.
 #' @param reliability_post The instrument's reliability at post measurement
 #'   (only needed for the NK method)
 #' @param better_is Which direction means a better outcome for the used
@@ -70,30 +99,87 @@
 #' @export
 #'
 #' @examples
+#' antidepressants |>
+#'   cs_distribution(patient, measurement, mom_di, reliability = 0.80)
+#'
+#'
+#' # Turn off the warning by providing the pre measurement time
+#' cs_results <- antidepressants |>
+#'   cs_distribution(
+#'     patient,
+#'     measurement,
+#'     mom_di,
+#'     pre = "Before",
+#'     reliability = 0.80
+#'   )
+#'
+#' summary(cs_results)
+#' plot(cs_results)
+#'
+#'
+#' # If you use data with more than two measurements, you always have to define a
+#' # pre and post measurement
 #' cs_results <- claus_2020 |>
-#'   cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.80)
+#'   cs_distribution(
+#'     id,
+#'     time,
+#'     hamd,
+#'     pre = 1,
+#'     post = 4,
+#'     reliability = 0.80
+#'   )
 #'
 #' cs_results
 #' summary(cs_results)
 #' plot(cs_results)
 #'
 #'
-#' # Different RCI method
+#' # Set the rci_method argument to change the RCI method
 #' cs_results_ha <- claus_2020 |>
-#'   cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.80, rci_method = "HA")
+#'   cs_distribution(
+#'     id,
+#'     time,
+#'     hamd,
+#'     pre = 1,
+#'     post = 4,
+#'     reliability = 0.80,
+#'     rci_method = "HA"
+#'   )
 #'
 #' cs_results_ha
 #' summary(cs_results_ha)
 #' plot(cs_results_ha)
 #'
 #'
-#' # Grouped analysis
+#' # Group the analysis by providing a grouping variable
 #' cs_results_grouped <- claus_2020 |>
-#'   cs_distribution(id, time, hamd, pre = 1, post = 4, group = treatment, reliability = 0.80)
+#'   cs_distribution(
+#'     id,
+#'     time,
+#'     hamd,
+#'     pre = 1,
+#'     post = 4,
+#'     group = treatment,
+#'     reliability = 0.80
+#'   )
 #'
 #' cs_results_grouped
 #' summary(cs_results_grouped)
 #' plot(cs_results_grouped)
+#'
+#'
+#' # Use more than two measurements
+#' cs_results_hlm <- claus_2020 |>
+#'   cs_distribution(
+#'     id,
+#'     time,
+#'     hamd,
+#'     rci_method = "HLM"
+#'   )
+#'
+#' cs_results_hlm
+#' summary(cs_results_hlm)
+#' plot(cs_results_hlm)
 cs_distribution <- function(data,
                             id,
                             time,
@@ -276,7 +362,9 @@ summary.cs_distribution <- function(x, ...) {
   pct <- round(n_used / n_original, digits = 3) * 100
 
   outcome <- x[["outcome"]]
-  if (cs_method != "NK") {
+  if (cs_method == "HLM") {
+    reliability_summary <- "The outcome was {.strong {outcome}}."
+  } else if (cs_method != "NK") {
     reliability <- cs_get_reliability(x)[[1]]
     reliability_summary <- "The outcome was {.strong {outcome}} and the reliability was set to {.strong {reliability}}."
   } else {

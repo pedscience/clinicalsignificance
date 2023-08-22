@@ -41,7 +41,7 @@ than two measurements)}
 
 \item{reliability}{The instrument's reliability estimate. If you selected the
 NK method, the here specified reliability will be the instrument's pre
-measurement reliability}
+measurement reliability. Not needed for the HLM method.}
 
 \item{reliability_post}{The instrument's reliability at post measurement
 (only needed for the NK method)}
@@ -74,7 +74,7 @@ requires at least three measurements per patient
 \item{cutoff_type}{Cutoff type. Available are \code{"a"}, \code{"b"}, and \code{"c"}.
 Defaults to \code{"a"} but \code{"c"} is usually recommended. For \code{"b"} and \code{"c"},
 summary data from a functional population must be given with arguments
-\code{"m_functional"} and \code{"sd_functional"}.}
+\code{m_functional} and \code{sd_functional}.}
 
 \item{significance_level}{Significance level alpha, defaults to \code{0.05}. If
 you choose the \code{"HA"} method, this value corresponds to the maximum risk of
@@ -84,29 +84,129 @@ misclassification}
 An S3 object of class \code{cs_analysis} and \code{cs_combined}
 }
 \description{
-Combined Analysis of Clinical Significance
+\code{cs_combined()} can be used to determine the clinical
+significance of intervention studies employing the combination of the
+distribution-based and statistical approach. For this, it will be assumed
+that the functional (non-clinical population) and patient (clinical
+population) scores form two distinct distributions on a continuum.
+\code{cs_combined()} calculates a cutoff point between these two populations as
+well as a reliable change index (RCI) based on a provided instrument
+reliability estimate and counts, how many of those patients that showed a
+reliable change (that is likely to be not due to measurement error)
+switched from the clinical to the functional population during
+intervention. Several methods for calculating the cutoff and RCI are
+available.
 }
+\section{Categories}{
+ Each individual's change can then be categorized into
+the following groups:
+\itemize{
+\item Recovered, i.e., the individual showed a reliable change in the beneficial direction and changed from the clinical to the functional population
+\item Improved, i.e., the individual showed a reliable change in the beneficial direction but did not change populations
+\item Unchanged, i.e., the individual showed no reliable change
+\item Deteriorated, i.e., the individual showed a reliable change in the disadvantageous direction but did not change populations
+\item Harmed, i.e., the individual showed a reliable change in the disadvantageous direction and switched from the functional to the clinincal population
+}
+}
+
+\section{Computational details}{
+ There are three available cutoff types, namely
+a, b, and c which can be used to "draw a line" or separate the functional
+and clinical population on a continuum. a as a cutoff is defined as the mean
+of the clinical population minus two times the standard deviation (SD) of
+the clinical population. b is defined as the mean of the functional
+population plus also two times the SD of the clinical population. This is
+true for "negative" outcomes, where a lower instrument score is desirable.
+For "positive" outcomes, where higher scores are beneficial, a is the mean
+of the clinical population plus 2 \eqn{\cdot} SD of the clinical population
+and b is mean of the functional population minus 2 \eqn{\cdot} SD of the
+clinical population. The summary statistics for the clinical population are
+estimated from the provided data at pre measurement.
+
+c is defined as the midpoint between both populations based on their
+respective mean and SD. In order to calculate b and c, descriptive
+statistics for the functional population must be provided.
+
+ From the provided data, a region of change is
+calculated in which an individual change may likely be due to an inherent
+measurement of the used instrument. This concept is also known as the
+minimally detectable change (MDC).
+}
+
+\section{Data preparation}{
+ The data set must be tidy, which corresponds to a
+long data frame in general. It must contain a patient identifier which must
+be unique per patient. Also, a column containing the different measurements
+and the outcome must be supplied. Each participant-measurement combination
+must be unique, so for instance, the data must not contain two "After"
+measurements for the same patient.
+
+Additionally, if the measurement column contains only two values, the first
+value based on alphabetical, numerical or factor ordering will be used as
+the \code{pre} measurement. For instance, if the column contains the
+measurements identifiers \code{"pre"} and \code{"post"} as strings, then \code{"post"}
+will be sorted before \code{"pre"} and thus be used as the \code{"pre"} measurement.
+The function will throw a warning but generally you may want to explicitly
+define the \code{"pre"} and \code{"post"} measurement with arguments \code{pre} and
+\code{post}. In case of more than two measurement identifiers, you have to
+define \code{pre} and \code{post} manually since the function does not know what your
+pre and post intervention measurements are.
+
+If your data is grouped, you can specify the group by referencing the
+grouping variable (see examples below). The analysis is then run for every
+group to compare group differences.
+}
+
 \examples{
 cs_results <- claus_2020 |>
-  cs_combined(id, time, bdi, pre = 1, post = 4, reliability = 0.80)
+  cs_combined(
+    id,
+    time,
+    bdi,
+    pre = 1,
+    post = 4,
+    reliability = 0.80
+  )
 
 cs_results
 summary(cs_results)
 plot(cs_results)
 
 
-# Different cutoff type
+# You can choose a different cutoff but must provide summary statistics for the
+# functional population
 cs_results_c <- claus_2020 |>
-  cs_combined(id, time, bdi, pre = 1, post = 4, reliability = 0.80, m_functional = 8, sd_functional = 8, cutoff_type = "c")
+  cs_combined(
+    id,
+    time,
+    bdi,
+    pre = 1,
+    post = 4,
+    reliability = 0.80,
+    m_functional = 8,
+    sd_functional = 8,
+    cutoff_type = "c"
+  )
 
 cs_results_c
 summary(cs_results_c)
 plot(cs_results_c)
 
 
-# Grouped analysis
+# You can group the analysis by providing a grouping variable in the data
 cs_results_grouped <- claus_2020 |>
-  cs_combined(id, time, bdi, pre = 1, post = 4, group = treatment, reliability = 0.80, m_functional = 8, sd_functional = 8, cutoff_type = "c")
+  cs_combined(
+    id,
+    time,
+    bdi,
+    pre = 1,
+    post = 4,
+    group = treatment,
+    reliability = 0.80,
+    m_functional = 8,
+    sd_functional = 8,
+    cutoff_type = "c"
+  )
 
 cs_results_grouped
 summary(cs_results_grouped)

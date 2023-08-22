@@ -44,7 +44,7 @@ than two measurements)}
 
 \item{reliability}{The instrument's reliability estimate. If you selected the
 NK method, the here specified reliability will be the instrument's pre
-measurement reliability}
+measurement reliability. Not needed for the HLM method.}
 
 \item{better_is}{Which direction means a better outcome for the used
 instrument? Available are
@@ -62,7 +62,7 @@ instrument? Available are
 \item{cutoff_type}{Cutoff type. Available are \code{"a"}, \code{"b"}, and \code{"c"}.
 Defaults to \code{"a"} but \code{"c"} is usually recommended. For \code{"b"} and \code{"c"},
 summary data from a functional population must be given with arguments
-\code{"m_functional"} and \code{"sd_functional"}.}
+\code{m_functional} and \code{sd_functional}.}
 
 \item{significance_level}{Significance level alpha, defaults to \code{0.05}. If
 you choose the \code{"HA"} method, this value corresponds to the maximum risk of
@@ -72,9 +72,72 @@ misclassification}
 An S3 object of class \code{cs_analysis} and \code{cs_statistical}
 }
 \description{
-Statistical Analysis of Clinical Significance
+\code{cs_statistical()} can be used to determine the clinical
+significance of intervention studies employing the statistical approach. For
+this, it will be assumed that the functional (non-clinical population) and
+patient (clinical population) scores form two distinct distributions on a
+continuum. \code{cs_statistical()} calculates a cutoff point between these two
+populations and counts, how many patients changed from the clinical to the
+functional population during intervention. Several methods for calculating
+this cutoff are available.
 }
+\section{Computational details}{
+ There are three available cutoff types, namely
+a, b, and c which can be used to "draw a line" or separate the functional
+and clinical population on a continuum. a as a cutoff is defined as the mean
+of the clinical population minus two times the standard deviation (SD) of
+the clinical population. b is defined as the mean of the functional
+population plus also two times the SD of the clinical population. This is
+true for "negative" outcomes, where a lower instrument score is desirable.
+For "positive" outcomes, where higher scores are beneficial, a is the mean
+of the clinical population plus 2 \eqn{\cdot} SD of the clinical population
+and b is mean of the functional population minus 2 \eqn{\cdot} SD of the
+clinical population. The summary statistics for the clinical population are
+estimated from the provided data at pre measurement.
+
+c is defined as the midpoint between both populations based on their
+respective mean and SD. In order to calculate b and c, descriptive
+statistics for the functional population must be provided.
+}
+
+\section{Categories}{
+ Individual patients can be categorized into one of the
+following groups:
+\itemize{
+\item Improved, i.e., one changed from the clinical to the functional population
+\item Unchanged, i.e., one can be seen as a member of the same population pre
+and post intervention
+\item Deteriorated, i.e., one changed from the functional to the clinical
+population during intervention
+}
+}
+
+\section{Data preparation}{
+ The data set must be tidy, which corresponds to a
+long data frame in general. It must contain a patient identifier which must
+be unique per patient. Also, a column containing the different measurements
+and the outcome must be supplied. Each participant-measurement combination
+must be unique, so for instance, the data must not contain two "After"
+measurements for the same patient.
+
+Additionally, if the measurement column contains only two values, the first
+value based on alphabetical, numerical or factor ordering will be used as
+the \code{pre} measurement. For instance, if the column contains the
+measurements identifiers \code{"pre"} and \code{"post"} as strings, then \code{"post"}
+will be sorted before \code{"pre"} and thus be used as the \code{"pre"} measurement.
+The function will throw a warning but generally you may want to explicitly
+define the \code{"pre"} and \code{"post"} measurement with arguments \code{pre} and
+\code{post}. In case of more than two measurement identifiers, you have to
+define \code{pre} and \code{post} manually since the function does not know what your
+pre and post intervention measurements are.
+
+If your data is grouped, you can specify the group by referencing the
+grouping variable (see examples below). The analysis is then run for every
+group to compare group differences.
+}
+
 \examples{
+# By default, cutoff type "a" is used
 cs_results <- claus_2020 |>
   cs_statistical(id, time, hamd, pre = 1, post = 4)
 
@@ -83,27 +146,58 @@ summary(cs_results)
 plot(cs_results)
 
 
-# Different cutoff type
+# You can choose a different cutoff type but need to provide additional
+# population summary statistics for the functional population
 cs_results_c <- claus_2020 |>
-  cs_statistical(id, time, hamd, pre = 1, post = 4, m_functional = 8, sd_functional = 8, cutoff_type = "c")
+  cs_statistical(
+    id,
+    time,
+    hamd,
+    pre = 1,
+    post = 4,
+    m_functional = 8,
+    sd_functional = 8,
+    cutoff_type = "c"
+  )
 
 cs_results_c
 summary(cs_results_c)
 plot(cs_results_c)
 
 
-# Different cutoff method
+# You can use a different method to calculate the cutoff
 cs_results_ha <- claus_2020 |>
-  cs_statistical(id, time, hamd, pre = 1, post = 4, m_functional = 8, sd_functional = 8, reliability = 0.80, cutoff_type = "c", cutoff_method = "HA")
--
+  cs_statistical(
+    id,
+    time,
+    hamd,
+    pre = 1,
+    post = 4,
+    m_functional = 8,
+    sd_functional = 8,
+    reliability = 0.80,
+    cutoff_type = "c",
+    cutoff_method = "HA"
+  )
+
 cs_results_ha
 summary(cs_results_ha)
 plot(cs_results_ha)
 
 
-# Grouped analysis
+# And you can group the analysis by providing a grouping variable from the data
 cs_results_grouped <- claus_2020 |>
-  cs_statistical(id, time, hamd, pre = 1, post = 4, group = treatment)
+  cs_statistical(
+    id,
+    time,
+    hamd,
+    pre = 1,
+    post = 4,
+    m_functional = 8,
+    sd_functional = 8,
+    cutoff_type = "c",
+    group = treatment
+  )
 
 cs_results_grouped
 summary(cs_results_grouped)

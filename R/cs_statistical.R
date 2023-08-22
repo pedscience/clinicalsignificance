@@ -1,27 +1,65 @@
-#' Statistical Analysis of Clinical Significance
+#'Statistical Analysis of Clinical Significance
 #'
-#' @inheritParams cs_distribution
-#' @param m_functional Numeric, mean of functional population.
-#' @param sd_functional Numeric, standard deviation of functional population
-#' @param cutoff_method Cutoff method, Available are
-#'   - `"JT"` (Jacobson & Truax, 1991, the default)
-#'   - `"HA"` (Hageman & Arrindell, 1999)
-#' @param cutoff_type Cutoff type. Available are `"a"`, `"b"`, and `"c"`.
-#'   Defaults to `"a"` but `"c"` is usually recommended. For `"b"` and `"c"`,
-#'   summary data from a functional population must be given with arguments
-#'   `"m_functional"` and `"sd_functional"`.
+#'@description `cs_statistical()` can be used to determine the clinical
+#'  significance of intervention studies employing the statistical approach. For
+#'  this, it will be assumed that the functional (non-clinical population) and
+#'  patient (clinical population) scores form two distinct distributions on a
+#'  continuum. `cs_statistical()` calculates a cutoff point between these two
+#'  populations and counts, how many patients changed from the clinical to the
+#'  functional population during intervention. Several methods for calculating
+#'  this cutoff are available.
+#'
+#'@section Computational details: There are three available cutoff types, namely
+#'  a, b, and c which can be used to "draw a line" or separate the functional
+#'  and clinical population on a continuum. a as a cutoff is defined as the mean
+#'  of the clinical population minus two times the standard deviation (SD) of
+#'  the clinical population. b is defined as the mean of the functional
+#'  population plus also two times the SD of the clinical population. This is
+#'  true for "negative" outcomes, where a lower instrument score is desirable.
+#'  For "positive" outcomes, where higher scores are beneficial, a is the mean
+#'  of the clinical population plus 2 \eqn{\cdot} SD of the clinical population
+#'  and b is mean of the functional population minus 2 \eqn{\cdot} SD of the
+#'  clinical population. The summary statistics for the clinical population are
+#'  estimated from the provided data at pre measurement.
+#'
+#'  c is defined as the midpoint between both populations based on their
+#'  respective mean and SD. In order to calculate b and c, descriptive
+#'  statistics for the functional population must be provided.
+#'
+#'@section Categories: Individual patients can be categorized into one of the
+#'  following groups:
+#'  - Improved, i.e., one changed from the clinical to the functional population
+#'  - Unchanged, i.e., one can be seen as a member of the same population pre
+#'  and post intervention
+#'  - Deteriorated, i.e., one changed from the functional to the clinical
+#'  population during intervention
 #'
 #'
-#' @references
-#' - Jacobson, N. S., & Truax, P. (1991). Clinical significance: A statistical approach to defining meaningful change in psychotherapy research. Journal of Consulting and Clinical Psychology, 59(1), 12–19. https://doi.org/10.1037//0022-006X.59.1.12
-#' - Hageman, W. J., & Arrindell, W. A. (1999). Establishing clinically significant change: increment of precision and the distinction between individual and group level analysis. Behaviour Research and Therapy, 37(12), 1169–1193. https://doi.org/10.1016/S0005-7967(99)00032-7
+#'@inheritSection cs_distribution Data preparation
 #'
-#' @family main
+#'@inheritParams cs_distribution
+#'@param m_functional Numeric, mean of functional population.
+#'@param sd_functional Numeric, standard deviation of functional population
+#'@param cutoff_method Cutoff method, Available are
+#'    - `"JT"` (Jacobson & Truax, 1991, the default)
+#'    - `"HA"` (Hageman & Arrindell, 1999)
+#'@param cutoff_type Cutoff type. Available are `"a"`, `"b"`, and `"c"`.
+#'  Defaults to `"a"` but `"c"` is usually recommended. For `"b"` and `"c"`,
+#'  summary data from a functional population must be given with arguments
+#'  `m_functional` and `sd_functional`.
 #'
-#' @return An S3 object of class `cs_analysis` and `cs_statistical`
-#' @export
+#'
+#'@references
+#'  - Jacobson, N. S., & Truax, P. (1991). Clinical significance: A statistical approach to defining meaningful change in psychotherapy research. Journal of Consulting and Clinical Psychology, 59(1), 12–19. https://doi.org/10.1037//0022-006X.59.1.12
+#'  - Hageman, W. J., & Arrindell, W. A. (1999). Establishing clinically significant change: increment of precision and the distinction between individual and group level analysis. Behaviour Research and Therapy, 37(12), 1169–1193. https://doi.org/10.1016/S0005-7967(99)00032-7
+#'
+#'@family main
+#'
+#'@return An S3 object of class `cs_analysis` and `cs_statistical`
+#'@export
 #'
 #' @examples
+#' # By default, cutoff type "a" is used
 #' cs_results <- claus_2020 |>
 #'   cs_statistical(id, time, hamd, pre = 1, post = 4)
 #'
@@ -30,27 +68,58 @@
 #' plot(cs_results)
 #'
 #'
-#' # Different cutoff type
+#' # You can choose a different cutoff type but need to provide additional
+#' # population summary statistics for the functional population
 #' cs_results_c <- claus_2020 |>
-#'   cs_statistical(id, time, hamd, pre = 1, post = 4, m_functional = 8, sd_functional = 8, cutoff_type = "c")
+#'   cs_statistical(
+#'     id,
+#'     time,
+#'     hamd,
+#'     pre = 1,
+#'     post = 4,
+#'     m_functional = 8,
+#'     sd_functional = 8,
+#'     cutoff_type = "c"
+#'   )
 #'
 #' cs_results_c
 #' summary(cs_results_c)
 #' plot(cs_results_c)
 #'
 #'
-#' # Different cutoff method
+#' # You can use a different method to calculate the cutoff
 #' cs_results_ha <- claus_2020 |>
-#'   cs_statistical(id, time, hamd, pre = 1, post = 4, m_functional = 8, sd_functional = 8, reliability = 0.80, cutoff_type = "c", cutoff_method = "HA")
-#'-
+#'   cs_statistical(
+#'     id,
+#'     time,
+#'     hamd,
+#'     pre = 1,
+#'     post = 4,
+#'     m_functional = 8,
+#'     sd_functional = 8,
+#'     reliability = 0.80,
+#'     cutoff_type = "c",
+#'     cutoff_method = "HA"
+#'   )
+#'
 #' cs_results_ha
 #' summary(cs_results_ha)
 #' plot(cs_results_ha)
 #'
 #'
-#' # Grouped analysis
+#' # And you can group the analysis by providing a grouping variable from the data
 #' cs_results_grouped <- claus_2020 |>
-#'   cs_statistical(id, time, hamd, pre = 1, post = 4, group = treatment)
+#'   cs_statistical(
+#'     id,
+#'     time,
+#'     hamd,
+#'     pre = 1,
+#'     post = 4,
+#'     m_functional = 8,
+#'     sd_functional = 8,
+#'     cutoff_type = "c",
+#'     group = treatment
+#'   )
 #'
 #' cs_results_grouped
 #' summary(cs_results_grouped)

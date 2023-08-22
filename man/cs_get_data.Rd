@@ -31,3 +31,8 @@ cs_get_data(cs_results)
 cs_get_data(cs_results, dataset = "wide")
 cs_get_data(cs_results, dataset = "original")
 }
+\seealso{
+Extractor functions
+\code{\link{cs_get_n}()}
+}
+\concept{get}

@@ -7,6 +7,8 @@
 #'   - `"data"` (the dataset which is used in the calculations).
 #'   The default is `"data"`
 #'
+#' @family get
+#'
 #' @return A tibble
 #' @export
 #'

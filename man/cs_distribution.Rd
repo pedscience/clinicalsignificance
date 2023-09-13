@@ -99,10 +99,10 @@ measurement error
 disadvantageous direction
 }
 
-Most of these methods are develped to deal with data containing two
+Most of these methods are developed to deal with data containing two
 measurements per individual, i.e., a pre intervention and post intervention
 measurement. The Hierarchical Linear Modeling (\code{rci_method = "HLM"}) method
-can incorporate data for multiple measurements an can thusly be used only
+can incorporate data for multiple measurements an can thus be used only
 for at least three measurements per participant.
 }
 

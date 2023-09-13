@@ -44,7 +44,8 @@ than two measurements)}
 significant improvement}
 
 \item{mid_deterioration}{Numeric, change that indicates a clinically
-significant deterioration}
+significant deterioration (optional). If \code{mid_deterioration} is not
+provided, it will be assumed to be equal to \code{mid_improvement}}
 
 \item{better_is}{Which direction means a better outcome for the used
 instrument? Available are
@@ -81,10 +82,10 @@ frequentist mean difference with confidence interval (if set to \code{FALSE})}
 prior distribution. See the documentation for \code{rscale} in
 \code{\link[BayesFactor:ttestBF]{BayesFactor::ttestBF()}} for details.}
 
-\item{reference_group}{Specifiy the reference group to which all subsequent
-groups are compared against if \code{target = "group"} and \code{effect = "within"}.
-Otherwise, the first distinct group is chosen based on alphabetical,
-numerical or factor ordering.}
+\item{reference_group}{Specify the reference group to which all subsequent
+groups are compared against if \code{target = "group"} and \code{effect = "within"}
+(optional). Otherwise, the first distinct group is chosen based on
+alphabetical, numerical or factor ordering.}
 
 \item{ci_level}{Numeric, define the credible or confidence interval level.
 The default is 0.95 for a 95\%-CI.}

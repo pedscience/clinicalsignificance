@@ -56,7 +56,8 @@
 #' @param mid_improvement Numeric, change that indicates a clinically
 #'   significant improvement
 #' @param mid_deterioration Numeric, change that indicates a clinically
-#'   significant deterioration
+#'   significant deterioration (optional). If `mid_deterioration` is not
+#'   provided, it will be assumed to be equal to `mid_improvement`
 #' @param target String, whether an individual or group analysis should be
 #'   calculated. Available are
 #'   - `"individual"` (the default) for which every individual participant is
@@ -77,10 +78,10 @@
 #' @param prior_scale String or numeric, can be adjusted to change the Bayesian
 #'   prior distribution. See the documentation for `rscale` in
 #'   [BayesFactor::ttestBF()] for details.
-#' @param reference_group Specifiy the reference group to which all subsequent
-#'   groups are compared against if `target = "group"` and `effect = "within"`.
-#'   Otherwise, the first distinct group is chosen based on alphabetical,
-#'   numerical or factor ordering.
+#' @param reference_group Specify the reference group to which all subsequent
+#'   groups are compared against if `target = "group"` and `effect = "within"`
+#'   (optional). Otherwise, the first distinct group is chosen based on
+#'   alphabetical, numerical or factor ordering.
 #' @param ci_level Numeric, define the credible or confidence interval level.
 #'   The default is 0.95 for a 95%-CI.
 #'

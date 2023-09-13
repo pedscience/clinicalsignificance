@@ -1,10 +1,35 @@
 #' Percentage-Change Analysis of Clinical Significance
 #'
+#' @description `cs_percentage()` can be used to determine the clinical
+#'   significance of intervention studies employing the percentage-change
+#'   approach. For this, each individuals relative change compared to the pre
+#'   intervention measurement and if this change exceeds a predefined change in
+#'   percent points, this change is then deemed clinically significant.
+#'
+#' @section Computational details: Each participants change is calculated and
+#'   then divided by the pre intervention score to estimate the individual's
+#'   percent change. A percent change for an improvement as well as a
+#'   deterioration can be provided separately and if `pct_deterioration` is not
+#'   set, it will be assumed to be the same as `pct_improvement`.
+#'
+#' @section Categories: Each individual's change may then be categorized into
+#'   one of the following three categories:
+#'   - Improved, the change is greater than the predefined percent change in
+#'   the beneficial direction
+#'   - Unchanged, the change is within the predefined percent change
+#'   - Deteriorated, the change is greater than the predefined percent change,
+#'   but in the disadvantageous direction
+#'
+#'
+#' @inheritSection cs_distribution Data preparation
+#'
+#'
+#' @inheritParams cs_distribution
 #' @param pct_improvement Numeric, percent change that indicates a clinically
 #'   significant improvement
 #' @param pct_deterioration Numeric, percent change that indicates a clinically
-#'   significant deterioration
-#' @inheritParams cs_distribution
+#'   significant deterioration (optional). If this is not set,
+#'   `pct_deterioration` will be assumed to be equal to `pct_improvement`
 #'
 #' @family main
 #'
@@ -14,34 +39,66 @@
 #'
 #' @examples
 #' cs_results <- claus_2020 |>
-#'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.3)
+#'   cs_percentage(
+#'     id,
+#'     time,
+#'     hamd,
+#'     pre = 1,
+#'     post = 4,
+#'     pct_improvement = 0.3
+#'   )
 #'
 #' cs_results
 #' summary(cs_results)
 #' plot(cs_results)
 #'
 #'
-#' # Different thresholds for improvement and deterioration
+#' # You can set different thresholds for improvement and deterioration
 #' cs_results_2 <- claus_2020 |>
-#'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.3, pct_deterioration = 0.2)
+#'   cs_percentage(
+#'     id,
+#'     time,
+#'     hamd,
+#'     pre = 1,
+#'     post = 4,
+#'     pct_improvement = 0.3,
+#'     pct_deterioration = 0.2
+#'   )
 #'
 #' cs_results_2
 #' summary(cs_results_2)
 #' plot(cs_results_2)
 #'
 #'
-#' # Grouped results
+#' # You can group the analysis by providing a group column from the data
 #' cs_results_grouped <- claus_2020 |>
-#'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.3, group = treatment)
+#'   cs_percentage(
+#'     id,
+#'     time,
+#'     hamd,
+#'     pre = 1,
+#'     post = 4,
+#'     pct_improvement = 0.3,
+#'     group = treatment
+#'   )
 #'
 #' cs_results_grouped
 #' summary(cs_results_grouped)
 #' plot(cs_results_grouped)
 #'
 #'
-#' # Positive outcomes
+#' # The analyses can be performed for positive outcomes as well, i.e., outcomes
+#' # for which a higher value is beneficial
 #' cs_results_who <- claus_2020 |>
-#'   cs_percentage(id, time, who, pre = 1, post = 4, pct_improvement = 0.3, better_is = "higher")
+#'   cs_percentage(
+#'     id,
+#'     time,
+#'     who,
+#'     pre = 1,
+#'     post = 4,
+#'     pct_improvement = 0.3,
+#'     better_is = "higher"
+#'   )
 #'
 #' cs_results_who
 #' summary(cs_results_who)

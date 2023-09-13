@@ -38,7 +38,8 @@ than two measurements)}
 significant improvement}
 
 \item{pct_deterioration}{Numeric, percent change that indicates a clinically
-significant deterioration}
+significant deterioration (optional). If this is not set,
+\code{pct_deterioration} will be assumed to be equal to \code{pct_improvement}}
 
 \item{better_is}{Which direction means a better outcome for the used
 instrument? Available are
@@ -51,38 +52,118 @@ instrument? Available are
 An S3 object of class \code{cs_analysis} and \code{cs_percentage}
 }
 \description{
-Percentage-Change Analysis of Clinical Significance
+\code{cs_percentage()} can be used to determine the clinical
+significance of intervention studies employing the percentage-change
+approach. For this, each individuals relative change compared to the pre
+intervention measurement and if this change exceeds a predefined change in
+percent points, this change is then deemed clinically significant.
 }
+\section{Computational details}{
+ Each participants change is calculated and
+then divided by the pre intervention score to estimate the individual's
+percent change. A percent change for an improvement as well as a
+deterioration can be provided separately and if \code{pct_deterioration} is not
+set, it will be assumed to be the same as \code{pct_improvement}.
+}
+
+\section{Categories}{
+ Each individual's change may then be categorized into
+one of the following three categories:
+\itemize{
+\item Improved, the change is greater than the predefined percent change in
+the beneficial direction
+\item Unchanged, the change is within the predefined percent change
+\item Deteriorated, the change is greater than the predefined percent change,
+but in the disadvantageous direction
+}
+}
+
+\section{Data preparation}{
+ The data set must be tidy, which corresponds to a
+long data frame in general. It must contain a patient identifier which must
+be unique per patient. Also, a column containing the different measurements
+and the outcome must be supplied. Each participant-measurement combination
+must be unique, so for instance, the data must not contain two "After"
+measurements for the same patient.
+
+Additionally, if the measurement column contains only two values, the first
+value based on alphabetical, numerical or factor ordering will be used as
+the \code{pre} measurement. For instance, if the column contains the
+measurements identifiers \code{"pre"} and \code{"post"} as strings, then \code{"post"}
+will be sorted before \code{"pre"} and thus be used as the \code{"pre"} measurement.
+The function will throw a warning but generally you may want to explicitly
+define the \code{"pre"} and \code{"post"} measurement with arguments \code{pre} and
+\code{post}. In case of more than two measurement identifiers, you have to
+define \code{pre} and \code{post} manually since the function does not know what your
+pre and post intervention measurements are.
+
+If your data is grouped, you can specify the group by referencing the
+grouping variable (see examples below). The analysis is then run for every
+group to compare group differences.
+}
+
 \examples{
 cs_results <- claus_2020 |>
-  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.3)
+  cs_percentage(
+    id,
+    time,
+    hamd,
+    pre = 1,
+    post = 4,
+    pct_improvement = 0.3
+  )
 
 cs_results
 summary(cs_results)
 plot(cs_results)
 
 
-# Different thresholds for improvement and deterioration
+# You can set different thresholds for improvement and deterioration
 cs_results_2 <- claus_2020 |>
-  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.3, pct_deterioration = 0.2)
+  cs_percentage(
+    id,
+    time,
+    hamd,
+    pre = 1,
+    post = 4,
+    pct_improvement = 0.3,
+    pct_deterioration = 0.2
+  )
 
 cs_results_2
 summary(cs_results_2)
 plot(cs_results_2)
 
 
-# Grouped results
+# You can group the analysis by providing a group column from the data
 cs_results_grouped <- claus_2020 |>
-  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.3, group = treatment)
+  cs_percentage(
+    id,
+    time,
+    hamd,
+    pre = 1,
+    post = 4,
+    pct_improvement = 0.3,
+    group = treatment
+  )
 
 cs_results_grouped
 summary(cs_results_grouped)
 plot(cs_results_grouped)
 
 
-# Positive outcomes
+# The analyses can be performed for positive outcomes as well, i.e., outcomes
+# for which a higher value is beneficial
 cs_results_who <- claus_2020 |>
-  cs_percentage(id, time, who, pre = 1, post = 4, pct_improvement = 0.3, better_is = "higher")
+  cs_percentage(
+    id,
+    time,
+    who,
+    pre = 1,
+    post = 4,
+    pct_improvement = 0.3,
+    better_is = "higher"
+  )
 
 cs_results_who
 summary(cs_results_who)

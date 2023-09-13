@@ -115,8 +115,8 @@ create_summary_table.cs_statistical <- function(cutoff_results, data, method, ..
       )
   } else {
     categories <- joined_data |>
-      dplyr::rename(improved = functional_post) |>
-      dplyr::mutate(unchanged = ifelse(!improved, TRUE, FALSE))
+      dplyr::rename(improved = functional_post, deteriorated = clinical_post) |>
+      dplyr::mutate(unchanged = !improved & !deteriorated)
   }
 
 

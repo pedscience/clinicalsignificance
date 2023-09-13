@@ -70,9 +70,10 @@ cs_get_augmented_data.cs_statistical <- function(x, ...) {
       dplyr::mutate(
         category = dplyr::case_when(
           functional_post ~ "Improved",
-          !functional_post ~ "Unchanged"
+          clinical_post ~ "Deteriorated",
+          !functional_post & !clinical_post ~ "Unchanged"
         ),
-        category = factor(category, levels = c("Improved", "Unchanged"))
+        category = factor(category, levels = c("Improved", "Unchanged", "Deteriorated"))
       )
   }
 }

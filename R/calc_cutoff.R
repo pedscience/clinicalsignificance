@@ -115,9 +115,11 @@ calc_cutoff_from_data.cs_ha <- function(data, m_clinical, sd_clinical, m_functio
   data_cutoff_criteria <- data |>
     dplyr::mutate(
       cs_indiv = (m_post + (post - m_post) * reliability_post - cutoff) / (sqrt(reliability_post) * se_measurement),
-      functional_post = ifelse(direction * cs_indiv > critical_value, TRUE, FALSE)
+      clinical_pre = direction * pre < direction * cutoff,
+      functional_post = clinical_pre & direction * cs_indiv > critical_value,
+      clinical_post = !clinical_pre & direction * cs_indiv < -critical_value
     ) |>
-    dplyr::select(id, cs_indiv, functional_post)
+    dplyr::select(id, cs_indiv, clinical_pre, functional_post, clinical_post)
 
   out <- list(
     info = cutoff_info,

@@ -31,11 +31,12 @@ calc_anchor(data, ...)
   direction,
   ci_level,
   bayesian,
-  prior_scale
+  prior_scale,
+  ...
 )
 }
 \arguments{
-\item{data}{A dataset object of class \verb{cs_*}}
+\item{data}{A data set object of class \verb{cs_*}}
 
 \item{...}{Additional arguments}
 

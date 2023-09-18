@@ -52,5 +52,5 @@ test_that("Plots are created correctly", {
   vdiffr::expect_doppelganger("Combined JT Plot Grouped", plot(claus_jt_combined_grouped))
   vdiffr::expect_doppelganger("Percentage Plot", plot(claus_pct_impr))
   vdiffr::expect_doppelganger("Percentage Plot Grouped", plot(claus_pct_impr_grouped))
-  vdiffr::expect_doppelganger("Percentage Plot with Improvement and Deterioration", plot(claus_pct_impr_det))
+  vdiffr::expect_doppelganger("Percentage Plot with ImpDet", plot(claus_pct_impr_det))
 })

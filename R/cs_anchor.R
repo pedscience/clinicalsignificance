@@ -479,33 +479,27 @@ print.cs_anchor_group_between <- function(x, ...) {
 
 #' Summary Method for the Anchor-Based Approach
 #'
-#' @param x An object of class `cs_anchor_individual_within`
+#' @param object An object of class `cs_anchor_individual_within`
 #' @param ... Additional arguments
 #'
 #' @return No return value, called for side effects only
 #' @export
-#'
-#' @examples
-#' cs_results <- claus_2020 |>
-#'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
-#'
-#' summary(cs_results)
-summary.cs_anchor_individual_within <- function(x, ...) {
+summary.cs_anchor_individual_within <- function(object, ...) {
   # Get necessary information from object
-  summary_table <- x[["summary_table"]] |>
+  summary_table <- object[["summary_table"]] |>
     dplyr::rename_with(tools::toTitleCase)
 
-  mid_improvement <- x[["mid_improvement"]]
-  mid_deterioration <- x[["mid_deterioration"]]
-  n_original <- cs_get_n(x, "original")[[1]]
-  n_used <- cs_get_n(x, "used")[[1]]
+  mid_improvement <- object[["mid_improvement"]]
+  mid_deterioration <- object[["mid_deterioration"]]
+  n_original <- cs_get_n(object, "original")[[1]]
+  n_used <- cs_get_n(object, "used")[[1]]
   pct <- round(n_used / n_original, digits = 3) * 100
-  direction <- x[["direction"]]
+  direction <- object[["direction"]]
 
   if (direction == -1) dir_improvement <- "decrease" else dir_improvement <- "increase"
   if (direction == -1) dir_deterioration <- "increase" else dir_deterioration <- "decrease"
 
-  outcome <- x[["outcome"]]
+  outcome <- object[["outcome"]]
 
   if (mid_improvement == mid_deterioration) {
     pct_string <- "{.strong {mid_improvement} point} {dir_improvement} in instrument scores ({.strong {outcome}}) indicating a clinical significant improvement."
@@ -533,7 +527,7 @@ summary.cs_anchor_individual_within <- function(x, ...) {
 
 #' Summary Method for the Anchor-Based Approach for Groups (Within)
 #'
-#' @param x An object of class `cs_anchor_group_within`
+#' @param object An object of class `cs_anchor_group_within`
 #' @param ... Additional arguments
 #'
 #' @return No return value, called for side effects only
@@ -541,25 +535,33 @@ summary.cs_anchor_individual_within <- function(x, ...) {
 #'
 #' @examples
 #' cs_results <- claus_2020 |>
-#'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
+#'   cs_anchor(
+#'     id,
+#'     time,
+#'     bdi,
+#'     pre = 1,
+#'     post = 4,
+#'     mid_improvement = 8,
+#'     target = "group"
+#'   )
 #'
 #' summary(cs_results)
-summary.cs_anchor_group_within <- function(x, ...) {
+summary.cs_anchor_group_within <- function(object, ...) {
   # Get necessary information from object
-  summary_table_formatted <- x[["anchor_results"]] |>
+  summary_table_formatted <- object[["anchor_results"]] |>
     dplyr::rename("Difference" = "difference", "CI-Level" = "ci", "[Lower" = "lower", "Upper]" = "upper", "Category" = "category")
   if (.has_group(summary_table_formatted)) summary_table_formatted <- dplyr::rename(summary_table_formatted, "Group" = "group")
 
-  mid_improvement <- x[["mid_improvement"]]
-  n_original <- cs_get_n(x, "original")[[1]]
-  n_used <- cs_get_n(x, "used")[[1]]
+  mid_improvement <- object[["mid_improvement"]]
+  n_original <- cs_get_n(object, "original")[[1]]
+  n_used <- cs_get_n(object, "used")[[1]]
   pct <- round(n_used / n_original, digits = 3) * 100
-  direction <- x[["direction"]]
+  direction <- object[["direction"]]
 
   if (direction == -1) dir_improvement <- "decrease" else dir_improvement <- "increase"
   if (direction == -1) dir_deterioration <- "increase" else dir_deterioration <- "decrease"
 
-  outcome <- x[["outcome"]]
+  outcome <- object[["outcome"]]
 
 
   # Print output
@@ -581,20 +583,29 @@ summary.cs_anchor_group_within <- function(x, ...) {
 
 #' Summary Method for the Anchor-Based Approach for Groups (Between)
 #'
-#' @param x An object of class `cs_anchor_group_between`
+#' @param object An object of class `cs_anchor_group_between`
 #' @param ... Additional arguments
 #'
 #' @return No return value, called for side effects only
 #' @export
 #'
 #' @examples
-#' cs_results <- claus_2020 |>
-#'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
+#' cs_results <- antidepressants |>
+#'   cs_anchor(
+#'     patient,
+#'     measurement,
+#'     post = "After",
+#'     mom_di,
+#'     mid_improvement = 8,
+#'     target = "group",
+#'     effect = "between",
+#'     group = condition
+#'   )
 #'
 #' summary(cs_results)
-summary.cs_anchor_group_between <- function(x, ...) {
+summary.cs_anchor_group_between <- function(object, ...) {
   # Get necessary information from object
-  summary_table_formatted <- x[["anchor_results"]] |>
+  summary_table_formatted <- object[["anchor_results"]] |>
     dplyr::rename(
       "Group 1" = "reference",
       "Group 2" = "comparison",
@@ -606,15 +617,15 @@ summary.cs_anchor_group_between <- function(x, ...) {
       "n (2)" = "n_comparison"
     )
 
-  if (!x[["bayesian"]]) summary_table_formatted <- dplyr::rename(summary_table_formatted, "Mean Difference" = "difference") else summary_table_formatted <- dplyr::rename(summary_table_formatted, "Median Difference" = "difference")
+  if (!object[["bayesian"]]) summary_table_formatted <- dplyr::rename(summary_table_formatted, "Mean Difference" = "difference") else summary_table_formatted <- dplyr::rename(summary_table_formatted, "Median Difference" = "difference")
 
-  mid_improvement <- x[["mid_improvement"]]
-  direction <- x[["direction"]]
+  mid_improvement <- object[["mid_improvement"]]
+  direction <- object[["direction"]]
 
   if (direction == -1) dir_improvement <- "decrease" else dir_improvement <- "increase"
   if (direction == -1) dir_deterioration <- "increase" else dir_deterioration <- "decrease"
 
-  outcome <- x[["outcome"]]
+  outcome <- object[["outcome"]]
 
 
   # Print output

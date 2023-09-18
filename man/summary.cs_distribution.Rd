@@ -4,10 +4,10 @@
 \alias{summary.cs_distribution}
 \title{Summary Method for the Distribution-Based Approach}
 \usage{
-\method{summary}{cs_distribution}(x, ...)
+\method{summary}{cs_distribution}(object, ...)
 }
 \arguments{
-\item{x}{An object of class \code{cs_distribution}}
+\item{object}{An object of class \code{cs_distribution}}
 
 \item{...}{Additional arguments}
 }

@@ -278,7 +278,7 @@ print.cs_statistical <- function(x, ...) {
 
 #' Summary Method for the Statistical Approach
 #'
-#' @param x An object of class `cs_distribution`
+#' @param object An object of class `cs_distribution`
 #' @param ... Additional arguments
 #'
 #' @return No return value, called for side effects only
@@ -286,27 +286,35 @@ print.cs_statistical <- function(x, ...) {
 #'
 #' @examples
 #' cs_results <- claus_2020 |>
-#'   cs_statistical(id, time, hamd, pre = 1, post = 4, m_functional = 8, sd_functional = 7)
+#'   cs_statistical(
+#'     id,
+#'     time,
+#'     hamd,
+#'     pre = 1,
+#'     post = 4,
+#'     m_functional = 8,
+#'     sd_functional = 7
+#'   )
 #'
 #' summary(cs_results)
-summary.cs_statistical <- function(x, ...) {
+summary.cs_statistical <- function(object, ...) {
   # Get necessary information from object
-  summary_table <- x[["summary_table"]]
+  summary_table <- object[["summary_table"]]
   summary_table_formatted <- summary_table |>
     dplyr::rename_with(tools::toTitleCase)
 
-  cs_method <- x[["method"]]
-  n_original <- cs_get_n(x, "original")[[1]]
-  n_used <- cs_get_n(x, "used")[[1]]
+  cs_method <- object[["method"]]
+  n_original <- cs_get_n(object, "original")[[1]]
+  n_used <- cs_get_n(object, "used")[[1]]
   pct <- round(n_used / n_original, digits = 3) * 100
-  cutoff_info <- cs_get_cutoff(x, with_descriptives = TRUE)
+  cutoff_info <- cs_get_cutoff(object, with_descriptives = TRUE)
   cutoff_type <- cutoff_info[["type"]]
   cutoff_value <- round(cutoff_info[["value"]], 2)
   cutoff_descriptives <- cutoff_info[, 1:4] |>
     dplyr::rename("M Clinical" = "m_clinical", "SD Clinical" = "sd_clinical", "M Functional" = "m_functional", "SD Functional" = "sd_functional") |>
     insight::export_table(missing = "---", )
 
-  outcome <- x[["outcome"]]
+  outcome <- object[["outcome"]]
 
 
   # Print output

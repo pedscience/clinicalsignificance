@@ -1,20 +1,15 @@
-library(dplyr)
-library(tibble)
-
-
-
 # RCI JT ------------------------------------------------------------------
-rci_data_jt <- tibble(id = 1:5, change = c(-8, -4, 0, 4, 8))
+rci_data_jt <- tibble::tibble(id = 1:5, change = c(-8, -4, 0, 4, 8))
 sd_pre <- 5
 reliability <- 0.80
 se_measurement <- .calc_se_measurement(sd_pre, reliability)
 s_diff <- .calc_s_diff(se_measurement)
 
 manual_rcis <- rci_data_jt |>
-  mutate(
+  dplyr::mutate(
     rci = change / s_diff
   ) |>
-  pull(rci)
+  dplyr::pull(rci)
 
 
 # Create an object of respective class
@@ -40,13 +35,13 @@ sd_pre <- 7
 se_prediction <- .calc_se_prediction(sd_pre, reliability)
 
 rcis_gln <- rci_data_gln |>
-  mutate(
+  dplyr::mutate(
     pre_adj = reliability * (pre - m_pre),
     post_adj = post - m_pre,
     change_adj = post_adj - pre_adj,
     rci = change_adj / se_prediction
   ) |>
-  pull(rci)
+  dplyr::pull(rci)
 
 
 # Create an object of respective class
@@ -74,13 +69,13 @@ se_prediction <- .calc_se_prediction(sd_pre, reliability)
 
 # Calculate RCI
 manual_rci <- rci_data_hll |>
-  mutate(
+  dplyr::mutate(
     pre_adj = reliability * (pre - m_pre),
     post_adj = post - m_post,
     change_adj = post_adj - pre_adj,
     rci = change_adj / se_prediction
   ) |>
-  pull(rci)
+  dplyr::pull(rci)
 
 
 # Create an object of respective class
@@ -110,7 +105,7 @@ se_measurement <- .calc_se_measurement(sd_pre, reliability)
 
 # Calculate the RCI according to reformulation of Speer
 manual_rci_data <- rci_data_en |>
-  mutate(
+  dplyr::mutate(
     pre_true = reliability * (pre - m_pre) + m_pre,
     change_adj = post - pre_true,
     rci = change_adj / se_measurement
@@ -140,12 +135,12 @@ reliability_post <- 0.80
 denominator <- sqrt((reliability^2 * sd_pre ^2 * (1 - reliability)) + (sd_pre^2 * (1 - reliability_post)))
 
 manual_rci <- rci_data_nk |>
-  mutate(
+  dplyr::mutate(
     pre_adj = reliability * (pre - m_pre) + m_pre,
     change_adj = post - pre_adj,
     rci = change_adj / denominator
   ) |>
-  pull(rci)
+  dplyr::pull(rci)
 
 
 # Create an object of respective class
@@ -181,10 +176,10 @@ denominator <- (sd_pre^2 + sd_post^2 - 2 * sd_pre * sd_post * cor_pre_post)
 r_dd <- nominator / denominator
 
 manual_rci <- rci_data_ha |>
-  mutate(
+  dplyr::mutate(
     rci = ((post - pre) * r_dd + (m_post - m_pre) * (1 - r_dd)) / (sqrt(r_dd) * sqrt(2 * se_measurement^2))
   ) |>
-  pull(rci)
+  dplyr::pull(rci)
 
 
 # Create an object of respective class

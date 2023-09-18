@@ -1,17 +1,16 @@
 #' Plot an Object of Class cs_distribution
 #'
-#' This function creates a generic clinical significance plot bz plotting the
-#' patients' pre intervention value on the x-axis and the post intervention
-#' score on the y-axis. Additionally, the RCI (region signifying unchanged
-#' patients) is shown with a diagonal corresponding to no change.
+#' @description This function creates a generic clinical significance plot by
+#'   plotting the patients' pre intervention value on the x-axis and the post
+#'   intervention score on the y-axis.
 #'
 #' @param x An object of class `cs_distribution`
 #' @param x_lab String, x axis label. Default is `"Pre"`.
 #' @param y_lab String, x axis label. Default is `"Post"`.
 #' @param color_lab String, color label (if colors are displayed). Default is
 #'   `"Group"`
-#' @param lower_limit Numeric, lower plotting limit. Defaults to 2% smaller
-#'   than minimum instrument score
+#' @param lower_limit Numeric, lower plotting limit. Defaults to 2% smaller than
+#'   minimum instrument score
 #' @param upper_limit Numeric, upper plotting limit. Defaults to 2% larger than
 #'   maximum instrument score
 #' @param show Unquoted category name. You have several options to color
@@ -20,6 +19,12 @@
 #'   - `improved` (shows improved participants)
 #'   - `unchanged` (shows unchanged participants)
 #'   - `deteriorated` (shows deteriorated participants)
+#' @param point_alpha Numeric, transparency adjustment for points. A value
+#'   between 0 and 1 where 1 corresponds to not transparent at all and 0 to
+#'   fully transparent.
+#' @param trajectory_alpha Numeric, transparency adjustment for trajectories. A
+#'   value between 0 and 1 where 1 corresponds to not transparent at all and 0
+#'   to fully transparent.
 #' @param overplotting Numeric, control amount of overplotting. Defaults to 0.02
 #'   (i.e., 2% of range between lower and upper limit).
 #' @param rci_fill String, a color (name or HEX code) for RCI fill
@@ -29,6 +34,68 @@
 #'
 #' @return A ggplot2 plot
 #' @export
+#'
+#' @examples
+#' cs_results <- antidepressants |>
+#'   cs_distribution(
+#'     patient,
+#'     measurement,
+#'     pre = "Before",
+#'     mom_di,
+#'     reliability = 0.80
+#'   )
+#'
+#'
+#' # Plot the results "as is"
+#' plot(cs_results)
+#'
+#'
+#' # Change the axis labels
+#' plot(cs_results, x_lab = "Before Intervention", y_lab = "After Intervention")
+#'
+#'
+#' # Show the individual categories
+#' plot(cs_results, show = category)
+#'
+#'
+#' # Show a specific
+#' plot(cs_results, show = improved)
+#'
+#'
+#' # Show groups as specified in the data
+#' cs_results_grouped <- antidepressants |>
+#'   cs_distribution(
+#'     patient,
+#'     measurement,
+#'     pre = "Before",
+#'     mom_di,
+#'     reliability = 0.80,
+#'     group = condition
+#'   )
+#'
+#' plot(cs_results_grouped)
+#'
+#'
+#' # To avoid overplotting, generic ggplot2 code can be used to facet the plot
+#' library(ggplot2)
+#' plot(cs_results_grouped) +
+#'   facet_wrap(~ group)
+#'
+#'
+#' # Adjust the transparency of individual data points
+#' plot(cs_results, point_alpha = 0.3)
+#'
+#'
+#' # Adjust the fill and transparency of the "unchanged" (RCI) region
+#' plot(cs_results, rci_fill = "firebrick", rci_alpha = 0.2)
+#'
+#'
+#' # Control the overplotting
+#' plot(cs_results, overplotting = 0.1)
+#'
+#'
+#' # Or adjust the axis limits by hand
+#' plot(cs_results, lower_limit = 0, upper_limit = 80)
 plot.cs_distribution <- function(x,
                                  x_lab = NULL,
                                  y_lab = NULL,
@@ -60,7 +127,7 @@ plot.cs_distribution <- function(x,
     if (.has_group(model_data)) by_ids <- dplyr::join_by(c("id", "group")) else by_ids <- dplyr::join_by("id")
 
     data <- model_data |>
-      left_join(categories, by_ids) |>
+      dplyr::left_join(categories, by_ids) |>
       dplyr::mutate(
         dplyr::across(dplyr::where(is.logical), \(x) ifelse(x, "Yes", "No"))
       )
@@ -139,6 +206,11 @@ plot.cs_distribution <- function(x,
 
 #' Plot an Object of Class cs_statistical
 #'
+#' @description This function creates a generic clinical significance plot by
+#'   plotting the patients' pre intervention value on the x-axis and the post
+#'   intervention score on the y-axis.
+#'
+#' @inheritParams plot.cs_distribution
 #' @param x An object of class `cs_statistical`
 #' @param include_cutoff Logical, whether to include the population cutoff.
 #'   Default is `TRUE`.
@@ -149,25 +221,71 @@ plot.cs_distribution <- function(x,
 #'   - `functional_post` (shows participants with functional scores post
 #'     intervention)
 #'   - `unchanged` (shows unchanged participants)
+#' @param point_alpha Numeric, transparency adjustment for points. A value
+#'   between 0 and 1 where 1 corresponds to not transparent at all and 0 to
+#'   fully transparent.
 #'
-#' @inheritParams plot.cs_distribution
 #'
 #' @return A ggplot2 plot
 #' @export
 #'
 #' @examples
-#' claus_results <- claus_2020 |>
-#'   cs_statistical(id, time, bdi, m_functional = 8, sd_functional = 7, pre = 1, post = 4, cutoff_type = "c")
+#' cs_results <- antidepressants |>
+#'   cs_statistical(
+#'     patient,
+#'     measurement,
+#'     pre = "Before",
+#'     mom_di,
+#'     m_functional = 15,
+#'     sd_functional = 8,
+#'     cutoff_type = "c"
+#'   )
 #'
-#' plot(claus_results)
-#' plot(claus_results, show = category)
+#'
+#' # Plot the results "as is"
+#' plot(cs_results)
 #'
 #'
-#' claus_results_ha <- claus_2020 |>
-#'   cs_statistical(id, time, bdi, m_functional = 8, sd_functional = 7, pre = 1, post = 4, reliability = 0.80, cutoff_type = "c", cutoff_method = "HA")
+#' # Change the axis labels
+#' plot(cs_results, x_lab = "Before Intervention", y_lab = "After Intervention")
 #'
-#' plot(claus_results_ha)
-#' plot(claus_results_ha, show = category)
+#'
+#' # Show the individual categories
+#' plot(cs_results, show = category)
+#'
+#'
+#' # Show groups as specified in the data
+#' cs_results_grouped <- antidepressants |>
+#'   cs_statistical(
+#'     patient,
+#'     measurement,
+#'     pre = "Before",
+#'     mom_di,
+#'     m_functional = 15,
+#'     sd_functional = 8,
+#'     cutoff_type = "c",
+#'     group = condition
+#'   )
+#'
+#' plot(cs_results_grouped)
+#'
+#'
+#' # To avoid overplotting, generic ggplot2 code can be used to facet the plot
+#' library(ggplot2)
+#' plot(cs_results_grouped) +
+#'   facet_wrap(~ group)
+#'
+#'
+#' # Adjust the transparency of individual data points
+#' plot(cs_results, point_alpha = 0.3)
+#'
+#'
+#' # Control the overplotting
+#' plot(cs_results, overplotting = 0.1)
+#'
+#'
+#' # Or adjust the axis limits by hand
+#' plot(cs_results, lower_limit = 0, upper_limit = 80)
 plot.cs_statistical <- function(x,
                                 x_lab = "Pre",
                                 y_lab = "Post",
@@ -229,10 +347,9 @@ plot.cs_statistical <- function(x,
 
 #' Plot an Object of Class cs_combined
 #'
-#' This function creates a generic clinical significance plot bz plotting the
-#' patients' pre intervention value on the x-axis and the post intervention
-#' score on the y-axis. Additionally, the RCI (region signifying unchanged
-#' patients) is shown with a diagonal corresponding to no change.
+#' @description This function creates a generic clinical significance plot by
+#'   plotting the patients' pre intervention value on the x-axis and the post
+#'   intervention score on the y-axis.
 #'
 #' @param x An object of class `cs_distribution`
 #' @param x_lab String, x axis label. Default is `"Pre"`.
@@ -251,6 +368,12 @@ plot.cs_statistical <- function(x,
 #'   - `unchanged` (shows unchanged participants)
 #'   - `deteriorated` (shows deteriorated participants)
 #'   - `harmed` (shows harmed participants)
+#' @param point_alpha Numeric, transparency adjustment for points. A value
+#'   between 0 and 1 where 1 corresponds to not transparent at all and 0 to
+#'   fully transparent.
+#' @param trajectory_alpha Numeric, transparency adjustment for trajectories. A
+#'   value between 0 and 1 where 1 corresponds to not transparent at all and 0
+#'   to fully transparent.
 #' @param overplotting Numeric, control amount of overplotting. Defaults to 0.02
 #'   (i.e., 2% of range between lower and upper limit).
 #' @param rci_fill String, a color (name or HEX code) for RCI fill
@@ -260,6 +383,74 @@ plot.cs_statistical <- function(x,
 #'
 #' @return A ggplot2 plot
 #' @export
+#'
+#' @examples
+#' cs_results <- antidepressants |>
+#'   cs_combined(
+#'     patient,
+#'     measurement,
+#'     pre = "Before",
+#'     mom_di,
+#'     reliability = 0.80,
+#'     m_functional = 15,
+#'     sd_functional = 8,
+#'     cutoff_type = "c"
+#'   )
+#'
+#'
+#' # Plot the results "as is"
+#' plot(cs_results)
+#'
+#'
+#' # Change the axis labels
+#' plot(cs_results, x_lab = "Before Intervention", y_lab = "After Intervention")
+#'
+#'
+#' # Show the individual categories
+#' plot(cs_results, show = category)
+#'
+#'
+#' # Show a specific
+#' plot(cs_results, show = recovered)
+#'
+#'
+#' # Show groups as specified in the data
+#' cs_results_grouped <- antidepressants |>
+#'   cs_combined(
+#'     patient,
+#'     measurement,
+#'     pre = "Before",
+#'     mom_di,
+#'     reliability = 0.80,
+#'     m_functional = 15,
+#'     sd_functional = 8,
+#'     cutoff_type = "c",
+#'     group = condition
+#'   )
+#'
+#' plot(cs_results_grouped)
+#'
+#'
+#' # To avoid overplotting, generic ggplot2 code can be used to facet the plot
+#' library(ggplot2)
+#' plot(cs_results_grouped) +
+#'   facet_wrap(~ group)
+#'
+#'
+#' # Adjust the transparency of individual data points
+#' plot(cs_results, point_alpha = 0.3)
+#'
+#'
+#' # Adjust the fill and transparency of the "unchanged" (RCI) region
+#' plot(cs_results, rci_fill = "firebrick", rci_alpha = 0.2)
+#'
+#'
+#' # Control the overplotting
+#' plot(cs_results, overplotting = 0.1)
+#'
+#'
+#' # Or adjust the axis limits by hand
+#' plot(cs_results, lower_limit = 0, upper_limit = 80)
 plot.cs_combined <- function(x,
                              x_lab = NULL,
                              y_lab = NULL,
@@ -376,10 +567,9 @@ plot.cs_combined <- function(x,
 
 #' Plot an Object of Class cs_percentage
 #'
-#' This function creates a generic clinical significance plot bz plotting the
-#' patients' pre intervention value on the x-axis and the post intervention
-#' score on the y-axis. Additionally, the RCI (region signifying unchanged
-#' patients) is shown with a diagonal corresponding to no change.
+#' @description This function creates a generic clinical significance plot by
+#'   plotting the patients' pre intervention value on the x-axis and the post
+#'   intervention score on the y-axis.
 #'
 #' @inheritParams plot.cs_distribution
 #' @param show Unquoted category name. You have several options to color
@@ -387,6 +577,9 @@ plot.cs_combined <- function(x,
 #'   - `improved` (shows improved participants)
 #'   - `unchanged` (shows unchanged participants)
 #'   - `deteriorated` (shows deteriorated participants)
+#' @param point_alpha Numeric, transparency adjustment for points. A value
+#'   between 0 and 1 where 1 corresponds to not transparent at all and 0 to
+#'   fully transparent.
 #' @param pct_fill String, a color (name or HEX code) for the percentage range
 #'   fill
 #' @param pct_alpha Numeric, controls the transparency of the percentage fill.
@@ -394,6 +587,68 @@ plot.cs_combined <- function(x,
 #'
 #' @return A ggplot2 plot
 #' @export
+#'
+#' @examples
+#' cs_results <- antidepressants |>
+#'   cs_percentage(
+#'     patient,
+#'     measurement,
+#'     pre = "Before",
+#'     mom_di,
+#'     pct_improvement = 0.4
+#'   )
+#'
+#'
+#' # Plot the results "as is"
+#' plot(cs_results)
+#'
+#'
+#' # Change the axis labels
+#' plot(cs_results, x_lab = "Before Intervention", y_lab = "After Intervention")
+#'
+#'
+#' # Show the individual categories
+#' plot(cs_results, show = category)
+#'
+#'
+#' # Show a specific category
+#' plot(cs_results, show = improved)
+#'
+#'
+#' # Show groups as specified in the data
+#' cs_results_grouped <- antidepressants |>
+#'   cs_percentage(
+#'     patient,
+#'     measurement,
+#'     pre = "Before",
+#'     mom_di,
+#'     pct_improvement = 0.4,
+#'     group = condition
+#'   )
+#'
+#' plot(cs_results_grouped)
+#'
+#'
+#' # To avoid overplotting, generic ggplot2 code can be used to facet the plot
+#' library(ggplot2)
+#' plot(cs_results_grouped) +
+#'   facet_wrap(~ group)
+#'
+#'
+#' # Adjust the transparency of individual data points
+#' plot(cs_results, point_alpha = 0.3)
+#'
+#'
+#' # Adjust the fill and transparency of the "unchanged" (PCC) region
+#' plot(cs_results, pct_fill = "firebrick", pct_alpha = 0.2)
+#'
+#'
+#' # Control the overplotting
+#' plot(cs_results, overplotting = 0.1)
+#'
+#'
+#' # Or adjust the axis limits by hand
+#' plot(cs_results, lower_limit = 0, upper_limit = 80)
 plot.cs_percentage<- function(x,
                               x_lab = "Pre",
                               y_lab = "Post",
@@ -455,10 +710,9 @@ plot.cs_percentage<- function(x,
 
 #' Plot an Object of Class cs_anchor_individual_within
 #'
-#' This function creates a generic clinical significance plot bz plotting the
-#' patients' pre intervention value on the x-axis and the post intervention
-#' score on the y-axis. Additionally, the RCI (region signifying unchanged
-#' patients) is shown with a diagonal corresponding to no change.
+#' @description This function creates a generic clinical significance plot by
+#'   plotting the patients' pre intervention value on the x-axis and the post
+#'   intervention score on the y-axis.
 #'
 #' @inheritParams plot.cs_distribution
 #' @param show Unquoted category name. You have several options to color
@@ -466,13 +720,78 @@ plot.cs_percentage<- function(x,
 #'   - `improved` (shows improved participants)
 #'   - `unchanged` (shows unchanged participants)
 #'   - `deteriorated` (shows deteriorated participants)
-#' @param pct_fill String, a color (name or HEX code) for the percentage range
+#' @param point_alpha Numeric, transparency adjustment for points. A value
+#'   between 0 and 1 where 1 corresponds to not transparent at all and 0 to
+#'   fully transparent.
+#' @param mid_fill String, a color (name or HEX code) for the percentage range
 #'   fill
-#' @param pct_alpha Numeric, controls the transparency of the percentage fill.
+#' @param mid_alpha Numeric, controls the transparency of the percentage fill.
 #'   This can be any value between 0 and 1, defaults to 0.1
 #'
 #' @return A ggplot2 plot
 #' @export
+#'
+#' @examples
+#' cs_results <- antidepressants |>
+#'   cs_anchor(
+#'     patient,
+#'     measurement,
+#'     pre = "Before",
+#'     mom_di,
+#'     mid_improvement = 8
+#'   )
+#'
+#'
+#' # Plot the results "as is"
+#' plot(cs_results)
+#'
+#'
+#' # Change the axis labels
+#' plot(cs_results, x_lab = "Before Intervention", y_lab = "After Intervention")
+#'
+#'
+#' # Show the individual categories
+#' plot(cs_results, show = category)
+#'
+#'
+#' # Show a specific category
+#' plot(cs_results, show = improved)
+#'
+#'
+#' # Show groups as specified in the data
+#' cs_results_grouped <- antidepressants |>
+#'   cs_anchor(
+#'     patient,
+#'     measurement,
+#'     pre = "Before",
+#'     mom_di,
+#'     mid_improvement = 8,
+#'     group = condition
+#'   )
+#'
+#' plot(cs_results_grouped)
+#'
+#'
+#' # To avoid overplotting, generic ggplot2 code can be used to facet the plot
+#' library(ggplot2)
+#' plot(cs_results_grouped) +
+#'   facet_wrap(~ group)
+#'
+#'
+#' # Adjust the transparency of individual data points
+#' plot(cs_results, point_alpha = 0.3)
+#'
+#'
+#' # Adjust the fill and transparency of the "unchanged" (PCC) region
+#' plot(cs_results, mid_fill = "firebrick", mid_alpha = 0.2)
+#'
+#'
+#' # Control the overplotting
+#' plot(cs_results, overplotting = 0.1)
+#'
+#'
+#' # Or adjust the axis limits by hand
+#' plot(cs_results, lower_limit = 0, upper_limit = 80)
 plot.cs_anchor_individual_within <- function(x,
                                              x_lab = "Pre",
                                              y_lab = "Post",
@@ -481,8 +800,8 @@ plot.cs_anchor_individual_within <- function(x,
                                              upper_limit,
                                              show,
                                              point_alpha = 1,
-                                             pct_fill = "grey10",
-                                             pct_alpha = 0.1,
+                                             mid_fill = "grey10",
+                                             mid_alpha = 0.1,
                                              overplotting = 0.02,
                                              ...) {
   # Get augmented data for plotting
@@ -511,7 +830,7 @@ plot.cs_anchor_individual_within <- function(x,
 
   # Create a list of geoms added to the plot
   geom_list <- list(
-    ggplot2::geom_ribbon(data = band_data, ggplot2::aes(y = NULL, ymin = ymin, ymax = ymax), fill = pct_fill, alpha = pct_alpha),
+    ggplot2::geom_ribbon(data = band_data, ggplot2::aes(y = NULL, ymin = ymin, ymax = ymax), fill = mid_fill, alpha = mid_alpha),
     ggplot2::geom_abline(color = "grey10"),
     if (.has_group(data) & missing(show)) {
       ggplot2::geom_point(ggplot2::aes(color = group), alpha = point_alpha)
@@ -534,19 +853,37 @@ plot.cs_anchor_individual_within <- function(x,
 
 #' Plot an Object of Class cs_anchor_group_within
 #'
-#' This function creates a generic clinical significance plot bz plotting the
-#' patients' pre intervention value on the x-axis and the post intervention
-#' score on the y-axis. Additionally, the RCI (region signifying unchanged
-#' patients) is shown with a diagonal corresponding to no change.
+#' @description This function creates a generic group level clinical
+#'   significance plot by plotting the within group change with the associated
+#'   uncertainty interval around the estimated change on the y-axis.
 #'
 #' @param x An object of class `cs_anchor_group_within`
 #' @param x_lab String, x axis label. Defaults to `"Group"`
-#' @param y_lab String, y axis label, defaults to
-#'    `"Mean Intervention Effect (with 95%-CI)"`
+#' @param y_lab String, y axis label, defaults to `"Mean Intervention Effect
+#'   (with 95%-CI)"`
 #' @param ... Additional arguments
 #'
 #' @return A ggplot2 plot
 #' @export
+#'
+#' @examples
+#' cs_results <- antidepressants |>
+#'   cs_anchor(
+#'     patient,
+#'     measurement,
+#'     mom_di,
+#'     mid_improvement = 8,
+#'     target = "group",
+#'     group = condition
+#'   )
+#'
+#'
+#' # Plot the results "as is"
+#' plot(cs_results)
+#'
+#'
+#' # Change the axis labels
+#' plot(cs_results, x_lab = "Condition", y_lab = "Treatment Effect")
 plot.cs_anchor_group_within <- function(x,
                                         x_lab = "Group",
                                         y_lab = "Mean Intervention Effect\n(with 95%-CI)",
@@ -586,17 +923,43 @@ plot.cs_anchor_group_within <- function(x,
 
 #' Plot an Object of Class cs_anchor_group_between
 #'
-#' This function creates a generic clinical significance plot bz plotting the
-#' patients' pre intervention value on the x-axis and the post intervention
-#' score on the y-axis. Additionally, the RCI (region signifying unchanged
-#' patients) is shown with a diagonal corresponding to no change.
+#' @description This function creates a generic group level clinical
+#'   significance plot by plotting the between group change with the associated
+#'   uncertainty interval around the estimated change on the y-axis.
+#'
+#' @param x An object of class `cs_anchor_group_between`
+#' @param x_lab String, x axis label, defaults to `"Group"`
+#' @param y_lab String, y axis label, defaults to `"Mean Intervention Effect
+#'   (with 95%-CI)"`
+#' @param ... Additional arguments
 #'
 #' @return A ggplot2 plot
 #' @export
+#'
+#' @examples
+#' cs_results <- antidepressants |>
+#'   cs_anchor(
+#'     patient,
+#'     measurement,
+#'     mom_di,
+#'     mid_improvement = 8,
+#'     target = "group",
+#'     group = condition,
+#'     effect = "between",
+#'     post = "After"
+#'   )
+#'
+#'
+#' # Plot the results "as is"
+#' plot(cs_results)
+#'
+#'
+#' # Change the axis labels
+#' plot(cs_results, x_lab = "Condition", y_lab = "Treatment Effect")
 plot.cs_anchor_group_between <- function(x,
-                                        x_lab = "Group",
-                                        y_lab = "Mean Intervention Effect\n(with 95%-CI)",
-                                        ...) {
+                                         x_lab = "Group",
+                                         y_lab = "Mean Intervention Effect\n(with 95%-CI)",
+                                         ...) {
   # Get augmented data for plotting
   data <- x[["anchor_results"]]
   mid_improvement <- x[["mid_improvement"]]
@@ -614,8 +977,8 @@ plot.cs_anchor_group_between <- function(x,
   )
 
 
-    data |>
-      ggplot2::ggplot(ggplot2::aes(comparison, difference)) +
-      geom_list +
-      ggplot2::labs(x = x_lab, y = y_lab)
+  data |>
+    ggplot2::ggplot(ggplot2::aes(comparison, difference)) +
+    geom_list +
+    ggplot2::labs(x = x_lab, y = y_lab)
 }

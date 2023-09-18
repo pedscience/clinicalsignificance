@@ -339,7 +339,7 @@ print.cs_distribution <- function(x, ...) {
 
 #' Summary Method for the Distribution-Based Approach
 #'
-#' @param x An object of class `cs_distribution`
+#' @param object An object of class `cs_distribution`
 #' @param ... Additional arguments
 #'
 #' @return No return value, called for side effects only
@@ -350,26 +350,26 @@ print.cs_distribution <- function(x, ...) {
 #'   cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.8)
 #'
 #' summary(cs_results)
-summary.cs_distribution <- function(x, ...) {
+summary.cs_distribution <- function(object, ...) {
   # Get necessary information from object
-  summary_table <- x[["summary_table"]]
+  summary_table <- object[["summary_table"]]
   summary_table_formatted <- summary_table |>
     dplyr::rename_with(tools::toTitleCase)
 
-  cs_method <- x[["method"]]
-  n_original <- cs_get_n(x, "original")[[1]]
-  n_used <- cs_get_n(x, "used")[[1]]
+  cs_method <- object[["method"]]
+  n_original <- cs_get_n(object, "original")[[1]]
+  n_used <- cs_get_n(object, "used")[[1]]
   pct <- round(n_used / n_original, digits = 3) * 100
 
-  outcome <- x[["outcome"]]
+  outcome <- object[["outcome"]]
   if (cs_method == "HLM") {
     reliability_summary <- "The outcome was {.strong {outcome}}."
   } else if (cs_method != "NK") {
-    reliability <- cs_get_reliability(x)[[1]]
+    reliability <- cs_get_reliability(object)[[1]]
     reliability_summary <- "The outcome was {.strong {outcome}} and the reliability was set to {.strong {reliability}}."
   } else {
-    reliability_pre <- cs_get_reliability(x)[[1]]
-    reliability_post <- cs_get_reliability(x)[[2]]
+    reliability_pre <- cs_get_reliability(object)[[1]]
+    reliability_post <- cs_get_reliability(object)[[2]]
     reliability_summary <- "The outcome was {.strong {outcome}} and the reliability was set to {.strong {reliability_pre}} (pre intervention) and {.strong {reliability_post}} (post intervention)."
   }
 

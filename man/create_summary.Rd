@@ -56,6 +56,8 @@ create_summary_table(x, ...)
 \item{cutoff}{Cutoff value}
 
 \item{sd_post}{SD post intervention}
+
+\item{direction}{Which direction is beneficial? 1 = higher, -1 = lower}
 }
 \value{
 A tibble

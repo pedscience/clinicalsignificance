@@ -30,8 +30,8 @@
 \item{color_lab}{String, color label (if colors are displayed). Default is
 \code{"Group"}}
 
-\item{lower_limit}{Numeric, lower plotting limit. Defaults to 2\% smaller
-than minimum instrument score}
+\item{lower_limit}{Numeric, lower plotting limit. Defaults to 2\% smaller than
+minimum instrument score}
 
 \item{upper_limit}{Numeric, upper plotting limit. Defaults to 2\% larger than
 maximum instrument score}
@@ -44,6 +44,14 @@ different features. Available are
 \item \code{unchanged} (shows unchanged participants)
 \item \code{deteriorated} (shows deteriorated participants)
 }}
+
+\item{point_alpha}{Numeric, transparency adjustment for points. A value
+between 0 and 1 where 1 corresponds to not transparent at all and 0 to
+fully transparent.}
+
+\item{trajectory_alpha}{Numeric, transparency adjustment for trajectories. A
+value between 0 and 1 where 1 corresponds to not transparent at all and 0
+to fully transparent.}
 
 \item{rci_fill}{String, a color (name or HEX code) for RCI fill}
 
@@ -59,8 +67,69 @@ any value between 0 and 1, defaults to 0.1}
 A ggplot2 plot
 }
 \description{
-This function creates a generic clinical significance plot bz plotting the
-patients' pre intervention value on the x-axis and the post intervention
-score on the y-axis. Additionally, the RCI (region signifying unchanged
-patients) is shown with a diagonal corresponding to no change.
+This function creates a generic clinical significance plot by
+plotting the patients' pre intervention value on the x-axis and the post
+intervention score on the y-axis.
+}
+\examples{
+cs_results <- antidepressants |>
+  cs_distribution(
+    patient,
+    measurement,
+    pre = "Before",
+    mom_di,
+    reliability = 0.80
+  )
+
+
+# Plot the results "as is"
+plot(cs_results)
+
+
+# Change the axis labels
+plot(cs_results, x_lab = "Before Intervention", y_lab = "After Intervention")
+
+
+# Show the individual categories
+plot(cs_results, show = category)
+
+
+# Show a specific
+plot(cs_results, show = improved)
+
+
+# Show groups as specified in the data
+cs_results_grouped <- antidepressants |>
+  cs_distribution(
+    patient,
+    measurement,
+    pre = "Before",
+    mom_di,
+    reliability = 0.80,
+    group = condition
+  )
+
+plot(cs_results_grouped)
+
+
+# To avoid overplotting, generic ggplot2 code can be used to facet the plot
+library(ggplot2)
+plot(cs_results_grouped) +
+  facet_wrap(~ group)
+
+
+# Adjust the transparency of individual data points
+plot(cs_results, point_alpha = 0.3)
+
+
+# Adjust the fill and transparency of the "unchanged" (RCI) region
+plot(cs_results, rci_fill = "firebrick", rci_alpha = 0.2)
+
+
+# Control the overplotting
+plot(cs_results, overplotting = 0.1)
+
+
+# Or adjust the axis limits by hand
+plot(cs_results, lower_limit = 0, upper_limit = 80)
 }

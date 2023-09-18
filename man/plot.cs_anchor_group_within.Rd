@@ -16,8 +16,7 @@
 
 \item{x_lab}{String, x axis label. Defaults to \code{"Group"}}
 
-\item{y_lab}{String, y axis label, defaults to
-\code{"Mean Intervention Effect (with 95\%-CI)"}}
+\item{y_lab}{String, y axis label, defaults to \code{"Mean Intervention Effect (with 95\%-CI)"}}
 
 \item{...}{Additional arguments}
 }
@@ -25,8 +24,26 @@
 A ggplot2 plot
 }
 \description{
-This function creates a generic clinical significance plot bz plotting the
-patients' pre intervention value on the x-axis and the post intervention
-score on the y-axis. Additionally, the RCI (region signifying unchanged
-patients) is shown with a diagonal corresponding to no change.
+This function creates a generic group level clinical
+significance plot by plotting the within group change with the associated
+uncertainty interval around the estimated change on the y-axis.
+}
+\examples{
+cs_results <- antidepressants |>
+  cs_anchor(
+    patient,
+    measurement,
+    mom_di,
+    mid_improvement = 8,
+    target = "group",
+    group = condition
+  )
+
+
+# Plot the results "as is"
+plot(cs_results)
+
+
+# Change the axis labels
+plot(cs_results, x_lab = "Condition", y_lab = "Treatment Effect")
 }

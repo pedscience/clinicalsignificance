@@ -1,10 +1,7 @@
 # data is prepared correctly
 
     Code
-      .prep_data(jacobson_factor, subject, time, gds, method = "JT")
-    Message <rlang_message>
-      i Your "pre" was set as pre measurement and and your "post" as post.
-      * If that is not correct, please specify the pre measurement with the argument "pre".
+      .prep_data(jacobson_factor, subject, time, pre = "pre", gds, method = "JT")
     Output
       $original
       # A tibble: 60 x 4
@@ -54,6 +51,4 @@
       10    10  75    73     -2  
       # i 16 more rows
       
-      attr(,"class")
-      [1] "cs_jt" "list" 
 

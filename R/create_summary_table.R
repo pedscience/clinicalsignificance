@@ -139,6 +139,7 @@ create_summary_table.cs_statistical <- function(x,
 #' @param se_measurement se_measurement
 #' @param cutoff Cutoff value
 #' @param sd_post SD post intervention
+#' @param direction Which direction is beneficial? 1 = higher, -1 = lower
 #'
 #' @rdname create_summary
 #' @export

@@ -5,7 +5,7 @@
 #' called. It calculates the change and according clinical significance category
 #' for each participant.
 #'
-#' @param data A dataset object of class `cs_*`
+#' @param data A data set object of class `cs_*`
 #' @param ... Additional arguments
 #'
 #' @return An object of class `cs_anchor_*`
@@ -29,7 +29,12 @@ calc_anchor <- function(data, ...) {
 #'
 #' @rdname calc_anchor
 #' @export
-calc_anchor.cs_anchor_individual_within <- function(data, mid_improvement, mid_deterioration, direction, ci_level, ...) {
+calc_anchor.cs_anchor_individual_within <- function(data,
+                                                    mid_improvement,
+                                                    mid_deterioration,
+                                                    direction,
+                                                    ci_level,
+                                                    ...) {
   out <- data[["data"]] |>
     dplyr::mutate(
       improved     = direction * change >= mid_improvement,
@@ -56,7 +61,14 @@ calc_anchor.cs_anchor_individual_within <- function(data, mid_improvement, mid_d
 #'
 #' @rdname calc_anchor
 #' @export
-calc_anchor.cs_anchor_group_within <- function(data, mid_improvement, mid_deterioration, direction, ci_level, bayesian, prior_scale,...) {
+calc_anchor.cs_anchor_group_within <- function(data,
+                                               mid_improvement,
+                                               mid_deterioration,
+                                               direction,
+                                               ci_level,
+                                               bayesian,
+                                               prior_scale,
+                                               ...) {
   used_data <- data[["data"]]
   threshold <- direction * mid_improvement
 
@@ -109,7 +121,16 @@ calc_anchor.cs_anchor_group_within <- function(data, mid_improvement, mid_deteri
 #'
 #' @rdname calc_anchor
 #' @export
-calc_anchor.cs_anchor_group_between <- function(data, mid_improvement, mid_deterioration, reference_group, post, direction, ci_level, bayesian, prior_scale) {
+calc_anchor.cs_anchor_group_between <- function(data,
+                                                mid_improvement,
+                                                mid_deterioration,
+                                                reference_group,
+                                                post,
+                                                direction,
+                                                ci_level,
+                                                bayesian,
+                                                prior_scale,
+                                                ...) {
   threshold <- direction * mid_improvement
   if (is.null(reference_group)) {
     if (is.factor(data[["group"]])) {

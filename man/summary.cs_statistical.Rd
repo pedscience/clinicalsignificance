@@ -4,10 +4,10 @@
 \alias{summary.cs_statistical}
 \title{Summary Method for the Statistical Approach}
 \usage{
-\method{summary}{cs_statistical}(x, ...)
+\method{summary}{cs_statistical}(object, ...)
 }
 \arguments{
-\item{x}{An object of class \code{cs_distribution}}
+\item{object}{An object of class \code{cs_distribution}}
 
 \item{...}{Additional arguments}
 }
@@ -19,7 +19,15 @@ Summary Method for the Statistical Approach
 }
 \examples{
 cs_results <- claus_2020 |>
-  cs_statistical(id, time, hamd, pre = 1, post = 4, m_functional = 8, sd_functional = 7)
+  cs_statistical(
+    id,
+    time,
+    hamd,
+    pre = 1,
+    post = 4,
+    m_functional = 8,
+    sd_functional = 7
+  )
 
 summary(cs_results)
 }

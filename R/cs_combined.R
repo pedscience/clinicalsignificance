@@ -284,7 +284,7 @@ print.cs_combined <- function(x, ...) {
 
 #' Summary Method for the Combined Approach
 #'
-#' @param x An object of class `cs_combined`
+#' @param object An object of class `cs_combined`
 #' @param ... Additional arguments
 #'
 #' @return No return value, called for side effects only
@@ -295,18 +295,18 @@ print.cs_combined <- function(x, ...) {
 #'   cs_combined(id, time, hamd, pre = 1, post = 4, reliability = 0.8)
 #'
 #' summary(cs_results)
-summary.cs_combined <- function(x, ...) {
+summary.cs_combined <- function(object, ...) {
   # browser()
   # Get necessary information from object
-  summary_table_formatted <- x[["summary_table"]][["individual_level_summary"]] |>
+  summary_table_formatted <- object[["summary_table"]][["individual_level_summary"]] |>
     dplyr::rename_with(tools::toTitleCase) |>
     insight::export_table()
 
-  cs_method <- x[["method"]]
-  n_original <- cs_get_n(x, "original")[[1]]
-  n_used <- cs_get_n(x, "used")[[1]]
+  cs_method <- object[["method"]]
+  n_original <- cs_get_n(object, "original")[[1]]
+  n_used <- cs_get_n(object, "used")[[1]]
   pct <- round(n_used / n_original, digits = 3) * 100
-  cutoff_info <- cs_get_cutoff(x, with_descriptives = TRUE)
+  cutoff_info <- cs_get_cutoff(object, with_descriptives = TRUE)
   cutoff_type <- cutoff_info[["type"]]
   cutoff_value <- round(cutoff_info[["value"]], 2)
   cutoff_descriptives <- cutoff_info[, 1:4] |>
@@ -314,18 +314,18 @@ summary.cs_combined <- function(x, ...) {
     insight::export_table(missing = "---", )
 
   if (cs_method == "HA") {
-    group_summary_table <- x[["summary_table"]][["group_level_summary"]] |>
+    group_summary_table <- object[["summary_table"]][["group_level_summary"]] |>
       dplyr::rename_with(tools::toTitleCase) |>
       insight::export_table()
   }
 
-  outcome <- x[["outcome"]]
+  outcome <- object[["outcome"]]
   if (cs_method != "NK") {
-    reliability <- cs_get_reliability(x)[[1]]
+    reliability <- cs_get_reliability(object)[[1]]
     reliability_summary <- "The outcome was {.strong {outcome}} and the reliability was set to {.strong {reliability}}."
   } else {
-    reliability_pre <- cs_get_reliability(x)[[1]]
-    reliability_post <- cs_get_reliability(x)[[2]]
+    reliability_pre <- cs_get_reliability(object)[[1]]
+    reliability_post <- cs_get_reliability(object)[[2]]
     reliability_summary <- "The outcome was {.strong {outcome}} and the reliability was set to {.strong {reliability_pre}} (pre intervention) and {.strong {reliability_post}} (post intervention)."
   }
 

@@ -4,10 +4,10 @@
 \alias{summary.cs_combined}
 \title{Summary Method for the Combined Approach}
 \usage{
-\method{summary}{cs_combined}(x, ...)
+\method{summary}{cs_combined}(object, ...)
 }
 \arguments{
-\item{x}{An object of class \code{cs_combined}}
+\item{object}{An object of class \code{cs_combined}}
 
 \item{...}{Additional arguments}
 }

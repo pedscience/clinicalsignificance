@@ -18,7 +18,7 @@ cs_get_augmented_data(x, ...)
 
 \method{cs_get_augmented_data}{cs_statistical}(x, ...)
 
-\method{cs_get_augmented_data}{cs_combined}(x)
+\method{cs_get_augmented_data}{cs_combined}(x, ...)
 
 \method{cs_get_augmented_data}{cs_percentage}(x, ...)
 

@@ -244,7 +244,7 @@ print.cs_percentage <- function(x, ...) {
 
 #' Summary Method for the Percentage-Change Approach
 #'
-#' @param x An object of class `cs_percentage`
+#' @param object An object of class `cs_percentage`
 #' @param ... Additional arguments
 #'
 #' @return No return value, called for side effects only
@@ -255,22 +255,22 @@ print.cs_percentage <- function(x, ...) {
 #'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
 #'
 #' summary(cs_results)
-summary.cs_percentage <- function(x, ...) {
+summary.cs_percentage <- function(object, ...) {
   # Get necessary information from object
-  summary_table <- x[["summary_table"]] |>
+  summary_table <- object[["summary_table"]] |>
     dplyr::rename_with(tools::toTitleCase)
 
-  pct_improvement <- x[["pct_improvement"]] * 100
-  pct_deterioration <- x[["pct_deterioration"]] * 100
-  n_original <- cs_get_n(x, "original")[[1]]
-  n_used <- cs_get_n(x, "used")[[1]]
+  pct_improvement <- object[["pct_improvement"]] * 100
+  pct_deterioration <- object[["pct_deterioration"]] * 100
+  n_original <- cs_get_n(object, "original")[[1]]
+  n_used <- cs_get_n(object, "used")[[1]]
   pct <- round(n_used / n_original, digits = 3) * 100
-  direction <- x[["direction"]]
+  direction <- object[["direction"]]
 
   if (direction == -1) dir_improvement <- "decrease" else dir_improvement <- "increase"
   if (direction == -1) dir_deterioration <- "increase" else dir_deterioration <- "decrease"
 
-  outcome <- x[["outcome"]]
+  outcome <- object[["outcome"]]
 
   if (pct_improvement == pct_deterioration) {
     pct_string <- "{.strong {pct_improvement}%} {dir_improvement} in instrument scores indicating a clinical significant improvement."

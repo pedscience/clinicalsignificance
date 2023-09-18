@@ -31,7 +31,7 @@ test_that("Reliability in HA method is calculated correctly", {
 rci_data <- tibble(id = 1:5, rci = c(-2, -0.5, 0, 0.5, 2))
 
 rci_categroies_higher <- rci_data |>
-  mutate(
+  dplyr::mutate(
     improved = rci > 1.96,
     deteriorated = rci < -1.96,
     unchanged = !improved & !deteriorated
@@ -39,7 +39,7 @@ rci_categroies_higher <- rci_data |>
 
 
 rci_categroies_lower <- rci_data |>
-  mutate(
+  dplyr::mutate(
     improved = rci < -1.96,
     deteriorated = rci > 1.96,
     unchanged = !improved & !deteriorated

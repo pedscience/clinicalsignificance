@@ -4,10 +4,10 @@
 \alias{summary.cs_percentage}
 \title{Summary Method for the Percentage-Change Approach}
 \usage{
-\method{summary}{cs_percentage}(x, ...)
+\method{summary}{cs_percentage}(object, ...)
 }
 \arguments{
-\item{x}{An object of class \code{cs_percentage}}
+\item{object}{An object of class \code{cs_percentage}}
 
 \item{...}{Additional arguments}
 }

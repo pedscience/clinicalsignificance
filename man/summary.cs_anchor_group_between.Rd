@@ -4,10 +4,10 @@
 \alias{summary.cs_anchor_group_between}
 \title{Summary Method for the Anchor-Based Approach for Groups (Between)}
 \usage{
-\method{summary}{cs_anchor_group_between}(x, ...)
+\method{summary}{cs_anchor_group_between}(object, ...)
 }
 \arguments{
-\item{x}{An object of class \code{cs_anchor_group_between}}
+\item{object}{An object of class \code{cs_anchor_group_between}}
 
 \item{...}{Additional arguments}
 }
@@ -18,8 +18,17 @@ No return value, called for side effects only
 Summary Method for the Anchor-Based Approach for Groups (Between)
 }
 \examples{
-cs_results <- claus_2020 |>
-  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
+cs_results <- antidepressants |>
+  cs_anchor(
+    patient,
+    measurement,
+    post = "After",
+    mom_di,
+    mid_improvement = 8,
+    target = "group",
+    effect = "between",
+    group = condition
+  )
 
 summary(cs_results)
 }

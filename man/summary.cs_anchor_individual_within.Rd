@@ -4,10 +4,10 @@
 \alias{summary.cs_anchor_individual_within}
 \title{Summary Method for the Anchor-Based Approach}
 \usage{
-\method{summary}{cs_anchor_individual_within}(x, ...)
+\method{summary}{cs_anchor_individual_within}(object, ...)
 }
 \arguments{
-\item{x}{An object of class \code{cs_anchor_individual_within}}
+\item{object}{An object of class \code{cs_anchor_individual_within}}
 
 \item{...}{Additional arguments}
 }
@@ -16,10 +16,4 @@ No return value, called for side effects only
 }
 \description{
 Summary Method for the Anchor-Based Approach
-}
-\examples{
-cs_results <- claus_2020 |>
-  cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
-
-summary(cs_results)
 }

@@ -161,7 +161,7 @@ cs_get_augmented_data.cs_statistical <- function(x, ...) {
 #'
 #' @rdname augmented_data
 #' @export
-cs_get_augmented_data.cs_combined <- function(x) {
+cs_get_augmented_data.cs_combined <- function(x, ...) {
   cs_method <- x[["method"]]
   categories <- x[["summary_table"]][["categories"]]
 

@@ -2,48 +2,32 @@
 % Please edit documentation in R/cs_get_reliability.R
 \name{cs_get_reliability}
 \alias{cs_get_reliability}
-\title{Get Reliability Of A clinisig Object}
+\title{Get Reliability Of A cs_analysis Object}
 \usage{
 cs_get_reliability(x)
 }
 \arguments{
-\item{x}{A clinisig object}
+\item{x}{A cs_analysis object}
 }
 \value{
 A tibble showing the reliability
 }
 \description{
-Get Reliability Of A clinisig Object
+Get Reliability Of A cs_analysis Object
 }
 \examples{
-results <- jacobson_1989 |>
-  clinical_significance(
-    id = subject,
-    time = time,
-    outcome = gds,
-    pre = "pre",
-    reliability = 0.80,
-    m_functional = 30,
-    sd_functional = 10,
-    type = "c"
+cs_results <- claus_2020 |>
+  cs_distribution(
+    id,
+    time,
+    bdi,
+    pre = 1,
+    post = 4,
+    reliability = 0.80
   )
 
-results_nk <- jacobson_1989 |>
-  clinical_significance(
-    id = subject,
-    time = time,
-    outcome = gds,
-    pre = "pre",
-    reliability = 0.80,
-    reliability_post = 0.85,
-    m_functional = 30,
-    sd_functional = 10,
-    type = "c",
-    method = "NK"
-  )
 
-cs_get_reliability(results)
-cs_get_reliability(results_nk)
+cs_get_reliability(cs_results)
 }
 \seealso{
 Extractor functions

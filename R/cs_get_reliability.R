@@ -1,51 +1,36 @@
-#' Get Reliability Of A clinisig Object
+#' Get Reliability Of A cs_analysis Object
 #'
-#' @param x A clinisig object
-#'
-#' @importFrom dplyr tibble
+#' @param x A cs_analysis object
 #'
 #' @family get
 #' @return A tibble showing the reliability
 #' @export
 #'
 #' @examples
-#' results <- jacobson_1989 |>
-#'   clinical_significance(
-#'     id = subject,
-#'     time = time,
-#'     outcome = gds,
-#'     pre = "pre",
-#'     reliability = 0.80,
-#'     m_functional = 30,
-#'     sd_functional = 10,
-#'     type = "c"
+#' cs_results <- claus_2020 |>
+#'   cs_distribution(
+#'     id,
+#'     time,
+#'     bdi,
+#'     pre = 1,
+#'     post = 4,
+#'     reliability = 0.80
 #'   )
 #'
-#' results_nk <- jacobson_1989 |>
-#'   clinical_significance(
-#'     id = subject,
-#'     time = time,
-#'     outcome = gds,
-#'     pre = "pre",
-#'     reliability = 0.80,
-#'     reliability_post = 0.85,
-#'     m_functional = 30,
-#'     sd_functional = 10,
-#'     type = "c",
-#'     method = "NK"
-#'   )
 #'
-#' cs_get_reliability(results)
-#' cs_get_reliability(results_nk)
+#' cs_get_reliability(cs_results)
 cs_get_reliability <- function(x) {
+  .check_class(x)
+  if (!inherits(x, "cs_distribution") & !inherits(x, "cs_combined")) cli::cli_abort("There was no reliability provided for this clinical significance method.")
+
   cs_method <- x[["method"]]
 
-  reliability <- tibble(
+  reliability <- tibble::tibble(
     reliability = x[["reliability"]]
   )
 
   if (cs_method == "NK") {
-    reliability_post <- tibble(
+    reliability_post <- tibble::tibble(
       reliability_post = x[["rci_results"]][["reliability_post"]]
     )
 

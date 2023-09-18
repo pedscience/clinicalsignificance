@@ -12,23 +12,23 @@
 \alias{generate_plotting_band.cs_anchor_individual_within}
 \title{Generic to Calculate RCI Band Data for Plotting}
 \usage{
-generate_plotting_band(x, lower_limit = 0, upper_limit = 100, ...)
+generate_plotting_band(x, lower_limit, upper_limit, ...)
 
-\method{generate_plotting_band}{cs_jt}(x, lower_limit, upper_limit, ...)
+\method{generate_plotting_band}{cs_jt}(x, lower_limit = 0, upper_limit = 100, ...)
 
-\method{generate_plotting_band}{cs_gln}(x, lower_limit, upper_limit, ...)
+\method{generate_plotting_band}{cs_gln}(x, lower_limit = 0, upper_limit = 100, ...)
 
-\method{generate_plotting_band}{cs_hll}(x, lower_limit, upper_limit, ...)
+\method{generate_plotting_band}{cs_hll}(x, lower_limit = 0, upper_limit = 100, ...)
 
-\method{generate_plotting_band}{cs_en}(x, lower_limit, upper_limit, ...)
+\method{generate_plotting_band}{cs_en}(x, lower_limit = 0, upper_limit = 100, ...)
 
-\method{generate_plotting_band}{cs_nk}(x, lower_limit, upper_limit, ...)
+\method{generate_plotting_band}{cs_nk}(x, lower_limit = 0, upper_limit = 100, ...)
 
-\method{generate_plotting_band}{cs_ha}(x, lower_limit, upper_limit, ...)
+\method{generate_plotting_band}{cs_ha}(x, lower_limit = 0, upper_limit = 100, ...)
 
-\method{generate_plotting_band}{cs_percentage}(x, lower_limit, upper_limit, ...)
+\method{generate_plotting_band}{cs_percentage}(x, lower_limit = 0, upper_limit = 100, ...)
 
-\method{generate_plotting_band}{cs_anchor_individual_within}(x, lower_limit, upper_limit, ...)
+\method{generate_plotting_band}{cs_anchor_individual_within}(x, lower_limit = 0, upper_limit = 100, ...)
 }
 \arguments{
 \item{x}{An object of respective class}

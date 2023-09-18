@@ -8,20 +8,23 @@
 #' @param upper_limit Upper plotting limit
 #' @param ... Additional arguments
 #'
-#' @return A tibble
+#' @return A tibble with data for the ribbon indicating unchanged patients
+#'
+#' @rdname plotting_band
 #' @export
-generate_plotting_band <- function(x, lower_limit, upper_limit, ...) {
+generate_plotting_band <- function(x,
+                                   lower_limit = 0,
+                                   upper_limit = 100,
+                                   ...) {
   UseMethod("generate_plotting_band")
 }
 
 
 #' Generate RCI Band for JT Method
 #'
-#' @inheritParams generate_plotting_band
-#'
-#' @return A tibble
+#' @rdname plotting_band
 #' @export
-generate_plotting_band.cs_jt <- function(x, lower_limit = 0, upper_limit = 100, ...) {
+generate_plotting_band.cs_jt <- function(x, lower_limit, upper_limit, ...) {
   s_diff <- x[["rci_results"]][[1]]
   critical_value <- x[["critical_value"]]
 
@@ -35,11 +38,9 @@ generate_plotting_band.cs_jt <- function(x, lower_limit = 0, upper_limit = 100, 
 
 #' Generate RCI Band for GLN Method
 #'
-#' @inheritParams generate_plotting_band
-#'
-#' @return A tibble
+#' @rdname plotting_band
 #' @export
-generate_plotting_band.cs_gln <- function(x, lower_limit = 0, upper_limit = 100, ...) {
+generate_plotting_band.cs_gln <- function(x, lower_limit, upper_limit, ...) {
   s_prediction <- x[["rci_results"]][[1]]
   reliability <- cs_get_reliability(x)[[1]]
   m_pre <- mean(cs_get_data(x)[["pre"]])
@@ -55,11 +56,9 @@ generate_plotting_band.cs_gln <- function(x, lower_limit = 0, upper_limit = 100,
 
 #' Generate RCI Band for HLL Method
 #'
-#' @inheritParams generate_plotting_band
-#'
-#' @return A tibble
+#' @rdname plotting_band
 #' @export
-generate_plotting_band.cs_hll <- function(x, lower_limit = 0, upper_limit = 100, ...) {
+generate_plotting_band.cs_hll <- function(x, lower_limit, upper_limit, ...) {
   s_prediction <- x[["rci_results"]][[1]]
   m_post <- x[["rci_results"]][["m_post"]]
   reliability <- cs_get_reliability(x)[[1]]
@@ -76,11 +75,9 @@ generate_plotting_band.cs_hll <- function(x, lower_limit = 0, upper_limit = 100,
 
 #' Generate RCI Band for EN Method
 #'
-#' @inheritParams generate_plotting_band
-#'
-#' @return A tibble
+#' @rdname plotting_band
 #' @export
-generate_plotting_band.cs_en <- function(x, lower_limit = 0, upper_limit = 100, ...) {
+generate_plotting_band.cs_en <- function(x, lower_limit, upper_limit, ...) {
   se_measurement <- x[["rci_results"]][[1]]
   reliability <- cs_get_reliability(x)[[1]]
   m_pre <- mean(cs_get_data(x)[["pre"]])
@@ -97,11 +94,9 @@ generate_plotting_band.cs_en <- function(x, lower_limit = 0, upper_limit = 100, 
 
 #' Generate RCI Band for NK Method
 #'
-#' @inheritParams generate_plotting_band
-#'
-#' @return A tibble
+#' @rdname plotting_band
 #' @export
-generate_plotting_band.cs_nk <- function(x, lower_limit = 0, upper_limit = 100, ...) {
+generate_plotting_band.cs_nk <- function(x, lower_limit, upper_limit, ...) {
   m_pre <- mean(cs_get_data(x)[["pre"]])
   sd_pre <- stats::sd(cs_get_data(x)[["pre"]])
   reliability_pre <- cs_get_reliability(x)[[1]]
@@ -118,11 +113,9 @@ generate_plotting_band.cs_nk <- function(x, lower_limit = 0, upper_limit = 100, 
 
 #' Generate RCI Band for HA Method
 #'
-#' @inheritParams generate_plotting_band
-#'
-#' @return A tibble
+#' @rdname plotting_band
 #' @export
-generate_plotting_band.cs_ha <- function(x, lower_limit = 0, upper_limit = 100, ...) {
+generate_plotting_band.cs_ha <- function(x, lower_limit, upper_limit, ...) {
   r_dd <- x[["rci_results"]][[1]]
   se_measurement <- x[["rci_results"]][[2]]
   m_pre <- mean(cs_get_data(x)[["pre"]])
@@ -140,11 +133,9 @@ generate_plotting_band.cs_ha <- function(x, lower_limit = 0, upper_limit = 100, 
 
 #' Generate RCI Band for the Percentage-Change Approach
 #'
-#' @inheritParams generate_plotting_band
-#'
-#' @return A tibble
+#' @rdname plotting_band
 #' @export
-generate_plotting_band.cs_percentage <- function(x, lower_limit = 0, upper_limit = 100, ...) {
+generate_plotting_band.cs_percentage <- function(x, lower_limit, upper_limit, ...) {
   pct_improvement <- x[["pct_improvement"]]
   pct_deterioration <- x[["pct_deterioration"]]
   direction <- x[["direction"]]
@@ -163,11 +154,9 @@ generate_plotting_band.cs_percentage <- function(x, lower_limit = 0, upper_limit
 
 #' Generate RCI Band for the Individual Anchor-Based Approach
 #'
-#' @inheritParams generate_plotting_band
-#'
-#' @return A tibble
+#' @rdname plotting_band
 #' @export
-generate_plotting_band.cs_anchor_individual_within <- function(x, lower_limit = 0, upper_limit = 100, ...) {
+generate_plotting_band.cs_anchor_individual_within <- function(x, lower_limit, upper_limit, ...) {
   mid_improvement <- x[["mid_improvement"]]
   mid_deterioration <- x[["mid_deterioration"]]
   direction <- x[["direction"]]

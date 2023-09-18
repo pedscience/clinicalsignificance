@@ -21,7 +21,16 @@ Get Used Cutoff And Type From A cs_analysis Object
 }
 \examples{
 cs_results <- claus_2020 |>
-  cs_statistical(id, time, bdi, pre = 1, post = 4, m_functional = 8, sd_functional = 8, cutoff_type = "c")
+  cs_statistical(
+    id,
+    time,
+    bdi,
+    pre = 1,
+    post = 4,
+    m_functional = 8,
+    sd_functional = 8,
+    cutoff_type = "c"
+  )
 
 cs_get_cutoff(cs_results)
 cs_get_cutoff(cs_results, with_descriptives = TRUE)

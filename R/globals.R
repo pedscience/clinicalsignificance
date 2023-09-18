@@ -68,5 +68,7 @@ globalVariables(unique(c(
   # t_test_between:
   "CI", "CI_high", "CI_low", "Median",
   # t_test_within:
-  "CI", "CI_high", "CI_low", "Median"
+  "CI", "CI_high", "CI_low", "Median",
+  # calc_rci.cs_hlm:
+  "sd"
 )))

@@ -28,7 +28,7 @@ test_that("Reliability in HA method is calculated correctly", {
 
 
 # RCI Categories ----------------------------------------------------------
-rci_data <- tibble(id = 1:5, rci = c(-2, -0.5, 0, 0.5, 2))
+rci_data <- tibble::tibble(id = 1:5, rci = c(-2, -0.5, 0, 0.5, 2))
 
 rci_categroies_higher <- rci_data |>
   dplyr::mutate(

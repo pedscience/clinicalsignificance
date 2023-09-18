@@ -29,7 +29,7 @@ test_that("RCI for JT method is calculated correctly", {
 
 
 # RCI GLN -----------------------------------------------------------------
-rci_data_gln <- tibble(id = 1:7, pre = c(30, 20, 10, 8, 6, 4, 2), post = c(2, 2, 2, 2, 2, 2, 2))
+rci_data_gln <- tibble::tibble(id = 1:7, pre = c(30, 20, 10, 8, 6, 4, 2), post = c(2, 2, 2, 2, 2, 2, 2))
 m_pre <- 5
 sd_pre <- 7
 se_prediction <- .calc_se_prediction(sd_pre, reliability)
@@ -60,7 +60,7 @@ test_that("RCI for GLN method is calculated correctly", {
 
 
 # RCI HLL -----------------------------------------------------------------
-rci_data_hll <- tibble(id = 1:7, pre = c(30, 20, 10, 8, 6, 4, 2), post = c(3, 2, 2, 2, 2, 2, 1))
+rci_data_hll <- tibble::tibble(id = 1:7, pre = c(30, 20, 10, 8, 6, 4, 2), post = c(3, 2, 2, 2, 2, 2, 1))
 m_pre <- 10
 sd_pre <- 5
 m_post <- 7
@@ -98,7 +98,7 @@ test_that("RCI for HLL method is calculated correctly", {
 
 
 # RCI EN ------------------------------------------------------------------
-rci_data_en <- tibble(id = 1:7, pre = c(30, 20, 10, 8, 6, 4, 2), post = c(2, 2, 2, 2, 2, 2, 2))
+rci_data_en <- tibble::tibble(id = 1:7, pre = c(30, 20, 10, 8, 6, 4, 2), post = c(2, 2, 2, 2, 2, 2, 2))
 m_pre <- 10
 sd_pre <- 5
 se_measurement <- .calc_se_measurement(sd_pre, reliability)
@@ -128,7 +128,7 @@ test_that("RCI for EN method is calculated correctly", {
 
 
 # RCI NK ------------------------------------------------------------------
-rci_data_nk <- tibble(id = 1:7, pre = c(30, 20, 10, 8, 6, 4, 2), post = c(2, 2, 2, 2, 2, 2, 2))
+rci_data_nk <- tibble::tibble(id = 1:7, pre = c(30, 20, 10, 8, 6, 4, 2), post = c(2, 2, 2, 2, 2, 2, 2))
 m_pre <- 10
 sd_pre <- 5
 reliability_post <- 0.80
@@ -159,7 +159,7 @@ test_that("RCI for method NK is calculated correctly", {
 
 
 # RCI HA ------------------------------------------------------------------
-rci_data_ha <- tibble(id = 1:7, pre = c(30, 20, 10, 8, 6, 4, 2), post = c(3, 2, 2, 2, 2, 2, 1))
+rci_data_ha <- tibble::tibble(id = 1:7, pre = c(30, 20, 10, 8, 6, 4, 2), post = c(3, 2, 2, 2, 2, 2, 1))
 m_pre <- 10
 sd_pre <- 5
 m_post <- 7

@@ -46,7 +46,7 @@ generate_plotting_band.cs_gln <- function(x, lower_limit = 0, upper_limit = 100,
   m_pre <- mean(cs_get_data(x)[["pre"]])
   critical_value <- x[["critical_value"]]
 
-  tibble(
+  tibble::tibble(
     pre = c(lower_limit, upper_limit),
     ymin = reliability * pre - reliability * m_pre + m_pre + (-critical_value * s_prediction),
     ymax = reliability * pre - reliability * m_pre + m_pre + (critical_value * s_prediction)
@@ -65,7 +65,7 @@ generate_plotting_band.cs_hll <- function(x, lower_limit = 0, upper_limit = 100,
   m_pre <- mean(cs_get_data(x)[["pre"]])
   critical_value <- x[["critical_value"]]
 
-  tibble(
+  tibble::tibble(
     pre = c(lower_limit, upper_limit),
     ymin = -critical_value * s_prediction + m_post + reliability * pre - reliability * m_pre,
     ymax = critical_value * s_prediction + m_post + reliability * pre - reliability * m_pre
@@ -83,7 +83,7 @@ generate_plotting_band.cs_en <- function(x, lower_limit = 0, upper_limit = 100, 
   m_pre <- mean(cs_get_data(x)[["pre"]])
   critical_value <- x[["critical_value"]]
 
-  tibble(
+  tibble::tibble(
     pre = c(lower_limit, upper_limit),
     pre_true = reliability * (pre - m_pre) + m_pre,
     ymin = pre_true - critical_value * se_measurement,
@@ -103,7 +103,7 @@ generate_plotting_band.cs_nk <- function(x, lower_limit = 0, upper_limit = 100, 
   reliability_post <- cs_get_reliability(x)[[2]]
   critical_value <- x[["critical_value"]]
 
-  tibble(
+  tibble::tibble(
     pre = c(lower_limit, upper_limit),
     ymin = -critical_value * sqrt((reliability_pre^2 * sd_pre^2 * (1 - reliability_pre)) + (sd_pre^2 * (1 - reliability_post))) + (reliability_pre * (pre - m_pre) + m_pre),
     ymax = critical_value * sqrt((reliability_pre^2 * sd_pre^2 * (1 - reliability_pre)) + (sd_pre^2 * (1 - reliability_post))) + (reliability_pre * (pre - m_pre) + m_pre)
@@ -122,7 +122,7 @@ generate_plotting_band.cs_ha <- function(x, lower_limit = 0, upper_limit = 100, 
   m_post <- mean(cs_get_data(x)[["post"]])
   critical_value <- x[["critical_value"]]
 
-  tibble(
+  tibble::tibble(
     pre = c(lower_limit, upper_limit),
     ymin = (-critical_value * sqrt(r_dd) * sqrt(2 * se_measurement^2) - (m_post - m_pre) * (1 - r_dd) + pre * r_dd) / r_dd,
     ymax = (critical_value * sqrt(r_dd) * sqrt(2 * se_measurement^2) - (m_post - m_pre) * (1 - r_dd) + pre * r_dd) / r_dd

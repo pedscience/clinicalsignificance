@@ -73,7 +73,7 @@
 
       # Sort strings
       sorted_data <- selected_data |>
-        dplyr::mutate(time = relevel(as.factor(time), pre)) |>
+        dplyr::mutate(time = stats::relevel(as.factor(time), pre)) |>
         dplyr::group_by(id) |>
         dplyr::arrange(id, time) |>
         dplyr::ungroup()

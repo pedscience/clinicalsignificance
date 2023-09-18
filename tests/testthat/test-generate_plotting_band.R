@@ -4,7 +4,7 @@ clinisig_object <- cs_distribution(claus_2020, id, time, hamd, pre = 1, post = 4
 # Variable for calculation
 s_diff <- clinisig_object[["rci_results"]][["s_diff"]]
 
-manual_results <- tibble(
+manual_results <- tibble::tibble(
   pre = c(0, 100),
   ymin = pre - qnorm(1 - 0.05/2) * s_diff,
   ymax = pre + qnorm(1 - 0.05/2) * s_diff
@@ -31,7 +31,7 @@ m_pre <- mean(cs_get_data(clinisig_object)[["pre"]])
 
 
 # Manual calculation
-manual_calculation <- tibble(
+manual_calculation <- tibble::tibble(
   pre = c(0, 100),
   ymin = reliability * pre - reliability * m_pre + m_pre + (-qnorm(1 - 0.05/2) * s_prediction),
   ymax = reliability * pre - reliability * m_pre + m_pre + (qnorm(1 - 0.05/2) * s_prediction)
@@ -59,7 +59,7 @@ m_pre <- mean(cs_get_data(clinisig_object)[["pre"]])
 
 
 # Manual calculation
-manual_calculation <- tibble(
+manual_calculation <- tibble::tibble(
   pre = c(0, 100),
   ymin = -qnorm(1 - 0.05/2) * s_prediction + m_post + reliability * .data$pre - reliability * m_pre,
   ymax = qnorm(1 - 0.05/2) * s_prediction + m_post + reliability * .data$pre - reliability * m_pre
@@ -87,7 +87,7 @@ m_pre <- mean(cs_get_data(clinisig_object)[["pre"]])
 
 
 # Manual calculation
-manual_calculation <- tibble(
+manual_calculation <- tibble::tibble(
   pre = c(0, 100),
   pre_true = reliability * (pre - m_pre) + m_pre,
   ymin = pre_true - qnorm(1 - 0.05/2) * se_measurement,
@@ -116,7 +116,7 @@ reliability_post <- cs_get_reliability(clinisig_object)[[2]]
 
 
 # Manual calculation
-manual_calculation <- tibble(
+manual_calculation <- tibble::tibble(
   pre = c(0, 100),
   ymin = -qnorm(1 - 0.05/2) * sqrt((reliability_pre^2 * sd_pre^2 * (1 - reliability_pre)) + (sd_pre^2 * (1 - reliability_post))) + (reliability_pre * (pre - m_pre) + m_pre),
   ymax = qnorm(1 - 0.05/2) * sqrt((reliability_pre^2 * sd_pre^2 * (1 - reliability_pre)) + (sd_pre^2 * (1 - reliability_post))) + (reliability_pre * (pre - m_pre) + m_pre)
@@ -145,7 +145,7 @@ m_post <- mean(cs_get_data(clinisig_object)[["post"]])
 
 # Manual calculation
 # RCI
-manual_calculation <- tibble(
+manual_calculation <- tibble::tibble(
   pre = c(0, 100),
   ymin = (-qnorm(1 - 0.05) * sqrt(r_dd) * sqrt(2 * se_measurement^2) - (m_post - m_pre) * (1 - r_dd) + pre * r_dd) / r_dd,
   ymax = (qnorm(1 - 0.05) * sqrt(r_dd) * sqrt(2 * se_measurement^2) - (m_post - m_pre) * (1 - r_dd) + pre * r_dd) / r_dd

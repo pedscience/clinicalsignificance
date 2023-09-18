@@ -36,6 +36,8 @@ plot.cs_distribution <- function(x,
                                  lower_limit,
                                  upper_limit,
                                  show,
+                                 point_alpha = 1,
+                                 trajectory_alpha = 1,
                                  rci_fill = "grey10",
                                  rci_alpha = 0.1,
                                  overplotting = 0.02,
@@ -100,17 +102,17 @@ plot.cs_distribution <- function(x,
       ggplot2::geom_ribbon(data = rci_data, ggplot2::aes(y = NULL, ymin = ymin, ymax = ymax), fill = rci_fill, alpha = rci_alpha),
       ggplot2::geom_abline(color = "grey10"),
       if (.has_group(data) & missing(show)) {
-        ggplot2::geom_point(ggplot2::aes(color = group))
+        ggplot2::geom_point(ggplot2::aes(color = group), alpha = point_alpha)
       } else {
-        ggplot2::geom_point(ggplot2::aes(color = {{ show }}))
+        ggplot2::geom_point(ggplot2::aes(color = {{ show }}), alpha = point_alpha)
       }
     )
   } else if (cs_method == "HLM"){
     geom_list_trajectory <- list(
       if (.has_group(data) & missing(show)) {
-        ggplot2::geom_line(ggplot2::aes(color = group), na.rm = TRUE)
+        ggplot2::geom_line(ggplot2::aes(color = group), alpha = trajectory_alpha, na.rm = TRUE)
       } else {
-        ggplot2::geom_line(ggplot2::aes(color = {{ show }}), na.rm = TRUE)
+        ggplot2::geom_line(ggplot2::aes(color = {{ show }}), alpha = trajectory_alpha, na.rm = TRUE)
       }
     )
   }
@@ -174,6 +176,7 @@ plot.cs_statistical <- function(x,
                                 lower_limit,
                                 upper_limit,
                                 show,
+                                point_alpha = 1,
                                 overplotting = 0.02,
                                 ...) {
   cs_method <- x[["method"]]
@@ -207,9 +210,9 @@ plot.cs_statistical <- function(x,
     ggplot2::geom_hline(yintercept = cs_cutoff, lty = "dashed"),
     ggplot2::geom_abline(color = "grey10"),
     if (.has_group(data) & missing(show)) {
-      ggplot2::geom_point(ggplot2::aes(color = group))
+      ggplot2::geom_point(ggplot2::aes(color = group), alpha = point_alpha)
     } else {
-      ggplot2::geom_point(ggplot2::aes(color = {{ show }}))
+      ggplot2::geom_point(ggplot2::aes(color = {{ show }}), alpha = point_alpha)
     }
   )
 
@@ -264,6 +267,8 @@ plot.cs_combined <- function(x,
                              lower_limit,
                              upper_limit,
                              show,
+                             point_alpha = 1,
+                             trajectory_alpha = 1,
                              rci_fill = "grey10",
                              rci_alpha = 0.1,
                              overplotting = 0.02,
@@ -334,17 +339,17 @@ plot.cs_combined <- function(x,
       ggplot2::geom_ribbon(data = rci_data, ggplot2::aes(y = NULL, ymin = ymin, ymax = ymax), fill = rci_fill, alpha = rci_alpha),
       ggplot2::geom_abline(color = "grey10"),
       if (.has_group(data) & missing(show)) {
-        ggplot2::geom_point(ggplot2::aes(color = group))
+        ggplot2::geom_point(ggplot2::aes(color = group), alpha = point_alpha)
       } else {
-        ggplot2::geom_point(ggplot2::aes(color = {{ show }}))
+        ggplot2::geom_point(ggplot2::aes(color = {{ show }}), alpha = point_alpha)
       }
     )
   } else if (cs_method == "HLM"){
     geom_list_trajectory <- list(
       if (.has_group(data) & missing(show)) {
-        ggplot2::geom_line(ggplot2::aes(color = group), na.rm = TRUE)
+        ggplot2::geom_line(ggplot2::aes(color = group), alpha = trajectory_alpha, na.rm = TRUE)
       } else {
-        ggplot2::geom_line(ggplot2::aes(color = {{ show }}), na.rm = TRUE)
+        ggplot2::geom_line(ggplot2::aes(color = {{ show }}), alpha = trajectory_alpha, na.rm = TRUE)
       }
     )
   }
@@ -396,6 +401,7 @@ plot.cs_percentage<- function(x,
                               lower_limit,
                               upper_limit,
                               show,
+                              point_alpha = 1,
                               pct_fill = "grey10",
                               pct_alpha = 0.1,
                               overplotting = 0.02,
@@ -429,9 +435,9 @@ plot.cs_percentage<- function(x,
     ggplot2::geom_ribbon(data = band_data, ggplot2::aes(y = NULL, ymin = ymin, ymax = ymax), fill = pct_fill, alpha = pct_alpha),
     ggplot2::geom_abline(color = "grey10"),
     if (.has_group(data) & missing(show)) {
-      ggplot2::geom_point(ggplot2::aes(color = group))
+      ggplot2::geom_point(ggplot2::aes(color = group), alpha = point_alpha)
     } else {
-      ggplot2::geom_point(ggplot2::aes(color = {{ show }}))
+      ggplot2::geom_point(ggplot2::aes(color = {{ show }}), alpha = point_alpha)
     }
   )
 
@@ -474,6 +480,7 @@ plot.cs_anchor_individual_within <- function(x,
                                              lower_limit,
                                              upper_limit,
                                              show,
+                                             point_alpha = 1,
                                              pct_fill = "grey10",
                                              pct_alpha = 0.1,
                                              overplotting = 0.02,
@@ -507,9 +514,9 @@ plot.cs_anchor_individual_within <- function(x,
     ggplot2::geom_ribbon(data = band_data, ggplot2::aes(y = NULL, ymin = ymin, ymax = ymax), fill = pct_fill, alpha = pct_alpha),
     ggplot2::geom_abline(color = "grey10"),
     if (.has_group(data) & missing(show)) {
-      ggplot2::geom_point(ggplot2::aes(color = group))
+      ggplot2::geom_point(ggplot2::aes(color = group), alpha = point_alpha)
     } else {
-      ggplot2::geom_point(ggplot2::aes(color = {{ show }}))
+      ggplot2::geom_point(ggplot2::aes(color = {{ show }}), alpha = point_alpha)
     }
   )
 
@@ -531,6 +538,12 @@ plot.cs_anchor_individual_within <- function(x,
 #' patients' pre intervention value on the x-axis and the post intervention
 #' score on the y-axis. Additionally, the RCI (region signifying unchanged
 #' patients) is shown with a diagonal corresponding to no change.
+#'
+#' @param x An object of class `cs_anchor_group_within`
+#' @param x_lab String, x axis label. Defaults to `"Group"`
+#' @param y_lab String, y axis label, defaults to
+#'    `"Mean Intervention Effect (with 95%-CI)"`
+#' @param ... Additional arguments
 #'
 #' @return A ggplot2 plot
 #' @export

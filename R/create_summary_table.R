@@ -1,29 +1,16 @@
 #' Generic For Creating Summary Tables
 #'
-#' This is an internal function used to create summmary table for the different
+#' This is an internal function used to create summary table for the different
 #' clinical significance methods. This should not be used directly.
 #'
-#' @param rci_results RCI results object
-#' @param cutoff_results Cutoff results object
-#' @param data A dataframe for joining the result with. Must contain column
-#'   `id`.
-#' @param method Clinical significance method
-#' @param ... Additional arguments
+#' @param x An object of class `cs_*`
+#' @param ... Additional arguments passed to other methods
 #'
 #' @return A tibble
-#' @export
 #'
-#' @noRd
-create_summary_table <- function(rci_results,
-                                 cutoff_results,
-                                 data,
-                                 method,
-                                 r_dd,
-                                 se_measurement,
-                                 cutoff,
-                                 sd_post,
-                                 direction,
-                                 ...) {
+#' @rdname create_summary
+#' @export
+create_summary_table <- function(x, ...) {
   UseMethod("create_summary_table")
 }
 
@@ -31,18 +18,20 @@ create_summary_table <- function(rci_results,
 
 #' Create Summary Table for Distribution-Based Approach
 #'
-#' @param x RCI results
-#' @param data The used dataframe
+#' @param x A results object that differs per approach:
+#'   - RCI results for distribution-based and combined approach
+#'   - Cutoff results for statistical approach
+#'   - PCT results for percentage-change approach
+#'   - Anchor results for the anchor-based approach
+#' @param data The used data frame
 #' @param ... Additional arguments
 #'
-#' @return A tibble containing the category, respective n, and percent
+#' @rdname create_summary
 #' @export
-#'
-#' @noRd
-create_summary_table.cs_distribution <- function(rci_results, data, ...) {
+create_summary_table.cs_distribution <- function(x, data, ...) {
   # Get the RCI results as well as the used data (needed if grouped results are
   # required)
-  rci_results <- rci_results[["data"]]
+  rci_results <- x[["data"]]
   used_data <- data[["data"]]
 
 
@@ -81,16 +70,17 @@ create_summary_table.cs_distribution <- function(rci_results, data, ...) {
 
 #' Create Summary Table for Statistical Approach
 #'
-#' @inheritParams create_summary_table
+#' @param method Clinical significance method
 #'
-#' @return A tibble containing the category, respective n, and percent
+#' @rdname create_summary
 #' @export
-#'
-#' @noRd
-create_summary_table.cs_statistical <- function(cutoff_results, data, method, ...) {
+create_summary_table.cs_statistical <- function(x,
+                                                data,
+                                                method,
+                                                ...) {
   # Get the cutoff results as well as the used data (needed if grouped results
   # are required)
-  cutoff_results <- cutoff_results[["data"]]
+  cutoff_results <- x[["data"]]
   used_data <- data[["data"]]
 
 
@@ -144,17 +134,28 @@ create_summary_table.cs_statistical <- function(cutoff_results, data, method, ..
 
 #' Create Summary Table for Combined Approach
 #'
-#' @inheritParams create_summary_table
+#' @param cutoff_results Cutoff results object
+#' @param r_dd r_dd
+#' @param se_measurement se_measurement
+#' @param cutoff Cutoff value
+#' @param sd_post SD post intervention
 #'
-#' @return A tibble containing the category, respective n, and percent
+#' @rdname create_summary
 #' @export
-#'
-#' @noRd
-create_summary_table.cs_combined <- function(rci_results, cutoff_results, data, method, r_dd, se_measurement, cutoff, sd_post, direction, ...) {
+create_summary_table.cs_combined <- function(x,
+                                             cutoff_results,
+                                             data,
+                                             method,
+                                             r_dd,
+                                             se_measurement,
+                                             cutoff,
+                                             sd_post,
+                                             direction,
+                                             ...) {
   # Get all results as well as the used data (needed if grouped results are
   # required)
+  rci_results <- x[["data"]]
   cutoff_results <- cutoff_results[["data"]]
-  rci_results <- rci_results[["data"]]
   used_data <- data[["data"]]
 
 
@@ -171,7 +172,6 @@ create_summary_table.cs_combined <- function(rci_results, cutoff_results, data, 
 
 
   # Count all cases per category and calculate relative amount (percentages)
-  if (method != "HA") {
     categories <- joined_data |>
       dplyr::mutate(
         recovered = clinical_pre & functional_post & improved,
@@ -182,17 +182,6 @@ create_summary_table.cs_combined <- function(rci_results, cutoff_results, data, 
       dplyr::relocate(clinical_pre, functional_post, recovered, .before = improved) |>
       dplyr::relocate(unchanged, .after = improved) |>
       dplyr::select(-c(clinical_pre, functional_post))
-  } else {
-    categories <- joined_data |>
-      dplyr::mutate(
-        recovered = functional_post & improved,
-        improved = ifelse(recovered, FALSE, improved),
-        harmed = FALSE
-      ) |>
-      dplyr::relocate(rci, .after = cs_indiv) |>
-      dplyr::relocate(recovered, .after = functional_post) |>
-      dplyr::relocate(unchanged, .after = improved)
-  }
 
 
   # Create summary table
@@ -232,22 +221,22 @@ create_summary_table.cs_combined <- function(rci_results, cutoff_results, data, 
       group_level_pcts <- summary_statistics |>
         dplyr::mutate(
           z_changed = (0 - mean_change) / (sd_change * sqrt(r_dd)),
-          changed = 1 - pnorm(z_changed),
+          changed = 1 - stats::pnorm(z_changed),
           z_functional = (cutoff - m_post) / (sd_post * sqrt(reliability_post)),
-          functional = 1 - pnorm(z_functional)
+          functional = 1 - stats::pnorm(z_functional)
         )
     } else if (direction == -1) {
       group_level_pcts <- summary_statistics |>
         dplyr::mutate(
           z_changed = (0 - mean_change) / (sd_change * sqrt(r_dd)),
-          changed = pnorm(z_changed),
+          changed = stats::pnorm(z_changed),
           z_functional = (cutoff - m_post) / (sd_post * sqrt(reliability_post)),
-          functional = pnorm(z_functional)
+          functional = stats::pnorm(z_functional)
         )
     }
 
     group_level_summary <- group_level_pcts |>
-      dplyr::select(-matches(".*_.*")) |>
+      dplyr::select(-tidyr::matches(".*_.*")) |>
       tidyr::pivot_longer(
         cols = c(changed, functional),
         names_to = "category",
@@ -268,15 +257,9 @@ create_summary_table.cs_combined <- function(rci_results, cutoff_results, data, 
 
 #' Create Summary Table for Percentage-Change Approach
 #'
-#' @param x pct_results
-#' @param data The used dataframe
-#' @param ... Additional arguments
-#'
-#' @return A tibble containing the category, respective n, and percent
+#' @rdname create_summary
 #' @export
-#'
-#' @noRd
-create_summary_table.cs_percentage <- function(pct_results, data, ...) {
+create_summary_table.cs_percentage <- function(x, data, ...) {
   # Get the percentage results as well as the used data (needed if grouped
   # results are required)
   used_data <- data[["data"]]
@@ -290,7 +273,7 @@ create_summary_table.cs_percentage <- function(pct_results, data, ...) {
   # participant per row and associated scores, change and RCI value as well as
   # the RCI category
   joined_data <- used_data |>
-    dplyr::left_join(pct_results, dplyr::join_by("id"))
+    dplyr::left_join(x, dplyr::join_by("id"))
 
 
   # Count all cases per category and calculate relative amount (percentages)
@@ -317,15 +300,9 @@ create_summary_table.cs_percentage <- function(pct_results, data, ...) {
 
 #' Create Summary Table for Anchor-Based Approach
 #'
-#' @param x anchor_results
-#' @param data The used dataframe
-#' @param ... Additional arguments
-#'
-#' @return A tibble containing the category, respective n, and percent
+#' @rdname create_summary
 #' @export
-#'
-#' @noRd
-create_summary_table.cs_anchor_individual_within <- function(anchor_results, data, ...) {
+create_summary_table.cs_anchor_individual_within <- function(x, data, ...) {
   # Get the percentage results as well as the used data (needed if grouped
   # results are required)
   used_data <- data[["data"]]
@@ -339,7 +316,7 @@ create_summary_table.cs_anchor_individual_within <- function(anchor_results, dat
   # participant per row and associated scores, change and RCI value as well as
   # the RCI category
   joined_data <- used_data |>
-    dplyr::left_join(anchor_results, dplyr::join_by("id"))
+    dplyr::left_join(x, dplyr::join_by("id"))
 
 
   # Count all cases per category and calculate relative amount (percentages)

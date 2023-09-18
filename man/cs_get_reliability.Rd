@@ -45,3 +45,11 @@ results_nk <- jacobson_1989 |>
 cs_get_reliability(results)
 cs_get_reliability(results_nk)
 }
+\seealso{
+Extractor functions
+\code{\link{cs_get_augmented_data}()},
+\code{\link{cs_get_data}()},
+\code{\link{cs_get_n}()},
+\code{\link{cs_get_summary}()}
+}
+\concept{get}

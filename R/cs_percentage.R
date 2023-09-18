@@ -168,7 +168,7 @@ cs_percentage <- function(data,
 
   # Create the summary table for printing and exporting
   summary_table <- create_summary_table(
-    pct_results = pct_results,
+    x = pct_results,
     data = datasets
   )
 

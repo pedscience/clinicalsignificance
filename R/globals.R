@@ -40,5 +40,33 @@ globalVariables(unique(c(
   # summary.clinisig:
   "m_clinical", "m_functional", "reliability_clinical", "reliability_functional", "sd_clinical", "sd_functional",
   # pot:
-  "group"
+  "group",
+  # .prep_data:
+  "n",
+  # calc_anchor.cs_anchor_group_between:
+  "comparison", "reference", "results",
+  # calc_anchor.cs_anchor_group_within:
+  "results",
+  # calc_cutoff_from_data.cs_ha:
+  "clinical_post",
+  # calc_percentage:
+  "pct_change",
+  # create_summary_table.cs_anchor_individual_within:
+  "n",
+  # create_summary_table.cs_combined:
+  "n",
+  # create_summary_table.cs_distribution:
+  "n",
+  # create_summary_table.cs_percentage:
+  "n",
+  # create_summary_table.cs_statistical:
+  "clinical_post", "n",
+  # plot.cs_anchor_group_between:
+  "comparison", "difference",
+  # plot.cs_anchor_group_within:
+  "difference",
+  # t_test_between:
+  "CI", "CI_high", "CI_low", "Median",
+  # t_test_within:
+  "CI", "CI_high", "CI_low", "Median"
 )))

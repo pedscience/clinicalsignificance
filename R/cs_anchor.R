@@ -314,7 +314,7 @@ cs_anchor <- function(data,
   # Create the summary table for printing and exporting
   if (cs_target == "individual") {
     summary_table <- create_summary_table(
-      anchor_results = anchor_results,
+      x = anchor_results,
       data = datasets
     )
 

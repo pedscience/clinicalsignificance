@@ -215,7 +215,7 @@ cs_statistical <- function(data,
 
   # Create the summary table for printing and exporting
   summary_table <- create_summary_table(
-    cutoff_results = cutoff_results,
+    x = cutoff_results,
     data = datasets,
     method = cs_method
   )

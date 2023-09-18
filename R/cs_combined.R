@@ -197,7 +197,7 @@ cs_combined <- function(data,
 
   # Create the summary table for printing and exporting
   summary_table <- create_summary_table(
-    rci_results = rci_results,
+    x = rci_results,
     cutoff_results = cutoff_results,
     data = datasets,
     method = cs_method,

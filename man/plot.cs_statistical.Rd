@@ -13,6 +13,7 @@
   lower_limit,
   upper_limit,
   show,
+  point_alpha = 1,
   overplotting = 0.02,
   ...
 )

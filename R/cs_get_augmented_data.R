@@ -1,22 +1,102 @@
-#' Generic to Extract Augmented Data from a clinisig Object
+#' Extract Augmented Data from a cs_analysis Object
 #'
-#' @param x A clinisig object
+#' This function returns the patient-wise results, containing the considered pre
+#' and post intervention value, its raw change as well as all other change
+#' estimates calculated during the clinical significance analysis with the
+#' individual's clinical significance category. This function is only useful for
+#' individual level analyses because the group level analyses only yield group
+#' level results.
+#'
+#' @param x A `cs_analysis` object
 #' @param ... Additional arguments
 #'
+#' @family get
+#'
 #' @return A tibble with augmented data
+#'
+#' @rdname augmented_data
 #' @export
+#'
+#' @examples
+#' # Augmented data can be extracted for every individual approach
+#' anchor_results <- claus_2020 |>
+#'   cs_anchor(
+#'     id,
+#'     time,
+#'     bdi,
+#'     pre = 1,
+#'     post = 4,
+#'     mid_improvement = 9
+#'   )
+#'
+#'
+#' distribution_results <- claus_2020 |>
+#'   cs_distribution(
+#'     id,
+#'     time,
+#'     bdi,
+#'     pre = 1,
+#'     post = 4,
+#'     reliability = 0.80
+#'   )
+#'
+#'
+#' distribution_results_hlm <- claus_2020 |>
+#'   cs_distribution(
+#'     id,
+#'     time,
+#'     bdi,
+#'     rci_method = "HLM"
+#'   )
+#'
+#'
+#' statistical_results <- claus_2020 |>
+#'   cs_statistical(
+#'     id,
+#'     time,
+#'     bdi,
+#'     pre = 1,
+#'     post = 4,
+#'     m_functional = 8,
+#'     sd_functional = 8
+#'   )
+#'
+#'
+#' combined_results <- claus_2020 |>
+#'   cs_combined(
+#'     id,
+#'     time,
+#'     bdi,
+#'     pre = 1,
+#'     post = 4,
+#'     m_functional = 8,
+#'     sd_functional = 8,
+#'     reliability = 0.80
+#'   )
+#'
+#'
+#' cs_get_augmented_data(anchor_results)
+#' cs_get_augmented_data(distribution_results)
+#' cs_get_augmented_data(distribution_results_hlm)
+#' cs_get_augmented_data(statistical_results)
+#' cs_get_augmented_data(combined_results)
 cs_get_augmented_data <- function(x, ...) {
   UseMethod("cs_get_augmented_data")
 }
 
 
+#' Default Augmented Data Method
+#'
+#' @rdname augmented_data
+#' @export
+cs_get_augmented_data.default <- function(x, ...) {
+  cli::cli_abort("Augmented data cannot be extracted for an object of class {.code {class(x)}}")
+}
+
 
 #' Extract Augmented Data from a cs_distribution Object
 #'
-#' @param x An object of class `cs_distribution`
-#' @param ... Additional arguments
-#'
-#' @return A tibble
+#' @rdname augmented_data
 #' @export
 cs_get_augmented_data.cs_distribution <- function(x, ...) {
   rci_categories <- x[["rci_results"]][["data"]]
@@ -38,10 +118,7 @@ cs_get_augmented_data.cs_distribution <- function(x, ...) {
 
 #' Extract Augmented Data from a cs_statistical Object
 #'
-#' @param x An object of class `cs_distribution`
-#' @param ... Additional arguments
-#'
-#' @return A tibble
+#' @rdname augmented_data
 #' @export
 cs_get_augmented_data.cs_statistical <- function(x, ...) {
   cutoff_categories <- x[["cutoff_results"]][["data"]]
@@ -82,30 +159,8 @@ cs_get_augmented_data.cs_statistical <- function(x, ...) {
 
 #' Extract Augmented Data from a cs_combined Object
 #'
-#' To obtain patient-wise results.
-#'
-#' This function returns the patient-wise results, containing the considered pre
-#' and post intervention value, its raw change as well as the RCI and the
-#' individual category a patient belongs to.
-#'
-#'
-#' @return A tibble with used data and clinical significance categories
+#' @rdname augmented_data
 #' @export
-#'
-#' @examples
-#' results <- jacobson_1989 |>
-#' clinical_significance(
-#'   id = subject,
-#'   time = time,
-#'   outcome = gds,
-#'   pre = "pre",
-#'   reliability = 0.80,
-#'   m_functional = 30,
-#'   sd_functional = 7,
-#'   type = "c"
-#' )
-#'
-#' cs_get_augmented_data(results)
 cs_get_augmented_data.cs_combined <- function(x) {
   cs_method <- x[["method"]]
   categories <- x[["summary_table"]][["categories"]]
@@ -133,10 +188,7 @@ cs_get_augmented_data.cs_combined <- function(x) {
 
 #' Extract Augmented Data from a cs_percentage Object
 #'
-#' @param x An object of class `cs_percentage`
-#' @param ... Additional arguments
-#'
-#' @return A tibble
+#' @rdname augmented_data
 #' @export
 cs_get_augmented_data.cs_percentage <- function(x, ...) {
   pct_categories <- x[["pct_results"]]
@@ -159,10 +211,7 @@ cs_get_augmented_data.cs_percentage <- function(x, ...) {
 
 #' Extract Augmented Data from a cs_anchor_individual Object
 #'
-#' @param x An object of class `cs_anchor_individual_within`
-#' @param ... Additional arguments
-#'
-#' @return A tibble
+#' @rdname augmented_data
 #' @export
 cs_get_augmented_data.cs_anchor_individual_within <- function(x, ...) {
   anchor_categories <- x[["anchor_results"]]

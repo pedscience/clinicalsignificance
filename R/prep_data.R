@@ -100,7 +100,7 @@
         names_from = time,
         values_from = outcome
       ) |>
-      dplyr::rename(pre = last_col() - 1, post = last_col())
+      dplyr::rename(pre = dplyr::last_col() - 1, post = dplyr::last_col())
 
 
     # Omit cases with missing values. They can not be used. Calculate raw change

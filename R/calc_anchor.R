@@ -1,24 +1,18 @@
 #' Generic to Calculate Anchor-Based Results
 #'
-#' @param data A datasets object
-#' @param mid_improvement Numeric, change that indicates a clinically
-#'   significant improvement
-#' @param mid_deterioration Numeric, change that indicates a clinically
-#'   significant deterioration
-#' @param direction Which direction is beneficial? Lower = -1, better = 1
-#' @param ci_level Numeric, desired confidence interval.
+#' This is an internal generic and should not be called directly. Depending on
+#' the different anchor method requested by the user, the appropriate method is
+#' called. It calculates the change and according clinical significance category
+#' for each participant.
 #'
-#' @return An object of class `cs_anchor`
+#' @param data A dataset object of class `cs_*`
+#' @param ... Additional arguments
+#'
+#' @return An object of class `cs_anchor_*`
+#'
+#' @rdname calc_anchor
 #' @export
-calc_anchor <- function(data,
-                        mid_improvement,
-                        mid_deterioration,
-                        reference_group,
-                        post,
-                        direction,
-                        bayesian,
-                        prior_scale,
-                        ci_level) {
+calc_anchor <- function(data, ...) {
   UseMethod("calc_anchor")
 }
 
@@ -26,11 +20,14 @@ calc_anchor <- function(data,
 
 #' Anchor Calculations for Individual Results
 #'
-#' This is an internal function and should never be called directly.
+#' @param mid_improvement Numeric, change that indicates a clinically
+#'   significant improvement
+#' @param mid_deterioration Numeric, change that indicates a clinically
+#'   significant deterioration
+#' @param direction Which direction is beneficial? Lower = -1, better = 1
+#' @param ci_level Numeric, desired confidence interval.
 #'
-#' @inheritParams calc_anchor
-#'
-#' @return An object of class `cs_anchor_individual_within`
+#' @rdname calc_anchor
 #' @export
 calc_anchor.cs_anchor_individual_within <- function(data, mid_improvement, mid_deterioration, direction, ci_level, ...) {
   out <- data[["data"]] |>
@@ -51,9 +48,13 @@ calc_anchor.cs_anchor_individual_within <- function(data, mid_improvement, mid_d
 #'
 #' This is an internal function and should never be called directly.
 #'
-#' @inheritParams calc_anchor
+#' @param bayesian Logical, if Bayesian tests and uncertainty intervals should
+#'   be used, defaults to `TRUE`.
+#' @param prior_scale String or numeric, can be adjusted to change the Bayesian
+#'   prior distribution. See the documentation for `rscale` in
+#'   [BayesFactor::ttestBF()] for details
 #'
-#' @return An object of class `cs_anchor_group_within`
+#' @rdname calc_anchor
 #' @export
 calc_anchor.cs_anchor_group_within <- function(data, mid_improvement, mid_deterioration, direction, ci_level, bayesian, prior_scale,...) {
   used_data <- data[["data"]]
@@ -100,11 +101,13 @@ calc_anchor.cs_anchor_group_within <- function(data, mid_improvement, mid_deteri
 
 #' Anchor Calculations for Group Effect Between
 #'
-#' This is an internal function and should never be called directly.
+#' @param reference_group String, the reference group to compare all other
+#'   groups against
+#' @param post The measurement at which groups should be compared, typically a
+#'   measurement after an intervention.
 #'
-#' @inheritParams calc_anchor
 #'
-#' @return An object of class `cs_anchor_group_between`
+#' @rdname calc_anchor
 #' @export
 calc_anchor.cs_anchor_group_between <- function(data, mid_improvement, mid_deterioration, reference_group, post, direction, ci_level, bayesian, prior_scale) {
   threshold <- direction * mid_improvement
@@ -193,6 +196,18 @@ calc_anchor.cs_anchor_group_between <- function(data, mid_improvement, mid_deter
 
 
 
+#' Within Group t-Test
+#'
+#' @param data Pre-processed data frame
+#' @param group_1 Post intervention measurement
+#' @param group_2 Pre intervention measurement
+#' @param ci_level Numeric, CI-level
+#' @param bayesian Logical, should Bayesian tests be used?
+#' @param prior_scale Bayesian prior scale
+#'
+#' @return An object containing the desired statistical test
+#'
+#' @noRd
 t_test_within <- function(data, group_1 = "post", group_2 = "pre", ci_level = 0.95, bayesian = FALSE, prior_scale = sqrt(2)/2) {
   if (!bayesian) {
     results <- stats::t.test(data[[group_1]], data[[group_2]], paired = TRUE, conf.level = ci_level)
@@ -220,6 +235,17 @@ t_test_within <- function(data, group_1 = "post", group_2 = "pre", ci_level = 0.
 
 
 
+#' Between Group t-Test
+#'
+#' @param data Pre-processed data frame
+#' @param reference_group String, reference group
+#' @param ci_level Numeric, CI-level
+#' @param bayesian Logical, should Bayesian tests be used?
+#' @param prior_scale Bayesian prior
+#'
+#' @return An object containing the desired statistical test
+#'
+#' @noRd
 t_test_between <- function(data, reference_group, ci_level, bayesian = FALSE, prior_scale = sqrt(2)/2) {
   # Get data vectors
   reference_data <- data |>
@@ -235,7 +261,7 @@ t_test_between <- function(data, reference_group, ci_level, bayesian = FALSE, pr
 
   if (!bayesian) {
     # t test results
-    results <- t.test(comparison_data, reference_data, data = data, conf.level = ci_level)
+    results <- stats::t.test(comparison_data, reference_data, data = data, conf.level = ci_level)
 
 
     # Output a tibble

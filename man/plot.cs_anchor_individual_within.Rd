@@ -12,6 +12,7 @@
   lower_limit,
   upper_limit,
   show,
+  point_alpha = 1,
   pct_fill = "grey10",
   pct_alpha = 0.1,
   overplotting = 0.02,

@@ -144,8 +144,8 @@
       Individual Level Summary
       Category     |  n | Percent
       ---------------------------
-      Recovered    | 24 |    0.60
-      Improved     |  8 |    0.20
+      Recovered    | 23 |    0.57
+      Improved     |  9 |    0.22
       Unchanged    |  7 |    0.17
       Deteriorated |  1 |    0.02
       Harmed       |  0 |    0.00

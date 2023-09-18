@@ -11,6 +11,16 @@
   ...
 )
 }
+\arguments{
+\item{x}{An object of class \code{cs_anchor_group_within}}
+
+\item{x_lab}{String, x axis label. Defaults to \code{"Group"}}
+
+\item{y_lab}{String, y axis label, defaults to
+\code{"Mean Intervention Effect (with 95\%-CI)"}}
+
+\item{...}{Additional arguments}
+}
 \value{
 A ggplot2 plot
 }

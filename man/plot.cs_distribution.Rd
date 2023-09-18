@@ -12,6 +12,8 @@
   lower_limit,
   upper_limit,
   show,
+  point_alpha = 1,
+  trajectory_alpha = 1,
   rci_fill = "grey10",
   rci_alpha = 0.1,
   overplotting = 0.02,

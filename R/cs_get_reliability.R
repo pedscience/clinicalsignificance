@@ -4,6 +4,7 @@
 #'
 #' @importFrom dplyr tibble
 #'
+#' @family get
 #' @return A tibble showing the reliability
 #' @export
 #'
@@ -49,7 +50,7 @@ cs_get_reliability <- function(x) {
     )
 
     reliability <- reliability |>
-      bind_cols(reliability_post) |>
+      dplyr::bind_cols(reliability_post) |>
       dplyr::rename(reliability_pre = reliability)
   }
 

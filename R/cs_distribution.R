@@ -275,7 +275,7 @@ cs_distribution <- function(data,
 
   # Create the summary table for printing and exporting
   summary_table <- create_summary_table(
-    rci_results = rci_results,
+    x = rci_results,
     data = datasets
   )
 

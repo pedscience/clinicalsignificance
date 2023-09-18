@@ -2,39 +2,96 @@
 % Please edit documentation in R/calc_rci.R
 \name{calc_rci}
 \alias{calc_rci}
+\alias{calc_rci.cs_jt}
+\alias{calc_rci.cs_gln}
+\alias{calc_rci.cs_hll}
+\alias{calc_rci.cs_en}
+\alias{calc_rci.cs_nk}
+\alias{calc_rci.cs_ha}
+\alias{calc_rci.cs_hlm}
 \title{Generic to Calculate RCI and Associated Change}
 \usage{
-calc_rci(
+calc_rci(data, ...)
+
+\method{calc_rci}{cs_jt}(data, sd_pre, reliability, direction = 1, critical_value = 1.96, ...)
+
+\method{calc_rci}{cs_gln}(
   data,
   m_pre,
-  m_post,
   sd_pre,
-  sd_post,
+  reliability,
+  direction = 1,
+  critical_value = 1.96,
+  ...
+)
+
+\method{calc_rci}{cs_hll}(
+  data,
+  m_pre,
+  sd_pre,
+  m_post,
+  reliability,
+  direction = 1,
+  critical_value = 1.96,
+  ...
+)
+
+\method{calc_rci}{cs_en}(
+  data,
+  m_pre,
+  sd_pre,
+  reliability,
+  direction = 1,
+  critical_value = 1.96,
+  ...
+)
+
+\method{calc_rci}{cs_nk}(
+  data,
+  m_pre,
+  sd_pre,
   reliability,
   reliability_post,
-  direction,
-  critical_value
+  direction = 1,
+  critical_value = 1.96,
+  ...
 )
+
+\method{calc_rci}{cs_ha}(
+  data,
+  m_pre,
+  sd_pre,
+  m_post,
+  sd_post,
+  reliability,
+  direction = 1,
+  critical_value = 1.65,
+  ...
+)
+
+\method{calc_rci}{cs_hlm}(data, direction, critical_value = 1.96, ...)
 }
 \arguments{
 \item{data}{Prepped data with class \verb{cs_*}}
 
-\item{m_pre}{Pre measurement mean}
-
-\item{m_post}{Post measurement mean}
+\item{...}{Additional arguments for the specific RCI method}
 
 \item{sd_pre}{Pre measurement SD}
 
-\item{sd_post}{Post measurement SD}
-
 \item{reliability}{Instrument reliability}
-
-\item{reliability_post}{Instrument reliability at post measurement}
 
 \item{direction}{Beneficial intervention effect for given instrument. 1 =
 higher is better, -1 = lower is better}
 
 \item{critical_value}{Critical RCI value, typically 1.96}
+
+\item{m_pre}{Pre measurement mean}
+
+\item{m_post}{Post measurement mean}
+
+\item{reliability_post}{Instrument reliability at post measurement}
+
+\item{sd_post}{Post measurement SD}
 }
 \value{
 RCI result object with class \code{cs_distribution}
@@ -42,5 +99,6 @@ RCI result object with class \code{cs_distribution}
 \description{
 This is an internal generic and should not be called directly. Depending on
 the different RCI method requested by the user, the appropriate method is
-called.
+called. It calculates the RCI and according clinical significance category
+for each participant.
 }

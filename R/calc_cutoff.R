@@ -1,43 +1,42 @@
-#' Generic for statistical approach
+#' Generic for Statistical Approach
 #'
-#' @param x
+#' This is an internal generic and should not be called directly. Depending on
+#' the different cutoff method requested by the user, the appropriate method is
+#' called. It calculates the cutoff and according clinical significance category
+#' for each participant.
 #'
-#' @return Cutoff results
+#' @param data A pre-processed wide data frame with at least column `id`, `pre`
+#'   and `post` and class `cs_*`
+#' @param ... Additional arguments for the respective cutoff method
+#'
+#' @return A list with cutoff info and participant wise info on cutoff
+#'   categorization
+#'
+#' @rdname calc_cutoff
 #' @export
-#'
-#' @noRd
-calc_cutoff_from_data <- function(x,
-                                  data,
-                                  m_clinical,
-                                  sd_clinical,
-                                  m_functional,
-                                  sd_functional,
-                                  m_post,
-                                  sd_post,
-                                  reliability,
-                                  type,
-                                  direction,
-                                  critical_value) {
+calc_cutoff_from_data <- function(data,
+                                  ...) {
   UseMethod("calc_cutoff_from_data")
 }
 
 
 #' Calculate the categories based on the cutoff
 #'
-#' @param data A preprocessed wide dataframe with at least column `id`, `pre`
-#'   and `post`
+#' @inheritParams calc_rci
 #' @param m_functional Mean of functional population
 #' @param sd_functional SD of functional population
 #' @param type Cutoff type, available are `"a"`, `"b"`, and `"c"`
-#' @param direction Which direction is better? 1 = higher, -1 = lower
 #'
-#' @importFrom stats sd relevel
-#'
-#' @return A list with cutoff info and participant wise info on cutoff
-#'   categorization
-#'
-#' @noRd
-calc_cutoff_from_data.default <- function(data, m_clinical, sd_clinical, m_functional, sd_functional, type = "a", direction = 1, ...) {
+#' @rdname calc_cutoff
+#' @export
+calc_cutoff_from_data.default <- function(data,
+                                          m_clinical,
+                                          sd_clinical,
+                                          m_functional,
+                                          sd_functional,
+                                          type = "a",
+                                          direction = 1,
+                                          ...) {
   data <- data[["data"]]
 
   # Calculate cutoff
@@ -74,24 +73,28 @@ calc_cutoff_from_data.default <- function(data, m_clinical, sd_clinical, m_funct
 
 #' Calculate cs_indiv
 #'
-#' @param data A preprocessed data frame with at least column `post`
 #' @param m_clinical Mean of clinical population
 #' @param sd_clinical SD of clinical population
-#' @param m_functional Mean of functional population
-#' @param sd_functional SD of functional population
 #' @param m_post Mean of post measurement
 #' @param sd_post SD of post measurement
 #' @param reliability Instrument's reliability
-#' @param type Cutoff type, available are `"a"`, `"b"`, and `"c"`
-#' @param direction Which direction is better? 1 = higher, -1 = lower
 #' @param critical_value The critical value for the RCI decision, should be
 #'    1.65 if significance_level = 0.05
 #'
-#' @return A list with cutoff info and participant wise info on cutoff
-#'   categorization
-#'
-#' @noRd
-calc_cutoff_from_data.cs_ha <- function(data, m_clinical, sd_clinical, m_functional, sd_functional, m_post, sd_post, reliability, type = "a", direction = 1, critical_value = 1.65) {
+#' @rdname calc_cutoff
+#' @export
+calc_cutoff_from_data.cs_ha <- function(data,
+                                        m_clinical,
+                                        sd_clinical,
+                                        m_functional,
+                                        sd_functional,
+                                        m_post,
+                                        sd_post,
+                                        reliability,
+                                        type = "a",
+                                        direction = 1,
+                                        critical_value = 1.65,
+                                        ...) {
   data <- data[["data"]]
 
   se_measurement <- .calc_se_measurement(sd_pre = sd_clinical, reliability = reliability)

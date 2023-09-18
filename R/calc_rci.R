@@ -2,46 +2,37 @@
 #'
 #' This is an internal generic and should not be called directly. Depending on
 #' the different RCI method requested by the user, the appropriate method is
-#' called.
+#' called. It calculates the RCI and according clinical significance category
+#' for each participant.
 #'
 #' @param data Prepped data with class `cs_*`
-#' @param m_pre Pre measurement mean
-#' @param m_post Post measurement mean
-#' @param sd_pre Pre measurement SD
-#' @param sd_post Post measurement SD
-#' @param reliability Instrument reliability
-#' @param reliability_post Instrument reliability at post measurement
-#' @param direction Beneficial intervention effect for given instrument. 1 =
-#'   higher is better, -1 = lower is better
-#' @param critical_value Critical RCI value, typically 1.96
+#' @param ... Additional arguments for the specific RCI method
 #'
 #' @return RCI result object with class `cs_distribution`
+#' @rdname calc_rci
 #' @export
-calc_rci <- function(data,
-                     m_pre,
-                     m_post,
-                     sd_pre,
-                     sd_post,
-                     reliability,
-                     reliability_post,
-                     direction,
-                     critical_value) {
+calc_rci <- function(data, ...) {
   UseMethod("calc_rci")
 }
 
 
 #' RCI for the Jacobson & Truax method
 #'
-#' This function expects a data frame with at least column `change`.
-#' The reliability must be a value between 0 and 1.
+#' @param direction Beneficial intervention effect for given instrument. 1 =
+#'   higher is better, -1 = lower is better
+#' @param critical_value Critical RCI value, typically 1.96
+#' @param sd_pre Pre measurement SD
+#' @param reliability Instrument reliability
 #'
-#' @inheritParams calc_rci
 #'
-#' @return RCI result objkect with class `cs_distribution`
-#'
+#' @rdname calc_rci
 #' @export
-#' @noRd
-calc_rci.cs_jt <- function(data, sd_pre, reliability, direction = 1, critical_value = 1.96, ...) {
+calc_rci.cs_jt <- function(data,
+                           sd_pre,
+                           reliability,
+                           direction = 1,
+                           critical_value = 1.96,
+                           ...) {
   data <- data[["data"]]
   se_measurement <- .calc_se_measurement(sd_pre = sd_pre, reliability = reliability)
   s_diff <- .calc_s_diff(se_measurement)
@@ -73,16 +64,18 @@ calc_rci.cs_jt <- function(data, sd_pre, reliability, direction = 1, critical_va
 
 #' RCI for the Gulliksen, Lord & Novick method
 #'
-#' This function expects a data frame with at least columns `pre` and `post`.
-#' The reliability must be a value between 0 and 1.
+#' @param m_pre Pre measurement mean
 #'
-#' @inheritParams calc_rci
 #'
-#' @return RCI result objkect with class `cs_distribution`
-#'
+#' @rdname calc_rci
 #' @export
-#' @noRd
-calc_rci.cs_gln <- function(data, m_pre, sd_pre, reliability, direction = 1, critical_value = 1.96, ...) {
+calc_rci.cs_gln <- function(data,
+                            m_pre,
+                            sd_pre,
+                            reliability,
+                            direction = 1,
+                            critical_value = 1.96,
+                            ...) {
   data <- data[["data"]]
   se_prediction <- .calc_se_prediction(sd_pre = sd_pre, reliability = reliability)
 
@@ -115,15 +108,11 @@ calc_rci.cs_gln <- function(data, m_pre, sd_pre, reliability, direction = 1, cri
 
 #' RCI for the Hsu, Lin & Lord method
 #'
-#' This function expects a data frame with at least columns `pre` and `post`.
-#' The reliability must be a value between 0 and 1.
+#' @param m_post Post measurement mean
 #'
-#' @inheritParams calc_rci
 #'
-#' @return RCI result objkect with class `cs_distribution`
-#'
+#' @rdname calc_rci
 #' @export
-#' @noRd
 calc_rci.cs_hll <- function(data, m_pre, sd_pre, m_post, reliability, direction = 1, critical_value = 1.96, ...) {
   data <- data[["data"]]
   se_prediction <- .calc_se_prediction(sd_pre = sd_pre, reliability = reliability)
@@ -159,15 +148,8 @@ calc_rci.cs_hll <- function(data, m_pre, sd_pre, m_post, reliability, direction 
 
 #' RCI for the Edwards method
 #'
-#' This function expects a data frame with at least columns `pre` and `post`.
-#' The reliability must be a value between 0 and 1.
-#'
-#' @inheritParams calc_rci
-#'
-#' @return RCI result objkect with class `cs_distribution`
-#'
+#' @rdname calc_rci
 #' @export
-#' @noRd
 calc_rci.cs_en <- function(data, m_pre, sd_pre, reliability, direction = 1, critical_value = 1.96, ...) {
   data <- data[["data"]]
   se_measurement <- .calc_se_measurement(sd_pre = sd_pre, reliability = reliability)
@@ -201,15 +183,10 @@ calc_rci.cs_en <- function(data, m_pre, sd_pre, reliability, direction = 1, crit
 
 #' RCI for the NK method
 #'
-#' This function expects at least a data frame with columns `pre` and `post`.
-#' Reliability must be between 0 and 1.
+#' @param reliability_post Instrument reliability at post measurement
 #'
-#' @inheritParams calc_rci
-#'
-#' @return RCI result objkect with class `cs_distribution`
-#'
+#' @rdname calc_rci
 #' @export
-#' @noRd
 calc_rci.cs_nk <- function(data, m_pre, sd_pre, reliability, reliability_post, direction = 1, critical_value = 1.96, ...) {
   data <- data[["data"]]
   denominator <- sqrt((reliability^2 * sd_pre ^2 * (1 - reliability)) + (sd_pre^2 * (1 - reliability_post)))
@@ -239,15 +216,10 @@ calc_rci.cs_nk <- function(data, m_pre, sd_pre, reliability, reliability_post, d
 
 #' RCI for the Hageman & Arrindell
 #'
-#' This function expects a data frame with at least columns `pre` and `change`.
-#' The reliability must be a value between 0 and 1.
+#' @param sd_post Post measurement SD
 #'
-#' @inheritParams calc_rci
-#'
-#' @return RCI result objkect with class `cs_distribution`
-#'
+#' @rdname calc_rci
 #' @export
-#' @noRd
 calc_rci.cs_ha <- function(data, m_pre, sd_pre, m_post, sd_post, reliability, direction = 1, critical_value = 1.65, ...) {
   data <- data[["data"]]
   se_measurement <- .calc_se_measurement(sd_pre = sd_pre, reliability = reliability)
@@ -285,12 +257,8 @@ calc_rci.cs_ha <- function(data, m_pre, sd_pre, m_post, sd_post, reliability, di
 
 #' Calc RCI for the HLM method
 #'
-#' @inheritParams calc_rci
-#'
-#' @return RCI result objkect with class `cs_distribution`
-#'
+#' @rdname calc_rci
 #' @export
-#' @noRd
 calc_rci.cs_hlm <- function(data, direction, critical_value = 1.96, ...) {
   . <- NULL
   data <- data[["model"]]

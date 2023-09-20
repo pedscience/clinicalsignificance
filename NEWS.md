@@ -13,6 +13,8 @@ The function `clinical_significance()` used the combined approach (distribution-
 
 -   When `method = "HLM`, participants with three or more data points will be used. Before, participants with at least three data points (i.e., 4 or more) were used.
 
+-   The package now offers to combined approaches: The classic combination of statistical and distribution-based approaches but also the combination of statistical and anchor-based approaches
+
 
 ## New features
 

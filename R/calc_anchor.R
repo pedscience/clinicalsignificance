@@ -43,6 +43,10 @@ calc_anchor.cs_anchor_individual_within <- function(data,
     ) |>
     dplyr::select(id, improved:unchanged)
 
+  out <- list(
+    data = out
+  )
+
   class(out) <- c("cs_anchor_individual_within", class(out))
   out
 }

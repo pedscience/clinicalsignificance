@@ -31,7 +31,7 @@
       
       -- Clinical Significance Results --
       
-      Combined approach using the JT method.
+      Combined approach using the JT and statistical approach.
     Output
       
     Message <cliMessage>
@@ -52,7 +52,7 @@
       
       -- Clinical Significance Results --
       
-      Combined approach using the EN method.
+      Combined approach using the EN and statistical approach.
     Output
       
     Message <cliMessage>
@@ -73,7 +73,7 @@
       
       -- Clinical Significance Results --
       
-      Combined approach using the HLL method.
+      Combined approach using the HLL and statistical approach.
     Output
       
     Message <cliMessage>
@@ -94,7 +94,7 @@
       
       -- Clinical Significance Results --
       
-      Combined approach using the GLN method.
+      Combined approach using the GLN and statistical approach.
     Output
       
     Message <cliMessage>
@@ -116,7 +116,7 @@
       
       -- Clinical Significance Results --
       
-      Combined approach using the NK method.
+      Combined approach using the NK and statistical approach.
     Output
       
     Message <cliMessage>
@@ -137,7 +137,7 @@
       
       -- Clinical Significance Results --
       
-      Combined approach using the HA method.
+      Combined approach using the HA and statistical approach.
     Output
       
     Message <cliMessage>
@@ -167,7 +167,7 @@
       
       -- Clinical Significance Results --
       
-      Combined approach using the HLM method.
+      Combined approach using the HLM and statistical approach.
     Output
       
     Message <cliMessage>

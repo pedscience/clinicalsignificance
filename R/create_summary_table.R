@@ -306,6 +306,7 @@ create_summary_table.cs_percentage <- function(x, data, ...) {
 create_summary_table.cs_anchor_individual_within <- function(x, data, ...) {
   # Get the percentage results as well as the used data (needed if grouped
   # results are required)
+  anchor_results <- x[["data"]]
   used_data <- data[["data"]]
 
 
@@ -317,7 +318,7 @@ create_summary_table.cs_anchor_individual_within <- function(x, data, ...) {
   # participant per row and associated scores, change and RCI value as well as
   # the RCI category
   joined_data <- used_data |>
-    dplyr::left_join(x, dplyr::join_by("id"))
+    dplyr::left_join(anchor_results, dplyr::join_by("id"))
 
 
   # Count all cases per category and calculate relative amount (percentages)

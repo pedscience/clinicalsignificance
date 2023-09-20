@@ -170,7 +170,7 @@ cs_get_augmented_data.cs_combined <- function(x, ...) {
   # participant per row and associated scores, change and RCI value as well as
   # the RCI category
   categories |>
-    dplyr::rename(rci_indiv = rci) |>
+    # dplyr::rename(rci_indiv = rci) |>
     dplyr::mutate(
       category = dplyr::case_when(
         recovered ~ "Recovered",

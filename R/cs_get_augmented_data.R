@@ -214,7 +214,7 @@ cs_get_augmented_data.cs_percentage <- function(x, ...) {
 #' @rdname augmented_data
 #' @export
 cs_get_augmented_data.cs_anchor_individual_within <- function(x, ...) {
-  anchor_categories <- x[["anchor_results"]]
+  anchor_categories <- x[["anchor_results"]][["data"]]
   used_data <- x[["datasets"]][["data"]]
 
   used_data |>

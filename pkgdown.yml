@@ -1,0 +1,8 @@
+pandoc: 2.19.2
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  clinicalsignificance-get-started: clinicalsignificance-get-started.html
+  clinicalsignificance-plots: clinicalsignificance-plots.html
+last_built: 2023-09-25T20:48Z
+

@@ -18,6 +18,15 @@ reference:
     Functions to extract tidy information from a clinisg object
   contents:
   - starts_with("cs_get")
+- title: "Plotting Functions"
+  contents:
+  - starts_with("plot")
+- title: "Summary Functions"
+  contents:
+  - starts_with("summary")
+- title: "Print Functions"
+  contents:
+  - starts_with("print")
 - title: "Datasets"
   desc: >
     Datasets used to examplify the various methods
@@ -28,3 +37,8 @@ reference:
   - anxiety_complete
   - antidepressants
 - title: "Internal Functions"
+  desc: "Functions used internally to calculate the respective indices"
+  contents:
+  - starts_with("calc_")
+  - create_summary_table
+  - generate_plotting_band

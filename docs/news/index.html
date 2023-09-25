@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9004</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,12 +54,27 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="clinicalsignificance-development-version">clinicalsignificance (development version)<a class="anchor" aria-label="anchor" href="#clinicalsignificance-development-version"></a></h2>
 <div class="section level3">
-<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li>You can now specify a significance level at which you want the analysis to be based on with the <code>significance_level</code> argument. The default is <code>significance_level = 0.05</code>. Note that for this is the Phi max level when you set <code>method = "HA"</code> as outlined in their article.</li>
+<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
+<ul><li>The former main function <code>clinical_significance()</code> is deprecated. The package now offers several different approaches to clinical significance analyses, namely:
+<ul><li>
+<code><a href="../reference/cs_anchor.html">cs_anchor()</a></code> (Anchor-based approaches)</li>
+<li>
+<code><a href="../reference/cs_percentage.html">cs_percentage()</a></code>(Percentage-change approaches)</li>
+<li>
+<code><a href="../reference/cs_distribution.html">cs_distribution()</a></code>(Distribution-based approaches)</li>
+<li>
+<code><a href="../reference/cs_statistical.html">cs_statistical()</a></code>(Statistical approaches)</li>
+<li>
+<code><a href="../reference/cs_combined.html">cs_combined()</a></code>(Combined approaches)</li>
+</ul></li>
+</ul><p>The function <code>clinical_significance()</code> used the combined approach (distribution-based and statistical). So the identical analysis can be carried out with <code><a href="../reference/cs_combined.html">cs_combined()</a></code>.</p>
+<ul><li><p>The function <code>check_cutoff()</code> is deprecated.</p></li>
+<li><p>When <code>method = "HLM</code>, participants with three or more data points will be used. Before, participants with at least three data points (i.e., 4 or more) were used.</p></li>
+<li><p>The package now offers to combined approaches: The classic combination of statistical and distribution-based approaches but also the combination of statistical and anchor-based approaches</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
-<ul><li>When <code>method = "HLM</code>, participants with three or more data points will be used. Before, participants with at least three data points (i.e., 4 or more) were used.</li>
+<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>You can now specify a significance level at which you want the analysis to be based on with the <code>significance_level</code> argument. The default is <code>significance_level = 0.05</code>. Note that for this is the Phi max level when you set <code>method = "HA"</code> as outlined in their article.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="minor-improvements-and-fixes-development-version">Minor improvements and fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-development-version"></a></h3>
@@ -73,7 +88,7 @@
 <h2 class="pkg-version" data-toc-text="1.2.1" id="clinicalsignificance-121">clinicalsignificance 1.2.1<a class="anchor" aria-label="anchor" href="#clinicalsignificance-121"></a></h2>
 <div class="section level3">
 <h3 id="breaking-changes-1-2-1">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-2-1"></a></h3>
-<ul><li>Remove default theming from <code><a href="../reference/check_cutoff.html">check_cutoff()</a></code> as in other plot functions</li>
+<ul><li>Remove default theming from <code>check_cutoff()</code> as in other plot functions</li>
 </ul></div>
 <div class="section level3">
 <h3 id="minor-improvements-and-fixes-1-2-1">Minor improvements and fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-1-2-1"></a></h3>

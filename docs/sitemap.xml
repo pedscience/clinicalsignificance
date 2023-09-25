@@ -37,10 +37,28 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
+    <loc>/reference/antidepressants.html</loc>
+  </url>
+  <url>
     <loc>/reference/anxiety.html</loc>
   </url>
   <url>
     <loc>/reference/anxiety_complete.html</loc>
+  </url>
+  <url>
+    <loc>/reference/augmented_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_anchor.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_cutoff.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_percentage.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_rci.html</loc>
   </url>
   <url>
     <loc>/reference/check_cutoff.html</loc>
@@ -50,6 +68,39 @@
   </url>
   <url>
     <loc>/reference/clinical_significance.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_summary.html</loc>
+  </url>
+  <url>
+    <loc>/reference/cs_anchor.html</loc>
+  </url>
+  <url>
+    <loc>/reference/cs_combined.html</loc>
+  </url>
+  <url>
+    <loc>/reference/cs_distribution.html</loc>
+  </url>
+  <url>
+    <loc>/reference/cs_get_cutoff.html</loc>
+  </url>
+  <url>
+    <loc>/reference/cs_get_cutoff_descriptives.html</loc>
+  </url>
+  <url>
+    <loc>/reference/cs_get_data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/cs_get_n.html</loc>
+  </url>
+  <url>
+    <loc>/reference/cs_get_reliability.html</loc>
+  </url>
+  <url>
+    <loc>/reference/cs_percentage.html</loc>
+  </url>
+  <url>
+    <loc>/reference/cs_statistical.html</loc>
   </url>
   <url>
     <loc>/reference/get_augmented_data.html</loc>
@@ -91,9 +142,78 @@
     <loc>/reference/plot.clinisig.html</loc>
   </url>
   <url>
+    <loc>/reference/plot.cs_anchor_group_between.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot.cs_anchor_group_within.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot.cs_anchor_individual_within.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot.cs_combined.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot.cs_distribution.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot.cs_percentage.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot.cs_statistical.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plotting_band.html</loc>
+  </url>
+  <url>
     <loc>/reference/print.clinisig.html</loc>
   </url>
   <url>
+    <loc>/reference/print.cs_anchor_group_between.html</loc>
+  </url>
+  <url>
+    <loc>/reference/print.cs_anchor_group_within.html</loc>
+  </url>
+  <url>
+    <loc>/reference/print.cs_anchor_individual_within.html</loc>
+  </url>
+  <url>
+    <loc>/reference/print.cs_combined.html</loc>
+  </url>
+  <url>
+    <loc>/reference/print.cs_distribution.html</loc>
+  </url>
+  <url>
+    <loc>/reference/print.cs_percentage.html</loc>
+  </url>
+  <url>
+    <loc>/reference/print.cs_statistical.html</loc>
+  </url>
+  <url>
     <loc>/reference/summary.clinisig.html</loc>
+  </url>
+  <url>
+    <loc>/reference/summary.cs_anchor_group_between.html</loc>
+  </url>
+  <url>
+    <loc>/reference/summary.cs_anchor_group_within.html</loc>
+  </url>
+  <url>
+    <loc>/reference/summary.cs_anchor_individual_within.html</loc>
+  </url>
+  <url>
+    <loc>/reference/summary.cs_combined.html</loc>
+  </url>
+  <url>
+    <loc>/reference/summary.cs_distribution.html</loc>
+  </url>
+  <url>
+    <loc>/reference/summary.cs_percentage.html</loc>
+  </url>
+  <url>
+    <loc>/reference/summary.cs_statistical.html</loc>
+  </url>
+  <url>
+    <loc>/reference/summary_table.html</loc>
   </url>
 </urlset>

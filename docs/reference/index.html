@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9004</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,29 +63,29 @@
 
       <dl><dt>
           
-          <code><a href="clinical_significance.html">clinical_significance()</a></code> 
+          <code><a href="cs_anchor.html">cs_anchor()</a></code> 
         </dt>
-        <dd>Clinical Significance</dd>
+        <dd>Anchor-Based Analysis of Clinical Significance</dd>
       </dl><dl><dt>
           
-          <code><a href="check_cutoff.html">check_cutoff()</a></code> 
+          <code><a href="cs_percentage.html">cs_percentage()</a></code> 
         </dt>
-        <dd>Check the Clinical Significance Cutoff Based on Population Descriptives</dd>
+        <dd>Percentage-Change Analysis of Clinical Significance</dd>
       </dl><dl><dt>
           
-          <code><a href="summary.clinisig.html">summary(<i>&lt;clinisig&gt;</i>)</a></code> 
+          <code><a href="cs_distribution.html">cs_distribution()</a></code> 
         </dt>
-        <dd>Summary Method for a clinisig object</dd>
+        <dd>Distribution-Based Analysis of Clinical Significance</dd>
       </dl><dl><dt>
           
-          <code><a href="plot.clinisig.html">plot(<i>&lt;clinisig&gt;</i>)</a></code> 
+          <code><a href="cs_statistical.html">cs_statistical()</a></code> 
         </dt>
-        <dd>Plot Clinical Significance Results</dd>
+        <dd>Statistical Analysis of Clinical Significance</dd>
       </dl><dl><dt>
           
-          <code><a href="print.clinisig.html">print(<i>&lt;clinisig&gt;</i>)</a></code> 
+          <code><a href="cs_combined.html">cs_combined()</a></code> 
         </dt>
-        <dd>Print Clinical Significance Results</dd>
+        <dd>Combined Analysis of Clinical Significance</dd>
       </dl></div><div class="section level2">
       <h2 id="helper-functions">Helper Functions<a class="anchor" aria-label="anchor" href="#helper-functions"></a></h2>
       
@@ -99,49 +99,177 @@
 
       <dl><dt>
           
-          <code><a href="get_augmented_data.html">get_augmented_data()</a></code> 
+          <code><a href="augmented_data.html">cs_get_augmented_data()</a></code> 
         </dt>
-        <dd>Get Data Augmented With Clinical Significance Categories</dd>
+        <dd>Extract Augmented Data from a cs_analysis Object</dd>
       </dl><dl><dt>
           
-          <code><a href="get_beneficial_direction.html">get_beneficial_direction()</a></code> 
+          <code><a href="cs_get_cutoff.html">cs_get_cutoff()</a></code> 
         </dt>
-        <dd>Get the Specified Beneficial Direction of a Clinical Significance Analysis</dd>
+        <dd>Get Used Cutoff And Type From A cs_analysis Object</dd>
       </dl><dl><dt>
           
-          <code><a href="get_cutoff.html">get_cutoff()</a></code> 
-        </dt>
-        <dd>Get Used Cutoff And Type From A clinisig Object</dd>
-      </dl><dl><dt>
-          
-          <code><a href="get_cutoff_descriptives.html">get_cutoff_descriptives()</a></code> 
+          <code><a href="cs_get_cutoff_descriptives.html">cs_get_cutoff_descriptives()</a></code> 
         </dt>
         <dd>Get Descriptives Used In The Cutoff Calculation</dd>
       </dl><dl><dt>
           
-          <code><a href="get_data.html">get_data()</a></code> 
+          <code><a href="cs_get_data.html">cs_get_data()</a></code> 
         </dt>
-        <dd>Get Data From A clinisig Object</dd>
+        <dd>Get Data From A cs_analysis Object</dd>
       </dl><dl><dt>
           
-          <code><a href="get_method.html">get_method()</a></code> 
+          <code><a href="cs_get_n.html">cs_get_n()</a></code> 
         </dt>
-        <dd>Get the Clinical Significance Method From A clinisig Object</dd>
+        <dd>Get Number Of Participants From A cs_analysis Object</dd>
       </dl><dl><dt>
           
-          <code><a href="get_n.html">get_n()</a></code> 
+          <code><a href="cs_get_reliability.html">cs_get_reliability()</a></code> 
         </dt>
-        <dd>Get Number Of Participants From A clinisig Object</dd>
+        <dd>Get Reliability Of A cs_analysis Object</dd>
       </dl><dl><dt>
           
-          <code><a href="get_reliability.html">get_reliability()</a></code> 
+          <code><a href="summary_table.html">cs_get_summary()</a></code> 
         </dt>
-        <dd>Get Reliability Of A clinisig Object</dd>
+        <dd>Get A Summary Table From A cs_analysis Object</dd>
+      </dl></div><div class="section level2">
+      <h2 id="plotting-functions">Plotting Functions<a class="anchor" aria-label="anchor" href="#plotting-functions"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="plot.cs_anchor_group_between.html">plot(<i>&lt;cs_anchor_group_between&gt;</i>)</a></code> 
+        </dt>
+        <dd>Plot an Object of Class cs_anchor_group_between</dd>
       </dl><dl><dt>
           
-          <code><a href="get_summary_table.html">get_summary_table()</a></code> 
+          <code><a href="plot.cs_anchor_group_within.html">plot(<i>&lt;cs_anchor_group_within&gt;</i>)</a></code> 
         </dt>
-        <dd>Get A Summary Table From A clinisig Object</dd>
+        <dd>Plot an Object of Class cs_anchor_group_within</dd>
+      </dl><dl><dt>
+          
+          <code><a href="plot.cs_anchor_individual_within.html">plot(<i>&lt;cs_anchor_individual_within&gt;</i>)</a></code> 
+        </dt>
+        <dd>Plot an Object of Class cs_anchor_individual_within</dd>
+      </dl><dl><dt>
+          
+          <code><a href="plot.cs_combined.html">plot(<i>&lt;cs_combined&gt;</i>)</a></code> 
+        </dt>
+        <dd>Plot an Object of Class cs_combined</dd>
+      </dl><dl><dt>
+          
+          <code><a href="plot.cs_distribution.html">plot(<i>&lt;cs_distribution&gt;</i>)</a></code> 
+        </dt>
+        <dd>Plot an Object of Class cs_distribution</dd>
+      </dl><dl><dt>
+          
+          <code><a href="plot.cs_percentage.html">plot(<i>&lt;cs_percentage&gt;</i>)</a></code> 
+        </dt>
+        <dd>Plot an Object of Class cs_percentage</dd>
+      </dl><dl><dt>
+          
+          <code><a href="plot.cs_statistical.html">plot(<i>&lt;cs_statistical&gt;</i>)</a></code> 
+        </dt>
+        <dd>Plot an Object of Class cs_statistical</dd>
+      </dl></div><div class="section level2">
+      <h2 id="summary-functions">Summary Functions<a class="anchor" aria-label="anchor" href="#summary-functions"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="summary.cs_anchor_group_between.html">summary(<i>&lt;cs_anchor_group_between&gt;</i>)</a></code> 
+        </dt>
+        <dd>Summary Method for the Anchor-Based Approach for Groups (Between)</dd>
+      </dl><dl><dt>
+          
+          <code><a href="summary.cs_anchor_group_within.html">summary(<i>&lt;cs_anchor_group_within&gt;</i>)</a></code> 
+        </dt>
+        <dd>Summary Method for the Anchor-Based Approach for Groups (Within)</dd>
+      </dl><dl><dt>
+          
+          <code><a href="summary.cs_anchor_individual_within.html">summary(<i>&lt;cs_anchor_individual_within&gt;</i>)</a></code> 
+        </dt>
+        <dd>Summary Method for the Anchor-Based Approach</dd>
+      </dl><dl><dt>
+          
+          <code><a href="summary.cs_combined.html">summary(<i>&lt;cs_combined&gt;</i>)</a></code> 
+        </dt>
+        <dd>Summary Method for the Combined Approach</dd>
+      </dl><dl><dt>
+          
+          <code><a href="summary.cs_distribution.html">summary(<i>&lt;cs_distribution&gt;</i>)</a></code> 
+        </dt>
+        <dd>Summary Method for the Distribution-Based Approach</dd>
+      </dl><dl><dt>
+          
+          <code><a href="summary.cs_percentage.html">summary(<i>&lt;cs_percentage&gt;</i>)</a></code> 
+        </dt>
+        <dd>Summary Method for the Percentage-Change Approach</dd>
+      </dl><dl><dt>
+          
+          <code><a href="summary.cs_statistical.html">summary(<i>&lt;cs_statistical&gt;</i>)</a></code> 
+        </dt>
+        <dd>Summary Method for the Statistical Approach</dd>
+      </dl></div><div class="section level2">
+      <h2 id="print-functions">Print Functions<a class="anchor" aria-label="anchor" href="#print-functions"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="print.cs_anchor_group_between.html">print(<i>&lt;cs_anchor_group_between&gt;</i>)</a></code> 
+        </dt>
+        <dd>Print Method for the Anchor-Based Approach for Groups (Between)</dd>
+      </dl><dl><dt>
+          
+          <code><a href="print.cs_anchor_group_within.html">print(<i>&lt;cs_anchor_group_within&gt;</i>)</a></code> 
+        </dt>
+        <dd>Print Method for the Anchor-Based Approach for Groups (Within)</dd>
+      </dl><dl><dt>
+          
+          <code><a href="print.cs_anchor_individual_within.html">print(<i>&lt;cs_anchor_individual_within&gt;</i>)</a></code> 
+        </dt>
+        <dd>Print Method for the Anchor-Based Approach for Individuals</dd>
+      </dl><dl><dt>
+          
+          <code><a href="print.cs_combined.html">print(<i>&lt;cs_combined&gt;</i>)</a></code> 
+        </dt>
+        <dd>Print Method for the Combined Approach</dd>
+      </dl><dl><dt>
+          
+          <code><a href="print.cs_distribution.html">print(<i>&lt;cs_distribution&gt;</i>)</a></code> 
+        </dt>
+        <dd>Print Method for the Distribution-Based Approach</dd>
+      </dl><dl><dt>
+          
+          <code><a href="print.cs_percentage.html">print(<i>&lt;cs_percentage&gt;</i>)</a></code> 
+        </dt>
+        <dd>Print Method for the Percentange-Change Approach</dd>
+      </dl><dl><dt>
+          
+          <code><a href="print.cs_statistical.html">print(<i>&lt;cs_statistical&gt;</i>)</a></code> 
+        </dt>
+        <dd>Print Method for the Statistical Approach</dd>
       </dl></div><div class="section level2">
       <h2 id="datasets">Datasets<a class="anchor" aria-label="anchor" href="#datasets"></a></h2>
       
@@ -173,6 +301,52 @@
           <code><a href="anxiety_complete.html">anxiety_complete</a></code> 
         </dt>
         <dd>Anxiety Data (Complete)</dd>
+      </dl><dl><dt>
+          
+          <code><a href="antidepressants.html">antidepressants</a></code> 
+        </dt>
+        <dd>Antidepressant Data</dd>
+      </dl></div><div class="section level2">
+      <h2 id="internal-functions">Internal Functions<a class="anchor" aria-label="anchor" href="#internal-functions"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions used internally to calculate the respective indices</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="calc_anchor.html">calc_anchor()</a></code> 
+        </dt>
+        <dd>Generic to Calculate Anchor-Based Results</dd>
+      </dl><dl><dt>
+          
+          <code><a href="calc_cutoff.html">calc_cutoff_from_data()</a></code> 
+        </dt>
+        <dd>Generic for Statistical Approach</dd>
+      </dl><dl><dt>
+          
+          <code><a href="calc_percentage.html">calc_percentage()</a></code> 
+        </dt>
+        <dd>Calculate Change for the Percentage-Change Approach</dd>
+      </dl><dl><dt>
+          
+          <code><a href="calc_rci.html">calc_rci()</a></code> 
+        </dt>
+        <dd>Generic to Calculate RCI and Associated Change</dd>
+      </dl><dl><dt>
+          
+          <code><a href="create_summary.html">create_summary_table()</a></code> 
+        </dt>
+        <dd>Generic For Creating Summary Tables</dd>
+      </dl><dl><dt>
+          
+          <code><a href="plotting_band.html">generate_plotting_band()</a></code> 
+        </dt>
+        <dd>Generic to Calculate RCI Band Data for Plotting</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

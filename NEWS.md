@@ -2,7 +2,7 @@
 
 ## Breaking changes
 
--   The former main function `clinical_significance()` does not longer exist. The package now offers several different approaches to clinical significance analyses, namely:
+-   The former main function `clinical_significance()` is deprecated. The package now offers several different approaches to clinical significance analyses, namely:
     -   `cs_anchor()` (Anchor-based approaches)
     -   `cs_percentage()`(Percentage-change approaches)
     -   `cs_distribution()`(Distribution-based approaches)
@@ -10,6 +10,8 @@
     -   `cs_combined()`(Combined approaches)
 
 The function `clinical_significance()` used the combined approach (distribution-based and statistical). So the identical analysis can be carried out with `cs_combined()`.
+
+-  The function `check_cutoff()` is deprecated.
 
 -   When `method = "HLM`, participants with three or more data points will be used. Before, participants with at least three data points (i.e., 4 or more) were used.
 

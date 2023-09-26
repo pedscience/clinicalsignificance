@@ -16,7 +16,7 @@ for each participant."><meta property="og:image" content="/logo.png"><!-- mathja
     
     <a class="navbar-brand me-2" href="../index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9006</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,8 +30,11 @@ for each participant."><meta property="og:image" content="/logo.png"><!-- mathja
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/clinicalsignificance-get-started.html">Get started</a>
-    <a class="dropdown-item" href="../articles/clinicalsignificance-plots.html">Clinical Significance Plots</a>
+    <a class="dropdown-item" href="../articles/anchor-based-approach.html">Anchor-Based Approaches</a>
+    <a class="dropdown-item" href="../articles/combined-approach.html">Combined Approach</a>
+    <a class="dropdown-item" href="../articles/distribution-based-approach.html">Distribution-Based Approach</a>
+    <a class="dropdown-item" href="../articles/percentage-change-approach.html">Percentage-Change Approach to Clinical Significance in R</a>
+    <a class="dropdown-item" href="../articles/statistical-approach.html">Statistical Approach</a>
   </div>
 </li>
 <li class="nav-item">
@@ -67,72 +70,7 @@ for each participant.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_rci</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for cs_jt</span></span>
-<span><span class="fu">calc_rci</span><span class="op">(</span><span class="va">data</span>, <span class="va">sd_pre</span>, <span class="va">reliability</span>, direction <span class="op">=</span> <span class="fl">1</span>, critical_value <span class="op">=</span> <span class="fl">1.96</span>, <span class="va">...</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for cs_gln</span></span>
-<span><span class="fu">calc_rci</span><span class="op">(</span></span>
-<span>  <span class="va">data</span>,</span>
-<span>  <span class="va">m_pre</span>,</span>
-<span>  <span class="va">sd_pre</span>,</span>
-<span>  <span class="va">reliability</span>,</span>
-<span>  direction <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  critical_value <span class="op">=</span> <span class="fl">1.96</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for cs_hll</span></span>
-<span><span class="fu">calc_rci</span><span class="op">(</span></span>
-<span>  <span class="va">data</span>,</span>
-<span>  <span class="va">m_pre</span>,</span>
-<span>  <span class="va">sd_pre</span>,</span>
-<span>  <span class="va">m_post</span>,</span>
-<span>  <span class="va">reliability</span>,</span>
-<span>  direction <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  critical_value <span class="op">=</span> <span class="fl">1.96</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for cs_en</span></span>
-<span><span class="fu">calc_rci</span><span class="op">(</span></span>
-<span>  <span class="va">data</span>,</span>
-<span>  <span class="va">m_pre</span>,</span>
-<span>  <span class="va">sd_pre</span>,</span>
-<span>  <span class="va">reliability</span>,</span>
-<span>  direction <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  critical_value <span class="op">=</span> <span class="fl">1.96</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for cs_nk</span></span>
-<span><span class="fu">calc_rci</span><span class="op">(</span></span>
-<span>  <span class="va">data</span>,</span>
-<span>  <span class="va">m_pre</span>,</span>
-<span>  <span class="va">sd_pre</span>,</span>
-<span>  <span class="va">reliability</span>,</span>
-<span>  <span class="va">reliability_post</span>,</span>
-<span>  direction <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  critical_value <span class="op">=</span> <span class="fl">1.96</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for cs_ha</span></span>
-<span><span class="fu">calc_rci</span><span class="op">(</span></span>
-<span>  <span class="va">data</span>,</span>
-<span>  <span class="va">m_pre</span>,</span>
-<span>  <span class="va">sd_pre</span>,</span>
-<span>  <span class="va">m_post</span>,</span>
-<span>  <span class="va">sd_post</span>,</span>
-<span>  <span class="va">reliability</span>,</span>
-<span>  direction <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  critical_value <span class="op">=</span> <span class="fl">1.65</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for cs_hlm</span></span>
-<span><span class="fu">calc_rci</span><span class="op">(</span><span class="va">data</span>, <span class="va">direction</span>, critical_value <span class="op">=</span> <span class="fl">1.96</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calc_rci</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -143,39 +81,6 @@ for each participant.</p>
 
 <dt>...</dt>
 <dd><p>Additional arguments for the specific RCI method</p></dd>
-
-
-<dt>sd_pre</dt>
-<dd><p>Pre measurement SD</p></dd>
-
-
-<dt>reliability</dt>
-<dd><p>Instrument reliability</p></dd>
-
-
-<dt>direction</dt>
-<dd><p>Beneficial intervention effect for given instrument. 1 =
-higher is better, -1 = lower is better</p></dd>
-
-
-<dt>critical_value</dt>
-<dd><p>Critical RCI value, typically 1.96</p></dd>
-
-
-<dt>m_pre</dt>
-<dd><p>Pre measurement mean</p></dd>
-
-
-<dt>m_post</dt>
-<dd><p>Post measurement mean</p></dd>
-
-
-<dt>reliability_post</dt>
-<dd><p>Instrument reliability at post measurement</p></dd>
-
-
-<dt>sd_post</dt>
-<dd><p>Post measurement SD</p></dd>
 
 </dl></div>
     <div class="section level2">

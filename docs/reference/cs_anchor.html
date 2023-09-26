@@ -22,7 +22,7 @@ significant."><meta property="og:image" content="/logo.png"><!-- mathjax --><scr
     
     <a class="navbar-brand me-2" href="../index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9006</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,8 +36,11 @@ significant."><meta property="og:image" content="/logo.png"><!-- mathjax --><scr
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/clinicalsignificance-get-started.html">Get started</a>
-    <a class="dropdown-item" href="../articles/clinicalsignificance-plots.html">Clinical Significance Plots</a>
+    <a class="dropdown-item" href="../articles/anchor-based-approach.html">Anchor-Based Approaches</a>
+    <a class="dropdown-item" href="../articles/combined-approach.html">Combined Approach</a>
+    <a class="dropdown-item" href="../articles/distribution-based-approach.html">Distribution-Based Approach</a>
+    <a class="dropdown-item" href="../articles/percentage-change-approach.html">Percentage-Change Approach to Clinical Significance in R</a>
+    <a class="dropdown-item" href="../articles/statistical-approach.html">Statistical Approach</a>
   </div>
 </li>
 <li class="nav-item">
@@ -449,7 +452,7 @@ around effect estimates. Brazilian Journal of Physical Therapy, 23(4),
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Median Difference | [Lower | Upper] | CI-Level | n   | Category                           </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------------------------------------------------------------------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> -9.77             | -10.87 | -8.59  | 0.95     | 555 | Large clinically significant effect</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> -9.78             | -10.87 | -8.66  | 0.95     | 555 | Large clinically significant effect</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cs_results_groupwise</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Clinical Significance Results</span> ──</span>
@@ -466,7 +469,7 @@ around effect estimates. Brazilian Journal of Physical Therapy, 23(4),
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Difference | [Lower | Upper] | CI-Level | n   | Category                           </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> -----------------------------------------------------------------------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> -9.77      | -10.87 | -8.59  | 0.95     | 555 | Large clinically significant effect</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> -9.78      | -10.87 | -8.66  | 0.95     | 555 | Large clinically significant effect</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cs_results_groupwise</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="cs_anchor-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
@@ -492,10 +495,10 @@ around effect estimates. Brazilian Journal of Physical Therapy, 23(4),
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Group            | Median Difference | [Lower | Upper] | CI-Level | n   | Category                                             </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------------------------------------------------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List        | 1.83              | 0.21   | 3.50   | 0.95     | 152 | Statistically significant but not clinically relevant</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Inactive Placebo | -9.37             | -11.42 | -7.23  | 0.95     | 130 | Probably clinically significant effect               </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Active Placebo   | -17.02            | -18.95 | -15.06 | 0.95     | 121 | Large clinically significant effect                  </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Antidepressant   | -15.83            | -17.57 | -14.07 | 0.95     | 152 | Large clinically significant effect                  </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List        | 1.80              | 0.23   | 3.40   | 0.95     | 152 | Statistically significant but not clinically relevant</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Inactive Placebo | -9.34             | -11.44 | -7.23  | 0.95     | 130 | Probably clinically significant effect               </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Active Placebo   | -16.98            | -18.94 | -15.01 | 0.95     | 121 | Large clinically significant effect                  </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Antidepressant   | -15.82            | -17.67 | -14.00 | 0.95     | 152 | Large clinically significant effect                  </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cs_results_groupwise_condition</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Clinical Significance Results</span> ──</span>
@@ -512,10 +515,10 @@ around effect estimates. Brazilian Journal of Physical Therapy, 23(4),
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Group            | Difference | [Lower | Upper] | CI-Level | n   | Category                                             </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ------------------------------------------------------------------------------------------------------------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List        | 1.83       | 0.21   | 3.50   | 0.95     | 152 | Statistically significant but not clinically relevant</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Inactive Placebo | -9.37      | -11.42 | -7.23  | 0.95     | 130 | Probably clinically significant effect               </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Active Placebo   | -17.02     | -18.95 | -15.06 | 0.95     | 121 | Large clinically significant effect                  </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Antidepressant   | -15.83     | -17.57 | -14.07 | 0.95     | 152 | Large clinically significant effect                  </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List        | 1.80       | 0.23   | 3.40   | 0.95     | 152 | Statistically significant but not clinically relevant</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Inactive Placebo | -9.34      | -11.44 | -7.23  | 0.95     | 130 | Probably clinically significant effect               </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Active Placebo   | -16.98     | -18.94 | -15.01 | 0.95     | 121 | Large clinically significant effect                  </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Antidepressant   | -15.82     | -17.67 | -14.00 | 0.95     | 152 | Large clinically significant effect                  </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cs_results_groupwise_condition</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="cs_anchor-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
@@ -542,9 +545,9 @@ around effect estimates. Brazilian Journal of Physical Therapy, 23(4),
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Group 1   | Group 2          | Median Difference | [Lower | Upper] | CI-Level | n (1) | n (2) | Category                           </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> -----------------------------------------------------------------------------------------------------------------------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List | Inactive Placebo | -11.72            | -13.39 | -10.09 | 0.95     | 152   | 130   | Large clinically significant effect</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List | Active Placebo   | -17.71            | -19.45 | -15.92 | 0.95     | 152   | 121   | Large clinically significant effect</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List | Antidepressant   | -18.45            | -20.22 | -16.71 | 0.95     | 152   | 152   | Large clinically significant effect</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List | Inactive Placebo | -11.69            | -13.33 | -10.08 | 0.95     | 152   | 130   | Large clinically significant effect</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List | Active Placebo   | -17.73            | -19.50 | -15.95 | 0.95     | 152   | 121   | Large clinically significant effect</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List | Antidepressant   | -18.43            | -20.17 | -16.66 | 0.95     | 152   | 152   | Large clinically significant effect</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cs_results_groupwise_between</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Clinical Significance Results</span> ──</span>
@@ -558,9 +561,9 @@ around effect estimates. Brazilian Journal of Physical Therapy, 23(4),
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Group 1   | Group 2          | Median Difference | [Lower | Upper] | CI-Level | n (1) | n (2) | Category                           </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> -----------------------------------------------------------------------------------------------------------------------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List | Inactive Placebo | -11.72            | -13.39 | -10.09 | 0.95     | 152   | 130   | Large clinically significant effect</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List | Active Placebo   | -17.71            | -19.45 | -15.92 | 0.95     | 152   | 121   | Large clinically significant effect</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List | Antidepressant   | -18.45            | -20.22 | -16.71 | 0.95     | 152   | 152   | Large clinically significant effect</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List | Inactive Placebo | -11.69            | -13.33 | -10.08 | 0.95     | 152   | 130   | Large clinically significant effect</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List | Active Placebo   | -17.73            | -19.50 | -15.95 | 0.95     | 152   | 121   | Large clinically significant effect</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Wait List | Antidepressant   | -18.43            | -20.17 | -16.66 | 0.95     | 152   | 152   | Large clinically significant effect</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cs_results_groupwise_between</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="cs_anchor-7.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>

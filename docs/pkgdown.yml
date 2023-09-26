@@ -2,7 +2,10 @@ pandoc: 3.1.1
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
-  clinicalsignificance-get-started: clinicalsignificance-get-started.html
-  clinicalsignificance-plots: clinicalsignificance-plots.html
-last_built: 2023-09-25T20:41Z
+  anchor-based-approach: anchor-based-approach.html
+  combined-approach: combined-approach.html
+  distribution-based-approach: distribution-based-approach.html
+  percentage-change-approach: percentage-change-approach.html
+  statistical-approach: statistical-approach.html
+last_built: 2023-09-26T13:53Z
 

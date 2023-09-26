@@ -4,6 +4,9 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/articles/anchor-based-approach.html</loc>
+  </url>
+  <url>
     <loc>/articles/clinical-significance-cutoffs.html</loc>
   </url>
   <url>
@@ -19,10 +22,22 @@
     <loc>/articles/clinicalsignificance.html</loc>
   </url>
   <url>
+    <loc>/articles/combined-approach.html</loc>
+  </url>
+  <url>
+    <loc>/articles/distribution-based-approach.html</loc>
+  </url>
+  <url>
     <loc>/articles/get-started.html</loc>
   </url>
   <url>
     <loc>/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>/articles/percentage-change-approach.html</loc>
+  </url>
+  <url>
+    <loc>/articles/statistical-approach.html</loc>
   </url>
   <url>
     <loc>/authors.html</loc>
@@ -49,13 +64,52 @@
     <loc>/reference/augmented_data.html</loc>
   </url>
   <url>
+    <loc>/reference/calc_anchor.cs_anchor_group_between.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_anchor.cs_anchor_group_within.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_anchor.cs_anchor_individual_within.html</loc>
+  </url>
+  <url>
     <loc>/reference/calc_anchor.html</loc>
   </url>
   <url>
     <loc>/reference/calc_cutoff.html</loc>
   </url>
   <url>
+    <loc>/reference/calc_cutoff_from_data.cs_ha.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_cutoff_from_data.default.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_cutoff_from_data.html</loc>
+  </url>
+  <url>
     <loc>/reference/calc_percentage.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_rci.cs_en.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_rci.cs_gln.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_rci.cs_ha.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_rci.cs_hll.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_rci.cs_hlm.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_rci.cs_jt.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_rci.cs_nk.html</loc>
   </url>
   <url>
     <loc>/reference/calc_rci.html</loc>
@@ -71,6 +125,24 @@
   </url>
   <url>
     <loc>/reference/create_summary.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_summary_table.cs_anchor_individual_within.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_summary_table.cs_combined.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_summary_table.cs_distribution.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_summary_table.cs_percentage.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_summary_table.cs_statistical.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_summary_table.html</loc>
   </url>
   <url>
     <loc>/reference/cs_anchor.html</loc>
@@ -101,6 +173,33 @@
   </url>
   <url>
     <loc>/reference/cs_statistical.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_anchor_individual_within.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_en.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_gln.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_ha.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_hll.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_jt.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_nk.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_percentage.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.html</loc>
   </url>
   <url>
     <loc>/reference/get_augmented_data.html</loc>

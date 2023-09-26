@@ -1,9 +1,9 @@
 ---
-title: "Anchor-Based Approaches to Clinical Significance in R"
+title: "Anchor-Based Approaches"
 date: "September 26, 2023"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Anchor-Based Approaches to Clinical Significance in R}
+  %\VignetteIndexEntry{Anchor-Based Approaches}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -18,49 +18,58 @@ knitr::opts_chunk$set(
 ```
 
 # Introduction
-
 In this beginner-friendly tutorial, we will explore anchor-based approaches to clinical significance using R. Anchor-based approaches are commonly used in clinical research to assess the meaningfulness of change in patient outcomes. We will be working with the `claus_2020` dataset and the `cs_anchor()` function to demonstrate various aspects of these approaches.
 
 ## Prerequisites
-
 Before we begin, ensure that you have the following prerequisites in place:
 
 - R installed on your computer.
 - Basic understanding of R programming concepts.
 
 ## Looking at the Dataset
-
 First, let's have a look at the `claus_2020` dataset, which comes with the package.
 
 ```{r}
 library(clinicalsignificance)
 
+antidepressants
 claus_2020
 ```
 
 
 # Individual Level Anchor-Based Approach
-
 The individual level anchor approach is a method to determine the clinical significance of changes in individual patient outcomes over time. We will use the `cs_anchor()` function for this analysis.
 
-## Performing the Analysis
+## Basic Analysis
+Let's start with a basic clinical significance distribution analysis using the `antidepressants` dataset. We are interested in the Mind over Mood Depression Inventory (`mom_di`) measurements and want to set Minimally Important Difference (MID) for an improvement to a value of 7.
 ```{r}
-anchor_results <- claus_2020 |> 
+anchor_results <- antidepressants |> 
   cs_anchor(
-    id = id,
-    time = time,
-    outcome = bdi,
-    pre = 1,
-    post = 4,
+    id = patient,
+    time = measurement,
+    outcome = mom_di,
     mid_improvement = 7
   )
 ```
 
 Here's a breakdown of the code:
 
-- id, time, and bdi are variables representing patient identifiers, assessment time points, and the Beck Depression Inventory (BDI-II) scores, respectively.
-- pre and post specify the time points for the pre and post-assessment.
-- mid_improvement sets the Minimum Important Difference (MID) for improvement to 7.
+- `patient`, `measurement`, and `mom_di` are variables representing patient identifiers, assessment time points, and the Mind over Mood Depression Intentory (MoM-DI) scores, respectively.
+- `mid_improvement` sets the  for improvement to 7.
+
+## Handling Warnings
+Sometimes, you may encounter warnings when using this function. You can turn off the warning by explicitly specifying the pre-measurement time point using the pre parameter. This can be helpful when your data lacks clear pre-post measurement labels.
+
+```{r}
+anchor_results <- antidepressants |> 
+  cs_anchor(
+    id = patient,
+    time = measurement,
+    outcome = mom_di,
+    pre = "Before",
+    mid_improvement = 7
+  )
+```
 
 
 ## Printing and Summarizing the Results
@@ -82,6 +91,25 @@ plot(anchor_results, show = category)
 ```
 
 
+## Data with More Than Two Measurements
+When working with data that has more than two measurements, you must explicitly define the pre and post measurement time points using the pre and post parameters.
+
+```{r}
+claus_results <- claus_2020 |> 
+  cs_anchor(
+    id = id,
+    time = time,
+    outcome = bdi,
+    pre = 1,
+    post = 4,
+    mid_improvement = 7
+  )
+
+summary(claus_results)
+plot(claus_results)
+```
+
+
 ## Group the Analysis
 It is also possible to provide a grouping variable present in your data to group the analysis. The resulting plot distinguishes the effects for the provided groups.
 ```{r}
@@ -100,6 +128,28 @@ anchor_results_grouped
 
 # And plot the groups
 plot(anchor_results_grouped)
+```
+
+
+## Analyzing Positive Outcomes
+In some cases, higher values of an outcome may be considered better. You can specify this using the `better_is` argument. Let's see an example with the WHO-5 score where higher values are considered better. Suppose the MID is 4 in this case.
+
+```{r}
+anchor_results_who <- claus_2020 |> 
+  cs_anchor(
+    id = id,
+    time = time,
+    outcome = who,
+    pre = 1,
+    post = 4,
+    mid_improvement = 4,
+    better_is = "higher"
+  )
+
+anchor_results_who
+
+# And plot the groups
+plot(anchor_results_who)
 ```
 
 

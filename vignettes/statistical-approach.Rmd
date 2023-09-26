@@ -1,8 +1,8 @@
 ---
-title: "Percentage-Change Approach to Clinical Significance in R"
+title: "Statistical Approach"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Percentage-Change Approach to Clinical Significance in R}
+  %\VignetteIndexEntry{Statistical Approach}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 # Introduction
-In this tutorial, we will explore the percentage-change approach to clinical significance using R. This approach is commonly used in clinical research to assess the meaningfulness of change in patient outcomes. We will be working with the `antidepressants` and `claus_2020` datasets, and the `cs_percentage()` function to demonstrate various aspects of this approach.
+In this tutorial, we will explore the percentage-change approach to clinical significance using R. This approach is commonly used in clinical research to assess the meaningfulness of change in patient outcomes. We will be working with the `antidepressants` and the `claus_2020` datasets, and the `cs_statistical()` function to demonstrate various aspects of this approach.
 
 
 ## Prerequisites
@@ -38,19 +38,22 @@ claus_2020
 ```
 
 
-# Percentage-Change Approach
-The `cs_percentage()` function is a tool for assessing clinical significance. It allows you to determine if changes in patient outcomes are practically significant. Let's go through the basic usage and some advanced features of this function.
+# Statistical Approach
+The `cs_statistical()` function is a tool for assessing clinical significance. It allows you to determine if changes in patient outcomes are practically significant. Let's go through the basic usage and some advanced features of this function.
 
 
 ## Basic Analysis
-Let's start with a basic clinical significance distribution analysis using the `antidepressants` dataset. We are interested in the Mind over Mood Depression Inventory (`mom_di`) measurements and want to set the percentage cutoff for an improvement to a value of 0.3.
+Let's start with a basic statistical clinical significance analysis using the `antidepressants` dataset. We are interested in the Mind over Mood Depression Inventory (`mom_di`) measurements. For the statistical approach, a functional population must be defined. Suppose, we collected data from a non-clinical sample and determined a mean of 7 points and a standard deviation of also 7 points.
+
 ```{r}
-pct_results <- antidepressants |> 
-  cs_percentage(
+stat_results <- antidepressants |> 
+  cs_statistical(
     id = patient,
     time = measurement,
     outcome = mom_di,
-    pct_improvement = 0.3
+    m_functional = 7,
+    sd_functional = 7,
+    cutoff_type = "c"
   )
 ```
 
@@ -61,13 +64,15 @@ Sometimes, as in the example above, you may encounter warnings when using this f
 
 ```{r}
 # Turning off the warning by specifying pre-measurement time
-pct_results <- antidepressants |>
-  cs_percentage(
+stat_results <- antidepressants |>
+  cs_statistical(
     id = patient,
     time = measurement,
     outcome = mom_di,
     pre = "Before",
-    pct_improvement = 0.5
+    m_functional = 7,
+    sd_functional = 7,
+    cutoff_type = "c"
   )
 ```
 
@@ -75,16 +80,17 @@ Here's a breakdown of the code:
 
 - `patient`, `measurement`, and `mom_di` represent the patient identifier, assessment time points, and HAM-D scores, respectively.
 - `pre` and `post` specify the time points for the pre and post-assessment.
-- `pct_improvement` sets the percentage change threshold for improvement to 30%.
+- `m_functional` and `sd_functional` define the functional population's mean and standard deviation. This information is used to calculate the population cutoff.
+- `"c"` specifies the population cutoff of choice.
 
 
 ## Printing and Summarizing the Results
 ```{r}
 # Print the results
-pct_results
+stat_results
 
 # Get a summary
-summary(pct_results)
+summary(stat_results)
 ```
 
 
@@ -92,10 +98,10 @@ summary(pct_results)
 Visualizing the results can help you better understand the clinical significance of changes in patient outcomes.
 ```{r}
 # Plot the results
-plot(pct_results)
+plot(stat_results)
 
 # Show clinical significance categories
-plot(pct_results, show = category)
+plot(stat_results, show = category)
 ```
 
 
@@ -105,13 +111,15 @@ When working with data that has more than two measurements, you must explicitly 
 ```{r}
 # Clinical significance distribution analysis with more than two measurements
 cs_results <- claus_2020 |>
-  cs_percentage(
-    id,
-    time,
-    bdi,
+  cs_statistical(
+    id = id,
+    time = time,
+    outcome = bdi,
     pre = 1,
     post = 4,
-    pct_improvement = 0.3
+    m_functional = 7,
+    sd_functional = 7,
+    cutoff_type = "c"
   )
 
 # Display the results
@@ -121,40 +129,19 @@ plot(cs_results)
 ```
 
 
-## Setting Different Thresholds
-You can set different thresholds for improvement and deterioration by adjusting the `pct_deterioration` argument Let's see an example:
-```{r}
-# Clinical significance analysis with different improvement and deterioration thresholds
-cs_results_2 <- claus_2020 |>
-  cs_percentage(
-    id = id,
-    time = time,
-    outcome = hamd,
-    pre = 1,
-    post = 4,
-    pct_improvement = 0.3,
-    pct_deterioration = 0.2
-  )
-
-# Display the results
-cs_results_2
-
-# Visualize the results
-plot(cs_results_2)
-```
-
-
 ## Grouped Analysis
 You can also perform a grouped analysis by providing a group column from the data. This is useful when comparing treatment groups or other categories.
 ```{r}
 cs_results_grouped <- claus_2020 |>
-  cs_percentage(
+  cs_statistical(
     id = id,
     time = time,
-    outcome = hamd,
+    outcome = bdi,
     pre = 1,
     post = 4,
-    pct_improvement = 0.3,
+    m_functional = 7,
+    sd_functional = 7,
+    cutoff_type = "c",
     group = treatment
   )
 
@@ -166,16 +153,19 @@ plot(cs_results_grouped)
 
 ## Analyzing Positive Outcomes
 In some cases, higher values of an outcome may be considered better. You can specify this using the `better_is` argument. Let's see an example with the WHO-5 score where higher values are considered better.
+
 ```{r}
 # Clinical significance analysis for outcomes where higher values are better
 cs_results_who <- claus_2020 |>
-  cs_percentage(
-    id = id,
-    time = time,
-    outcome = who,
+  cs_statistical(
+    id,
+    time,
+    who,
     pre = 1,
     post = 4,
-    pct_improvement = 0.3,
+    m_functional = 7,
+    sd_functional = 7,
+    cutoff_type = "c",
     better_is = "higher"
   )
 
@@ -185,4 +175,4 @@ cs_results_who
 
 
 # Conclusion
-In this tutorial, you've learned how to perform clinical significance analysis using the `cs_percentage()` function in R. This analysis may be crucial for determining the practical importance of changes in patient outcomes. By adjusting thresholds and considering grouped analyses, you can gain valuable insights for healthcare and clinical research applications.
+In this tutorial, you've learned how to perform clinical significance analysis using the `cs_statistical()` function in R. This analysis may be crucial for determining the practical importance of changes in patient outcomes. By adjusting thresholds and considering grouped analyses, you can gain valuable insights for healthcare and clinical research applications.

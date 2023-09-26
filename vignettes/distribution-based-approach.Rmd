@@ -1,0 +1,186 @@
+---
+title: "Distribution-Based Approach"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Distribution-Based Approach}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+# Introduction
+In this tutorial, we will explore the percentage-change approach to clinical significance using R. This approach is commonly used in clinical research to assess the meaningfulness of change in patient outcomes. We will be working with the `claus_2020` dataset and the `cs_percentage()` function to demonstrate various aspects of these approaches.
+
+
+## Prerequisites
+Before we begin, ensure that you have the following prerequisites in place:
+
+- R installed on your computer.
+- Basic understanding of R programming concepts.
+
+
+## Looking at the Datasets
+First, let's have a look at the `antidepressnats` and `claus_2020` dataset, which come with the package.
+
+```{r}
+library(clinicalsignificance)
+
+antidepressants
+claus_2020
+```
+
+
+# Distribution-Based Approach
+The `cs_distribution()` function allows us to analyze the clinical significance by considering the distribution of patient measurements. We can specify various parameters to customize the analysis. Let's explore the key aspects of this function through examples.
+
+
+## Basic Analysis
+Let's start with a basic clinical significance distribution analysis using the `antidepressants` dataset. We are interested in the Mind over Mood Depression Inventory (`mom_di`) measurements and want to set a reliability threshold of 0.80.
+
+
+```{r}
+# Basic clinical significance distribution analysis
+antidepressants |>
+  cs_distribution(patient, measurement, mom_di, reliability = 0.80)
+```
+
+
+## Handling Warnings
+Sometimes, you may encounter warnings when using this function. You can turn off the warning by explicitly specifying the pre-measurement time point using the pre parameter. This can be helpful when your data lacks clear pre-post measurement labels.
+
+
+```{r}
+# Turning off the warning by specifying pre-measurement time
+cs_results <- antidepressants |>
+  cs_distribution(
+    patient,
+    measurement,
+    mom_di,
+    pre = "Before",
+    reliability = 0.80
+  )
+```
+
+
+## Summarize and plot the results
+```{r}
+summary(cs_results)
+plot(cs_results)
+plot(cs_results, show = category)
+```
+
+## Data with More Than Two Measurements
+When working with data that has more than two measurements, you must explicitly define the pre and post measurement time points using the pre and post parameters.
+
+```{r}
+# Clinical significance distribution analysis with more than two measurements
+cs_results <- claus_2020 |>
+  cs_distribution(
+    id,
+    time,
+    hamd,
+    pre = 1,
+    post = 4,
+    reliability = 0.80
+  )
+
+# Display the results
+cs_results
+summary(cs_results)
+plot(cs_results)
+```
+
+
+## Changing the RCI Method
+You can change the Reliable Change Index (RCI) method by specifying the `rci_method` parameter. In this example, we use the "HA" method.
+
+```{r}
+# Clinical significance distribution analysis with a different RCI method
+cs_results_ha <- claus_2020 |>
+  cs_distribution(
+    id,
+    time,
+    hamd,
+    pre = 1,
+    post = 4,
+    reliability = 0.80,
+    rci_method = "HA"
+  )
+
+# Display the results
+summary(cs_results_ha)
+plot(cs_results_ha)
+```
+
+## Grouped Analysis
+You can also perform a grouped analysis by providing a grouping variable. This is useful when comparing different treatment groups or categories.
+
+```{r}
+# Grouped analysis
+cs_results_grouped <- claus_2020 |>
+  cs_distribution(
+    id,
+    time,
+    hamd,
+    pre = 1,
+    post = 4,
+    group = treatment,
+    reliability = 0.80
+  )
+
+# Display the results
+summary(cs_results_grouped)
+plot(cs_results_grouped)
+```
+
+
+## Analyzing Positive Outcomes
+In some cases, higher values of an outcome may be considered better. You can specify this using the `better_is` argument. Let's see an example with the WHO-5 score where higher values are considered better. Suppose the reliability for the WHO-5 is 0.85.
+
+```{r}
+distribution_results_who <- claus_2020 |> 
+  cs_distribution(
+    id = id,
+    time = time,
+    outcome = who,
+    pre = 1,
+    post = 4,
+    reliability = 0.85,
+    better_is = "higher"
+  )
+
+distribution_results_who
+
+# And plot the groups
+plot(distribution_results_who)
+```
+
+## Using More Than Two Measurements with HLM Method
+If you have more than two measurements and want to use the Hierarchical Linear Modeling (HLM) method, you can specify the `rci_method` argument accordingly.
+
+```{r}
+# Clinical significance distribution analysis with HLM method
+cs_results_hlm <- claus_2020 |>
+  cs_distribution(
+    id,
+    time,
+    hamd,
+    rci_method = "HLM"
+  )
+
+# Display the results
+summary(cs_results_hlm)
+plot(cs_results_hlm)
+```
+
+# Conclusion
+In this tutorial, you've learned how to perform clinical significance distribution analysis using the cs_distribution function in R. This analysis is valuable for understanding the practical significance of changes in patient measurements. By customizing parameters and considering group-level analysis, you can gain valuable insights for healthcare and clinical research applications.

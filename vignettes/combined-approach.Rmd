@@ -1,8 +1,8 @@
 ---
-title: "Statistical Approach"
+title: "Combined Approach"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Statistical Approach}
+  %\VignetteIndexEntry{Combined Approach}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 # Introduction
-In this tutorial, we will explore the statistical approach to clinical significance using R. This approach is commonly used in clinical research to assess the meaningfulness of change in patient outcomes. We will be working with the `antidepressants` and the `claus_2020` datasets, and the `cs_statistical()` function to demonstrate various aspects of this approach.
+In this tutorial, we will explore the combined approach to clinical significance using R. This approach is commonly used in clinical research to assess the meaningfulness of change in patient outcomes. We will be working with the `antidepressants` and the `claus_2020` datasets, and the `cs_combined()` function to demonstrate various aspects of this approach.
 
 
 ## Prerequisites
@@ -38,22 +38,24 @@ claus_2020
 ```
 
 
-# Statistical Approach
-The `cs_statistical()` function is a tool for assessing clinical significance. It allows you to determine if changes in patient outcomes are practically significant. Let's go through the basic usage and some advanced features of this function.
+# Claus, Wager & Bonnet Approach
+This approach combines the statistical and anchor-based approach. 
+The `cs_combinedl()` function is a tool for assessing clinical significance in this way. It allows you to determine if changes in patient outcomes are practically significant. Let's go through the basic usage and some advanced features of this function.
 
 
 ## Basic Analysis
-Let's start with a basic statistical clinical significance analysis using the `antidepressants` dataset. We are interested in the Mind over Mood Depression Inventory (`mom_di`) measurements. For the statistical approach, a functional population must be defined. Suppose, we collected data from a non-clinical sample and determined a mean of 7 points and a standard deviation of also 7 points.
+Let's start with a basic statistical clinical significance analysis using the `antidepressants` dataset. We are interested in the Mind over Mood Depression Inventory (`mom_di`) measurements. For the statistical approach, a functional population must be defined. Suppose, we collected data from a non-clinical sample and determined a mean of 7 points and a standard deviation of also 7 points. Furthermore, an MID of 8 points will be regarded as minimally important.
 
 ```{r}
-stat_results <- antidepressants |> 
-  cs_statistical(
+combined_results <- antidepressants |> 
+  cs_combined(
     id = patient,
     time = measurement,
     outcome = mom_di,
     m_functional = 7,
     sd_functional = 7,
-    cutoff_type = "c"
+    cutoff_type = "c",
+    mid_improvement = 8
   )
 ```
 
@@ -64,15 +66,16 @@ Sometimes, as in the example above, you may encounter warnings when using this f
 
 ```{r}
 # Turning off the warning by specifying pre-measurement time
-stat_results <- antidepressants |>
-  cs_statistical(
+combined_results <- antidepressants |> 
+  cs_combined(
     id = patient,
     time = measurement,
     outcome = mom_di,
     pre = "Before",
     m_functional = 7,
     sd_functional = 7,
-    cutoff_type = "c"
+    cutoff_type = "c",
+    mid_improvement = 8
   )
 ```
 
@@ -82,15 +85,16 @@ Here's a breakdown of the code:
 - `pre` and `post` specify the time points for the pre and post-assessment.
 - `m_functional` and `sd_functional` define the functional population's mean and standard deviation. This information is used to calculate the population cutoff.
 - `"c"` specifies the population cutoff of choice.
+- `mid_improvement` sets the  for improvement to 8.
 
 
 ## Printing and Summarizing the Results
 ```{r}
 # Print the results
-stat_results
+combined_results
 
 # Get a summary
-summary(stat_results)
+summary(combined_results)
 ```
 
 
@@ -98,10 +102,10 @@ summary(stat_results)
 Visualizing the results can help you better understand the clinical significance of changes in patient outcomes.
 ```{r}
 # Plot the results
-plot(stat_results)
+plot(combined_results)
 
 # Show clinical significance categories
-plot(stat_results, show = category)
+plot(combined_results, show = category)
 ```
 
 
@@ -111,7 +115,7 @@ When working with data that has more than two measurements, you must explicitly 
 ```{r}
 # Clinical significance distribution analysis with more than two measurements
 cs_results <- claus_2020 |>
-  cs_statistical(
+  cs_combined(
     id = id,
     time = time,
     outcome = bdi,
@@ -119,7 +123,8 @@ cs_results <- claus_2020 |>
     post = 4,
     m_functional = 7,
     sd_functional = 7,
-    cutoff_type = "c"
+    cutoff_type = "c",
+    mid_improvement = 8
   )
 
 # Display the results
@@ -133,7 +138,7 @@ plot(cs_results)
 You can also perform a grouped analysis by providing a group column from the data. This is useful when comparing treatment groups or other categories.
 ```{r}
 cs_results_grouped <- claus_2020 |>
-  cs_statistical(
+  cs_combined(
     id = id,
     time = time,
     outcome = bdi,
@@ -142,6 +147,7 @@ cs_results_grouped <- claus_2020 |>
     m_functional = 7,
     sd_functional = 7,
     cutoff_type = "c",
+    mid_improvement = 8,
     group = treatment
   )
 
@@ -157,7 +163,7 @@ In some cases, higher values of an outcome may be considered better. You can spe
 ```{r}
 # Clinical significance analysis for outcomes where higher values are better
 cs_results_who <- claus_2020 |>
-  cs_statistical(
+  cs_combined(
     id,
     time,
     who,
@@ -166,6 +172,7 @@ cs_results_who <- claus_2020 |>
     m_functional = 7,
     sd_functional = 7,
     cutoff_type = "c",
+    mid_improvement = 8,
     better_is = "higher"
   )
 
@@ -174,5 +181,29 @@ cs_results_who
 ```
 
 
+# Jacobson & Truax Approach
+The Jacobson & Truax approach combines the statistical with the distribution-based approach. For this, let's suppose that the reliability of the MoM-DI is 0.80.
+
+```{r}
+jt_results <- antidepressants |> 
+  cs_combined(
+    id = patient,
+    time = measurement,
+    outcome = mom_di,
+    pre = "Before",
+    m_functional = 7,
+    sd_functional = 7,
+    cutoff_type = "c",
+    reliability = 0.80
+  )
+
+# Summarize and visualize the results
+summary(jt_results)
+plot(jt_results)
+plot(jt_results, show = category)
+```
+
+
+
 # Conclusion
-In this tutorial, you've learned how to perform clinical significance analysis using the `cs_statistical()` function in R. This analysis may be crucial for determining the practical importance of changes in patient outcomes. By adjusting thresholds and considering grouped analyses, you can gain valuable insights for healthcare and clinical research applications.
+In this tutorial, you've learned how to perform clinical significance analysis using the `cs_combined()` function in R. This analysis may be crucial for determining the practical importance of changes in patient outcomes. By adjusting thresholds and considering grouped analyses, you can gain valuable insights for healthcare and clinical research applications.

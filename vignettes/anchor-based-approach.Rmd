@@ -26,8 +26,8 @@ Before we begin, ensure that you have the following prerequisites in place:
 - R installed on your computer.
 - Basic understanding of R programming concepts.
 
-## Looking at the Dataset
-First, let's have a look at the `claus_2020` dataset, which comes with the package.
+## Looking at the Datasets
+First, let's have a look at the datasets, which come with the package.
 
 ```{r}
 library(clinicalsignificance)

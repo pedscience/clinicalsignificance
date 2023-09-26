@@ -17,6 +17,7 @@ The function `clinical_significance()` used the combined approach (distribution-
 
 -   The package now offers to combined approaches: The classic combination of statistical and distribution-based approaches but also the combination of statistical and anchor-based approaches
 
+-  Include new vignettes replacing the old ones
 
 ## New features
 

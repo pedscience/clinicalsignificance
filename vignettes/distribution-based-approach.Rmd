@@ -29,7 +29,7 @@ Before we begin, ensure that you have the following prerequisites in place:
 
 
 ## Looking at the Datasets
-First, let's have a look at the `antidepressnats` and `claus_2020` dataset, which come with the package.
+First, let's have a look at the datasets, which come with the package.
 
 ```{r}
 library(clinicalsignificance)

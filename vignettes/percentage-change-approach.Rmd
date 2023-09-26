@@ -1,0 +1,147 @@
+---
+title: "Percentage-Change Approach to Clinical Significance in R"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Percentage-Change Approach to Clinical Significance in R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+In this beginner-friendly tutorial, we will explore the percentage-change approach to clinical significance using R. This approach is commonly used in clinical research to assess the meaningfulness of change in patient outcomes. We will be working with the `claus_2020` dataset and the `cs_percentage()` function to demonstrate various aspects of these approaches.
+
+## Prerequisites
+
+Before we begin, ensure that you have the following prerequisites in place:
+
+- R installed on your computer.
+- Basic understanding of R programming concepts.
+
+## Looking at the Dataset
+
+First, let's have a look at the `claus_2020` dataset, which comes with the package.
+
+```{r}
+library(clinicalsignificance)
+
+claus_2020
+```
+
+
+# Analyzing Percentage-Change
+
+The `cs_percentage()` function is a tool for assessing clinical significance. It allows you to determine if changes in patient outcomes are practically significant. Let's go through the basic usage and some advanced features of this function.
+
+## Performing the Analysis
+We'll start with the basic usage of `cs_percentage()` to assess the clinical significance of changes in the Hamilton Depression Rating Scale (HAM-D) scores.
+```{r}
+# Basic clinical significance analysis
+cs_results <- claus_2020 |>
+  cs_percentage(
+    id,
+    time,
+    hamd,
+    pre = 1,
+    post = 4,
+    pct_improvement = 0.3
+  )
+```
+
+Here's a breakdown of the code:
+
+- `id`, `time`, and `hamd` represent the patient identifier, assessment time points, and HAM-D scores, respectively.
+- `pre` and `post` specify the time points for the pre and post-assessment.
+- `pct_improvement` sets the percentage change threshold for improvement to 30%.
+
+
+## Printing and Summarizing the Results
+```{r}
+# Print the results
+cs_results
+
+# Get a summary
+summary(cs_results)
+```
+
+## Visualizing the Results
+Visualizing the results can help you better understand the clinical significance of changes in patient outcomes.
+```{r}
+# Plot the results
+plot(cs_results)
+
+# Show clinical significance categories
+plot(cs_results, show = category)
+```
+
+## Setting Different Thresholds
+You can set different thresholds for improvement and deterioration by adjusting the `pct_deterioration` argument Let's see an example:
+```{r}
+# Clinical significance analysis with different improvement and deterioration thresholds
+cs_results_2 <- claus_2020 |>
+  cs_percentage(
+    id,
+    time,
+    hamd,
+    pre = 1,
+    post = 4,
+    pct_improvement = 0.3,
+    pct_deterioration = 0.2
+  )
+
+# Display the results
+cs_results_2
+
+# Visualize the results
+plot(cs_results_2)
+```
+
+
+# Grouped Analysis
+
+You can also perform a grouped analysis by providing a group column from the data. This is useful when comparing treatment groups or other categories.
+```{r}
+# Group-level clinical significance analysis
+cs_results_grouped <- claus_2020 |>
+  cs_percentage(
+    id,
+    time,
+    hamd,
+    pre = 1,
+    post = 4,
+    pct_improvement = 0.3,
+    group = treatment
+  )
+
+# Display the results
+cs_results_grouped
+```
+
+# Analyzing Positive Outcomes
+In some cases, higher values of an outcome may be considered better. You can specify this using the `better_is` argument. Let's see an example with the WHO-5 score where higher values are considered better.
+```{r}
+# Clinical significance analysis for outcomes where higher values are better
+cs_results_who <- claus_2020 |>
+  cs_percentage(
+    id,
+    time,
+    who,
+    pre = 1,
+    post = 4,
+    pct_improvement = 0.3,
+    better_is = "higher"
+  )
+
+# Display the results
+cs_results_who
+```
+
+# Conclusion
+In this tutorial, you've learned how to perform clinical significance analysis using the `cs_percentage()` function in R. This analysis may be crucial for determining the practical importance of changes in patient outcomes. By adjusting thresholds and considering grouped analyses, you can gain valuable insights for healthcare and clinical research applications.

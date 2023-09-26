@@ -7,7 +7,6 @@
 
 [![](https://www.r-pkg.org/badges/version/clinicalsignificance)](https://cran.r-project.org/package=clinicalsignificance)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/clinicalsignificance)](https://cran.r-project.org/package=clinicalsignificance)
-[![](https://codecov.io/gh/pedscience/clinicalsignificance/branch/main/graph/badge.svg)](https://codecov.io/gh/pedscience/clinicalsignificance)
 
 [![R-CMD-check](https://github.com/pedscience/clinicalsignificance/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/pedscience/clinicalsignificance/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
@@ -22,7 +21,7 @@ patients.
 ## Installation
 
 You can install clinicalsignificance from CRAN and the development
-version from [GitHub](https://www.github.com):
+version from GitHub:
 
 ``` r
 install.packages("clinicalsignificance")

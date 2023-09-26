@@ -33,8 +33,7 @@ library(badger)
 ```{r,echo = FALSE, results='asis', message=FALSE}
 cat(
   badge_cran_release("clinicalsignificance"),
-  badge_cran_download("clinicalsignificance", type = "grand-total"),
-  badge_codecov("pedscience/clinicalsignificance")
+  badge_cran_download("clinicalsignificance", type = "grand-total")
 )
 ```
 
@@ -46,7 +45,7 @@ cat(
 The goal of this package is to provide all necessary tools for analyses of clinical significance in clinical intervention studies. In contrast to *statistical* significance, which assesses if it is probable that there is a treatment effect, *clinical* significance can be used to determine if a treatment effect is of practical use or meaningful for patients.
 
 ## Installation
-You can install clinicalsignificance from CRAN and the development version from [GitHub](https://www.github.com):
+You can install clinicalsignificance from CRAN and the development version from GitHub:
 
 ``` r
 install.packages("clinicalsignificance")

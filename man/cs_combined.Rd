@@ -12,6 +12,8 @@ cs_combined(
   group = NULL,
   pre = NULL,
   post = NULL,
+  mid_improvement = NULL,
+  mid_deterioration = NULL,
   reliability = NULL,
   reliability_post = NULL,
   m_functional = NULL,
@@ -38,6 +40,13 @@ than two measurements)}
 
 \item{post}{Post measurement (only needed if the time variable contains more
 than two measurements)}
+
+\item{mid_improvement}{Numeric, change that indicates a clinically
+significant improvement}
+
+\item{mid_deterioration}{Numeric, change that indicates a clinically
+significant deterioration (optional). If \code{mid_deterioration} is not
+provided, it will be assumed to be equal to \code{mid_improvement}}
 
 \item{reliability}{The instrument's reliability estimate. If you selected the
 NK method, the here specified reliability will be the instrument's pre

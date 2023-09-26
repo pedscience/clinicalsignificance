@@ -28,6 +28,7 @@
 #'
 #' @inheritParams cs_distribution
 #' @inheritParams cs_statistical
+#' @inheritParams cs_anchor
 #'
 #' @family main
 #'

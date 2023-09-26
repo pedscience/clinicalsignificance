@@ -1,0 +1,160 @@
+---
+title: "Anchor-Based Approaches to Clinical Significance in R"
+date: "September 26, 2023"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Anchor-Based Approaches to Clinical Significance in R}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+In this beginner-friendly tutorial, we will explore anchor-based approaches to clinical significance using R. Anchor-based approaches are commonly used in clinical research to assess the meaningfulness of change in patient outcomes. We will be working with the `claus_2020` dataset and the `cs_anchor()` function to demonstrate various aspects of these approaches.
+
+## Prerequisites
+
+Before we begin, ensure that you have the following prerequisites in place:
+
+- R installed on your computer.
+- Basic understanding of R programming concepts.
+
+## Looking at the Dataset
+
+First, let's have a look at the `claus_2020` dataset, which comes with the package.
+
+```{r}
+library(clinicalsignificance)
+
+claus_2020
+```
+
+
+# Individual Level Anchor-Based Approach
+
+The individual level anchor approach is a method to determine the clinical significance of changes in individual patient outcomes over time. We will use the `cs_anchor()` function for this analysis.
+
+## Performing the Analysis
+```{r}
+anchor_results <- claus_2020 |> 
+  cs_anchor(
+    id = id,
+    time = time,
+    outcome = bdi,
+    pre = 1,
+    post = 4,
+    mid_improvement = 7
+  )
+```
+
+Here's a breakdown of the code:
+
+- id, time, and bdi are variables representing patient identifiers, assessment time points, and the Beck Depression Inventory (BDI-II) scores, respectively.
+- pre and post specify the time points for the pre and post-assessment.
+- mid_improvement sets the Minimum Important Difference (MID) for improvement to 7.
+
+
+## Printing and Summarizing the Results
+```{r}
+# Print the results
+anchor_results
+
+# Get a summary
+summary(anchor_results)
+```
+
+## Visualizing the Results
+```{r}
+# Plot the results
+plot(anchor_results)
+
+# Show clinical significance categories
+plot(anchor_results, show = category)
+```
+
+
+## Group the Analysis
+It is also possible to provide a grouping variable present in your data to group the analysis. The resulting plot distinguishes the effects for the provided groups.
+```{r}
+anchor_results_grouped <- claus_2020 |> 
+  cs_anchor(
+    id = id,
+    time = time,
+    outcome = bdi,
+    pre = 1,
+    post = 4,
+    mid_improvement = 7,
+    group = treatment
+  )
+
+anchor_results_grouped
+
+# And plot the groups
+plot(anchor_results_grouped)
+```
+
+
+# Group Level Anchor-Based Approach
+The group level anchor-based approach assesses clinical significance for **groups** of patients, often in the context of treatment comparisons. Let's explore this approach.
+
+## Performing the Analysis
+```{r}
+anchor_results_group_level <- claus_2020 |> 
+  cs_anchor(
+    id = id,
+    time = time,
+    outcome = bdi,
+    pre = 1,
+    post = 4,
+    mid_improvement = 7,
+    target = "group"
+  )
+```
+
+## Summarizing the Results
+```{r}
+summary(anchor_results_group_level)
+```
+
+## Analysis for Different Groups
+```{r}
+claus_2020 |> 
+  cs_anchor(
+    id = id,
+    time = time,
+    outcome = bdi,
+    pre = 1,
+    post = 4,
+    mid_improvement = 7,
+    target = "group",
+    group = treatment
+  )
+```
+
+## Comparing Groups
+```{r}
+claus_2020 |> 
+  cs_anchor(
+    id = id,
+    time = time,
+    outcome = bdi,
+    post = 4,
+    mid_improvement = 7,
+    target = "group",
+    group = treatment,
+    effect = "between"
+  )
+```
+
+# Conclusion
+
+Anchor-based approaches are valuable tools in clinical research for assessing the clinical significance of changes in patient outcomes. In this tutorial, we've covered the individual and group-level anchor approaches, and you've learned how to perform these analyses using R. These techniques can help researchers and healthcare professionals make informed decisions about the effectiveness of treatments and interventions.

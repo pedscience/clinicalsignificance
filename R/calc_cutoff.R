@@ -12,7 +12,7 @@
 #' @return A list with cutoff info and participant wise info on cutoff
 #'   categorization
 #'
-#' @rdname calc_cutoff
+#' @keywords internal
 #' @export
 calc_cutoff_from_data <- function(data,
                                   ...) {
@@ -27,7 +27,7 @@ calc_cutoff_from_data <- function(data,
 #' @param sd_functional SD of functional population
 #' @param type Cutoff type, available are `"a"`, `"b"`, and `"c"`
 #'
-#' @rdname calc_cutoff
+#' @keywords internal
 #' @export
 calc_cutoff_from_data.default <- function(data,
                                           m_clinical,
@@ -81,7 +81,7 @@ calc_cutoff_from_data.default <- function(data,
 #' @param critical_value The critical value for the RCI decision, should be
 #'    1.65 if significance_level = 0.05
 #'
-#' @rdname calc_cutoff
+#' @keywords internal
 #' @export
 calc_cutoff_from_data.cs_ha <- function(data,
                                         m_clinical,

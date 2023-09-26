@@ -15,9 +15,6 @@ an improvement}
 
 \item{pct_deterioration}{Numeric, the required percent change cutoff to infer
 a deterioration}
-
-\item{direction}{Beneficial intervention effect for given instrument. 1 =
-higher is better, -1 = lower is better}
 }
 \value{
 An object of classm \code{cs_percentage} list with participant-wise info
@@ -29,3 +26,4 @@ the different percent change cutoff requested by the user, this function
 calculates the relative change according clinical significance category for
 each patient.
 }
+\keyword{internal}

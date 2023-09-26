@@ -2,96 +2,14 @@
 % Please edit documentation in R/calc_rci.R
 \name{calc_rci}
 \alias{calc_rci}
-\alias{calc_rci.cs_jt}
-\alias{calc_rci.cs_gln}
-\alias{calc_rci.cs_hll}
-\alias{calc_rci.cs_en}
-\alias{calc_rci.cs_nk}
-\alias{calc_rci.cs_ha}
-\alias{calc_rci.cs_hlm}
 \title{Generic to Calculate RCI and Associated Change}
 \usage{
 calc_rci(data, ...)
-
-\method{calc_rci}{cs_jt}(data, sd_pre, reliability, direction = 1, critical_value = 1.96, ...)
-
-\method{calc_rci}{cs_gln}(
-  data,
-  m_pre,
-  sd_pre,
-  reliability,
-  direction = 1,
-  critical_value = 1.96,
-  ...
-)
-
-\method{calc_rci}{cs_hll}(
-  data,
-  m_pre,
-  sd_pre,
-  m_post,
-  reliability,
-  direction = 1,
-  critical_value = 1.96,
-  ...
-)
-
-\method{calc_rci}{cs_en}(
-  data,
-  m_pre,
-  sd_pre,
-  reliability,
-  direction = 1,
-  critical_value = 1.96,
-  ...
-)
-
-\method{calc_rci}{cs_nk}(
-  data,
-  m_pre,
-  sd_pre,
-  reliability,
-  reliability_post,
-  direction = 1,
-  critical_value = 1.96,
-  ...
-)
-
-\method{calc_rci}{cs_ha}(
-  data,
-  m_pre,
-  sd_pre,
-  m_post,
-  sd_post,
-  reliability,
-  direction = 1,
-  critical_value = 1.65,
-  ...
-)
-
-\method{calc_rci}{cs_hlm}(data, direction, critical_value = 1.96, ...)
 }
 \arguments{
 \item{data}{Prepped data with class \verb{cs_*}}
 
 \item{...}{Additional arguments for the specific RCI method}
-
-\item{sd_pre}{Pre measurement SD}
-
-\item{reliability}{Instrument reliability}
-
-\item{direction}{Beneficial intervention effect for given instrument. 1 =
-higher is better, -1 = lower is better}
-
-\item{critical_value}{Critical RCI value, typically 1.96}
-
-\item{m_pre}{Pre measurement mean}
-
-\item{m_post}{Post measurement mean}
-
-\item{reliability_post}{Instrument reliability at post measurement}
-
-\item{sd_post}{Post measurement SD}
 }
 \value{
 RCI result object with class \code{cs_distribution}
@@ -102,3 +20,4 @@ the different RCI method requested by the user, the appropriate method is
 called. It calculates the RCI and according clinical significance category
 for each participant.
 }
+\keyword{internal}

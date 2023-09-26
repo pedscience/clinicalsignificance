@@ -10,7 +10,7 @@
 #'
 #' @return A tibble with data for the ribbon indicating unchanged patients
 #'
-#' @rdname plotting_band
+#' @keywords internal
 #' @export
 generate_plotting_band <- function(x,
                                    lower_limit,
@@ -22,7 +22,7 @@ generate_plotting_band <- function(x,
 
 #' Generate RCI Band for JT Method
 #'
-#' @rdname plotting_band
+#' @keywords internal
 #' @export
 generate_plotting_band.cs_jt <- function(x, lower_limit = 0, upper_limit = 100, ...) {
   s_diff <- x[["rci_results"]][[1]]
@@ -38,7 +38,7 @@ generate_plotting_band.cs_jt <- function(x, lower_limit = 0, upper_limit = 100, 
 
 #' Generate RCI Band for GLN Method
 #'
-#' @rdname plotting_band
+#' @keywords internal
 #' @export
 generate_plotting_band.cs_gln <- function(x, lower_limit = 0, upper_limit = 100, ...) {
   s_prediction <- x[["rci_results"]][[1]]
@@ -56,7 +56,7 @@ generate_plotting_band.cs_gln <- function(x, lower_limit = 0, upper_limit = 100,
 
 #' Generate RCI Band for HLL Method
 #'
-#' @rdname plotting_band
+#' @keywords internal
 #' @export
 generate_plotting_band.cs_hll <- function(x, lower_limit = 0, upper_limit = 100, ...) {
   s_prediction <- x[["rci_results"]][[1]]
@@ -75,7 +75,7 @@ generate_plotting_band.cs_hll <- function(x, lower_limit = 0, upper_limit = 100,
 
 #' Generate RCI Band for EN Method
 #'
-#' @rdname plotting_band
+#' @keywords internal
 #' @export
 generate_plotting_band.cs_en <- function(x, lower_limit = 0, upper_limit = 100, ...) {
   se_measurement <- x[["rci_results"]][[1]]
@@ -94,7 +94,7 @@ generate_plotting_band.cs_en <- function(x, lower_limit = 0, upper_limit = 100, 
 
 #' Generate RCI Band for NK Method
 #'
-#' @rdname plotting_band
+#' @keywords internal
 #' @export
 generate_plotting_band.cs_nk <- function(x, lower_limit = 0, upper_limit = 100, ...) {
   m_pre <- mean(cs_get_data(x)[["pre"]])
@@ -113,7 +113,7 @@ generate_plotting_band.cs_nk <- function(x, lower_limit = 0, upper_limit = 100, 
 
 #' Generate RCI Band for HA Method
 #'
-#' @rdname plotting_band
+#' @keywords internal
 #' @export
 generate_plotting_band.cs_ha <- function(x, lower_limit = 0, upper_limit = 100, ...) {
   r_dd <- x[["rci_results"]][[1]]
@@ -133,7 +133,7 @@ generate_plotting_band.cs_ha <- function(x, lower_limit = 0, upper_limit = 100, 
 
 #' Generate RCI Band for the Percentage-Change Approach
 #'
-#' @rdname plotting_band
+#' @keywords internal
 #' @export
 generate_plotting_band.cs_percentage <- function(x, lower_limit = 0, upper_limit = 100, ...) {
   pct_improvement <- x[["pct_improvement"]]
@@ -154,7 +154,7 @@ generate_plotting_band.cs_percentage <- function(x, lower_limit = 0, upper_limit
 
 #' Generate RCI Band for the Individual Anchor-Based Approach
 #'
-#' @rdname plotting_band
+#' @keywords internal
 #' @export
 generate_plotting_band.cs_anchor_individual_within <- function(x, lower_limit = 0, upper_limit = 100, ...) {
   mid_improvement <- x[["mid_improvement"]]

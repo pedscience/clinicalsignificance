@@ -36,9 +36,3 @@ reference:
   - anxiety
   - anxiety_complete
   - antidepressants
-- title: "Internal Functions"
-  desc: "Functions used internally to calculate the respective indices"
-  contents:
-  - starts_with("calc_")
-  - create_summary_table
-  - generate_plotting_band

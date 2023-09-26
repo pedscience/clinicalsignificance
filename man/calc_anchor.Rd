@@ -2,66 +2,14 @@
 % Please edit documentation in R/calc_anchor.R
 \name{calc_anchor}
 \alias{calc_anchor}
-\alias{calc_anchor.cs_anchor_individual_within}
-\alias{calc_anchor.cs_anchor_group_within}
-\alias{calc_anchor.cs_anchor_group_between}
 \title{Generic to Calculate Anchor-Based Results}
 \usage{
 calc_anchor(data, ...)
-
-\method{calc_anchor}{cs_anchor_individual_within}(data, mid_improvement, mid_deterioration, direction, ci_level, ...)
-
-\method{calc_anchor}{cs_anchor_group_within}(
-  data,
-  mid_improvement,
-  mid_deterioration,
-  direction,
-  ci_level,
-  bayesian,
-  prior_scale,
-  ...
-)
-
-\method{calc_anchor}{cs_anchor_group_between}(
-  data,
-  mid_improvement,
-  mid_deterioration,
-  reference_group,
-  post,
-  direction,
-  ci_level,
-  bayesian,
-  prior_scale,
-  ...
-)
 }
 \arguments{
 \item{data}{A data set object of class \verb{cs_*}}
 
 \item{...}{Additional arguments}
-
-\item{mid_improvement}{Numeric, change that indicates a clinically
-significant improvement}
-
-\item{mid_deterioration}{Numeric, change that indicates a clinically
-significant deterioration}
-
-\item{direction}{Which direction is beneficial? Lower = -1, better = 1}
-
-\item{ci_level}{Numeric, desired confidence interval.}
-
-\item{bayesian}{Logical, if Bayesian tests and uncertainty intervals should
-be used, defaults to \code{TRUE}.}
-
-\item{prior_scale}{String or numeric, can be adjusted to change the Bayesian
-prior distribution. See the documentation for \code{rscale} in
-\code{\link[BayesFactor:ttestBF]{BayesFactor::ttestBF()}} for details}
-
-\item{reference_group}{String, the reference group to compare all other
-groups against}
-
-\item{post}{The measurement at which groups should be compared, typically a
-measurement after an intervention.}
 }
 \value{
 An object of class \verb{cs_anchor_*}
@@ -71,6 +19,5 @@ This is an internal generic and should not be called directly. Depending on
 the different anchor method requested by the user, the appropriate method is
 called. It calculates the change and according clinical significance category
 for each participant.
-
-This is an internal function and should never be called directly.
 }
+\keyword{internal}

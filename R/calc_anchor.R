@@ -10,7 +10,7 @@
 #'
 #' @return An object of class `cs_anchor_*`
 #'
-#' @rdname calc_anchor
+#' @keywords internal
 #' @export
 calc_anchor <- function(data, ...) {
   UseMethod("calc_anchor")
@@ -27,7 +27,7 @@ calc_anchor <- function(data, ...) {
 #' @param direction Which direction is beneficial? Lower = -1, better = 1
 #' @param ci_level Numeric, desired confidence interval.
 #'
-#' @rdname calc_anchor
+#' @keywords internal
 #' @export
 calc_anchor.cs_anchor_individual_within <- function(data,
                                                     mid_improvement,
@@ -63,7 +63,7 @@ calc_anchor.cs_anchor_individual_within <- function(data,
 #'   prior distribution. See the documentation for `rscale` in
 #'   [BayesFactor::ttestBF()] for details
 #'
-#' @rdname calc_anchor
+#' @keywords internal
 #' @export
 calc_anchor.cs_anchor_group_within <- function(data,
                                                mid_improvement,
@@ -123,7 +123,7 @@ calc_anchor.cs_anchor_group_within <- function(data,
 #'   measurement after an intervention.
 #'
 #'
-#' @rdname calc_anchor
+#' @keywords internal
 #' @export
 calc_anchor.cs_anchor_group_between <- function(data,
                                                 mid_improvement,

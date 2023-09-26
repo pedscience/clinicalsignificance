@@ -16,6 +16,7 @@
 #' @return An object of classm `cs_percentage` list with participant-wise info
 #'   on clinical significant change catergory
 #'
+#' @keywords internal
 #' @export
 calc_percentage <- function(data, pct_improvement, pct_deterioration, direction) {
   out <- data |>

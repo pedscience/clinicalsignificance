@@ -8,7 +8,7 @@
 #'
 #' @return A tibble
 #'
-#' @rdname create_summary
+#' @keywords internal
 #' @export
 create_summary_table <- function(x, ...) {
   UseMethod("create_summary_table")
@@ -26,7 +26,7 @@ create_summary_table <- function(x, ...) {
 #' @param data The used data frame
 #' @param ... Additional arguments
 #'
-#' @rdname create_summary
+#' @keywords internal
 #' @export
 create_summary_table.cs_distribution <- function(x, data, ...) {
   # Get the RCI results as well as the used data (needed if grouped results are
@@ -72,7 +72,7 @@ create_summary_table.cs_distribution <- function(x, data, ...) {
 #'
 #' @param method Clinical significance method
 #'
-#' @rdname create_summary
+#' @keywords internal
 #' @export
 create_summary_table.cs_statistical <- function(x,
                                                 data,
@@ -141,7 +141,7 @@ create_summary_table.cs_statistical <- function(x,
 #' @param sd_post SD post intervention
 #' @param direction Which direction is beneficial? 1 = higher, -1 = lower
 #'
-#' @rdname create_summary
+#' @keywords internal
 #' @export
 create_summary_table.cs_combined <- function(x,
                                              cutoff_results,
@@ -258,7 +258,7 @@ create_summary_table.cs_combined <- function(x,
 
 #' Create Summary Table for Percentage-Change Approach
 #'
-#' @rdname create_summary
+#' @keywords internal
 #' @export
 create_summary_table.cs_percentage <- function(x, data, ...) {
   # Get the percentage results as well as the used data (needed if grouped
@@ -301,7 +301,7 @@ create_summary_table.cs_percentage <- function(x, data, ...) {
 
 #' Create Summary Table for Anchor-Based Approach
 #'
-#' @rdname create_summary
+#' @keywords internal
 #' @export
 create_summary_table.cs_anchor_individual_within <- function(x, data, ...) {
   # Get the percentage results as well as the used data (needed if grouped

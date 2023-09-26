@@ -9,7 +9,7 @@
 #' @param ... Additional arguments for the specific RCI method
 #'
 #' @return RCI result object with class `cs_distribution`
-#' @rdname calc_rci
+#' @keywords internal
 #' @export
 calc_rci <- function(data, ...) {
   UseMethod("calc_rci")
@@ -25,7 +25,7 @@ calc_rci <- function(data, ...) {
 #' @param reliability Instrument reliability
 #'
 #'
-#' @rdname calc_rci
+#' @keywords internal
 #' @export
 calc_rci.cs_jt <- function(data,
                            sd_pre,
@@ -67,7 +67,7 @@ calc_rci.cs_jt <- function(data,
 #' @param m_pre Pre measurement mean
 #'
 #'
-#' @rdname calc_rci
+#' @keywords internal
 #' @export
 calc_rci.cs_gln <- function(data,
                             m_pre,
@@ -111,7 +111,7 @@ calc_rci.cs_gln <- function(data,
 #' @param m_post Post measurement mean
 #'
 #'
-#' @rdname calc_rci
+#' @keywords internal
 #' @export
 calc_rci.cs_hll <- function(data, m_pre, sd_pre, m_post, reliability, direction = 1, critical_value = 1.96, ...) {
   data <- data[["data"]]
@@ -148,7 +148,7 @@ calc_rci.cs_hll <- function(data, m_pre, sd_pre, m_post, reliability, direction 
 
 #' RCI for the Edwards method
 #'
-#' @rdname calc_rci
+#' @keywords internal
 #' @export
 calc_rci.cs_en <- function(data, m_pre, sd_pre, reliability, direction = 1, critical_value = 1.96, ...) {
   data <- data[["data"]]
@@ -185,7 +185,7 @@ calc_rci.cs_en <- function(data, m_pre, sd_pre, reliability, direction = 1, crit
 #'
 #' @param reliability_post Instrument reliability at post measurement
 #'
-#' @rdname calc_rci
+#' @keywords internal
 #' @export
 calc_rci.cs_nk <- function(data, m_pre, sd_pre, reliability, reliability_post, direction = 1, critical_value = 1.96, ...) {
   data <- data[["data"]]
@@ -218,7 +218,7 @@ calc_rci.cs_nk <- function(data, m_pre, sd_pre, reliability, reliability_post, d
 #'
 #' @param sd_post Post measurement SD
 #'
-#' @rdname calc_rci
+#' @keywords internal
 #' @export
 calc_rci.cs_ha <- function(data, m_pre, sd_pre, m_post, sd_post, reliability, direction = 1, critical_value = 1.65, ...) {
   data <- data[["data"]]
@@ -257,7 +257,7 @@ calc_rci.cs_ha <- function(data, m_pre, sd_pre, m_post, sd_post, reliability, di
 
 #' Calc RCI for the HLM method
 #'
-#' @rdname calc_rci
+#' @keywords internal
 #' @export
 calc_rci.cs_hlm <- function(data, direction, critical_value = 1.96, ...) {
   . <- NULL

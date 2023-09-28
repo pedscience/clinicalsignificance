@@ -4,7 +4,7 @@
 \alias{cs_get_model}
 \title{Get The HLM Model From A cs_analysis Object}
 \usage{
-cs_get_model(x, ...)
+cs_get_model(x)
 }
 \arguments{
 \item{x}{A cs_analysis object}
@@ -22,7 +22,7 @@ the results differently.
 cs_results <- claus_2020 |>
   cs_distribution(id, time, bdi, rci_method = "HLM")
 
-cs_get_model(test_model)
+cs_get_model(cs_results)
 }
 \seealso{
 Extractor functions

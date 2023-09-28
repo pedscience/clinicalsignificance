@@ -16,8 +16,8 @@
 #' cs_results <- claus_2020 |>
 #'   cs_distribution(id, time, bdi, rci_method = "HLM")
 #'
-#' cs_get_model(test_model)
-cs_get_model <- function(x, ...) {
+#' cs_get_model(cs_results)
+cs_get_model <- function(x) {
   .check_class(x)
   if (inherits(x, "cs_distribution") & !inherits(x, "cs_hlm")) cli::cli_abort("The cs_analysis object does not contain an HLM model.")
 

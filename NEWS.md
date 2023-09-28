@@ -15,19 +15,21 @@ The function `clinical_significance()` used the combined approach (distribution-
 
 -   When `method = "HLM`, participants with three or more data points will be used. Before, participants with at least three data points (i.e., 4 or more) were used.
 
--   The package now offers to combined approaches: The classic combination of statistical and distribution-based approaches but also the combination of statistical and anchor-based approaches
-
--  Include new vignettes replacing the old ones
 
 ## New features
 
 -   You can now specify a significance level at which you want the analysis to be based on with the `significance_level` argument. The default is `significance_level = 0.05`. Note that for this is the Phi max level when you set `method = "HA"` as outlined in their article.
+
+-   The package now offers to combined approaches: The classic combination of statistical and distribution-based approaches but also the combination of statistical and anchor-based approaches
+
+-  We included the function `cs_get_model()` to retrieve the hierarchical linear model that is fit during the distribution-based approach if the HLM method is requested.
 
 
 ## Minor improvements and fixes
 
 -   Change the whole package to use R's native pipe operator `|>`
 -   Remove unnecessary dependency on `magrittr`
+-  Include new vignettes replacing the old ones
 
 # clinicalsignificance 1.2.1
 

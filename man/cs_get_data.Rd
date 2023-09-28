@@ -34,6 +34,7 @@ cs_get_data(cs_results, dataset = "original")
 \seealso{
 Extractor functions
 \code{\link{cs_get_augmented_data}()},
+\code{\link{cs_get_model}()},
 \code{\link{cs_get_n}()},
 \code{\link{cs_get_reliability}()},
 \code{\link{cs_get_summary}()}

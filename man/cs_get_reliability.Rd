@@ -33,6 +33,7 @@ cs_get_reliability(cs_results)
 Extractor functions
 \code{\link{cs_get_augmented_data}()},
 \code{\link{cs_get_data}()},
+\code{\link{cs_get_model}()},
 \code{\link{cs_get_n}()},
 \code{\link{cs_get_summary}()}
 }

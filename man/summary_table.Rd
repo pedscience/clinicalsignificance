@@ -89,6 +89,7 @@ cs_get_summary(combined_results, which = "group")
 Extractor functions
 \code{\link{cs_get_augmented_data}()},
 \code{\link{cs_get_data}()},
+\code{\link{cs_get_model}()},
 \code{\link{cs_get_n}()},
 \code{\link{cs_get_reliability}()}
 }

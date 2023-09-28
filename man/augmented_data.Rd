@@ -107,6 +107,7 @@ cs_get_augmented_data(combined_results)
 \seealso{
 Extractor functions
 \code{\link{cs_get_data}()},
+\code{\link{cs_get_model}()},
 \code{\link{cs_get_n}()},
 \code{\link{cs_get_reliability}()},
 \code{\link{cs_get_summary}()}

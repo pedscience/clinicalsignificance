@@ -103,6 +103,7 @@ cs_get_n(cs_results_anchor, which = "used")
 Extractor functions
 \code{\link{cs_get_augmented_data}()},
 \code{\link{cs_get_data}()},
+\code{\link{cs_get_model}()},
 \code{\link{cs_get_reliability}()},
 \code{\link{cs_get_summary}()}
 }

@@ -46,13 +46,49 @@
     <loc>/reference/augmented_data.html</loc>
   </url>
   <url>
+    <loc>/reference/calc_anchor.cs_anchor_group_between.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_anchor.cs_anchor_group_within.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_anchor.cs_anchor_individual_within.html</loc>
+  </url>
+  <url>
     <loc>/reference/calc_anchor.html</loc>
   </url>
   <url>
-    <loc>/reference/calc_cutoff.html</loc>
+    <loc>/reference/calc_cutoff_from_data.cs_ha.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_cutoff_from_data.default.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_cutoff_from_data.html</loc>
   </url>
   <url>
     <loc>/reference/calc_percentage.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_rci.cs_en.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_rci.cs_gln.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_rci.cs_ha.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_rci.cs_hll.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_rci.cs_hlm.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_rci.cs_jt.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_rci.cs_nk.html</loc>
   </url>
   <url>
     <loc>/reference/calc_rci.html</loc>
@@ -61,7 +97,22 @@
     <loc>/reference/claus_2020.html</loc>
   </url>
   <url>
-    <loc>/reference/create_summary.html</loc>
+    <loc>/reference/create_summary_table.cs_anchor_individual_within.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_summary_table.cs_combined.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_summary_table.cs_distribution.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_summary_table.cs_percentage.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_summary_table.cs_statistical.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_summary_table.html</loc>
   </url>
   <url>
     <loc>/reference/cs_anchor.html</loc>
@@ -82,6 +133,9 @@
     <loc>/reference/cs_get_data.html</loc>
   </url>
   <url>
+    <loc>/reference/cs_get_model.html</loc>
+  </url>
+  <url>
     <loc>/reference/cs_get_n.html</loc>
   </url>
   <url>
@@ -92,6 +146,33 @@
   </url>
   <url>
     <loc>/reference/cs_statistical.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_anchor_individual_within.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_en.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_gln.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_ha.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_hll.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_jt.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_nk.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.cs_percentage.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generate_plotting_band.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
@@ -119,9 +200,6 @@
   </url>
   <url>
     <loc>/reference/plot.cs_statistical.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotting_band.html</loc>
   </url>
   <url>
     <loc>/reference/print.cs_anchor_group_between.html</loc>

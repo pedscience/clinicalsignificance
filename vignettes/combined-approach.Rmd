@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 # Introduction
-In this tutorial, we will explore the combined approach to clinical significance using R. This approach is commonly used in clinical research to assess the meaningfulness of change in patient outcomes. We will be working with the `antidepressants` and the `claus_2020` datasets, and the `cs_combined()` function to demonstrate various aspects of this approach.
+In this tutorial, we will explore the combined approach to clinical significance using R. The combined approaches use the anchor- or distribution-based approach in addition to the statistical approach. This is obviously stricter than the two methods on their own, but offers a more detailed interpretation. We will be working with the `antidepressants` and the `claus_2020` datasets, and the `cs_combined()` function to demonstrate various aspects of this approach.
 
 
 ## Prerequisites

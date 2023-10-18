@@ -38,7 +38,7 @@ claus_2020
 
 
 # Individual Level Anchor-Based Approach
-The individual level anchor approach is a method to determine the clinical significance of changes in individual patient outcomes over time. We will use the `cs_anchor()` function for this analysis.
+The individual level anchor approach is a method to determine the clinical significance of changes in individual patient outcomes over time. It is centered around the minimally important difference (MDI) of an instrument. If a change is equal or greater than this difference, a clinically significant change is inferred. We will use the `cs_anchor()` function for this analysis.
 
 ## Basic Analysis
 Let's start with a basic clinical significance distribution analysis using the `antidepressants` dataset. We are interested in the Mind over Mood Depression Inventory (`mom_di`) measurements and want to set Minimally Important Difference (MID) for an improvement to a value of 7.

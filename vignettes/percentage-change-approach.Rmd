@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 # Introduction
-In this tutorial, we will explore the percentage-change approach to clinical significance using R. This approach is commonly used in clinical research to assess the meaningfulness of change in patient outcomes. We will be working with the `antidepressants` and `claus_2020` datasets, and the `cs_percentage()` function to demonstrate various aspects of this approach.
+In this tutorial, we will explore the percentage-change approach to clinical significance using R. The percentage-change approach is centered around a predefined relative change, expressed in percent, that needs to be achieved in order to inferr a clinically significant change. If, for instance, the percentage-change cutoff is believed to be 30%, and a patient demonstrated a score change of at least 30%, then this change is believed to be clinically significant. We will be working with the `antidepressants` and `claus_2020` datasets, and the `cs_percentage()` function to demonstrate various aspects of this approach.
 
 
 ## Prerequisites

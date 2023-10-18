@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 
 # Introduction
-In this tutorial, we will explore the percentage-change approach to clinical significance using R. This approach is commonly used in clinical research to assess the meaningfulness of change in patient outcomes. We will be working with the `claus_2020` dataset and the `cs_percentage()` function to demonstrate various aspects of these approaches.
+In this tutorial, we will explore the percentage-change approach to clinical significance using R. The distribution-based approach is centered around the distribution of the outcome of interest. This is used to calculate the minimal detectable change (MDC), which is the change that has to be achieved to be (likely) greater than the inherent measurement error of the used instrument. We will be working with the `claus_2020` dataset and the `cs_percentage()` function to demonstrate various aspects of these approaches.
 
 
 ## Prerequisites

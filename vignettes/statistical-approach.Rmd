@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 # Introduction
-In this tutorial, we will explore the statistical approach to clinical significance using R. This approach is commonly used in clinical research to assess the meaningfulness of change in patient outcomes. We will be working with the `antidepressants` and the `claus_2020` datasets, and the `cs_statistical()` function to demonstrate various aspects of this approach.
+In this tutorial, we will explore the statistical approach to clinical significance using R. The statistical approach is based on the assumption that patients and healthy individuals form two distinct distributions on the same continuum. A clinical significant change is believed to have occurred, if a patients, that belonged to the clinical population before an intervention belongs to the functional/non-clinical population after that intervention. For this, a cutoff between the two distributions can be calculated, which needs to be crossed to fulfill this population change criterion. We will be working with the `antidepressants` and the `claus_2020` datasets, and the `cs_statistical()` function to demonstrate various aspects of this approach.
 
 
 ## Prerequisites

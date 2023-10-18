@@ -17,3 +17,16 @@ No return value, called for side effects only
 \description{
 Summary Method for the Anchor-Based Approach
 }
+\examples{
+cs_results <- claus_2020 |>
+  cs_anchor(
+    id,
+    time,
+    bdi,
+    pre = 1,
+    post = 4,
+    mid_improvement = 7
+  )
+
+cs_results
+}

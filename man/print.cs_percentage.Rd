@@ -19,6 +19,14 @@ Print Method for the Percentange-Change Approach
 }
 \examples{
 cs_results <- claus_2020 |>
-  cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.8)
+  cs_percentage(
+    id,
+    time,
+    bdi,
+    pre = 1,
+    post = 4,
+    pct_improvement = 0.5
+  )
+
 cs_results
 }

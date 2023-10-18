@@ -19,6 +19,15 @@ Print Method for the Statistical Approach
 }
 \examples{
 cs_results <- claus_2020 |>
-  cs_statistical(id, time, hamd, pre = 1, post = 4, m_functional = 8, sd_functional = 7)
+  cs_statistical(
+    id,
+    time,
+    hamd,
+    pre = 1,
+    post = 4,
+    m_functional = 8,
+    sd_functional = 7
+  )
+
 cs_results
 }

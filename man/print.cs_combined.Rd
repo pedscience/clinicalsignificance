@@ -20,5 +20,6 @@ Print Method for the Combined Approach
 \examples{
 cs_results <- claus_2020 |>
   cs_combined(id, time, hamd, pre = 1, post = 4, reliability = 0.8)
+
 cs_results
 }

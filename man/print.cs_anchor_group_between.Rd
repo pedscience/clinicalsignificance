@@ -17,3 +17,18 @@ No return value, called for side effects
 \description{
 Print Method for the Anchor-Based Approach for Groups (Between)
 }
+\examples{
+cs_results <- claus_2020 |>
+  cs_anchor(
+    id,
+    time,
+    bdi,
+    post = 4,
+    mid_improvement = 7,
+    group = treatment,
+    target = "group",
+    effect = "between"
+  )
+
+cs_results
+}

@@ -19,6 +19,15 @@ Print Method for the Anchor-Based Approach for Groups (Within)
 }
 \examples{
 cs_results <- claus_2020 |>
-  cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.8)
+  cs_anchor(
+    id,
+    time,
+    bdi,
+    pre = 1,
+    post = 4,
+    mid_improvement = 7,
+    target = "group"
+  )
+
 cs_results
 }

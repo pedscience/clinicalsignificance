@@ -27,131 +27,131 @@
     Code
       cs_distribution(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
         rci_method = "JT")
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
       Distribution-based approach using the JT method.
     Output
       
-    Message <cliMessage>
+    Message
       Category     |  n | Percent
       ---------------------------
-      Improved     | 29 |    0.72
-      Unchanged    | 10 |    0.25
-      Deteriorated |  1 |    0.02
+      Improved     | 29 |  72.50%
+      Unchanged    | 10 |  25.00%
+      Deteriorated |  1 |   2.50%
 
 ---
 
     Code
       cs_distribution(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
         rci_method = "EN")
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
       Distribution-based approach using the EN method.
     Output
       
-    Message <cliMessage>
+    Message
       Category     |  n | Percent
       ---------------------------
-      Improved     | 32 |    0.80
-      Unchanged    |  5 |    0.12
-      Deteriorated |  3 |    0.07
+      Improved     | 32 |  80.00%
+      Unchanged    |  5 |  12.50%
+      Deteriorated |  3 |   7.50%
 
 ---
 
     Code
       cs_distribution(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
         rci_method = "HLL")
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
       Distribution-based approach using the HLL method.
     Output
       
-    Message <cliMessage>
+    Message
       Category     |  n | Percent
       ---------------------------
-      Improved     | 12 |    0.30
-      Unchanged    | 16 |    0.40
-      Deteriorated | 12 |    0.30
+      Improved     | 12 |  30.00%
+      Unchanged    | 16 |  40.00%
+      Deteriorated | 12 |  30.00%
 
 ---
 
     Code
       cs_distribution(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
         rci_method = "GLN")
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
       Distribution-based approach using the GLN method.
     Output
       
-    Message <cliMessage>
+    Message
       Category     |  n | Percent
       ---------------------------
-      Improved     | 29 |    0.72
-      Unchanged    | 10 |    0.25
-      Deteriorated |  1 |    0.02
+      Improved     | 29 |  72.50%
+      Unchanged    | 10 |  25.00%
+      Deteriorated |  1 |   2.50%
 
 ---
 
     Code
       cs_distribution(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
         reliability_post = 0.5, rci_method = "NK")
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
       Distribution-based approach using the NK method.
     Output
       
-    Message <cliMessage>
+    Message
       Category     |  n | Percent
       ---------------------------
-      Improved     | 28 |    0.70
-      Unchanged    | 11 |    0.28
-      Deteriorated |  1 |    0.02
+      Improved     | 28 |  70.00%
+      Unchanged    | 11 |  27.50%
+      Deteriorated |  1 |   2.50%
 
 ---
 
     Code
       cs_distribution(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
         rci_method = "HA")
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
       Distribution-based approach using the HA method.
     Output
       
-    Message <cliMessage>
+    Message
       Category     |  n | Percent
       ---------------------------
-      Improved     | 32 |    0.80
-      Unchanged    |  7 |    0.17
-      Deteriorated |  1 |    0.02
+      Improved     | 32 |  80.00%
+      Unchanged    |  7 |  17.50%
+      Deteriorated |  1 |   2.50%
 
 ---
 
     Code
       cs_distribution(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
         rci_method = "HLM")
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
       Distribution-based approach using the HLM method.
     Output
       
-    Message <cliMessage>
+    Message
       Category     |  n | Percent
       ---------------------------
-      Improved     | 11 |    0.28
-      Unchanged    | 20 |    0.50
-      Deteriorated |  9 |    0.22
+      Improved     | 11 |  27.50%
+      Unchanged    | 20 |  50.00%
+      Deteriorated |  9 |  22.50%
 

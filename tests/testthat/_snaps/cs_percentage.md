@@ -2,7 +2,7 @@
 
     Code
       cs_percentage(claus_2020, id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
@@ -10,19 +10,19 @@
       a clinical significant improvement.
     Output
       
-    Message <cliMessage>
+    Message
       Category     |  n | Percent
       ---------------------------
-      Improved     | 16 |    0.40
-      Unchanged    | 24 |    0.60
-      Deteriorated |  0 |    0.00
+      Improved     | 16 |  40.00%
+      Unchanged    | 24 |  60.00%
+      Deteriorated |  0 |   0.00%
 
 ---
 
     Code
       cs_percentage(claus_2020, id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5,
         pct_deterioration = 0.3)
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
@@ -31,10 +31,10 @@
       indicating a clinical significant deterioration.
     Output
       
-    Message <cliMessage>
+    Message
       Category     |  n | Percent
       ---------------------------
-      Improved     | 16 |    0.40
-      Unchanged    | 24 |    0.60
-      Deteriorated |  0 |    0.00
+      Improved     | 16 |  40.00%
+      Unchanged    | 24 |  60.00%
+      Deteriorated |  0 |   0.00%
 

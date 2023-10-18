@@ -57,7 +57,7 @@ create_summary_table.cs_distribution <- function(x, data, ...) {
       values_to = "n"
     ) |>
     dplyr::mutate(
-      percent = round(n / sum(n), digits = 4),
+      percent = insight::format_percent(round(n / sum(n), digits = 4)),
       category = tools::toTitleCase(category),
       category = factor(category, levels = c("Improved", "Unchanged", "Deteriorated"))
     )
@@ -121,7 +121,7 @@ create_summary_table.cs_statistical <- function(x,
       values_to = "n"
     ) |>
     dplyr::mutate(
-      percent = round(n / sum(n), digits = 4),
+      percent = insight::format_percent(round(n / sum(n), digits = 4)),
       category = tools::toTitleCase(category),
       category = factor(category, levels = c("Improved", "Unchanged", "Deteriorated"))
     )
@@ -196,7 +196,7 @@ create_summary_table.cs_combined <- function(x,
       values_to = "n"
     ) |>
     dplyr::mutate(
-      percent = round(n / sum(n), digits = 4),
+      percent = insight::format_percent(round(n / sum(n), digits = 4)),
       category = tools::toTitleCase(category),
       category = factor(category, levels = c("Recovered", "Improved", "Unchanged", "Deteriorated", "Harmed"))
     )
@@ -288,7 +288,7 @@ create_summary_table.cs_percentage <- function(x, data, ...) {
       values_to = "n"
     ) |>
     dplyr::mutate(
-      percent = round(n / sum(n), digits = 4),
+      percent = insight::format_percent(round(n / sum(n), digits = 4)),
       category = tools::toTitleCase(category),
       category = factor(category, levels = c("Improved", "Unchanged", "Deteriorated"))
     )
@@ -332,7 +332,7 @@ create_summary_table.cs_anchor_individual_within <- function(x, data, ...) {
       values_to = "n"
     ) |>
     dplyr::mutate(
-      percent = round(n / sum(n), digits = 4),
+      percent = insight::format_percent(round(n / sum(n), digits = 4)),
       category = tools::toTitleCase(category),
       category = factor(category, levels = c("Improved", "Unchanged", "Deteriorated"))
     )

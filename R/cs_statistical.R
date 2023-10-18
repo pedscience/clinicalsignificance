@@ -254,7 +254,16 @@ cs_statistical <- function(data,
 #'
 #' @examples
 #' cs_results <- claus_2020 |>
-#'   cs_statistical(id, time, hamd, pre = 1, post = 4, m_functional = 8, sd_functional = 7)
+#'   cs_statistical(
+#'     id,
+#'     time,
+#'     hamd,
+#'     pre = 1,
+#'     post = 4,
+#'     m_functional = 8,
+#'     sd_functional = 7
+#'   )
+#'
 #' cs_results
 print.cs_statistical <- function(x, ...) {
   summary_table <- x[["summary_table"]]

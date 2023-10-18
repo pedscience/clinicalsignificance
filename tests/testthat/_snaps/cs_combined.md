@@ -27,84 +27,84 @@
     Code
       cs_combined(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
         m_functional = 8, sd_functional = 8, cutoff_type = "c", rci_method = "JT")
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
       Combined approach using the JT and statistical approach.
     Output
       
-    Message <cliMessage>
+    Message
       Category     |  n | Percent
       ---------------------------
-      Recovered    | 26 |    0.65
-      Improved     |  3 |    0.07
-      Unchanged    | 10 |    0.25
-      Deteriorated |  1 |    0.02
-      Harmed       |  0 |    0.00
+      Recovered    | 26 |  65.00%
+      Improved     |  3 |   7.50%
+      Unchanged    | 10 |  25.00%
+      Deteriorated |  1 |   2.50%
+      Harmed       |  0 |   0.00%
 
 ---
 
     Code
       cs_combined(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
         m_functional = 8, sd_functional = 8, cutoff_type = "c", rci_method = "EN")
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
       Combined approach using the EN and statistical approach.
     Output
       
-    Message <cliMessage>
+    Message
       Category     |  n | Percent
       ---------------------------
-      Recovered    | 26 |    0.65
-      Improved     |  6 |    0.15
-      Unchanged    |  5 |    0.12
-      Deteriorated |  3 |    0.07
-      Harmed       |  0 |    0.00
+      Recovered    | 26 |  65.00%
+      Improved     |  6 |  15.00%
+      Unchanged    |  5 |  12.50%
+      Deteriorated |  3 |   7.50%
+      Harmed       |  0 |   0.00%
 
 ---
 
     Code
       cs_combined(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
         m_functional = 8, sd_functional = 8, cutoff_type = "c", rci_method = "HLL")
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
       Combined approach using the HLL and statistical approach.
     Output
       
-    Message <cliMessage>
+    Message
       Category     |  n | Percent
       ---------------------------
-      Recovered    | 12 |    0.30
-      Improved     |  0 |    0.00
-      Unchanged    | 16 |    0.40
-      Deteriorated | 11 |    0.28
-      Harmed       |  1 |    0.02
+      Recovered    | 12 |  30.00%
+      Improved     |  0 |   0.00%
+      Unchanged    | 16 |  40.00%
+      Deteriorated | 11 |  27.50%
+      Harmed       |  1 |   2.50%
 
 ---
 
     Code
       cs_combined(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
         m_functional = 8, sd_functional = 8, cutoff_type = "c", rci_method = "GLN")
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
       Combined approach using the GLN and statistical approach.
     Output
       
-    Message <cliMessage>
+    Message
       Category     |  n | Percent
       ---------------------------
-      Recovered    | 26 |    0.65
-      Improved     |  3 |    0.07
-      Unchanged    | 10 |    0.25
-      Deteriorated |  1 |    0.02
-      Harmed       |  0 |    0.00
+      Recovered    | 26 |  65.00%
+      Improved     |  3 |   7.50%
+      Unchanged    | 10 |  25.00%
+      Deteriorated |  1 |   2.50%
+      Harmed       |  0 |   0.00%
 
 ---
 
@@ -112,46 +112,46 @@
       cs_combined(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
         m_functional = 8, sd_functional = 8, cutoff_type = "c", reliability_post = 0.5,
         rci_method = "NK")
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
       Combined approach using the NK and statistical approach.
     Output
       
-    Message <cliMessage>
+    Message
       Category     |  n | Percent
       ---------------------------
-      Recovered    | 26 |    0.65
-      Improved     |  2 |    0.05
-      Unchanged    | 11 |    0.28
-      Deteriorated |  1 |    0.02
-      Harmed       |  0 |    0.00
+      Recovered    | 26 |  65.00%
+      Improved     |  2 |   5.00%
+      Unchanged    | 11 |  27.50%
+      Deteriorated |  1 |   2.50%
+      Harmed       |  0 |   0.00%
 
 ---
 
     Code
       cs_combined(claus_2020, id, time, hamd, pre = 1, post = 4, reliability = 0.8,
         m_functional = 8, sd_functional = 8, cutoff_type = "c", rci_method = "HA")
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
       Combined approach using the HA and statistical approach.
     Output
       
-    Message <cliMessage>
+    Message
       Individual Level Summary
       Category     |  n | Percent
       ---------------------------
-      Recovered    | 23 |    0.57
-      Improved     |  9 |    0.22
-      Unchanged    |  7 |    0.17
-      Deteriorated |  1 |    0.02
-      Harmed       |  0 |    0.00
+      Recovered    | 23 |  57.50%
+      Improved     |  9 |  22.50%
+      Unchanged    |  7 |  17.50%
+      Deteriorated |  1 |   2.50%
+      Harmed       |  0 |   0.00%
     Output
       
-    Message <cliMessage>
+    Message
       Groupcs Level Summary
       Category   | Percent
       --------------------
@@ -163,19 +163,19 @@
     Code
       cs_combined(claus_2020, id, time, hamd, m_functional = 8, sd_functional = 8,
         cutoff_type = "c", rci_method = "HLM")
-    Message <cliMessage>
+    Message
       
       -- Clinical Significance Results --
       
       Combined approach using the HLM and statistical approach.
     Output
       
-    Message <cliMessage>
+    Message
       Category     |  n | Percent
       ---------------------------
-      Recovered    | 10 |    0.25
-      Improved     |  1 |    0.02
-      Unchanged    | 20 |    0.50
-      Deteriorated |  9 |    0.22
-      Harmed       |  0 |    0.00
+      Recovered    | 10 |  25.00%
+      Improved     |  1 |   2.50%
+      Unchanged    | 20 |  50.00%
+      Deteriorated |  9 |  22.50%
+      Harmed       |  0 |   0.00%
 

@@ -206,7 +206,15 @@ cs_percentage <- function(data,
 #'
 #' @examples
 #' cs_results <- claus_2020 |>
-#'   cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.8)
+#'   cs_percentage(
+#'     id,
+#'     time,
+#'     bdi,
+#'     pre = 1,
+#'     post = 4,
+#'     pct_improvement = 0.5
+#'   )
+#'
 #' cs_results
 print.cs_percentage <- function(x, ...) {
   summary_table <- x[["summary_table"]]
@@ -252,7 +260,14 @@ print.cs_percentage <- function(x, ...) {
 #'
 #' @examples
 #' cs_results <- claus_2020 |>
-#'   cs_percentage(id, time, hamd, pre = 1, post = 4, pct_improvement = 0.5)
+#'   cs_percentage(
+#'     id,
+#'     time,
+#'     bdi,
+#'     pre = 1,
+#'     post = 4,
+#'     pct_improvement = 0.5
+#'   )
 #'
 #' summary(cs_results)
 summary.cs_percentage <- function(object, ...) {

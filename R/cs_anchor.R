@@ -404,7 +404,16 @@ print.cs_anchor_individual_within <- function(x, ...) {
 #'
 #' @examples
 #' cs_results <- claus_2020 |>
-#'   cs_distribution(id, time, hamd, pre = 1, post = 4, reliability = 0.8)
+#'   cs_anchor(
+#'     id,
+#'     time,
+#'     bdi,
+#'     pre = 1,
+#'     post = 4,
+#'     mid_improvement = 7,
+#'     target = "group"
+#'   )
+#'
 #' cs_results
 print.cs_anchor_group_within <- function(x, ...) {
   summary_table_formatted <- x[["anchor_results"]] |>
@@ -443,6 +452,21 @@ print.cs_anchor_group_within <- function(x, ...) {
 #'
 #' @return No return value, called for side effects
 #' @export
+#'
+#' @examples
+#' cs_results <- claus_2020 |>
+#'   cs_anchor(
+#'     id,
+#'     time,
+#'     bdi,
+#'     post = 4,
+#'     mid_improvement = 7,
+#'     group = treatment,
+#'     target = "group",
+#'     effect = "between"
+#'   )
+#'
+#' cs_results
 print.cs_anchor_group_between <- function(x, ...) {
   summary_table_formatted <- x[["anchor_results"]] |>
     dplyr::rename(
@@ -484,6 +508,19 @@ print.cs_anchor_group_between <- function(x, ...) {
 #'
 #' @return No return value, called for side effects only
 #' @export
+#'
+#' @examples
+#' cs_results <- claus_2020 |>
+#'   cs_anchor(
+#'     id,
+#'     time,
+#'     bdi,
+#'     pre = 1,
+#'     post = 4,
+#'     mid_improvement = 7
+#'   )
+#'
+#' cs_results
 summary.cs_anchor_individual_within <- function(object, ...) {
   # Get necessary information from object
   summary_table <- object[["summary_table"]] |>

@@ -28,10 +28,11 @@ ggplot2::theme_set(ggplot2::theme_light())
 
 <!-- badges: start -->
 
-```{r,echo=FALSE, cs_results="hide", message=FALSE}
+```{r,echo=FALSE, results="hide", message=FALSE}
 library(badger)
 ```
-```{r,echo = FALSE, cs_results='asis', message=FALSE}
+
+```{r,echo = FALSE, results='asis'}
 cat(
   badge_cran_release("clinicalsignificance"),
   badge_cran_download("clinicalsignificance", type = "grand-total")

@@ -5,7 +5,8 @@
 
 <!-- badges: start -->
 
-    #> [![](https://www.r-pkg.org/badges/version/clinicalsignificance)](https://cran.r-project.org/package=clinicalsignificance) [![](http://cranlogs.r-pkg.org/badges/grand-total/clinicalsignificance)](https://cran.r-project.org/package=clinicalsignificance)
+[![](https://www.r-pkg.org/badges/version/clinicalsignificance)](https://cran.r-project.org/package=clinicalsignificance)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/clinicalsignificance)](https://cran.r-project.org/package=clinicalsignificance)
 
 [![R-CMD-check](https://github.com/pedscience/clinicalsignificance/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/pedscience/clinicalsignificance/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
@@ -88,9 +89,9 @@ cs_results
 #> indicating a clinical significant improvement.
 #> Category     |  n | Percent
 #> ---------------------------
-#> Improved     | 25 |    0.62
-#> Unchanged    | 11 |    0.28
-#> Deteriorated |  4 |    0.10
+#> Improved     | 25 |  62.50%
+#> Unchanged    | 11 |  27.50%
+#> Deteriorated |  4 |  10.00%
 ```
 
 You can receive a detailed summary of the analysis by
@@ -109,9 +110,9 @@ summary(cs_results)
 #> ── Individual Level Results
 #> Category     |  n | Percent
 #> ---------------------------
-#> Improved     | 25 |    0.62
-#> Unchanged    | 11 |    0.28
-#> Deteriorated |  4 |    0.10
+#> Improved     | 25 |  62.50%
+#> Unchanged    | 11 |  27.50%
+#> Deteriorated |  4 |  10.00%
 ```
 
 or plot the cs_results with
@@ -151,12 +152,12 @@ summary(cs_results_grouped)
 #> ── Individual Level Results
 #> Group |     Category |  n | Percent
 #> -----------------------------------
-#> TAU   |     Improved |  8 |    0.20
-#> TAU   |    Unchanged |  7 |    0.17
-#> TAU   | Deteriorated |  4 |    0.10
-#> PA    |     Improved | 17 |    0.42
-#> PA    |    Unchanged |  4 |    0.10
-#> PA    | Deteriorated |  0 |    0.00
+#> TAU   |     Improved |  8 |  20.00%
+#> TAU   |    Unchanged |  7 |  17.50%
+#> TAU   | Deteriorated |  4 |  10.00%
+#> PA    |     Improved | 17 |  42.50%
+#> PA    |    Unchanged |  4 |  10.00%
+#> PA    | Deteriorated |  0 |   0.00%
 plot(cs_results_grouped)
 ```
 

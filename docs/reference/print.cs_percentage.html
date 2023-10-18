@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9010</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,18 +85,27 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">cs_results</span> <span class="op">&lt;-</span> <span class="va">claus_2020</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="cs_distribution.html">cs_distribution</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">time</span>, <span class="va">hamd</span>, pre <span class="op">=</span> <span class="fl">1</span>, post <span class="op">=</span> <span class="fl">4</span>, reliability <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="cs_percentage.html">cs_percentage</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">id</span>,</span></span>
+<span class="r-in"><span>    <span class="va">time</span>,</span></span>
+<span class="r-in"><span>    <span class="va">bdi</span>,</span></span>
+<span class="r-in"><span>    pre <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>    post <span class="op">=</span> <span class="fl">4</span>,</span></span>
+<span class="r-in"><span>    pct_improvement <span class="op">=</span> <span class="fl">0.5</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">cs_results</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Clinical Significance Results</span> ──</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Distribution-based approach using the <span style="font-weight: bold;">JT</span> method.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Percentage-change approach with a <span style="font-weight: bold;">50%</span> decrease in instrument scores indicating</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> a clinical significant improvement.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Category     |  n | Percent</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ---------------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Improved     | 29 |    0.72</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Unchanged    | 10 |    0.25</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Deteriorated |  1 |    0.02</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Improved     | 11 |  27.50%</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Unchanged    | 29 |  72.50%</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Deteriorated |  0 |   0.00%</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

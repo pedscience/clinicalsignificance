@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9010</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,12 +73,12 @@
 </ul><p>The function <code>clinical_significance()</code> used the combined approach (distribution-based and statistical). So the identical analysis can be carried out with <code><a href="../reference/cs_combined.html">cs_combined()</a></code>.</p>
 <ul><li><p>The function <code>check_cutoff()</code> is deprecated.</p></li>
 <li><p>When <code>method = "HLM</code>, participants with three or more data points will be used. Before, participants with at least three data points (i.e., 4 or more) were used.</p></li>
-<li><p>The package now offers to combined approaches: The classic combination of statistical and distribution-based approaches but also the combination of statistical and anchor-based approaches</p></li>
-<li><p>Include new vignettes replacing the old ones</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li>You can now specify a significance level at which you want the analysis to be based on with the <code>significance_level</code> argument. The default is <code>significance_level = 0.05</code>. Note that for this is the Phi max level when you set <code>method = "HA"</code> as outlined in their article.</li>
+<ul><li><p>You can now specify a significance level at which you want the analysis to be based on with the <code>significance_level</code> argument. The default is <code>significance_level = 0.05</code>. Note that for this is the Phi max level when you set <code>method = "HA"</code> as outlined in their article.</p></li>
+<li><p>The package now offers to combined approaches: The classic combination of statistical and distribution-based approaches but also the combination of statistical and anchor-based approaches</p></li>
+<li><p>We included the function <code><a href="../reference/cs_get_model.html">cs_get_model()</a></code> to retrieve the hierarchical linear model that is fit during the distribution-based approach if the HLM method is requested.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="minor-improvements-and-fixes-development-version">Minor improvements and fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-development-version"></a></h3>
@@ -86,6 +86,9 @@
 </li>
 <li>Remove unnecessary dependency on <code>magrittr</code>
 </li>
+<li>Include new vignettes replacing the old ones</li>
+<li>Display correct percentages in summary tables</li>
+<li>Update package vignettes</li>
 </ul></div>
 </div>
     <div class="section level2">

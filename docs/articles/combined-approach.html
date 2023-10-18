@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9010</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,11 +95,13 @@
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>In this tutorial, we will explore the combined approach to clinical
-significance using R. This approach is commonly used in clinical
-research to assess the meaningfulness of change in patient outcomes. We
-will be working with the <code>antidepressants</code> and the
-<code>claus_2020</code> datasets, and the <code><a href="../reference/cs_combined.html">cs_combined()</a></code>
-function to demonstrate various aspects of this approach.</p>
+significance using R. The combined approaches use the anchor- or
+distribution-based approach in addition to the statistical approach.
+This is obviously stricter than the two methods on their own, but offers
+a more detailed interpretation. We will be working with the
+<code>antidepressants</code> and the <code>claus_2020</code> datasets,
+and the <code><a href="../reference/cs_combined.html">cs_combined()</a></code> function to demonstrate various
+aspects of this approach.</p>
 <div class="section level3">
 <h3 id="prerequisites">Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"></a>
 </h3>
@@ -235,11 +237,11 @@ used to calculate the population cutoff.</li>
 <span><span class="co">#&gt; Combined approach using the <span style="font-weight: bold;">anchor-based</span> and <span style="font-weight: bold;">statistical</span> approach.</span></span>
 <span><span class="co">#&gt; Category     |   n | Percent</span></span>
 <span><span class="co">#&gt; ----------------------------</span></span>
-<span><span class="co">#&gt; Recovered    | 166 |    0.30</span></span>
-<span><span class="co">#&gt; Improved     | 150 |    0.27</span></span>
-<span><span class="co">#&gt; Unchanged    | 175 |    0.32</span></span>
-<span><span class="co">#&gt; Deteriorated |  52 |    0.09</span></span>
-<span><span class="co">#&gt; Harmed       |  12 |    0.02</span></span>
+<span><span class="co">#&gt; Recovered    | 166 |  29.91%</span></span>
+<span><span class="co">#&gt; Improved     | 150 |  27.03%</span></span>
+<span><span class="co">#&gt; Unchanged    | 175 |  31.53%</span></span>
+<span><span class="co">#&gt; Deteriorated |  52 |   9.37%</span></span>
+<span><span class="co">#&gt; Harmed       |  12 |   2.16%</span></span>
 <span></span>
 <span><span class="co"># Get a summary</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">combined_results</span><span class="op">)</span></span>
@@ -262,11 +264,11 @@ used to calculate the population cutoff.</li>
 <span><span class="co">#&gt; ── Individual Level Results</span></span>
 <span><span class="co">#&gt; Category     |   n | Percent</span></span>
 <span><span class="co">#&gt; ----------------------------</span></span>
-<span><span class="co">#&gt; Recovered    | 166 |    0.30</span></span>
-<span><span class="co">#&gt; Improved     | 150 |    0.27</span></span>
-<span><span class="co">#&gt; Unchanged    | 175 |    0.32</span></span>
-<span><span class="co">#&gt; Deteriorated |  52 |    0.09</span></span>
-<span><span class="co">#&gt; Harmed       |  12 |    0.02</span></span></code></pre></div>
+<span><span class="co">#&gt; Recovered    | 166 |  29.91%</span></span>
+<span><span class="co">#&gt; Improved     | 150 |  27.03%</span></span>
+<span><span class="co">#&gt; Unchanged    | 175 |  31.53%</span></span>
+<span><span class="co">#&gt; Deteriorated |  52 |   9.37%</span></span>
+<span><span class="co">#&gt; Harmed       |  12 |   2.16%</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="visualizing-the-results">Visualizing the Results<a class="anchor" aria-label="anchor" href="#visualizing-the-results"></a>
@@ -312,11 +314,11 @@ explicitly define the pre and post measurement time points using the
 <span><span class="co">#&gt; Combined approach using the <span style="font-weight: bold;">anchor-based</span> and <span style="font-weight: bold;">statistical</span> approach.</span></span>
 <span><span class="co">#&gt; Category     |  n | Percent</span></span>
 <span><span class="co">#&gt; ---------------------------</span></span>
-<span><span class="co">#&gt; Recovered    | 11 |    0.28</span></span>
-<span><span class="co">#&gt; Improved     |  9 |    0.22</span></span>
-<span><span class="co">#&gt; Unchanged    | 17 |    0.42</span></span>
-<span><span class="co">#&gt; Deteriorated |  3 |    0.07</span></span>
-<span><span class="co">#&gt; Harmed       |  0 |    0.00</span></span>
+<span><span class="co">#&gt; Recovered    | 11 |  27.50%</span></span>
+<span><span class="co">#&gt; Improved     |  9 |  22.50%</span></span>
+<span><span class="co">#&gt; Unchanged    | 17 |  42.50%</span></span>
+<span><span class="co">#&gt; Deteriorated |  3 |   7.50%</span></span>
+<span><span class="co">#&gt; Harmed       |  0 |   0.00%</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cs_results</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Clinical Significance Results</span> ──</span></span>
@@ -337,11 +339,11 @@ explicitly define the pre and post measurement time points using the
 <span><span class="co">#&gt; ── Individual Level Results</span></span>
 <span><span class="co">#&gt; Category     |  n | Percent</span></span>
 <span><span class="co">#&gt; ---------------------------</span></span>
-<span><span class="co">#&gt; Recovered    | 11 |    0.28</span></span>
-<span><span class="co">#&gt; Improved     |  9 |    0.22</span></span>
-<span><span class="co">#&gt; Unchanged    | 17 |    0.42</span></span>
-<span><span class="co">#&gt; Deteriorated |  3 |    0.07</span></span>
-<span><span class="co">#&gt; Harmed       |  0 |    0.00</span></span>
+<span><span class="co">#&gt; Recovered    | 11 |  27.50%</span></span>
+<span><span class="co">#&gt; Improved     |  9 |  22.50%</span></span>
+<span><span class="co">#&gt; Unchanged    | 17 |  42.50%</span></span>
+<span><span class="co">#&gt; Deteriorated |  3 |   7.50%</span></span>
+<span><span class="co">#&gt; Harmed       |  0 |   0.00%</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cs_results</span><span class="op">)</span></span></code></pre></div>
 <p><img src="combined-approach_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
@@ -374,16 +376,16 @@ categories.</p>
 <span><span class="co">#&gt; Combined approach using the <span style="font-weight: bold;">anchor-based</span> and <span style="font-weight: bold;">statistical</span> approach.</span></span>
 <span><span class="co">#&gt; Group |     Category |  n | Percent</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span>
-<span><span class="co">#&gt; TAU   |    Recovered |  4 |    0.10</span></span>
-<span><span class="co">#&gt; TAU   |     Improved |  2 |    0.05</span></span>
-<span><span class="co">#&gt; TAU   |    Unchanged | 10 |    0.25</span></span>
-<span><span class="co">#&gt; TAU   | Deteriorated |  3 |    0.07</span></span>
-<span><span class="co">#&gt; TAU   |       Harmed |  0 |    0.00</span></span>
-<span><span class="co">#&gt; PA    |    Recovered |  7 |    0.17</span></span>
-<span><span class="co">#&gt; PA    |     Improved |  7 |    0.17</span></span>
-<span><span class="co">#&gt; PA    |    Unchanged |  7 |    0.17</span></span>
-<span><span class="co">#&gt; PA    | Deteriorated |  0 |    0.00</span></span>
-<span><span class="co">#&gt; PA    |       Harmed |  0 |    0.00</span></span>
+<span><span class="co">#&gt; TAU   |    Recovered |  4 |  10.00%</span></span>
+<span><span class="co">#&gt; TAU   |     Improved |  2 |   5.00%</span></span>
+<span><span class="co">#&gt; TAU   |    Unchanged | 10 |  25.00%</span></span>
+<span><span class="co">#&gt; TAU   | Deteriorated |  3 |   7.50%</span></span>
+<span><span class="co">#&gt; TAU   |       Harmed |  0 |   0.00%</span></span>
+<span><span class="co">#&gt; PA    |    Recovered |  7 |  17.50%</span></span>
+<span><span class="co">#&gt; PA    |     Improved |  7 |  17.50%</span></span>
+<span><span class="co">#&gt; PA    |    Unchanged |  7 |  17.50%</span></span>
+<span><span class="co">#&gt; PA    | Deteriorated |  0 |   0.00%</span></span>
+<span><span class="co">#&gt; PA    |       Harmed |  0 |   0.00%</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cs_results_grouped</span><span class="op">)</span></span></code></pre></div>
 <p><img src="combined-approach_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
@@ -418,11 +420,11 @@ better.</p>
 <span><span class="co">#&gt; Combined approach using the <span style="font-weight: bold;">anchor-based</span> and <span style="font-weight: bold;">statistical</span> approach.</span></span>
 <span><span class="co">#&gt; Category     |  n | Percent</span></span>
 <span><span class="co">#&gt; ---------------------------</span></span>
-<span><span class="co">#&gt; Recovered    | 10 |    0.25</span></span>
-<span><span class="co">#&gt; Improved     |  1 |    0.02</span></span>
-<span><span class="co">#&gt; Unchanged    | 29 |    0.72</span></span>
-<span><span class="co">#&gt; Deteriorated |  0 |    0.00</span></span>
-<span><span class="co">#&gt; Harmed       |  0 |    0.00</span></span></code></pre></div>
+<span><span class="co">#&gt; Recovered    | 10 |  25.00%</span></span>
+<span><span class="co">#&gt; Improved     |  1 |   2.50%</span></span>
+<span><span class="co">#&gt; Unchanged    | 29 |  72.50%</span></span>
+<span><span class="co">#&gt; Deteriorated |  0 |   0.00%</span></span>
+<span><span class="co">#&gt; Harmed       |  0 |   0.00%</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -465,11 +467,11 @@ reliability of the MoM-DI is 0.80.</p>
 <span><span class="co">#&gt; ── Individual Level Results</span></span>
 <span><span class="co">#&gt; Category     |   n | Percent</span></span>
 <span><span class="co">#&gt; ----------------------------</span></span>
-<span><span class="co">#&gt; Recovered    | 159 |    0.29</span></span>
-<span><span class="co">#&gt; Improved     | 115 |    0.21</span></span>
-<span><span class="co">#&gt; Unchanged    | 237 |    0.43</span></span>
-<span><span class="co">#&gt; Deteriorated |  34 |    0.06</span></span>
-<span><span class="co">#&gt; Harmed       |  10 |    0.02</span></span>
+<span><span class="co">#&gt; Recovered    | 159 |  28.65%</span></span>
+<span><span class="co">#&gt; Improved     | 115 |  20.72%</span></span>
+<span><span class="co">#&gt; Unchanged    | 237 |  42.70%</span></span>
+<span><span class="co">#&gt; Deteriorated |  34 |   6.13%</span></span>
+<span><span class="co">#&gt; Harmed       |  10 |   1.80%</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">jt_results</span><span class="op">)</span></span></code></pre></div>
 <p><img src="combined-approach_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">

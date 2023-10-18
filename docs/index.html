@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9010</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,26 +85,39 @@
 <!-- badges: start -->
 
 <p><a href="https://github.com/pedscience/clinicalsignificance/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/pedscience/clinicalsignificance/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <!-- badges: end --></p>
-<p>The goal of this package is to provide all necessary tools for analyses of clinical significance in clinical intervention studies. In contrast to <em>statistical</em> significance, which assesses if it is probable that there is a treatment effect, <em>clinical</em> significance can be used to determine if a treatment effect is of practical use or meaningful for patients.</p>
+<p>The goal of this powerful package is to provide all necessary tools for analyses of clinical significance in clinical intervention studies. In contrast to <em>statistical</em> significance, which assesses if it is probable that there is a treatment effect, <em>clinical</em> significance can be used to determine if a treatment effect is of practical use or meaningful for patients. This package is designed to help researchers and healthcare professionals determine the clinical relevance of their findings. It provides various functions and tools for quantifying and visualizing clinical significance, making it easier to make informed decisions in the medical field.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install clinicalsignificance from CRAN and the development version from GitHub:</p>
+<p>You can install the clinicalsignificance package from CRAN using the following command:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"clinicalsignificance"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Or you install the development version from GitHub:</span></span>
-<span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"pedscience/clinicalsignificance"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"clinicalsignificance"</span><span class="op">)</span></span></code></pre></div>
+<p>Alternatively, you can install the development version from GitHub:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"pedscience/clinicalsignificance"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="main-functions">Main Functions<a class="anchor" aria-label="anchor" href="#main-functions"></a>
+</h2>
+<p>The main functions of the package are based on the main approaches for clinical significance analyses, i.e., the anchor-based approach, the percentage-change approach, the distribution-based approach, the statistical, and combined approaches. Hence, the main functions are</p>
+<ul>
+<li><code><a href="reference/cs_anchor.html">cs_anchor()</a></code></li>
+<li><code><a href="reference/cs_percentage.html">cs_percentage()</a></code></li>
+<li><code><a href="reference/cs_distribution.html">cs_distribution()</a></code></li>
+<li><code><a href="reference/cs_statistical.html">cs_statistical()</a></code></li>
+<li><code><a href="reference/cs_combined.html">cs_combined()</a></code></li>
+</ul>
+<p>See the package vignettes for additional details on the various clinical significance approaches.</p>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>Given a tidy dataset, the employed instrument’s reliability and a minimal important difference for that instrument, a clinical significance analysis can be calculated with the following function call.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>Claus et al. (2020) implemented a novel intervention to enhance the effectiveness of antidepressants by boosting the inherent placebo effect of that medication. The randomized patients to treatment as usual (TAU) and a placebo amplification (PA) group and measured the severity of depressive symptoms over time.</p>
+<p>In the anchor-based approach, a clinical significant change is believed to have occured if a given change is greater or equal to the minimally important difference of the used instrument. Given a tidy dataset of the study and a minimally important difference for the Beck Depression Inventory (second edition, BDI-II) of 7 points, the study data by Claus et al. (2020) may be analyzed as follows:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pedscience.github.io/clinicalsignificance/" class="external-link">clinicalsignificance</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">claus_2020</span> <span class="op">|&gt;</span></span>
+<span><span class="va">cs_results</span> <span class="op">&lt;-</span> <span class="va">claus_2020</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/cs_anchor.html">cs_anchor</a></span><span class="op">(</span></span>
 <span>    id <span class="op">=</span> <span class="va">id</span>,</span>
 <span>    time <span class="op">=</span> <span class="va">time</span>,</span>
@@ -114,7 +127,7 @@
 <span>    mid_improvement <span class="op">=</span> <span class="fl">7</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="va">results</span></span>
+<span><span class="va">cs_results</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Clinical Significance Results ──</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -122,12 +135,12 @@
 <span><span class="co">#&gt; indicating a clinical significant improvement.</span></span>
 <span><span class="co">#&gt; Category     |  n | Percent</span></span>
 <span><span class="co">#&gt; ---------------------------</span></span>
-<span><span class="co">#&gt; Improved     | 25 |    0.62</span></span>
-<span><span class="co">#&gt; Unchanged    | 11 |    0.28</span></span>
-<span><span class="co">#&gt; Deteriorated |  4 |    0.10</span></span></code></pre></div>
+<span><span class="co">#&gt; Improved     | 25 |  62.50%</span></span>
+<span><span class="co">#&gt; Unchanged    | 11 |  27.50%</span></span>
+<span><span class="co">#&gt; Deteriorated |  4 |  10.00%</span></span></code></pre></div>
 <p>You can receive a detailed summary of the analysis by</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cs_results</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Clinical Significance Results ──</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -140,13 +153,71 @@
 <span><span class="co">#&gt; ── Individual Level Results</span></span>
 <span><span class="co">#&gt; Category     |  n | Percent</span></span>
 <span><span class="co">#&gt; ---------------------------</span></span>
-<span><span class="co">#&gt; Improved     | 25 |    0.62</span></span>
-<span><span class="co">#&gt; Unchanged    | 11 |    0.28</span></span>
-<span><span class="co">#&gt; Deteriorated |  4 |    0.10</span></span></code></pre></div>
-<p>or plot the results with</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="80%" style="display: block; margin: auto;"></p>
+<span><span class="co">#&gt; Improved     | 25 |  62.50%</span></span>
+<span><span class="co">#&gt; Unchanged    | 11 |  27.50%</span></span>
+<span><span class="co">#&gt; Deteriorated |  4 |  10.00%</span></span></code></pre></div>
+<p>or plot the cs_results with</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cs_results</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="80%" style="display: block; margin: auto;"></p>
+<div class="section level3">
+<h3 id="including-groups">Including Groups<a class="anchor" aria-label="anchor" href="#including-groups"></a>
+</h3>
+<p>Group-wise results may be obtained by setting the <code>group</code> argument</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cs_results_grouped</span> <span class="op">&lt;-</span> <span class="va">claus_2020</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/cs_anchor.html">cs_anchor</a></span><span class="op">(</span></span>
+<span>    id <span class="op">=</span> <span class="va">id</span>,</span>
+<span>    time <span class="op">=</span> <span class="va">time</span>,</span>
+<span>    outcome <span class="op">=</span> <span class="va">bdi</span>,</span>
+<span>    pre <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>    post <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>    mid_improvement <span class="op">=</span> <span class="fl">7</span>,</span>
+<span>    group <span class="op">=</span> <span class="va">treatment</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cs_results_grouped</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Clinical Significance Results ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Individual anchor-based analysis of clinical significance with a 7 point</span></span>
+<span><span class="co">#&gt; decrease in instrument scores (bdi) indicating a clinical significant</span></span>
+<span><span class="co">#&gt; improvement.</span></span>
+<span><span class="co">#&gt; There were 43 participants in the whole dataset of which 40 (93%) could be</span></span>
+<span><span class="co">#&gt; included in the analysis.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Individual Level Results</span></span>
+<span><span class="co">#&gt; Group |     Category |  n | Percent</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; TAU   |     Improved |  8 |  20.00%</span></span>
+<span><span class="co">#&gt; TAU   |    Unchanged |  7 |  17.50%</span></span>
+<span><span class="co">#&gt; TAU   | Deteriorated |  4 |  10.00%</span></span>
+<span><span class="co">#&gt; PA    |     Improved | 17 |  42.50%</span></span>
+<span><span class="co">#&gt; PA    |    Unchanged |  4 |  10.00%</span></span>
+<span><span class="co">#&gt; PA    | Deteriorated |  0 |   0.00%</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cs_results_grouped</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="80%" style="display: block; margin: auto;"></p>
+</div>
+<div class="section level3">
+<h3 id="clinical-significance-categories">Clinical Significance Categories<a class="anchor" aria-label="anchor" href="#clinical-significance-categories"></a>
+</h3>
+<p>The individual categories may be visualized by adjusting the argument <code>show</code> in the <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> function call.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cs_results</span>, show <span class="op">=</span> <span class="va">category</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;"></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
+</h2>
+<p>We welcome contributions from the R community to enhance the package. If you find any bugs, have feature requests, or would like to contribute improvements, please open an issue or submit a pull request on GitHub.</p>
+</div>
+<div class="section level2">
+<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h2>
+<p>This package is released under the GNU General Public License. You are free to use and distribute it according to the terms of the license.</p>
+<hr>
+<p>Thank you for using the clinicalsignificance R package! We hope it proves to be a valuable tool for assessing clinical significance in your medical and healthcare research. If you find it helpful, consider giving us a star on GitHub and spreading the word.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

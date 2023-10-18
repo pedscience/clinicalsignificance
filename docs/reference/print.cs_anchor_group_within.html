@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9010</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,18 +85,26 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">cs_results</span> <span class="op">&lt;-</span> <span class="va">claus_2020</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="cs_distribution.html">cs_distribution</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">time</span>, <span class="va">hamd</span>, pre <span class="op">=</span> <span class="fl">1</span>, post <span class="op">=</span> <span class="fl">4</span>, reliability <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="cs_anchor.html">cs_anchor</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">id</span>,</span></span>
+<span class="r-in"><span>    <span class="va">time</span>,</span></span>
+<span class="r-in"><span>    <span class="va">bdi</span>,</span></span>
+<span class="r-in"><span>    pre <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>    post <span class="op">=</span> <span class="fl">4</span>,</span></span>
+<span class="r-in"><span>    mid_improvement <span class="op">=</span> <span class="fl">7</span>,</span></span>
+<span class="r-in"><span>    target <span class="op">=</span> <span class="st">"group"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">cs_results</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Clinical Significance Results</span> ──</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Distribution-based approach using the <span style="font-weight: bold;">JT</span> method.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Groupwise anchor-based approach (<span style="font-weight: bold;">within</span> groups) with a <span style="font-weight: bold;">7 point</span> decrease in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> instrument scores indicating a clinical significant improvement.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Category     |  n | Percent</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ---------------------------</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Improved     | 29 |    0.72</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Unchanged    | 10 |    0.25</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Deteriorated |  1 |    0.02</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Median Difference | [Lower | Upper] | CI-Level | n  | Category                              </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> --------------------------------------------------------------------------------------------</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> -9.43             | -13.04 | -5.94  | 0.95     | 40 | Probably clinically significant effect</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

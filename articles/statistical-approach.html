@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9009</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,12 +95,17 @@
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>In this tutorial, we will explore the statistical approach to
-clinical significance using R. This approach is commonly used in
-clinical research to assess the meaningfulness of change in patient
-outcomes. We will be working with the <code>antidepressants</code> and
-the <code>claus_2020</code> datasets, and the
-<code><a href="../reference/cs_statistical.html">cs_statistical()</a></code> function to demonstrate various aspects of
-this approach.</p>
+clinical significance using R. The statistical approach is based on the
+assumption that patients and healthy individuals form two distinct
+distributions on the same continuum. A clinical significant change is
+believed to have occurred, if a patients, that belonged to the clinical
+population before an intervention belongs to the functional/non-clinical
+population after that intervention. For this, a cutoff between the two
+distributions can be calculated, which needs to be crossed to fulfill
+this population change criterion. We will be working with the
+<code>antidepressants</code> and the <code>claus_2020</code> datasets,
+and the <code><a href="../reference/cs_statistical.html">cs_statistical()</a></code> function to demonstrate various
+aspects of this approach.</p>
 <div class="section level3">
 <h3 id="prerequisites">Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"></a>
 </h3>
@@ -230,9 +235,9 @@ used to calculate the population cutoff.</li>
 <span><span class="co">#&gt; Statistical approach using the <span style="font-weight: bold;">JT</span> method.</span></span>
 <span><span class="co">#&gt; Category     |   n | Percent</span></span>
 <span><span class="co">#&gt; ----------------------------</span></span>
-<span><span class="co">#&gt; Improved     | 173 |    0.31</span></span>
-<span><span class="co">#&gt; Unchanged    | 368 |    0.66</span></span>
-<span><span class="co">#&gt; Deteriorated |  14 |    0.03</span></span>
+<span><span class="co">#&gt; Improved     | 173 |  31.17%</span></span>
+<span><span class="co">#&gt; Unchanged    | 368 |  66.31%</span></span>
+<span><span class="co">#&gt; Deteriorated |  14 |   2.52%</span></span>
 <span></span>
 <span><span class="co"># Get a summary</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">stat_results</span><span class="op">)</span></span>
@@ -254,9 +259,9 @@ used to calculate the population cutoff.</li>
 <span><span class="co">#&gt; ── Individual Level Results</span></span>
 <span><span class="co">#&gt; Category     |   n | Percent</span></span>
 <span><span class="co">#&gt; ----------------------------</span></span>
-<span><span class="co">#&gt; Improved     | 173 |    0.31</span></span>
-<span><span class="co">#&gt; Unchanged    | 368 |    0.66</span></span>
-<span><span class="co">#&gt; Deteriorated |  14 |    0.03</span></span></code></pre></div>
+<span><span class="co">#&gt; Improved     | 173 |  31.17%</span></span>
+<span><span class="co">#&gt; Unchanged    | 368 |  66.31%</span></span>
+<span><span class="co">#&gt; Deteriorated |  14 |   2.52%</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="visualizing-the-results">Visualizing the Results<a class="anchor" aria-label="anchor" href="#visualizing-the-results"></a>
@@ -301,9 +306,9 @@ explicitly define the pre and post measurement time points using the
 <span><span class="co">#&gt; Statistical approach using the <span style="font-weight: bold;">JT</span> method.</span></span>
 <span><span class="co">#&gt; Category     |  n | Percent</span></span>
 <span><span class="co">#&gt; ---------------------------</span></span>
-<span><span class="co">#&gt; Improved     | 13 |    0.33</span></span>
-<span><span class="co">#&gt; Unchanged    | 27 |    0.68</span></span>
-<span><span class="co">#&gt; Deteriorated |  0 |    0.00</span></span>
+<span><span class="co">#&gt; Improved     | 13 |  32.50%</span></span>
+<span><span class="co">#&gt; Unchanged    | 27 |  67.50%</span></span>
+<span><span class="co">#&gt; Deteriorated |  0 |   0.00%</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cs_results</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Clinical Significance Results</span> ──</span></span>
@@ -323,9 +328,9 @@ explicitly define the pre and post measurement time points using the
 <span><span class="co">#&gt; ── Individual Level Results</span></span>
 <span><span class="co">#&gt; Category     |  n | Percent</span></span>
 <span><span class="co">#&gt; ---------------------------</span></span>
-<span><span class="co">#&gt; Improved     | 13 |    0.33</span></span>
-<span><span class="co">#&gt; Unchanged    | 27 |    0.68</span></span>
-<span><span class="co">#&gt; Deteriorated |  0 |    0.00</span></span>
+<span><span class="co">#&gt; Improved     | 13 |  32.50%</span></span>
+<span><span class="co">#&gt; Unchanged    | 27 |  67.50%</span></span>
+<span><span class="co">#&gt; Deteriorated |  0 |   0.00%</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cs_results</span><span class="op">)</span></span></code></pre></div>
 <p><img src="statistical-approach_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
@@ -357,12 +362,12 @@ categories.</p>
 <span><span class="co">#&gt; Statistical approach using the <span style="font-weight: bold;">JT</span> method.</span></span>
 <span><span class="co">#&gt; Group |     Category |  n | Percent</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span>
-<span><span class="co">#&gt; TAU   |     Improved |  5 |    0.12</span></span>
-<span><span class="co">#&gt; TAU   |    Unchanged | 14 |    0.35</span></span>
-<span><span class="co">#&gt; TAU   | Deteriorated |  0 |    0.00</span></span>
-<span><span class="co">#&gt; PA    |     Improved |  8 |    0.20</span></span>
-<span><span class="co">#&gt; PA    |    Unchanged | 13 |    0.33</span></span>
-<span><span class="co">#&gt; PA    | Deteriorated |  0 |    0.00</span></span>
+<span><span class="co">#&gt; TAU   |     Improved |  5 |  12.50%</span></span>
+<span><span class="co">#&gt; TAU   |    Unchanged | 14 |  35.00%</span></span>
+<span><span class="co">#&gt; TAU   | Deteriorated |  0 |   0.00%</span></span>
+<span><span class="co">#&gt; PA    |     Improved |  8 |  20.00%</span></span>
+<span><span class="co">#&gt; PA    |    Unchanged | 13 |  32.50%</span></span>
+<span><span class="co">#&gt; PA    | Deteriorated |  0 |   0.00%</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cs_results_grouped</span><span class="op">)</span></span></code></pre></div>
 <p><img src="statistical-approach_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
@@ -396,9 +401,9 @@ better.</p>
 <span><span class="co">#&gt; Statistical approach using the <span style="font-weight: bold;">JT</span> method.</span></span>
 <span><span class="co">#&gt; Category     |  n | Percent</span></span>
 <span><span class="co">#&gt; ---------------------------</span></span>
-<span><span class="co">#&gt; Improved     | 21 |    0.53</span></span>
-<span><span class="co">#&gt; Unchanged    | 17 |    0.42</span></span>
-<span><span class="co">#&gt; Deteriorated |  2 |    0.05</span></span></code></pre></div>
+<span><span class="co">#&gt; Improved     | 21 |  52.50%</span></span>
+<span><span class="co">#&gt; Unchanged    | 17 |  42.50%</span></span>
+<span><span class="co">#&gt; Deteriorated |  2 |   5.00%</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

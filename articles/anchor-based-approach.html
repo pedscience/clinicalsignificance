@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9009</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -156,8 +156,10 @@ package.</p>
 </h2>
 <p>The individual level anchor approach is a method to determine the
 clinical significance of changes in individual patient outcomes over
-time. We will use the <code><a href="../reference/cs_anchor.html">cs_anchor()</a></code> function for this
-analysis.</p>
+time. It is centered around the minimally important difference (MDI) of
+an instrument. If a change is equal or greater than this difference, a
+clinically significant change is inferred. We will use the
+<code><a href="../reference/cs_anchor.html">cs_anchor()</a></code> function for this analysis.</p>
 <div class="section level3">
 <h3 id="basic-analysis">Basic Analysis<a class="anchor" aria-label="anchor" href="#basic-analysis"></a>
 </h3>
@@ -218,9 +220,9 @@ lacks clear pre-post measurement labels.</p>
 <span><span class="co">#&gt; indicating a clinical significant improvement.</span></span>
 <span><span class="co">#&gt; Category     |   n | Percent</span></span>
 <span><span class="co">#&gt; ----------------------------</span></span>
-<span><span class="co">#&gt; Improved     | 331 |    0.60</span></span>
-<span><span class="co">#&gt; Unchanged    | 157 |    0.28</span></span>
-<span><span class="co">#&gt; Deteriorated |  67 |    0.12</span></span>
+<span><span class="co">#&gt; Improved     | 331 |  59.64%</span></span>
+<span><span class="co">#&gt; Unchanged    | 157 |  28.29%</span></span>
+<span><span class="co">#&gt; Deteriorated |  67 |  12.07%</span></span>
 <span></span>
 <span><span class="co"># Get a summary</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">anchor_results</span><span class="op">)</span></span>
@@ -236,9 +238,9 @@ lacks clear pre-post measurement labels.</p>
 <span><span class="co">#&gt; ── Individual Level Results</span></span>
 <span><span class="co">#&gt; Category     |   n | Percent</span></span>
 <span><span class="co">#&gt; ----------------------------</span></span>
-<span><span class="co">#&gt; Improved     | 331 |    0.60</span></span>
-<span><span class="co">#&gt; Unchanged    | 157 |    0.28</span></span>
-<span><span class="co">#&gt; Deteriorated |  67 |    0.12</span></span></code></pre></div>
+<span><span class="co">#&gt; Improved     | 331 |  59.64%</span></span>
+<span><span class="co">#&gt; Unchanged    | 157 |  28.29%</span></span>
+<span><span class="co">#&gt; Deteriorated |  67 |  12.07%</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="visualizing-the-results">Visualizing the Results<a class="anchor" aria-label="anchor" href="#visualizing-the-results"></a>
@@ -283,9 +285,9 @@ and post parameters.</p>
 <span><span class="co">#&gt; ── Individual Level Results</span></span>
 <span><span class="co">#&gt; Category     |  n | Percent</span></span>
 <span><span class="co">#&gt; ---------------------------</span></span>
-<span><span class="co">#&gt; Improved     | 25 |    0.62</span></span>
-<span><span class="co">#&gt; Unchanged    | 11 |    0.28</span></span>
-<span><span class="co">#&gt; Deteriorated |  4 |    0.10</span></span>
+<span><span class="co">#&gt; Improved     | 25 |  62.50%</span></span>
+<span><span class="co">#&gt; Unchanged    | 11 |  27.50%</span></span>
+<span><span class="co">#&gt; Deteriorated |  4 |  10.00%</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">claus_results</span><span class="op">)</span></span></code></pre></div>
 <p><img src="anchor-based-approach_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
@@ -315,12 +317,12 @@ for the provided groups.</p>
 <span><span class="co">#&gt; indicating a clinical significant improvement.</span></span>
 <span><span class="co">#&gt; Group |     Category |  n | Percent</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span>
-<span><span class="co">#&gt; TAU   |     Improved |  8 |    0.20</span></span>
-<span><span class="co">#&gt; TAU   |    Unchanged |  7 |    0.17</span></span>
-<span><span class="co">#&gt; TAU   | Deteriorated |  4 |    0.10</span></span>
-<span><span class="co">#&gt; PA    |     Improved | 17 |    0.42</span></span>
-<span><span class="co">#&gt; PA    |    Unchanged |  4 |    0.10</span></span>
-<span><span class="co">#&gt; PA    | Deteriorated |  0 |    0.00</span></span>
+<span><span class="co">#&gt; TAU   |     Improved |  8 |  20.00%</span></span>
+<span><span class="co">#&gt; TAU   |    Unchanged |  7 |  17.50%</span></span>
+<span><span class="co">#&gt; TAU   | Deteriorated |  4 |  10.00%</span></span>
+<span><span class="co">#&gt; PA    |     Improved | 17 |  42.50%</span></span>
+<span><span class="co">#&gt; PA    |    Unchanged |  4 |  10.00%</span></span>
+<span><span class="co">#&gt; PA    | Deteriorated |  0 |   0.00%</span></span>
 <span></span>
 <span><span class="co"># And plot the groups</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anchor_results_grouped</span><span class="op">)</span></span></code></pre></div>
@@ -353,9 +355,9 @@ better. Suppose the MID is 4 in this case.</p>
 <span><span class="co">#&gt; indicating a clinical significant improvement.</span></span>
 <span><span class="co">#&gt; Category     |  n | Percent</span></span>
 <span><span class="co">#&gt; ---------------------------</span></span>
-<span><span class="co">#&gt; Improved     | 15 |    0.38</span></span>
-<span><span class="co">#&gt; Unchanged    | 25 |    0.62</span></span>
-<span><span class="co">#&gt; Deteriorated |  0 |    0.00</span></span>
+<span><span class="co">#&gt; Improved     | 15 |  37.50%</span></span>
+<span><span class="co">#&gt; Unchanged    | 25 |  62.50%</span></span>
+<span><span class="co">#&gt; Deteriorated |  0 |   0.00%</span></span>
 <span></span>
 <span><span class="co"># And plot the groups</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">anchor_results_who</span><span class="op">)</span></span></code></pre></div>
@@ -400,7 +402,7 @@ treatment comparisons. Let’s explore this approach.</p>
 <span><span class="co">#&gt; ── Group Level Results</span></span>
 <span><span class="co">#&gt; Difference | [Lower | Upper] | CI-Level | n  | Category                              </span></span>
 <span><span class="co">#&gt; -------------------------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; -9.39      | -12.98 | -5.95  | 0.95     | 40 | Probably clinically significant effect</span></span></code></pre></div>
+<span><span class="co">#&gt; -9.38      | -12.96 | -5.78  | 0.95     | 40 | Probably clinically significant effect</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="analysis-for-different-groups">Analysis for Different Groups<a class="anchor" aria-label="anchor" href="#analysis-for-different-groups"></a>
@@ -424,8 +426,8 @@ treatment comparisons. Let’s explore this approach.</p>
 <span><span class="co">#&gt; instrument scores indicating a clinical significant improvement.</span></span>
 <span><span class="co">#&gt; Group | Median Difference | [Lower | Upper] | CI-Level | n  | Category                           </span></span>
 <span><span class="co">#&gt; -------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; TAU   | -4.18             | -9.17  | 0.49   | 0.95     | 19 | Statistically not significant      </span></span>
-<span><span class="co">#&gt; PA    | -13.67            | -18.34 | -9.00  | 0.95     | 21 | Large clinically significant effect</span></span></code></pre></div>
+<span><span class="co">#&gt; TAU   | -4.31             | -9.30  | 0.48   | 0.95     | 19 | Statistically not significant      </span></span>
+<span><span class="co">#&gt; PA    | -13.72            | -18.07 | -9.01  | 0.95     | 21 | Large clinically significant effect</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="comparing-groups">Comparing Groups<a class="anchor" aria-label="anchor" href="#comparing-groups"></a>
@@ -449,7 +451,7 @@ treatment comparisons. Let’s explore this approach.</p>
 <span><span class="co">#&gt; instrument scores indicating a clinical significant improvement.</span></span>
 <span><span class="co">#&gt; Group 1 | Group 2 | Median Difference | [Lower | Upper] | CI-Level | n (1) | n (2) | Category                              </span></span>
 <span><span class="co">#&gt; ---------------------------------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; TAU     | PA      | -10.23            | -18.20 | -2.27  | 0.95     | 19    | 21    | Probably clinically significant effect</span></span></code></pre></div>
+<span><span class="co">#&gt; TAU     | PA      | -10.34            | -18.03 | -2.04  | 0.95     | 19    | 21    | Probably clinically significant effect</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

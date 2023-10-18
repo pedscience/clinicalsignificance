@@ -29,7 +29,9 @@ The function `clinical_significance()` used the combined approach (distribution-
 
 -   Change the whole package to use R's native pipe operator `|>`
 -   Remove unnecessary dependency on `magrittr`
--  Include new vignettes replacing the old ones
+-   Include new vignettes replacing the old ones
+-   Display correct percentages in summary tables
+-   Update package vignettes
 
 # clinicalsignificance 1.2.1
 

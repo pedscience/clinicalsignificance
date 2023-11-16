@@ -24,6 +24,8 @@ The function `clinical_significance()` used the combined approach (distribution-
 
 -  We included the function `cs_get_model()` to retrieve the hierarchical linear model that is fit during the distribution-based approach if the HLM method is requested.
 
+- The `hechler_2014` dataset was included to ensure reproducibility of the JSS article.
+
 
 ## Minor improvements and fixes
 

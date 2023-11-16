@@ -145,3 +145,10 @@ antidepressants |>
   ggplot(aes(measurement, mean, color = condition)) +
   geom_point(position = position_dodge(width = 0.2)) +
   geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.2,position = position_dodge(width = 0.2))
+
+
+
+# Treating Children and Adolescents With Chronic Pain ---------------------
+hechler_2014 <- read_rds("data-raw/hechler_2014.rds")
+
+use_data(hechler_2014, overwrite = TRUE)

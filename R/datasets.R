@@ -160,3 +160,25 @@
 #'@references Greenberger, D., & Padesky, C. A. (2015). Mind over mood, second
 #'  edition (2nd ed.). New York, NY: Guilford Publications.
 "antidepressants"
+
+
+#'Chronic Pain Data
+#'
+#'A reduced version of the data collected by Hechler et al. (2014)
+#'
+#'@format A tibble with 208 rows and 3 variables:
+#'
+#'  \describe{
+#'  \item{\code{patient}}{Patient identifier}
+#'  \item{\code{measurement}}{Indicator of measurement}
+#'  \item{\code{disability}}{Pain-related disability as measured with the PPDI
+#'  (lower is better)
+#'  }
+#'}
+#'
+#'@references Hechler, T., Ruhe, A.‑K., Schmidt, P., Hirsch, J., Wager, J.,
+#'  Dobe, M., Krummenauer, F., & Zernikow, B. (2014). Inpatient Based Intensive
+#'  Interdisciplinary Pain Treatment for Highly Impaired Children with Severe
+#'  Chronic Pain: Randomized Controlled Trial of Efficacy and Economic Effects.
+#'  Pain, 155(1), 118–128. https://doi.org/10.1016/j.pain.2013.09.015
+"hechler_2014"

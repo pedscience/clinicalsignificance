@@ -1,4 +1,4 @@
-# clinicalsignificance (development version)
+# clinicalsignificance 2.0.0
 
 ## Breaking changes
 

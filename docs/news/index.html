@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">clinicalsignificance</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9010</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,8 +56,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="clinicalsignificance-development-version">clinicalsignificance (development version)<a class="anchor" aria-label="anchor" href="#clinicalsignificance-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2.0.0" id="clinicalsignificance-200">clinicalsignificance 2.0.0<a class="anchor" aria-label="anchor" href="#clinicalsignificance-200"></a></h2><p class="text-muted">CRAN release: 2023-11-16</p>
 <div class="section level3">
-<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
+<h3 id="breaking-changes-2-0-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-2-0-0"></a></h3>
 <ul><li>The former main function <code>clinical_significance()</code> is deprecated. The package now offers several different approaches to clinical significance analyses, namely:
 <ul><li>
 <code><a href="../reference/cs_anchor.html">cs_anchor()</a></code> (Anchor-based approaches)</li>
@@ -75,13 +78,14 @@
 <li><p>When <code>method = "HLM</code>, participants with three or more data points will be used. Before, participants with at least three data points (i.e., 4 or more) were used.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<h3 id="new-features-2-0-0">New features<a class="anchor" aria-label="anchor" href="#new-features-2-0-0"></a></h3>
 <ul><li><p>You can now specify a significance level at which you want the analysis to be based on with the <code>significance_level</code> argument. The default is <code>significance_level = 0.05</code>. Note that for this is the Phi max level when you set <code>method = "HA"</code> as outlined in their article.</p></li>
 <li><p>The package now offers to combined approaches: The classic combination of statistical and distribution-based approaches but also the combination of statistical and anchor-based approaches</p></li>
 <li><p>We included the function <code><a href="../reference/cs_get_model.html">cs_get_model()</a></code> to retrieve the hierarchical linear model that is fit during the distribution-based approach if the HLM method is requested.</p></li>
+<li><p>The <code>hechler_2014</code> dataset was included to ensure reproducibility of the JSS article.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="minor-improvements-and-fixes-development-version">Minor improvements and fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-development-version"></a></h3>
+<h3 id="minor-improvements-and-fixes-2-0-0">Minor improvements and fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-2-0-0"></a></h3>
 <ul><li>Change the whole package to use R’s native pipe operator <code>|&gt;</code>
 </li>
 <li>Remove unnecessary dependency on <code>magrittr</code>

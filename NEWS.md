@@ -1,4 +1,5 @@
 # clinicalsignificance (development version)
+- I included the JSS article <doi:10.18637/jss.v111.i01> as a reference.
 
 # clinicalsignificance 2.0.0
 

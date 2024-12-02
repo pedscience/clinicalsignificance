@@ -1,249 +1,86 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/articles/anchor-based-approach.html</loc>
-  </url>
-  <url>
-    <loc>/articles/combined-approach.html</loc>
-  </url>
-  <url>
-    <loc>/articles/distribution-based-approach.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/percentage-change-approach.html</loc>
-  </url>
-  <url>
-    <loc>/articles/statistical-approach.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/antidepressants.html</loc>
-  </url>
-  <url>
-    <loc>/reference/anxiety.html</loc>
-  </url>
-  <url>
-    <loc>/reference/anxiety_complete.html</loc>
-  </url>
-  <url>
-    <loc>/reference/augmented_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_anchor.cs_anchor_group_between.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_anchor.cs_anchor_group_within.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_anchor.cs_anchor_individual_within.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_anchor.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_cutoff_from_data.cs_ha.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_cutoff_from_data.default.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_cutoff_from_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_percentage.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_rci.cs_en.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_rci.cs_gln.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_rci.cs_ha.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_rci.cs_hll.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_rci.cs_hlm.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_rci.cs_jt.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_rci.cs_nk.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calc_rci.html</loc>
-  </url>
-  <url>
-    <loc>/reference/claus_2020.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_summary_table.cs_anchor_individual_within.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_summary_table.cs_combined.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_summary_table.cs_distribution.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_summary_table.cs_percentage.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_summary_table.cs_statistical.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_summary_table.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cs_anchor.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cs_combined.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cs_distribution.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cs_get_cutoff.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cs_get_cutoff_descriptives.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cs_get_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cs_get_model.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cs_get_n.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cs_get_reliability.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cs_percentage.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cs_statistical.html</loc>
-  </url>
-  <url>
-    <loc>/reference/generate_plotting_band.cs_anchor_individual_within.html</loc>
-  </url>
-  <url>
-    <loc>/reference/generate_plotting_band.cs_en.html</loc>
-  </url>
-  <url>
-    <loc>/reference/generate_plotting_band.cs_gln.html</loc>
-  </url>
-  <url>
-    <loc>/reference/generate_plotting_band.cs_ha.html</loc>
-  </url>
-  <url>
-    <loc>/reference/generate_plotting_band.cs_hll.html</loc>
-  </url>
-  <url>
-    <loc>/reference/generate_plotting_band.cs_jt.html</loc>
-  </url>
-  <url>
-    <loc>/reference/generate_plotting_band.cs_nk.html</loc>
-  </url>
-  <url>
-    <loc>/reference/generate_plotting_band.cs_percentage.html</loc>
-  </url>
-  <url>
-    <loc>/reference/generate_plotting_band.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/jacobson_1989.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.cs_anchor_group_between.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.cs_anchor_group_within.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.cs_anchor_individual_within.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.cs_combined.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.cs_distribution.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.cs_percentage.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.cs_statistical.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print.cs_anchor_group_between.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print.cs_anchor_group_within.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print.cs_anchor_individual_within.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print.cs_combined.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print.cs_distribution.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print.cs_percentage.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print.cs_statistical.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summary.cs_anchor_group_between.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summary.cs_anchor_group_within.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summary.cs_anchor_individual_within.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summary.cs_combined.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summary.cs_distribution.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summary.cs_percentage.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summary.cs_statistical.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summary_table.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/articles/anchor-based-approach.html</loc></url>
+<url><loc>/articles/combined-approach.html</loc></url>
+<url><loc>/articles/distribution-based-approach.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/percentage-change-approach.html</loc></url>
+<url><loc>/articles/statistical-approach.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/antidepressants.html</loc></url>
+<url><loc>/reference/anxiety.html</loc></url>
+<url><loc>/reference/anxiety_complete.html</loc></url>
+<url><loc>/reference/augmented_data.html</loc></url>
+<url><loc>/reference/calc_anchor.cs_anchor_group_between.html</loc></url>
+<url><loc>/reference/calc_anchor.cs_anchor_group_within.html</loc></url>
+<url><loc>/reference/calc_anchor.cs_anchor_individual_within.html</loc></url>
+<url><loc>/reference/calc_anchor.html</loc></url>
+<url><loc>/reference/calc_cutoff_from_data.cs_ha.html</loc></url>
+<url><loc>/reference/calc_cutoff_from_data.default.html</loc></url>
+<url><loc>/reference/calc_cutoff_from_data.html</loc></url>
+<url><loc>/reference/calc_percentage.html</loc></url>
+<url><loc>/reference/calc_rci.cs_en.html</loc></url>
+<url><loc>/reference/calc_rci.cs_gln.html</loc></url>
+<url><loc>/reference/calc_rci.cs_ha.html</loc></url>
+<url><loc>/reference/calc_rci.cs_hll.html</loc></url>
+<url><loc>/reference/calc_rci.cs_hlm.html</loc></url>
+<url><loc>/reference/calc_rci.cs_jt.html</loc></url>
+<url><loc>/reference/calc_rci.cs_nk.html</loc></url>
+<url><loc>/reference/calc_rci.html</loc></url>
+<url><loc>/reference/claus_2020.html</loc></url>
+<url><loc>/reference/create_summary_table.cs_anchor_individual_within.html</loc></url>
+<url><loc>/reference/create_summary_table.cs_combined.html</loc></url>
+<url><loc>/reference/create_summary_table.cs_distribution.html</loc></url>
+<url><loc>/reference/create_summary_table.cs_percentage.html</loc></url>
+<url><loc>/reference/create_summary_table.cs_statistical.html</loc></url>
+<url><loc>/reference/create_summary_table.html</loc></url>
+<url><loc>/reference/cs_anchor.html</loc></url>
+<url><loc>/reference/cs_combined.html</loc></url>
+<url><loc>/reference/cs_distribution.html</loc></url>
+<url><loc>/reference/cs_get_cutoff.html</loc></url>
+<url><loc>/reference/cs_get_cutoff_descriptives.html</loc></url>
+<url><loc>/reference/cs_get_data.html</loc></url>
+<url><loc>/reference/cs_get_model.html</loc></url>
+<url><loc>/reference/cs_get_n.html</loc></url>
+<url><loc>/reference/cs_get_reliability.html</loc></url>
+<url><loc>/reference/cs_percentage.html</loc></url>
+<url><loc>/reference/cs_statistical.html</loc></url>
+<url><loc>/reference/generate_plotting_band.cs_anchor_individual_within.html</loc></url>
+<url><loc>/reference/generate_plotting_band.cs_en.html</loc></url>
+<url><loc>/reference/generate_plotting_band.cs_gln.html</loc></url>
+<url><loc>/reference/generate_plotting_band.cs_ha.html</loc></url>
+<url><loc>/reference/generate_plotting_band.cs_hll.html</loc></url>
+<url><loc>/reference/generate_plotting_band.cs_jt.html</loc></url>
+<url><loc>/reference/generate_plotting_band.cs_nk.html</loc></url>
+<url><loc>/reference/generate_plotting_band.cs_percentage.html</loc></url>
+<url><loc>/reference/generate_plotting_band.html</loc></url>
+<url><loc>/reference/hechler_2014.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/jacobson_1989.html</loc></url>
+<url><loc>/reference/plot.cs_anchor_group_between.html</loc></url>
+<url><loc>/reference/plot.cs_anchor_group_within.html</loc></url>
+<url><loc>/reference/plot.cs_anchor_individual_within.html</loc></url>
+<url><loc>/reference/plot.cs_combined.html</loc></url>
+<url><loc>/reference/plot.cs_distribution.html</loc></url>
+<url><loc>/reference/plot.cs_percentage.html</loc></url>
+<url><loc>/reference/plot.cs_statistical.html</loc></url>
+<url><loc>/reference/print.cs_anchor_group_between.html</loc></url>
+<url><loc>/reference/print.cs_anchor_group_within.html</loc></url>
+<url><loc>/reference/print.cs_anchor_individual_within.html</loc></url>
+<url><loc>/reference/print.cs_combined.html</loc></url>
+<url><loc>/reference/print.cs_distribution.html</loc></url>
+<url><loc>/reference/print.cs_percentage.html</loc></url>
+<url><loc>/reference/print.cs_statistical.html</loc></url>
+<url><loc>/reference/summary.cs_anchor_group_between.html</loc></url>
+<url><loc>/reference/summary.cs_anchor_group_within.html</loc></url>
+<url><loc>/reference/summary.cs_anchor_individual_within.html</loc></url>
+<url><loc>/reference/summary.cs_combined.html</loc></url>
+<url><loc>/reference/summary.cs_distribution.html</loc></url>
+<url><loc>/reference/summary.cs_percentage.html</loc></url>
+<url><loc>/reference/summary.cs_statistical.html</loc></url>
+<url><loc>/reference/summary_table.html</loc></url>
 </urlset>
+
